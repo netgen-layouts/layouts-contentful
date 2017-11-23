@@ -1,5 +1,5 @@
-Contentful web site builder powered by Netgen Layouts
-=======================================================
+Netgen Block Manager & Contentful integration
+=============================================
 
 # Installation instructions
 
