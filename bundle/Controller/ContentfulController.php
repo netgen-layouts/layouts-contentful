@@ -19,7 +19,7 @@ class ContentfulController extends Controller
     */
     public function viewAction($contentDocument)
     {
-        return $this->render('contentful/content.html.twig', [
+        return $this->render('@NetgenContentfulBlockManager/contentful/content.html.twig', [
             'content' => $contentDocument,
         ]);
     }
