@@ -37,7 +37,7 @@ netgen_block_manager_contentful:
 Configure Contentful bundle
 ---------------------------
 
-To work with Contentful resources, you need to configure a clieent for
+To work with Contentful resources, you need to configure a client for
 every space you wish to use. For every client, you need to specify the
 space ID and its token.
 
