@@ -1,0 +1,9 @@
+services:
+    netgen_block_manager.contentful.service:
+        class: Netgen\ContentfulBlockManagerBundle\Service\Contentful
+        arguments:
+            - "%contentful.clients%"
+            - "@service_container"
+            - "@doctrine.orm.entity_manager"
+        public: true
+

@@ -1,0 +1,7 @@
+services:
+    netgen_block_manager.contentful.routing.enhancer:
+        class: Netgen\ContentfulBlockManagerBundle\Routing\ContentfulEnhancer
+        arguments:
+            - "@netgen_block_manager.contentful.service"
+        tags:
+            -  { name: dynamic_router_route_enhancer, priority: 10 }

@@ -1,0 +1,4 @@
+items:
+    value_types:
+        contentful_entry:
+            name: 'Contentful entry'

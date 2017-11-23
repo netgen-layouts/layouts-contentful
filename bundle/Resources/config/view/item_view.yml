@@ -1,0 +1,17 @@
+view:
+    item_view:
+        api:
+            contentful_entry:
+                template: "@NetgenContentfulBlockManager/ngbm/item/contentful_entry.html.twig"
+                match:
+                    item\value_type: contentful_entry
+        default:
+            contentful_entry:
+                template: "@NetgenContentfulBlockManager/ngbm/item/contentful_entry.html.twig"
+                match:
+                    item\value_type: contentful_entry
+        ajax:
+            contentful_entry:
+                template: "@NetgenContentfulBlockManager/ngbm/item/contentful_entry.html.twig"
+                match:
+                    item\value_type: contentful_entry

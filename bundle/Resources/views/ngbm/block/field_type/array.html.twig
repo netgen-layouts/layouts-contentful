@@ -1,0 +1,5 @@
+{% if field is iterable %}
+    {% for key, value in field %}
+        {% include 'ngbm/block/field_type/' ~ key ~ '.html.twig' with {'field': value} %} <br/>
+    {% endfor %}
+{% endif %}

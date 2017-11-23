@@ -1,0 +1,11 @@
+view:
+    rule_target_view:
+        value:
+            contentful_entry:
+                template: "@NetgenContentfulBlockManager/ngbm/layout_resolver/target/value/contentful_entry.html.twig"
+                match:
+                    rule_target\type: contentful_entry
+            contentful_space:
+                template: "@NetgenContentfulBlockManager/ngbm/layout_resolver/target/value/contentful_space.html.twig"
+                match:
+                    rule_target\type: contentful_space

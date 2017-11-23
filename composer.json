@@ -1,0 +1,46 @@
+{
+    "name": "netgen/block-manager-contentful",
+    "description": "Netgen Block Manager & Contentful integration",
+    "authors": [
+        {
+            "name": "Netgen",
+            "homepage": "http://www.netgenlabs.com"
+        }
+    ],
+    "require": {
+        "symfony-cmf/routing-bundle": "^2.0",
+        "contentful/contentful-bundle": "^2.0",
+        "netgen/block-manager": "~0.9.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7|^6.3",
+        "symfony/phpunit-bridge": "^3.3",
+        "matthiasnoback/symfony-dependency-injection-test": "^1.0|^2.0",
+        "franzl/studio": "*"
+    },
+    "scripts": {
+        "test": "@php vendor/bin/phpunit --colors=always",
+        "coverage": "@php -dzend_extension=xdebug.so vendor/bin/phpunit --coverage-html=coverage --colors=always"
+    },
+    "repositories": [
+        { "type": "composer", "url": "https://packagist.netgen.biz" }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Netgen\\BlockManager\\Contentful\\": "lib/",
+            "Netgen\\ContentfulBlockManagerBundle\\": "bundle/"
+        }
+    },
+    "autoload-dev": {
+        "files": [
+            "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.9.x-dev"
+        }
+    }
+}

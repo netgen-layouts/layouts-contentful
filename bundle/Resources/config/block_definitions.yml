@@ -1,0 +1,7 @@
+block_definitions:
+    contentful_entry_field:
+        name: 'Contentful entry field'
+        view_types:
+            contentful_entry_field:
+                name: 'Contentful entry field'
+

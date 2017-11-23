@@ -1,0 +1,7 @@
+view:
+    rule_condition_view:
+        value:
+            contentful_content_type:
+                template: "@NetgenContentfulBlockManager/ngbm/layout_resolver/condition/value/contentful_content_type.html.twig"
+                match:
+                    rule_condition\type: contentful_content_type

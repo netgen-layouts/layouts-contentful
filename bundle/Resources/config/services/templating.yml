@@ -1,0 +1,7 @@
+services:
+    netgen_block_manager.contentful.twig_function.contentful:
+        class: Netgen\ContentfulBlockManagerBundle\Twig\Extensions\ContentfulExtension
+        arguments:
+            - "@netgen_block_manager.contentful.service"
+        tags:
+            - { name: twig.extension }

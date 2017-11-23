@@ -1,0 +1,14 @@
+services:
+    netgen_block_manager.contentful.value_converter.contentful_entry:
+        class: Netgen\BlockManager\Contentful\Item\ValueConverter\ContentfulValueConverter
+        public: false
+        tags:
+            - { name: netgen_block_manager.item.value_converter }
+
+    netgen_block_manager.contentful.value_loader.contentful_entry:
+        class: Netgen\BlockManager\Contentful\Item\ValueLoader\ContentfulValueLoader
+        public: false
+        arguments:
+            - "@netgen_block_manager.contentful.service"
+        tags:
+            - { name: netgen_block_manager.item.value_loader, value_type: contentful_entry }

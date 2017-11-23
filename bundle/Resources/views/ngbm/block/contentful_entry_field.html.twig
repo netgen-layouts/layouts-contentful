@@ -1,0 +1,22 @@
+{% extends '@NetgenBlockManager/block/block.html.twig' %}
+
+{% set field_identifier = block.parameter('field_identifier').value %}
+
+{% if field_identifier is not empty %}
+    {% set css_class = 'field-' ~ field_identifier ~ ' ' ~ block.parameter('css_class').value %}
+{% endif %}
+
+{% block content %}
+    {% set content = block.dynamicParameter('content') %}
+    {% set field_value = block.dynamicParameter('field_value') %}
+    {% set field_type = block.dynamicParameter('field_type') %}
+
+    {% block contentful_entry_field %}
+        {% if field_value is not null and field_type is not null %}
+            <b>{{ field_identifier }}:</b><br/>
+            {% include 'ngbm/block/field_type/' ~ field_type ~ '.html.twig' with {'field': field_value} %} <br/>
+        {% endif %}
+
+        <br/>
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends '@NetgenBlockManager/api/block/block.html.twig' %}
+
+{% import '@NetgenBlockManager/api/parts/macros.html.twig' as macros %}
+
+{% trans_default_domain 'ngbm_app' %}
+
+{% block content %}
+    {% set field_identifier = block.parameter('field_identifier') %}
+
+    {% if not field_identifier.empty %}
+        {{ macros.info('block.info.contentful_entry_field'|trans({ '%field%': field_identifier.value }), 'icon-contentful_entry_field') }}
+    {% else %}
+        {{ macros.notice('block.notice.empty_contentful_entry_field'|trans) }}
+    {% endif %}
+{% endblock %}

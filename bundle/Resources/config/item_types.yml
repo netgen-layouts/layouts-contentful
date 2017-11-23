@@ -1,0 +1,23 @@
+item_types:
+    contentful_entry:
+        name: item_types.contentful_entry
+        preview:
+            enabled: true
+            template: '@NetgenContentfulBlockManager/ngcb/contentful_entry.html.twig'
+        columns:
+            # At least a "name" column must exist
+            name:
+                name: columns.name # Will be translated with "ngcb" catalog
+                value_provider: name # Using a built in "name" value provider
+            content_type:
+                name: columns.contentful_entry.content_type
+                value_provider: contentful_entry\content_type
+            created_at:
+                name: columns.contentful_entry.created_at
+                value_provider: contentful_entry\created_at
+            updated_at:
+                name: columns.contentful_entry.updated_at
+                value_provider: contentful_entry\updated_at
+        default_columns:
+            - name
+            - content_type

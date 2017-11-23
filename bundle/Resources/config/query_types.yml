@@ -1,0 +1,3 @@
+query_types:
+    contentful_search:
+        name: 'Contentful search'

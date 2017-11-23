@@ -1,0 +1,3 @@
+columns.contentful_entry.content_type: 'Content Type'
+columns.contentful_entry.created_at: 'Created At'
+columns.contentful_entry.updated_at: 'Updated At'
