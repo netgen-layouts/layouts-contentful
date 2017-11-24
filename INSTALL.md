@@ -16,6 +16,57 @@ As a minimum you need to:
 - add the "layout" twig block to your base pagelayout (for fresh Symfony 2/3 installation its base.html.twig)
 - configure the block manager to use your base pagelayout (for fresh Symfony 2/3 installation its base.html.twig)
 
+Enable translator
+-----------------
+
+By default, on fresh Symfony 2/3 installation, the translator is not enable, so you need to uncomment the line in app/config/config.yml:
+```
+framework:
+    translator: { fallbacks: ['%locale%'] }
+```
+
+
+Configure authentication for Block Manager
+------------------------------------------
+
+It is highly recommended to secure the Block Manager interface and allow only
+authenticated users in. For fresh Symfony2/3 installations the simplest way is to
+defined an admin user in memory with the ROLE_NGBM_ADMIN role and enable the
+HTTP Basic firewall. Your app/config/security.yml should like this:
+```
+security:
+    providers:
+        in_memory:
+            memory:
+                users:
+                    admin:
+                        password: thisisalongpasswordwhichyoushouldreplace
+                        roles: 'ROLE_NGBM_ADMIN'
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: ~
+            http_basic: ~
+
+    access_control:
+        - { path: ^/bm, role: [ROLE_NGBM_ADMIN] }
+        - { path: ^/cb, role: [ROLE_NGBM_ADMIN] }
+```
+
+Verifying that Block Manager works
+----------------------------------
+
+Start the server with:
+php bin/console server:run
+
+Open http://127.0.0.1:8000/bm/admin/layouts/, give the admin credentials.
+
+
 Use Composer to install the integration
 ---------------------------------------
 
@@ -59,6 +110,11 @@ contentful:
                 cache: false
 ```
 
+You can verify the configuration with this command:
+```
+php bin/console contentful:info
+```
+
 For more information, see Contentful bundle official repo at
 https://github.com/contentful/ContentfulBundle
 
@@ -84,15 +140,6 @@ cmf_routing:
 For more information, see CMF Routing docs at
 http://symfony.com/doc/master/cmf/bundles/routing/index.html
 
-Enable translator
------------------
-
-By default, on fresh Symfony 2/3 installation, the translator is not enable, so you need to uncomment the line in app/config/config.yml:
-```
-framework:
-    translator: { fallbacks: ['%locale%'] }
-```
-
 Import the schema
 -----------------
 
@@ -101,31 +148,17 @@ Import the routing and local content schema to the database. Use the force, Luke
 php bin/console doctrine:schema:update --force
 ```
 
+Optional - run the sync command
+-------------------------------
 
-Configure authentication for Block Manager
-------------------------------------------
-
-It is highly recommended to secure the Block Manager interface and allow only
-authenticated users in. For fresh Symfony2/3 installations the simplest way is to
-defined an admin user in memory with the ROLE_NGBM_ADMIN role and enable the
-HTTP Basic firewall. Your app/config/security.yml should like this:
+To warmup the caching for spaces and content types as well as syncing Contentful entries locally run this command:
 ```
-security:
-    providers:
-        in_memory:
-            memory:
-                users:
-                    admin:
-                        password: admin
-                        roles: 'ROLE_NGBM_ADMIN'
-    encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
-
-    firewalls:
-        main:
-            http_basic: ~
-
-    access_control:
-        - { path: ^/bm, role: [ROLE_NGBM_ADMIN] }
-        - { path: ^/cb, role: [ROLE_NGBM_ADMIN] }
+php bin/console contentful:sync
 ```
+There is a limit on 100 entries in one run, so if there are more than 100 entries you can run the command many times.
+
+
+Use it
+------
+
+Open again http://127.0.0.1:8000/bm/admin/layouts/ and start creating layouts and mapping them to URL targets.
