@@ -28,7 +28,6 @@ class NetgenContentfulBlockManagerExtension extends Extension implements Prepend
         $loader->load('services/content_browser.yml');
         $loader->load('services/items.yml');
         $loader->load('services/layout_resolver.yml');
-        $loader->load('services/routing.yml');
         $loader->load('services/services.yml');
         $loader->load('services/templating.yml');
         $loader->load('services/query_types.yml');
