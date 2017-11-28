@@ -1,12 +1,12 @@
 <?php
 
-namespace Netgen\ContentfulBlockManagerBundle\Service;
+namespace Netgen\Bundle\ContentfulBlockManagerBundle\Service;
 
 use Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
-use Netgen\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
+use Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
 use Contentful\Delivery\EntryInterface;
 use Contentful\Delivery\Query;
 

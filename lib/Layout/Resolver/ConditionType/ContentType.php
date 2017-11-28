@@ -6,17 +6,17 @@ use Exception;
 use Netgen\BlockManager\Layout\Resolver\ConditionTypeInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints;
-use Netgen\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
+use Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
 
 class ContentType implements ConditionTypeInterface
 {
     /**
-     * @var \Netgen\ContentfulBlockManagerBundle\Service\Contentful
+     * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful
      */
     private $contentful;
 
     public function __construct(
-        \Netgen\ContentfulBlockManagerBundle\Service\Contentful $contentful
+        \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful $contentful
     ) {
         $this->contentful = $contentful;
     }

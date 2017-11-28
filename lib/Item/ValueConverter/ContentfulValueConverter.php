@@ -2,7 +2,7 @@
 
 namespace Netgen\BlockManager\Contentful\Item\ValueConverter;
 
-use Netgen\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
+use Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
 use Netgen\BlockManager\Item\ValueConverterInterface;
 
 final class ContentfulValueConverter implements ValueConverterInterface

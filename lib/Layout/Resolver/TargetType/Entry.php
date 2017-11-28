@@ -6,7 +6,7 @@ use Exception;
 use Netgen\BlockManager\Layout\Resolver\TargetTypeInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints;
-use Netgen\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
+use Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
 
 class Entry implements TargetTypeInterface
 {

@@ -28,7 +28,7 @@
     "autoload": {
         "psr-4": {
             "Netgen\\BlockManager\\Contentful\\": "lib/",
-            "Netgen\\ContentfulBlockManagerBundle\\": "bundle/"
+            "Netgen\\Bundle\\ContentfulBlockManagerBundle\\": "bundle/"
         }
     },
     "autoload-dev": {

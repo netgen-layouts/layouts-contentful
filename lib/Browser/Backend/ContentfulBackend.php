@@ -2,7 +2,7 @@
 
 namespace Netgen\BlockManager\Contentful\Browser\Backend;
 
-use Netgen\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
+use Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
 use Netgen\ContentBrowser\Backend\BackendInterface;
 use Netgen\ContentBrowser\Item\LocationInterface;
 use Contentful\Delivery\Client;
@@ -14,12 +14,12 @@ use Netgen\BlockManager\Contentful\Browser\Item\Client\RootLocation;
 class ContentfulBackend implements BackendInterface
 {
     /**
-     * @var \Netgen\ContentfulBlockManagerBundle\Service\Contentful
+     * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful
      */
     private $contentful;
 
     public function __construct(
-        \Netgen\ContentfulBlockManagerBundle\Service\Contentful $contentful
+        \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful $contentful
     ) {
         $this->contentful = $contentful;
     }
@@ -53,7 +53,7 @@ class ContentfulBackend implements BackendInterface
     public function loadItem($id)
     {
         /**
-         * @var \Netgen\ContentfulBlockManagerBundle\Entity\ContentfulEntry $contentfulEntry
+         * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry $contentfulEntry
          */
         $contentfulEntry = $this->contentful->loadContentfulEntry($id);
 
@@ -152,7 +152,7 @@ class ContentfulBackend implements BackendInterface
     /**
      * Builds the item from provided client.
      *
-     * @param \Netgen\ContentfulBlockManagerBundle\Entity\ContentfulEntry $entry
+     * @param \Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry $entry
      *
      * @return \Netgen\BlockManager\Contentful\Browser\Item\Entry\Item
      */
@@ -164,7 +164,7 @@ class ContentfulBackend implements BackendInterface
     /**
      * Builds the locations from provided clients.
      *
-     * @param \Netgen\ContentfulBlockManagerBundle\Entity\ContentfulEntry[] $entries
+     * @param \Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry[] $entries
      *
      * @return \Netgen\BlockManager\Contentful\Browser\Item\Entry\Item[]
      */

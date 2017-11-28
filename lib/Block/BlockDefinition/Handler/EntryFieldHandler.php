@@ -11,7 +11,7 @@ use Netgen\BlockManager\Parameters\ParameterType;
 class EntryFieldHandler extends BlockDefinitionHandler
 {
     /**
-     * @var \Netgen\ContentfulBlockManagerBundle\Service\Contentful
+     * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful
      */
     private $contentful;
 
@@ -21,7 +21,7 @@ class EntryFieldHandler extends BlockDefinitionHandler
     private $request;
 
     public function __construct(
-        \Netgen\ContentfulBlockManagerBundle\Service\Contentful $contentful,
+        \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful $contentful,
         \Symfony\Component\HttpFoundation\RequestStack $requestStack
     ) {
         $this->contentful = $contentful;

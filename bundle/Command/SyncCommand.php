@@ -1,6 +1,6 @@
 <?php
 
-namespace Netgen\ContentfulBlockManagerBundle\Command;
+namespace Netgen\Bundle\ContentfulBlockManagerBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -69,7 +69,7 @@ class SyncCommand extends ContainerAwareCommand
 
     protected function buildContentEntries($entries, OutputInterface $output) {
         /**
-         * @var \Netgen\ContentfulBlockManagerBundle\Service\Contentful $service
+         * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful $service
          */
         $service = $this->getContainer()->get("netgen_block_manager.contentful.service");
 
