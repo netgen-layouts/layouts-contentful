@@ -143,7 +143,7 @@ http://symfony.com/doc/master/cmf/bundles/routing/index.html
 Import the schema
 -----------------
 
-Import the routing and local content schema to the database. Use the force, Luke.
+Import the routing and local content schema to the database. Use the Force, Luke.
 ```
 php bin/console doctrine:schema:update --force
 ```
