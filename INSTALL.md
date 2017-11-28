@@ -7,6 +7,7 @@ Installing Netgen Block Manager
 Follow the instruction on the Layouts documentation page to [install the Block Manager](http://docs.netgen.io/projects/layouts/en/latest/reference/install_instructions.html)
 
 As a minimum you need to:
+
 * compose the "netgen/block-manager" package
 * activate all needed bundles
 * import database tables and data with the migration script
