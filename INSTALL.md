@@ -4,22 +4,22 @@ Netgen Block Manager and Contentful integration installation instructions
 Installing Netgen Block Manager
 -------------------------------
 
-Follow the instruction on the Layouts documentation page to install the Block Manager:
-http://docs.netgen.io/projects/layouts/en/latest/reference/install_instructions.html
+Follow the instruction on the Layouts documentation page to [install the Block Manager](http://docs.netgen.io/projects/layouts/en/latest/reference/install_instructions.html)
 
 As a minimum you need to:
-- compose the "netgen/block-manager" package
-- activate all needed bundles
-- import database tables and data with the migration script
-- install assets
-- extend your view templates with ngbm.layoutTemplate (for fresh Symfony 2/3 installation its default/index.html.twig)
-- add the "layout" twig block to your base pagelayout (for fresh Symfony 2/3 installation its base.html.twig)
-- configure the block manager to use your base pagelayout (for fresh Symfony 2/3 installation its base.html.twig)
+* compose the "netgen/block-manager" package
+* activate all needed bundles
+* import database tables and data with the migration script
+* install assets
+* extend your view templates with ngbm.layoutTemplate (for fresh Symfony 2/3 installation its default/index.html.twig)
+* add the "layout" twig block to your base pagelayout (for fresh Symfony 2/3 installation its base.html.twig)
+* configure the block manager to use your base pagelayout (for fresh Symfony 2/3 installation its base.html.twig)
 
 Enable translator
 -----------------
 
-By default, on fresh Symfony 2/3 installation, the translator is not enable, so you need to uncomment the line in app/config/config.yml:
+By default, on fresh Symfony 2/3 installation, the translator is not enable, so you need to uncomment the line
+in app/config/config.yml:
 ```
 framework:
     translator: { fallbacks: ['%locale%'] }
@@ -62,9 +62,12 @@ Verifying that Block Manager works
 ----------------------------------
 
 Start the server with:
+```
 php bin/console server:run
+```
 
-Open http://127.0.0.1:8000/bm/admin/layouts/, give the admin credentials.
+Open [http://127.0.0.1:8000/bm/admin/layouts](http://127.0.0.1:8000/bm/admin/layouts/), give the admin credentials.
+You should be able to create new layouts.
 
 
 Use Composer to install the integration
@@ -95,7 +98,7 @@ Configure Contentful bundle
 To work with Contentful resources, you need to configure a client for
 every space you wish to use. For every client, you need to specify the
 space ID and its token in app/config/config.yml. Space IDs and tokens you can get from the APIs
-section from your Contentful instance: https://app.contentful.com/
+section from your Contentful instance: [app.contentful.com](https://app.contentful.com/)
 ```
 contentful:
     delivery:
@@ -115,8 +118,7 @@ You can verify the configuration with this command:
 php bin/console contentful:info
 ```
 
-For more information, see Contentful bundle official repo at
-https://github.com/contentful/ContentfulBundle
+For more information, see Contentful bundle [official repo on Github](https://github.com/contentful/ContentfulBundle).
 
 Configure the CMF Routing component
 -----------------------------------
@@ -137,8 +139,7 @@ cmf_routing:
                 enabled: true
 ```
 
-For more information, see CMF Routing docs at
-http://symfony.com/doc/master/cmf/bundles/routing/index.html
+For more information, see [CMF Routing docs on symfony.com](http://symfony.com/doc/master/cmf/bundles/routing/index.html).
 
 Import the schema
 -----------------
@@ -161,4 +162,5 @@ There is a limit on 100 entries in one run, so if there are more than 100 entrie
 Use it
 ------
 
-Open again http://127.0.0.1:8000/bm/admin/layouts/ and start creating layouts and mapping them to URL targets.
+Open again [http://127.0.0.1:8000/bm/admin/layouts](http://127.0.0.1:8000/bm/admin/layouts/) and start creating
+Contentful specific layouts and mapping them to URL targets.
