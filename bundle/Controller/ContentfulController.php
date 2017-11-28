@@ -1,6 +1,6 @@
 <?php
 
-namespace Netgen\ContentfulBlockManagerBundle\Controller;
+namespace Netgen\Bundle\ContentfulBlockManagerBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

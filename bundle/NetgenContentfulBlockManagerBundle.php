@@ -1,6 +1,6 @@
 <?php
 
-namespace Netgen\ContentfulBlockManagerBundle;
+namespace Netgen\Bundle\ContentfulBlockManagerBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

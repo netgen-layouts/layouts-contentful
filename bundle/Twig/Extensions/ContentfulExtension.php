@@ -1,6 +1,6 @@
 <?php
 
-namespace Netgen\ContentfulBlockManagerBundle\Twig\Extensions;
+namespace Netgen\Bundle\ContentfulBlockManagerBundle\Twig\Extensions;
 
 use Twig_Extension;
 use Twig_SimpleFunction;
@@ -8,12 +8,12 @@ use Twig_SimpleFunction;
 class ContentfulExtension extends Twig_Extension
 {
     /**
-     * @var \Netgen\ContentfulBlockManagerBundle\Service\Contentful $contentful
+     * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful $contentful
      */
     private $contentful;
 
     public function __construct(
-        \Netgen\ContentfulBlockManagerBundle\Service\Contentful $contentful
+        \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful $contentful
     ) {
         $this->contentful = $contentful;
     }

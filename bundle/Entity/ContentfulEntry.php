@@ -1,6 +1,6 @@
 <?php
 
-namespace Netgen\ContentfulBlockManagerBundle\Entity;
+namespace Netgen\Bundle\ContentfulBlockManagerBundle\Entity;
 
 use Exception;
 use Contentful\Delivery\EntryInterface;

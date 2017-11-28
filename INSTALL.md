@@ -89,7 +89,7 @@ Make sure it is activated after all other Block Manager bundles.
 ...
 new Contentful\ContentfulBundle\ContentfulBundle(),
 new Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle(),
-new Netgen\ContentfulBlockManagerBundle\NetgenContentfulBlockManagerBundle(),
+new Netgen\Bundle\ContentfulBlockManagerBundle\NetgenContentfulBlockManagerBundle(),
 ...
 ```
 

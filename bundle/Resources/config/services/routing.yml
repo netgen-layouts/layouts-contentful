@@ -1,6 +1,6 @@
 services:
     netgen_block_manager.contentful.routing.enhancer:
-        class: Netgen\ContentfulBlockManagerBundle\Routing\ContentfulEnhancer
+        class: Netgen\Bundle\ContentfulBlockManagerBundle\Routing\ContentfulEnhancer
         arguments:
             - "@netgen_block_manager.contentful.service"
         tags:

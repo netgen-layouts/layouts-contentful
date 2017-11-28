@@ -2,7 +2,7 @@
 
 namespace Netgen\BlockManager\Contentful\Browser\Item\Entry;
 
-use Netgen\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
+use Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
 use Netgen\ContentBrowser\Item\ItemInterface;
 
 class Item implements ItemInterface
