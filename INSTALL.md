@@ -169,6 +169,17 @@ php bin/console contentful:sync
 ```
 There is a limit on 100 entries in one run, so if there are more than 100 entries you can run the command many times.
 
+Optional - configure webhook
+----------------------------
+
+To make local cache refresh when an entry or a content type changes in Contentful add the webhook configuration.
+Go to Contentful space settings and create a webhook with:
+- the full url for webhook (http://your.domain/webhook)
+- basic auth credentials if necessary
+- additional X-Space-Id header with the related value
+- checked Create, Published, Unpublished and Delete events for Content Types
+- checked Create, Archived, Unarchived, Published, Unpublished and Delete events for Entries
+
 Set user rights
 ---------------
 
@@ -183,3 +194,4 @@ Use it
 
 Open again [http://127.0.0.1:8000/bm/admin/layouts](http://127.0.0.1:8000/bm/admin/layouts/) and start creating
 Contentful specific layouts and mapping them to URL targets.
+
