@@ -2,6 +2,7 @@
 
 namespace Netgen\Bundle\ContentfulBlockManagerBundle\Twig\Extensions;
 
+use Exception;
 use Twig_Extension;
 use Twig_SimpleFunction;
 
@@ -29,7 +30,12 @@ class ContentfulExtension extends Twig_Extension
 
     public function contentfulEntryName($value)
     {
-        return $this->contentful->loadContentfulEntry($value)->getName();
+        try {
+            $contentfulEntry = $this->contentful->loadContentfulEntry($value);
+        } catch (Exception $e) {
+            return "";
+        }
+        return $contentfulEntry->getName();
     }
 
     public function contentfulSpaceName($value)

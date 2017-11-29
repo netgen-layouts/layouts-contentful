@@ -51,9 +51,11 @@ class ContentType implements ConditionTypeInterface
         if ($cid_array[0] != ContentfulEntry::class)
             return false;
 
-        $contentfulEntry = $this->contentful->loadContentfulEntry($cid_array[1]);
-        if ($contentfulEntry == null)
+        try {
+            $contentfulEntry = $this->contentful->loadContentfulEntry($cid_array[1]);
+        } catch (Exception $e) {
             return false;
+        }
 
         return in_array($contentfulEntry->getContentType()->getId(), $value, true);
     }

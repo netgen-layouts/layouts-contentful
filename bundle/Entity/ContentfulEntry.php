@@ -32,6 +32,16 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     private $json;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isPublished;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isDeleted;
+
+    /**
      * @var EntryInterface $entry
      * original entry
      */
@@ -106,6 +116,52 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
         return $this->json;
     }
 
+    /**
+     * Set isPublished
+     *
+     * @param boolean
+     * @return ContentfulEntry
+     */
+    public function setIsPublished($isPublished)
+    {
+        $this->isPublished = $isPublished;
+
+        return $this;
+    }
+
+    /**
+     * Get isPublished
+     *
+     * @return boolean
+     */
+    public function getIsPublished()
+    {
+        return $this->isPublished;
+    }
+
+    /**
+     * Set isDeleted
+     *
+     * @param boolean
+     * @return ContentfulEntry
+     */
+    public function setIsDeleted($isDeleted)
+    {
+        $this->isDeleted = $isDeleted;
+
+        return $this;
+    }
+
+    /**
+     * Get isDeleted
+     *
+     * @return boolean
+     */
+    public function getIsDeleted()
+    {
+        return $this->isDeleted;
+    }
+    
     /**
      * Set json
      *

@@ -7,8 +7,8 @@ use Contentful\Delivery\Synchronization\DeletedEntry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
 * A custom controller to handle a content specified by a route.
@@ -31,6 +31,9 @@ class ContentfulController extends Controller
     */
     public function viewAction($contentDocument)
     {
+        if (!$contentDocument->getIsPublished() or $contentDocument->getIsDeleted())
+            throw new NotFoundHttpException('Not found.');
+
         return $this->render('@NetgenContentfulBlockManager/contentful/content.html.twig', [
             'content' => $contentDocument,
         ]);
@@ -58,13 +61,16 @@ class ContentfulController extends Controller
                 if (! $remote_entry instanceof DynamicEntry)
                     throw new BadRequestHttpException("Invalid request");
                 $service->refreshContentfulEntry($remote_entry);
-                $logger->info("Refreshing entry: ". $spaceId. "|" .$remote_entry->getId());
                 break;
             case $this::UNPUBLISH:
+                if (! $remote_entry instanceof DeletedEntry)
+                    throw new BadRequestHttpException("Invalid request");
+                $service->unpublishContentfulEntry($remote_entry);
+                break;
             case $this::DELETE:
                 if (! $remote_entry instanceof DeletedEntry)
                     throw new BadRequestHttpException("Invalid request");
-                $logger->info("Deleting entry: ". $spaceId. "|" .$remote_entry->getId());
+                $service->deleteContentfulEntry($remote_entry);
                 break;
             default:
                 throw new BadRequestHttpException("Invalid request");

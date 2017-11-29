@@ -2,6 +2,7 @@
 
 namespace Netgen\Bundle\ContentfulBlockManagerBundle\Command;
 
+use Contentful\Delivery\Synchronization\DeletedEntry;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -77,6 +78,9 @@ class SyncCommand extends ContainerAwareCommand
             if ($remote_entry instanceof DynamicEntry) {
                 $contentfulEntry = $service->refreshContentfulEntry($remote_entry);
                 $output->writeln('<comment>Remote entry ' . $contentfulEntry->getId() . ' synced.</comment>');
+            } elseif ($remote_entry instanceof DeletedEntry) {
+                $contentfulEntry = $service->deleteContentfulEntry($remote_entry);
+                $output->writeln('<comment>Remote entry ' . $contentfulEntry->getId() . ' deleted.</comment>');
             } else {
                 $output->writeln('<comment>Unexpected entry ' . get_class($remote_entry) . '. Not synced.</comment>');
             }

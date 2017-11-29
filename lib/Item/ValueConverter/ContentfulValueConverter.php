@@ -29,6 +29,6 @@ final class ContentfulValueConverter implements ValueConverterInterface
 
     public function getIsVisible($object)
     {
-        return true;
+        return $object->getIsPublished();
     }
 }

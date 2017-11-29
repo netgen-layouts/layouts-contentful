@@ -142,6 +142,16 @@ class Contentful {
 
             $contentfulEntry = $this->buildContentfulEntry($remote_entry, $id);
         }
+
+        if ($contentfulEntry->getIsDeleted()) {
+            throw new Exception(
+                sprintf(
+                    'Entry with ID %s deleted.',
+                    $id
+                )
+            );
+        }
+
         return $contentfulEntry;
     }
 
@@ -154,6 +164,7 @@ class Contentful {
     private function buildContentfulEntry($remote_entry, $id) {
 
         $contentfulEntry = new ContentfulEntry($remote_entry);
+        $contentfulEntry->setIsPublished(true);
         $contentfulEntry->setJson(json_encode($remote_entry));
 
         $route = new Route();
@@ -300,6 +311,7 @@ class Contentful {
 
         if ($contentfulEntry instanceof ContentfulEntry) {
             $contentfulEntry->setJson(json_encode($remote_entry));
+            $contentfulEntry->setIsPublished(true);
             $this->entity_manager->persist($contentfulEntry);
             $this->entity_manager->flush();
 
@@ -308,4 +320,30 @@ class Contentful {
         }
         return $contentfulEntry;
     }
+
+    public function unpublishContentfulEntry($remote_entry) {
+        $id = $remote_entry->getSpace()->getId() . "|" . $remote_entry->getId();
+        $contentfulEntry = $this->findContentfulEntry($id);
+        if ($contentfulEntry instanceof ContentfulEntry) {
+            $contentfulEntry->setIsPublished(false);
+            $this->entity_manager->persist($contentfulEntry);
+            $this->entity_manager->flush();
+        }
+    }
+
+    public function deleteContentfulEntry($remote_entry) {
+        $id = $remote_entry->getSpace()->getId() . "|" . $remote_entry->getId();
+        $contentfulEntry = $this->findContentfulEntry($id);
+        if ($contentfulEntry instanceof ContentfulEntry) {
+            $contentfulEntry->setIsDeleted(true);
+            $this->entity_manager->persist($contentfulEntry);
+
+            foreach ($contentfulEntry->getRoutes() as $route) {
+                $this->entity_manager->remove($route);
+            }
+
+            $this->entity_manager->flush();
+        }
+    }
+
 }
