@@ -168,8 +168,8 @@ class Contentful {
 
         $route = new Route();
         $route->setName($id);
-        $slug  = "/" . $this->createSlug($contentfulEntry->getSpace()->getName());
-        $slug .= "/" . $this->createSlug($contentfulEntry->getName());
+        $slug  = "/" . $this->createSlugPart($contentfulEntry->getSpace()->getName());
+        $slug .= "/" . $this->createSlugPart($contentfulEntry->getName());
         $route->setStaticPrefix($slug);
         $route->setDefault(RouteObjectInterface::CONTENT_ID, ContentfulEntry::class.":". $id);
         $route->setContent($contentfulEntry);
@@ -182,7 +182,7 @@ class Contentful {
         return $contentfulEntry;
     }
 
-    private function createSlug($string) {
+    private function createSlugPart($string) {
         return strtolower(trim(preg_replace('~[^0-9a-z]+~i', '-', html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', htmlentities($string, ENT_QUOTES, 'UTF-8')), ENT_QUOTES, 'UTF-8')), '-'));
     }
 
@@ -365,5 +365,5 @@ class Contentful {
             $fs->mkdir($spacePath);
         }
         return $spacePath;
-    }    
+    }
 }
