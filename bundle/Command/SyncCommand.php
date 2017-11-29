@@ -8,10 +8,22 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Contentful\Delivery\DynamicEntry;
-use Contentful\Delivery\Query;
 
 class SyncCommand extends ContainerAwareCommand
 {
+    /**
+     * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful $contentful
+     */
+    private $contentful;
+
+    public function __construct(        
+        \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful $contentful
+    )
+    {
+        parent::__construct();
+        $this->contentful = $contentful;
+    }
+
     protected function configure()
     {
         $this
@@ -22,7 +34,6 @@ class SyncCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $info = $this->getContainer()->getParameter('contentful.clients');
-        $cacheDir = $this->getContainer()->getParameter('kernel.cache_dir') . "/contentful";
 
         if (count($info) === 0) {
             $output->writeln('<comment>There are no Contentful clients configured.</comment>');
@@ -33,28 +44,21 @@ class SyncCommand extends ContainerAwareCommand
 
         foreach ($info as $client) {
             $clientService = $this->getContainer()->get($client["service"]);
-            $space = $clientService->getSpace();
 
-            $spacePath = $cacheDir . '/' . $space->getId();
-            if (!$fs->exists($spacePath)) {
-                $fs->mkdir($spacePath);
-            }
-            $fs->dumpFile($spacePath . '/space.json', json_encode($space));
+            $this->contentful->refreshSpaceCache($clientService, $fs);
 
-            $contentTypes = $clientService->getContentTypes(new Query());
-            foreach ($contentTypes as $contentType) {
-                $fs->dumpFile($spacePath . '/ct-' . $contentType->getId() . '.json', json_encode($contentType));
-            }
+            $this->contentful->refreshContentTypeCache($clientService, $fs);
 
             /**
              * @var \Contentful\Delivery\Synchronization\Manager $syncManager
              */
             $syncManager = $clientService->getSynchronizationManager();
 
-            if (!$fs->exists($spacePath . '/token')) {
+            $tokenPath = $this->contentful->getSpaceCachePath($clientService, $fs) . '/token';
+            if (!$fs->exists($tokenPath)) {
                 $result = $syncManager->startSync();
             } else {
-                $token = file_get_contents($spacePath . '/token');
+                $token = file_get_contents($tokenPath);
                 $result = $syncManager->continueSync($token);
             }
 
@@ -62,24 +66,19 @@ class SyncCommand extends ContainerAwareCommand
 
             if (!$result->isDone()) {
                 $token = $result->getToken();
-                $fs->dumpFile($spacePath . '/token', $token);
+                $fs->dumpFile($tokenPath, $token);
             }
 
         }
     }
 
     protected function buildContentEntries($entries, OutputInterface $output) {
-        /**
-         * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful $service
-         */
-        $service = $this->getContainer()->get("netgen_block_manager.contentful.service");
-
         foreach ($entries as $remote_entry) {
             if ($remote_entry instanceof DynamicEntry) {
-                $contentfulEntry = $service->refreshContentfulEntry($remote_entry);
+                $contentfulEntry = $this->contentful->refreshContentfulEntry($remote_entry);
                 $output->writeln('<comment>Remote entry ' . $contentfulEntry->getId() . ' synced.</comment>');
             } elseif ($remote_entry instanceof DeletedEntry) {
-                $contentfulEntry = $service->deleteContentfulEntry($remote_entry);
+                $contentfulEntry = $this->contentful->deleteContentfulEntry($remote_entry);
                 $output->writeln('<comment>Remote entry ' . $contentfulEntry->getId() . ' deleted.</comment>');
             } else {
                 $output->writeln('<comment>Unexpected entry ' . get_class($remote_entry) . '. Not synced.</comment>');

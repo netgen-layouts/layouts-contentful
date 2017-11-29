@@ -7,3 +7,11 @@ services:
             - "@doctrine.orm.entity_manager"
         public: true
 
+    netgen_block_manager.contentful.sync_command:
+        class: Netgen\Bundle\ContentfulBlockManagerBundle\Command\SyncCommand
+        arguments:
+              - "@netgen_block_manager.contentful.service"
+        public: true
+        tags:
+              - { name: console.command }
+

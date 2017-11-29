@@ -10,7 +10,6 @@ use Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
 use Contentful\Delivery\EntryInterface;
 use Contentful\Delivery\Query;
 
-
 class Contentful {
 
     /**
@@ -346,4 +345,25 @@ class Contentful {
         }
     }
 
+    public function refreshSpaceCache($client, $fs) {
+        $spacePath = $this->getSpaceCachePath($client, $fs);
+        $fs->dumpFile($spacePath . '/space.json', json_encode($client->getSpace()));
+    }
+
+    public function refreshContentTypeCache($client, $fs) {
+        $spacePath = $this->getSpaceCachePath($client, $fs);
+        $contentTypes = $client->getContentTypes(new Query());
+        foreach ($contentTypes as $contentType) {
+            $fs->dumpFile($spacePath . '/ct-' . $contentType->getId() . '.json', json_encode($contentType));
+        }
+    }
+
+    public function getSpaceCachePath($client, $fs) {
+        $space = $client->getSpace();
+        $spacePath = $this->container->getParameter('kernel.cache_dir') . "/contentful/". $space->getId();
+        if (!$fs->exists($spacePath)) {
+            $fs->mkdir($spacePath);
+        }
+        return $spacePath;
+    }    
 }
