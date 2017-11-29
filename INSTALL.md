@@ -142,6 +142,16 @@ cmf_routing:
 
 For more information, see [CMF Routing docs on symfony.com](http://symfony.com/doc/master/cmf/bundles/routing/index.html).
 
+Configure routing
+-----------------
+
+Add routing configuration to the app/config/routing.yml:
+
+```
+netgen_contentful_block_manager:
+    resource: "@NetgenContentfulBlockManagerBundle/Resources/config/routing.yml"
+```
+
 Import the schema
 -----------------
 
@@ -159,6 +169,14 @@ php bin/console contentful:sync
 ```
 There is a limit on 100 entries in one run, so if there are more than 100 entries you can run the command many times.
 
+Set user rights
+---------------
+
+In case your web server user differs from your user for managing files, make cache and logs writeable:
+```
+setfacl -R -m u:www-data:rwX -m g:www-data:rwX var/{cache,logs,sessions}
+setfacl -dR -m u:www-data:rwX -m g:www-data:rwX var/{cache,logs,sessions}
+```
 
 Use it
 ------

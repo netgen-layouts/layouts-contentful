@@ -1,0 +1,5 @@
+contentful_callback:
+    path: /callback
+    methods: [GET, POST]
+    defaults:
+        _controller: "NetgenContentfulBlockManagerBundle:Contentful:callback"
