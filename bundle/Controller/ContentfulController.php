@@ -40,12 +40,11 @@ class ContentfulController extends Controller
     }
 
     /**
-     * Contentful callback for clearing local caches
+     * Contentful webhook for clearing local caches
      */
-    public function callbackAction(Request $request)
+    public function webhookAction(Request $request)
     {
         $service = $this->container->get("netgen_block_manager.contentful.service");
-        $logger = $this->container->get("logger");
         $content = $request->getContent();
         $spaceId = $request->headers->get("X-Space-Id");
 

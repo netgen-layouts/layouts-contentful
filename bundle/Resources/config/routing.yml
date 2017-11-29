@@ -1,5 +1,5 @@
-contentful_callback:
-    path: /callback
+contentful_webhook:
+    path: /webhook
     methods: [GET, POST]
     defaults:
-        _controller: "NetgenContentfulBlockManagerBundle:Contentful:callback"
+        _controller: "NetgenContentfulBlockManagerBundle:Contentful:webhook"
