@@ -44,6 +44,7 @@ security:
                     admin:
                         password: admin
                         roles: ROLE_NGBM_ADMIN
+
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
 

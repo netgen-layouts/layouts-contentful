@@ -1,36 +1,24 @@
-# To get started with security, check out the documentation:
-# https://symfony.com/doc/current/security.html
 security:
-
-    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
         in_memory:
             memory:
                 users:
                     admin:
                         password: admin
-                        roles: 'ROLE_NGBM_ADMIN'
+                        roles: ROLE_NGBM_ADMIN
 
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
 
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
         main:
             anonymous: ~
-            # activate different ways to authenticate
-
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
             http_basic: ~
 
-            # https://symfony.com/doc/current/security/form_login_setup.html
-            #form_login: ~
-
     access_control:
-        - { path: ^/bm, role: [ROLE_NGBM_ADMIN] }
+        - { path: ^/bm/(api|app|admin), role: [ROLE_NGBM_ADMIN] }
         - { path: ^/cb, role: [ROLE_NGBM_ADMIN] }
-
-    encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
