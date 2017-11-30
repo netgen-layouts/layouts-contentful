@@ -12,7 +12,7 @@ use Netgen\BlockManager\Parameters\ParameterType;
 /**
  * Handler for a query which retrieves the entries from Contentful.
  */
-final class ContentfulHandler implements QueryTypeHandlerInterface
+final class ContentfulSearchHandler implements QueryTypeHandlerInterface
 {
     /**
      * @const int

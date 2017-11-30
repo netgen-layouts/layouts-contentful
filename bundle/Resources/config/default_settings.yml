@@ -1,0 +1,2 @@
+parameters:
+    netgen_block_manager.contentful.cache_dir: '%kernel.cache_dir%/contentful/'
