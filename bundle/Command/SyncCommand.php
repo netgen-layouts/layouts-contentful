@@ -17,9 +17,15 @@ class SyncCommand extends ContainerAwareCommand
      */
     private $contentful;
 
-    public function __construct(Contentful $contentful)
+    /**
+     * @var array
+     */
+    private $contentfulClients;
+
+    public function __construct(Contentful $contentful, array $contentfulClients)
     {
         $this->contentful = $contentful;
+        $this->contentfulClients = $contentfulClients;
 
         // Parent constructor call is mandatory in commands registered as services
         parent::__construct();
@@ -34,9 +40,7 @@ class SyncCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $info = $this->getContainer()->getParameter('contentful.clients');
-
-        if (count($info) === 0) {
+        if (empty($this->contentfulClients)) {
             $output->writeln('<comment>There are no Contentful clients configured.</comment>');
 
             return;
@@ -44,7 +48,7 @@ class SyncCommand extends ContainerAwareCommand
 
         $fs = new Filesystem();
 
-        foreach ($info as $client) {
+        foreach ($this->contentfulClients as $client) {
             $clientService = $this->getContainer()->get($client['service']);
 
             $this->contentful->refreshSpaceCache($clientService, $fs);
