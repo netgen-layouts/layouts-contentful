@@ -6,7 +6,7 @@ use Netgen\Bundle\ContentfulBlockManagerBundle\Templating\Twig\Runtime\Contentfu
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class ContentfulExtension extends AbstractExtension
+final class ContentfulExtension extends AbstractExtension
 {
     public function getFunctions()
     {
