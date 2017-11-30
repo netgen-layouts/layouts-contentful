@@ -229,9 +229,7 @@ final class Contentful
      */
     public function getContentfulEntries($offset = 0, $limit = 25, Client $client = null, Query $query = null)
     {
-        if ($client === null) {
-            $client = $this->defaultClient;
-        }
+        $client = $client ?: $this->defaultClient;
 
         if ($query === null) {
             $query = new Query();
@@ -252,13 +250,7 @@ final class Contentful
      */
     public function getContentfulEntriesCount(Client $client = null, Query $query = null)
     {
-        if ($client === null) {
-            $client = $this->defaultClient;
-        }
-
-        if ($query === null) {
-            $query = new Query();
-        }
+        $client = $client ?: $this->defaultClient;
 
         return count($client->getEntries($query));
     }
@@ -275,9 +267,7 @@ final class Contentful
      */
     public function searchContentfulEntries($searchText, $offset = 0, $limit = 25, Client $client = null)
     {
-        if ($client === null) {
-            $client = $this->defaultClient;
-        }
+        $client = $client ?: $this->defaultClient;
 
         $query = new Query();
         $query->setLimit($limit);
@@ -297,9 +287,7 @@ final class Contentful
      */
     public function searchContentfulEntriesCount($searchText, Client $client = null)
     {
-        if ($client === null) {
-            $client = $this->defaultClient;
-        }
+        $client = $client ?: $this->defaultClient;
 
         $query = new Query();
         $query->where('query', $searchText);
@@ -446,7 +434,7 @@ final class Contentful
     public function refreshContentTypeCache(Client $client)
     {
         $spacePath = $this->getSpaceCachePath($client);
-        $contentTypes = $client->getContentTypes(new Query());
+        $contentTypes = $client->getContentTypes();
         foreach ($contentTypes as $contentType) {
             /* @var \Contentful\Delivery\ContentType $contentType */
             $this->fileSystem->dumpFile($spacePath . '/ct-' . $contentType->getId() . '.json', json_encode($contentType));
