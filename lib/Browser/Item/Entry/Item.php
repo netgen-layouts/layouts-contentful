@@ -5,8 +5,11 @@ namespace Netgen\BlockManager\Contentful\Browser\Item\Entry;
 use Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
 use Netgen\ContentBrowser\Item\ItemInterface;
 
-class Item implements ItemInterface
+final class Item implements ItemInterface, EntryInterface
 {
+    /**
+     * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry
+     */
     private $entry;
 
     public function __construct(ContentfulEntry $entry)

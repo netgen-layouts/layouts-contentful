@@ -4,7 +4,7 @@ namespace Netgen\BlockManager\Contentful\Browser\Item\Client;
 
 use Netgen\ContentBrowser\Item\LocationInterface;
 
-final class RootLocation implements LocationInterface
+final class RootLocation implements LocationInterface, ClientInterface
 {
     public function getLocationId()
     {
