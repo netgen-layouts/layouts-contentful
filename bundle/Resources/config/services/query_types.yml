@@ -1,6 +1,6 @@
 services:
     netgen_block_manager.contentful.collection.query_type.handler.contentful_search:
-        class: Netgen\BlockManager\Contentful\Collection\QueryType\Handler\ContentfulHandler
+        class: Netgen\BlockManager\Contentful\Collection\QueryType\Handler\ContentfulSearchHandler
         public: false
         arguments:
             - "@netgen_block_manager.contentful.service"
