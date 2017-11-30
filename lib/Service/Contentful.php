@@ -12,6 +12,7 @@ use RuntimeException;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 final class Contentful
 {
@@ -31,6 +32,11 @@ final class Contentful
     private $entityManager;
 
     /**
+     * @var \Symfony\Component\Filesystem\Filesystem
+     */
+    private $fileSystem;
+
+    /**
      * @var array
      */
     private $clientsConfig;
@@ -44,23 +50,20 @@ final class Contentful
         ContainerInterface $container,
         Client $defaultClient,
         EntityManagerInterface $entityManager,
+        Filesystem $fileSystem,
         array $clientsConfig,
         $cacheDir
     ) {
         $this->container = $container;
         $this->defaultClient = $defaultClient;
         $this->entityManager = $entityManager;
+        $this->fileSystem = $fileSystem;
         $this->clientsConfig = $clientsConfig;
         $this->cacheDir = $cacheDir;
 
         if (count($this->clientsConfig) === 0) {
             throw new RuntimeException('No Contentful clients configured');
         }
-    }
-
-    public function __toString()
-    {
-        return 'Contentful service wrapper';
     }
 
     public function getClientByName($name)
@@ -126,8 +129,8 @@ final class Contentful
 
     public function loadContentfulEntry($id)
     {
-        $id_array = explode('|', $id);
-        if (count($id_array) !== 2) {
+        $idList = explode('|', $id);
+        if (count($idList) !== 2) {
             throw new Exception(
                 sprintf(
                     'Item ID %s not valid.',
@@ -139,16 +142,16 @@ final class Contentful
         /**
          * @var \Contentful\Delivery\Client
          */
-        $client = $this->getClientBySpaceId($id_array[0]);
+        $client = $this->getClientBySpaceId($idList[0]);
 
         $contentfulEntry = $this->findContentfulEntry($id);
 
         if ($contentfulEntry instanceof ContentfulEntry) {
             $contentfulEntry->reviveRemoteEntry($client);
         } else {
-            $remote_entry = $client->getEntry($id_array[1]);
+            $remoteEntry = $client->getEntry($idList[1]);
 
-            if (!$remote_entry instanceof EntryInterface) {
+            if (!$remoteEntry instanceof EntryInterface) {
                 throw new Exception(
                     sprintf(
                         'Entry with ID %s not found.',
@@ -157,7 +160,7 @@ final class Contentful
                 );
             }
 
-            $contentfulEntry = $this->buildContentfulEntry($remote_entry, $id);
+            $contentfulEntry = $this->buildContentfulEntry($remoteEntry, $id);
         }
 
         if ($contentfulEntry->getIsDeleted()) {
@@ -283,26 +286,26 @@ final class Contentful
      ********** Syncing part ************
      */
 
-    public function refreshContentfulEntry($remote_entry)
+    public function refreshContentfulEntry($remoteEntry)
     {
-        $id = $remote_entry->getSpace()->getId() . '|' . $remote_entry->getId();
+        $id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
         $contentfulEntry = $this->findContentfulEntry($id);
 
         if ($contentfulEntry instanceof ContentfulEntry) {
-            $contentfulEntry->setJson(json_encode($remote_entry));
+            $contentfulEntry->setJson(json_encode($remoteEntry));
             $contentfulEntry->setIsPublished(true);
             $this->entityManager->persist($contentfulEntry);
             $this->entityManager->flush();
         } else {
-            $contentfulEntry = $this->buildContentfulEntry($remote_entry, $id);
+            $contentfulEntry = $this->buildContentfulEntry($remoteEntry, $id);
         }
 
         return $contentfulEntry;
     }
 
-    public function unpublishContentfulEntry($remote_entry)
+    public function unpublishContentfulEntry($remoteEntry)
     {
-        $id = $remote_entry->getSpace()->getId() . '|' . $remote_entry->getId();
+        $id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
         $contentfulEntry = $this->findContentfulEntry($id);
         if ($contentfulEntry instanceof ContentfulEntry) {
             $contentfulEntry->setIsPublished(false);
@@ -311,9 +314,9 @@ final class Contentful
         }
     }
 
-    public function deleteContentfulEntry($remote_entry)
+    public function deleteContentfulEntry($remoteEntry)
     {
-        $id = $remote_entry->getSpace()->getId() . '|' . $remote_entry->getId();
+        $id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
         $contentfulEntry = $this->findContentfulEntry($id);
         if ($contentfulEntry instanceof ContentfulEntry) {
             $contentfulEntry->setIsDeleted(true);
@@ -327,27 +330,27 @@ final class Contentful
         }
     }
 
-    public function refreshSpaceCache($client, $fs)
+    public function refreshSpaceCache($client)
     {
-        $spacePath = $this->getSpaceCachePath($client, $fs);
-        $fs->dumpFile($spacePath . '/space.json', json_encode($client->getSpace()));
+        $spacePath = $this->getSpaceCachePath($client);
+        $this->fileSystem->dumpFile($spacePath . '/space.json', json_encode($client->getSpace()));
     }
 
-    public function refreshContentTypeCache($client, $fs)
+    public function refreshContentTypeCache($client)
     {
-        $spacePath = $this->getSpaceCachePath($client, $fs);
+        $spacePath = $this->getSpaceCachePath($client);
         $contentTypes = $client->getContentTypes(new Query());
         foreach ($contentTypes as $contentType) {
-            $fs->dumpFile($spacePath . '/ct-' . $contentType->getId() . '.json', json_encode($contentType));
+            $this->fileSystem->dumpFile($spacePath . '/ct-' . $contentType->getId() . '.json', json_encode($contentType));
         }
     }
 
-    public function getSpaceCachePath($client, $fs)
+    public function getSpaceCachePath($client)
     {
         $space = $client->getSpace();
         $spacePath = $this->cacheDir . $space->getId();
-        if (!$fs->exists($spacePath)) {
-            $fs->mkdir($spacePath);
+        if (!$this->fileSystem->exists($spacePath)) {
+            $this->fileSystem->mkdir($spacePath);
         }
 
         return $spacePath;
@@ -360,11 +363,11 @@ final class Contentful
         return $contentfulEntry;
     }
 
-    private function buildContentfulEntry($remote_entry, $id)
+    private function buildContentfulEntry($remoteEntry, $id)
     {
-        $contentfulEntry = new ContentfulEntry($remote_entry);
+        $contentfulEntry = new ContentfulEntry($remoteEntry);
         $contentfulEntry->setIsPublished(true);
-        $contentfulEntry->setJson(json_encode($remote_entry));
+        $contentfulEntry->setJson(json_encode($remoteEntry));
 
         $route = new Route();
         $route->setName($id);
@@ -391,11 +394,11 @@ final class Contentful
     {
         $contentfulEntries = array();
 
-        foreach ($entries as $remote_entry) {
-            $id = $remote_entry->getSpace()->getId() . '|' . $remote_entry->getId();
+        foreach ($entries as $remoteEntry) {
+            $id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
             $contentfulEntry = $this->findContentfulEntry($id);
             if (!$contentfulEntry instanceof ContentfulEntry) {
-                $contentfulEntry = $this->buildContentfulEntry($remote_entry, $id);
+                $contentfulEntry = $this->buildContentfulEntry($remoteEntry, $id);
             } else {
                 $contentfulEntry->reviveRemoteEntry($client);
             }

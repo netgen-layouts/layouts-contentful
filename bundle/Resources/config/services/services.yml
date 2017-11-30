@@ -6,6 +6,7 @@ services:
             - "@service_container"
             - "@contentful.delivery"
             - "@doctrine.orm.entity_manager"
+            - "@filesystem"
             - "%contentful.clients%"
             - "%netgen_block_manager.contentful.cache_dir%"
 
@@ -14,6 +15,7 @@ services:
         # public: false
         arguments:
               - "@netgen_block_manager.contentful.service"
+              - "@filesystem"
               - "%contentful.clients%"
         tags:
               - { name: console.command, command: contentful:sync }

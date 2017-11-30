@@ -32,7 +32,7 @@ Configure authentication for Block Manager
 
 It is highly recommended to secure the Block Manager interface and allow only
 authenticated users in. For fresh Symfony installations the simplest way is to
-defined an admin user in memory with the `ROLE_NGBM_ADMIN` role and enable the
+define an admin user in memory with the `ROLE_NGBM_ADMIN` role and enable the
 HTTP basic auth firewall. Your `app/config/security.yml` should like this:
 
 ```
@@ -166,8 +166,8 @@ Import the routing and local content schema to the database. Use the Force, Luke
 php bin/console doctrine:schema:update --force
 ```
 
-Optional - run the sync command
--------------------------------
+Optional: Run the sync command
+------------------------------
 
 To warmup the caching for spaces and content types as well as syncing Contentful entries locally run this command:
 
@@ -177,30 +177,21 @@ php bin/console contentful:sync
 
 There is a limit on 100 entries in one run, so if there are more than 100 entries you can run the command multiple times.
 
-Optional - configure webhook
-----------------------------
+Optional: Configure webhook
+---------------------------
 
 To make local cache refresh when an entry or a content type changes in Contentful add the webhook configuration.
 
 Go to Contentful space settings and create a webhook with:
+
 * the full URL for webhook (http://your.domain/webhook)
 * basic auth credentials if necessary
 * additional `X-Space-Id` header with the related value
-* checked Published, Unpublished and Delete events for Content Types
-* checked Published, Unpublished and Delete events for Entries
-
-Set user rights
----------------
-
-In case your web server user differs from your user for managing files, make cache and logs writeable:
-
-```
-setfacl -R -m u:www-data:rwX -m g:www-data:rwX var/{cache,logs,sessions}
-setfacl -dR -m u:www-data:rwX -m g:www-data:rwX var/{cache,logs,sessions}
-```
+* checked Published, Unpublished and Delete events for Content types
+* checked Published, Unpublished and Delete events for entries
 
 Use it
 ------
 
 Open again [http://127.0.0.1:8000/bm/admin/layouts](http://127.0.0.1:8000/bm/admin/layouts/) and start creating
-Contentful specific layouts and mapping them to URL targets.
+Contentful specific layouts and map them to URL targets.
