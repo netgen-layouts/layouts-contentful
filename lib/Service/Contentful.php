@@ -3,8 +3,11 @@
 namespace Netgen\BlockManager\Contentful\Service;
 
 use Contentful\Delivery\Client;
+use Contentful\Delivery\DynamicEntry;
 use Contentful\Delivery\EntryInterface;
 use Contentful\Delivery\Query;
+use Contentful\Delivery\Synchronization\DeletedEntry;
+use Contentful\ResourceArray;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
@@ -61,49 +64,84 @@ final class Contentful
         $this->clientsConfig = $clientsConfig;
         $this->cacheDir = $cacheDir;
 
-        if (count($this->clientsConfig) === 0) {
+        if (empty($this->clientsConfig)) {
             throw new RuntimeException('No Contentful clients configured');
         }
     }
 
+    /**
+     * Returns the Contentful client with provided name.
+     *
+     * @param string $name
+     *
+     * @return \Contentful\Delivery\Client
+     */
     public function getClientByName($name)
     {
-        return $this->container->get($this->clientsConfig[$name]['service']);
+        return $this->getClient($this->clientsConfig[$name]['service']);
     }
 
+    /**
+     * Returns the Contentful space with provided client name.
+     *
+     * @param string $name
+     *
+     * @return \Contentful\Delivery\Space
+     */
     public function getSpaceByClientName($name)
     {
         return $this->clientsConfig[$name]['space'];
     }
 
+    /**
+     * Returns the Contentful client which serves the space with provided ID.
+     *
+     * If no client is found, null is returned.
+     *
+     * @param string $spaceId
+     *
+     * @return \Contentful\Delivery\Client|null
+     */
     public function getClientBySpaceId($spaceId)
     {
         foreach ($this->clientsConfig as $clientName) {
             if ($clientName['space'] === $spaceId) {
-                return $this->container->get($clientName['service']);
+                return $this->getClient($clientName['service']);
             }
         }
 
         return null;
     }
 
+    /**
+     * Returns all configured clients.
+     *
+     * @return \Contentful\Delivery\Client[]
+     */
     public function getClients()
     {
-        /** @var \Contentful\Delivery\Client[] $clients */
         $clients = array();
+
         foreach ($this->clientsConfig as $clientName) {
-            $client = $this->container->get($clientName['service']);
-            $clients[] = $client;
+            $clients[] = $this->getClient($clientName['service']);
         }
 
         return $clients;
     }
 
+    /**
+     * Returns the content type with specified ID.
+     *
+     * If no content type is found, null is returned.
+     *
+     * @param string $id
+     *
+     * @return \Contentful\Delivery\ContentType|null
+     */
     public function getContentType($id)
     {
         foreach ($this->clientsConfig as $clientName) {
-            /** @var \Contentful\Delivery\Client $client */
-            $client = $this->container->get($clientName['service']);
+            $client = $this->getClient($clientName['service']);
             foreach ($client->getContentTypes()->getItems() as $contentType) {
                 /** @var \Contentful\Delivery\ContentType $contentType */
                 if ($contentType->getId() === $id) {
@@ -115,15 +153,25 @@ final class Contentful
         return null;
     }
 
+    /**
+     * Returns names of all configured clients.
+     *
+     * @return string[]
+     */
     public function getClientsNames()
     {
         return array_keys($this->clientsConfig);
     }
 
-    /*
-     ************** Content Entry part ****************
+    /**
+     * Returns the Contentful entry with provided ID.
+     *
+     * @param string $id
+     *
+     * @throws \Exception If entry could not be loaded
+     *
+     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry
      */
-
     public function loadContentfulEntry($id)
     {
         $idList = explode('|', $id);
@@ -136,7 +184,6 @@ final class Contentful
             );
         }
 
-        /** @var \Contentful\Delivery\Client $client */
         $client = $this->getClientBySpaceId($idList[0]);
 
         $contentfulEntry = $this->findContentfulEntry($id);
@@ -170,11 +217,17 @@ final class Contentful
         return $contentfulEntry;
     }
 
-    /*
-     ********** Content Entries part ************
+    /**
+     * Returns the list of Contentful entries.
+     *
+     * @param int $offset
+     * @param int $limit
+     * @param \Contentful\Delivery\Client $client
+     * @param \Contentful\Delivery\Query $query
+     *
+     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry[]
      */
-
-    public function getContentfulEntries($offset = 0, $limit = 25, $client = null, $query = null)
+    public function getContentfulEntries($offset = 0, $limit = 25, Client $client = null, Query $query = null)
     {
         if ($client === null) {
             $client = $this->defaultClient;
@@ -189,7 +242,15 @@ final class Contentful
         return $this->buildContentfulEntries($client->getEntries($query), $client);
     }
 
-    public function getContentfulEntriesCount($client = null, $query = null)
+    /**
+     * Returns the count of Contentful entries.
+     *
+     * @param \Contentful\Delivery\Client $client
+     * @param \Contentful\Delivery\Query $query
+     *
+     * @return int
+     */
+    public function getContentfulEntriesCount(Client $client = null, Query $query = null)
     {
         if ($client === null) {
             $client = $this->defaultClient;
@@ -202,7 +263,17 @@ final class Contentful
         return count($client->getEntries($query));
     }
 
-    public function searchContentfulEntries($searchText, $offset = 0, $limit = 25, $client = null)
+    /**
+     * Searches for Contentful entries.
+     *
+     * @param string $searchText
+     * @param int $offset
+     * @param int $limit
+     * @param \Contentful\Delivery\Client $client
+     *
+     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry[]
+     */
+    public function searchContentfulEntries($searchText, $offset = 0, $limit = 25, Client $client = null)
     {
         if ($client === null) {
             $client = $this->defaultClient;
@@ -216,7 +287,15 @@ final class Contentful
         return $this->buildContentfulEntries($client->getEntries($query), $client);
     }
 
-    public function searchContentfulEntriesCount($searchText, $client = null)
+    /**
+     * Returns the count of searched Contentful entries.
+     *
+     * @param string $searchText
+     * @param \Contentful\Delivery\Client $client
+     *
+     * @return int
+     */
+    public function searchContentfulEntriesCount($searchText, Client $client = null)
     {
         if ($client === null) {
             $client = $this->defaultClient;
@@ -228,19 +307,20 @@ final class Contentful
         return count($client->getEntries($query));
     }
 
-    /*
-     ********** Choices for forms ************
+    /**
+     * Returns the list of clients and content types for usage in Symfony Forms.
+     *
+     * @return string[]
      */
-
     public function getClientsAndContentTypesAsChoices()
     {
         $clientsAndContentTypes = array();
+
         foreach ($this->clientsConfig as $clientName => $clientDetails) {
-            /** @var \Contentful\Delivery\Client $client */
-            $client = $this->container->get($clientDetails['service']);
+            $client = $this->getClient($clientDetails['service']);
             $clientsAndContentTypes[$client->getSpace()->getName()] = $clientName;
             foreach ($client->getContentTypes()->getItems() as $contentType) {
-                /** @var \Contentful\Delivery\ContentType $contentType */
+                /* @var \Contentful\Delivery\ContentType $contentType */
                 $clientsAndContentTypes['>  ' . $contentType->getName()] = $clientName . '|' . $contentType->getId();
             }
         }
@@ -248,25 +328,36 @@ final class Contentful
         return $clientsAndContentTypes;
     }
 
+    /**
+     * Returns the list of spaces for usage in Symfony Forms.
+     *
+     * @return string[]
+     */
     public function getSpacesAsChoices()
     {
         $spaces = array();
+
         foreach ($this->clientsConfig as $clientName) {
-            $spaces[$this->container->get($clientName['service'])->getSpace()->getName()] = $clientName['space'];
+            $spaces[$this->getClient($clientName['service'])->getSpace()->getName()] = $clientName['space'];
         }
 
         return $spaces;
     }
 
+    /**
+     * Returns the list of spaces and content types for usage in Symfony Forms.
+     *
+     * @return string[]
+     */
     public function getSpacesAndContentTypesAsChoices()
     {
         $spaces = array();
+
         foreach ($this->clientsConfig as $clientName) {
-            /** @var \Contentful\Delivery\Client $client */
-            $client = $this->container->get($clientName['service']);
+            $client = $this->getClient($clientName['service']);
             $contentTypes = array();
             foreach ($client->getContentTypes()->getItems() as $contentType) {
-                /** @var \Contentful\Delivery\ContentType $contentType */
+                /* @var \Contentful\Delivery\ContentType $contentType */
                 $contentTypes[$contentType->getName()] = $contentType->getId();
             }
             $spaces[$client->getSpace()->getName()] = $contentTypes;
@@ -275,11 +366,14 @@ final class Contentful
         return $spaces;
     }
 
-    /*
-     ********** Syncing part ************
+    /**
+     * Refreshes the Contentful entry for provided remote entry.
+     *
+     * @param \Contentful\Delivery\DynamicEntry $remoteEntry
+     *
+     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry|null
      */
-
-    public function refreshContentfulEntry($remoteEntry)
+    public function refreshContentfulEntry(DynamicEntry $remoteEntry)
     {
         $id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
         $contentfulEntry = $this->findContentfulEntry($id);
@@ -296,7 +390,12 @@ final class Contentful
         return $contentfulEntry;
     }
 
-    public function unpublishContentfulEntry($remoteEntry)
+    /**
+     * Unpublishes the Contentful entry for provided remote entry.
+     *
+     * @param \Contentful\Delivery\Synchronization\DeletedEntry $remoteEntry
+     */
+    public function unpublishContentfulEntry(DeletedEntry $remoteEntry)
     {
         $id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
         $contentfulEntry = $this->findContentfulEntry($id);
@@ -307,7 +406,12 @@ final class Contentful
         }
     }
 
-    public function deleteContentfulEntry($remoteEntry)
+    /**
+     * Deletes the Contentful entry for provided remote entry.
+     *
+     * @param \Contentful\Delivery\Synchronization\DeletedEntry $remoteEntry
+     */
+    public function deleteContentfulEntry(DeletedEntry $remoteEntry)
     {
         $id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
         $contentfulEntry = $this->findContentfulEntry($id);
@@ -323,23 +427,40 @@ final class Contentful
         }
     }
 
-    public function refreshSpaceCache($client)
+    /**
+     * Refreshes space caches for provided client.
+     *
+     * @param \Contentful\Delivery\Client $client
+     */
+    public function refreshSpaceCache(Client $client)
     {
         $spacePath = $this->getSpaceCachePath($client);
         $this->fileSystem->dumpFile($spacePath . '/space.json', json_encode($client->getSpace()));
     }
 
-    public function refreshContentTypeCache($client)
+    /**
+     * Refreshes content type caches for provided client.
+     *
+     * @param \Contentful\Delivery\Client $client
+     */
+    public function refreshContentTypeCache(Client $client)
     {
         $spacePath = $this->getSpaceCachePath($client);
         $contentTypes = $client->getContentTypes(new Query());
         foreach ($contentTypes as $contentType) {
-            /** @var \Contentful\Delivery\ContentType $contentType */
+            /* @var \Contentful\Delivery\ContentType $contentType */
             $this->fileSystem->dumpFile($spacePath . '/ct-' . $contentType->getId() . '.json', json_encode($contentType));
         }
     }
 
-    public function getSpaceCachePath($client)
+    /**
+     * Returns the cache path for provided client.
+     *
+     * @param \Contentful\Delivery\Client $client
+     *
+     * @return string
+     */
+    public function getSpaceCachePath(Client $client)
     {
         $space = $client->getSpace();
         $spacePath = $this->cacheDir . $space->getId();
@@ -350,14 +471,29 @@ final class Contentful
         return $spacePath;
     }
 
+    /**
+     * Returns the Contentful entry with provided ID from the repository.
+     *
+     * Returns null if entry could not be found.
+     *
+     * @param string $id
+     *
+     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry|null
+     */
     private function findContentfulEntry($id)
     {
-        $contentfulEntry = $this->entityManager->getRepository(ContentfulEntry::class)->find($id);
-
-        return $contentfulEntry;
+        return $this->entityManager->getRepository(ContentfulEntry::class)->find($id);
     }
 
-    private function buildContentfulEntry($remoteEntry, $id)
+    /**
+     * Builds the Contentful entry from provided remote entry.
+     *
+     * @param \Contentful\Delivery\EntryInterface $remoteEntry
+     * @param string $id
+     *
+     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry|null
+     */
+    private function buildContentfulEntry(EntryInterface $remoteEntry, $id)
     {
         $contentfulEntry = new ContentfulEntry($remoteEntry);
         $contentfulEntry->setIsPublished(true);
@@ -379,12 +515,27 @@ final class Contentful
         return $contentfulEntry;
     }
 
+    /**
+     * Builds the slug from provided slug.
+     *
+     * @param string $string
+     *
+     * @return string
+     */
     private function createSlugPart($string)
     {
         return strtolower(trim(preg_replace('~[^0-9a-z]+~i', '-', html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', htmlentities($string, ENT_QUOTES, 'UTF-8')), ENT_QUOTES, 'UTF-8')), '-'));
     }
 
-    private function buildContentfulEntries($entries, $client)
+    /**
+     * Builds the Contentful entries from provided remote entries.
+     *
+     * @param \Contentful\ResourceArray $entries
+     * @param \Contentful\Delivery\Client $client
+     *
+     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry[]
+     */
+    private function buildContentfulEntries(ResourceArray $entries, Client $client)
     {
         $contentfulEntries = array();
 
@@ -400,5 +551,17 @@ final class Contentful
         }
 
         return $contentfulEntries;
+    }
+
+    /**
+     * Returns the client with specified service name from the container.
+     *
+     * @param string $serviceName
+     *
+     * @return \Contentful\Delivery\Client
+     */
+    private function getClient($serviceName)
+    {
+        return $this->container->get($serviceName);
     }
 }

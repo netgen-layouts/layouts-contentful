@@ -64,12 +64,12 @@ final class SyncCommand extends ContainerAwareCommand
         }
 
         foreach ($this->contentfulClients as $client) {
+            /** @var \Contentful\Delivery\Client $clientService */
             $clientService = $this->getContainer()->get($client['service']);
 
             $this->contentful->refreshSpaceCache($clientService);
             $this->contentful->refreshContentTypeCache($clientService);
 
-            /** @var \Contentful\Delivery\Synchronization\Manager $syncManager */
             $syncManager = $clientService->getSynchronizationManager();
 
             $tokenPath = $this->contentful->getSpaceCachePath($clientService) . '/token';
@@ -94,15 +94,15 @@ final class SyncCommand extends ContainerAwareCommand
      *
      * @param \Contentful\Delivery\EntryInterface[] $entries
      */
-    private function buildContentEntries($entries)
+    private function buildContentEntries(array $entries)
     {
         foreach ($entries as $remoteEntry) {
             if ($remoteEntry instanceof DynamicEntry) {
                 $contentfulEntry = $this->contentful->refreshContentfulEntry($remoteEntry);
                 $this->io->writeln(sprintf('Remote entry %s synced.', $contentfulEntry->getId()));
             } elseif ($remoteEntry instanceof DeletedEntry) {
-                $contentfulEntry = $this->contentful->deleteContentfulEntry($remoteEntry);
-                $this->io->writeln(sprintf('Remote entry %s deleted.', $contentfulEntry->getId()));
+                $this->contentful->deleteContentfulEntry($remoteEntry);
+                $this->io->writeln(sprintf('Remote entry %s deleted.', $remoteEntry->getId()));
             } else {
                 $this->io->writeln(sprintf('Unexpected entry %s. Not synced.', get_class($remoteEntry)));
             }

@@ -5,6 +5,7 @@ namespace Netgen\Bundle\ContentfulBlockManagerBundle\Controller;
 use Contentful\Delivery\DynamicEntry;
 use Contentful\Delivery\Synchronization\DeletedEntry;
 use Exception;
+use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
 use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\Bundle\BlockManagerBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,13 +39,13 @@ final class ContentfulController extends Controller
     /**
      * Renders a Contentful entry.
      *
-     * @param object $contentDocument the Contentful entry which is being rendered
+     * @param \Netgen\BlockManager\Contentful\Entity\ContentfulEntry $contentDocument the Contentful entry which is being rendered
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If provided Contentful entry doesn't exist
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function view($contentDocument)
+    public function view(ContentfulEntry $contentDocument)
     {
         if (!$contentDocument->getIsPublished() or $contentDocument->getIsDeleted()) {
             throw new NotFoundHttpException();
@@ -73,7 +74,6 @@ final class ContentfulController extends Controller
         $spaceId = $request->headers->get('X-Space-Id');
 
         try {
-            /** @var \Contentful\Delivery\Client $client */
             $client = $this->contentful->getClientBySpaceId($spaceId);
             $remoteEntry = $client->reviveJson($content);
         } catch (Exception $e) {

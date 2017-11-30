@@ -34,23 +34,14 @@ final class ContentfulBackend implements BackendInterface
             return new RootLocation();
         }
 
-        /** @var \Contentful\Delivery\Client $clientService */
         $clientService = $this->contentful->getClientByName($id);
         $space = $this->contentful->getSpaceByClientName($id);
 
         return new Location($clientService, $space);
     }
 
-    /**
-     * Loads a Contentful entry by its ID.
-     *
-     * @param string $id
-     *
-     * @return \Netgen\BlockManager\Contentful\Browser\Item\Entry\Item
-     */
     public function loadItem($id)
     {
-        /** @var \Netgen\BlockManager\Contentful\Entity\ContentfulEntry $contentfulEntry */
         $contentfulEntry = $this->contentful->loadContentfulEntry($id);
 
         return $this->buildItem($contentfulEntry);
@@ -76,15 +67,6 @@ final class ContentfulBackend implements BackendInterface
         return count($this->contentful->getClients());
     }
 
-    /**
-     * Loads Contentful entries located below provided location.
-     *
-     * @param \Netgen\ContentBrowser\Item\LocationInterface $location
-     * @param int $offset
-     * @param int $limit
-     *
-     * @return \Netgen\BlockManager\Contentful\Browser\Item\Entry\Item[]
-     */
     public function getSubItems(LocationInterface $location, $offset = 0, $limit = 25)
     {
         if ($location instanceof RootLocation) {
@@ -137,7 +119,7 @@ final class ContentfulBackend implements BackendInterface
      *
      * @return \Netgen\BlockManager\Contentful\Browser\Item\Client\Location[]
      */
-    private function buildLocations($clients)
+    private function buildLocations(array $clients)
     {
         return array_map(
             function (Client $client, $id) {
@@ -167,7 +149,7 @@ final class ContentfulBackend implements BackendInterface
      *
      * @return \Netgen\BlockManager\Contentful\Browser\Item\Entry\Item[]
      */
-    private function buildItems($entries)
+    private function buildItems(array $entries)
     {
         return array_map(
             function (ContentfulEntry $entry) {
