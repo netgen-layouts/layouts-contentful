@@ -19,6 +19,11 @@ final class SyncCommand extends ContainerAwareCommand
     private $contentful;
 
     /**
+     * @var \Symfony\Component\Filesystem\Filesystem
+     */
+    private $fileSystem;
+
+    /**
      * @var array
      */
     private $contentfulClients;
@@ -28,9 +33,13 @@ final class SyncCommand extends ContainerAwareCommand
      */
     private $io;
 
-    public function __construct(Contentful $contentful, array $contentfulClients)
-    {
+    public function __construct(
+        Contentful $contentful,
+        Filesystem $fileSystem,
+        array $contentfulClients
+    ) {
         $this->contentful = $contentful;
+        $this->fileSystem = $fileSystem;
         $this->contentfulClients = $contentfulClients;
 
         // Parent constructor call is mandatory in commands registered as services
@@ -54,19 +63,17 @@ final class SyncCommand extends ContainerAwareCommand
             return;
         }
 
-        $fs = new Filesystem();
-
         foreach ($this->contentfulClients as $client) {
             $clientService = $this->getContainer()->get($client['service']);
 
-            $this->contentful->refreshSpaceCache($clientService, $fs);
-            $this->contentful->refreshContentTypeCache($clientService, $fs);
+            $this->contentful->refreshSpaceCache($clientService);
+            $this->contentful->refreshContentTypeCache($clientService);
 
             /** @var \Contentful\Delivery\Synchronization\Manager $syncManager */
             $syncManager = $clientService->getSynchronizationManager();
 
-            $tokenPath = $this->contentful->getSpaceCachePath($clientService, $fs) . '/token';
-            if (!$fs->exists($tokenPath)) {
+            $tokenPath = $this->contentful->getSpaceCachePath($clientService) . '/token';
+            if (!$this->fileSystem->exists($tokenPath)) {
                 $result = $syncManager->startSync();
             } else {
                 $token = file_get_contents($tokenPath);
@@ -77,7 +84,7 @@ final class SyncCommand extends ContainerAwareCommand
 
             if (!$result->isDone()) {
                 $token = $result->getToken();
-                $fs->dumpFile($tokenPath, $token);
+                $this->fileSystem->dumpFile($tokenPath, $token);
             }
         }
     }

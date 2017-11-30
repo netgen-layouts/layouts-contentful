@@ -7,7 +7,6 @@ use Contentful\Delivery\Synchronization\DeletedEntry;
 use Exception;
 use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\Bundle\BlockManagerBundle\Controller\Controller;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -109,7 +108,7 @@ final class ContentfulController extends Controller
             case self::CONTENT_TYPE_PUBLISH:
             case self::CONTENT_TYPE_UNPUBLISH:
             case self::CONTENT_TYPE_DELETE:
-                $this->contentful->refreshContentTypeCache($client, new Filesystem());
+                $this->contentful->refreshContentTypeCache($client);
 
                 break;
             default:

@@ -12,6 +12,7 @@ use RuntimeException;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 final class Contentful
 {
@@ -31,6 +32,11 @@ final class Contentful
     private $entityManager;
 
     /**
+     * @var \Symfony\Component\Filesystem\Filesystem
+     */
+    private $fileSystem;
+
+    /**
      * @var array
      */
     private $clientsConfig;
@@ -44,12 +50,14 @@ final class Contentful
         ContainerInterface $container,
         Client $defaultClient,
         EntityManagerInterface $entityManager,
+        Filesystem $fileSystem,
         array $clientsConfig,
         $cacheDir
     ) {
         $this->container = $container;
         $this->defaultClient = $defaultClient;
         $this->entityManager = $entityManager;
+        $this->fileSystem = $fileSystem;
         $this->clientsConfig = $clientsConfig;
         $this->cacheDir = $cacheDir;
 
@@ -327,27 +335,27 @@ final class Contentful
         }
     }
 
-    public function refreshSpaceCache($client, $fs)
+    public function refreshSpaceCache($client)
     {
-        $spacePath = $this->getSpaceCachePath($client, $fs);
-        $fs->dumpFile($spacePath . '/space.json', json_encode($client->getSpace()));
+        $spacePath = $this->getSpaceCachePath($client);
+        $this->fileSystem->dumpFile($spacePath . '/space.json', json_encode($client->getSpace()));
     }
 
-    public function refreshContentTypeCache($client, $fs)
+    public function refreshContentTypeCache($client)
     {
-        $spacePath = $this->getSpaceCachePath($client, $fs);
+        $spacePath = $this->getSpaceCachePath($client);
         $contentTypes = $client->getContentTypes(new Query());
         foreach ($contentTypes as $contentType) {
-            $fs->dumpFile($spacePath . '/ct-' . $contentType->getId() . '.json', json_encode($contentType));
+            $this->fileSystem->dumpFile($spacePath . '/ct-' . $contentType->getId() . '.json', json_encode($contentType));
         }
     }
 
-    public function getSpaceCachePath($client, $fs)
+    public function getSpaceCachePath($client)
     {
         $space = $client->getSpace();
         $spacePath = $this->cacheDir . $space->getId();
-        if (!$fs->exists($spacePath)) {
-            $fs->mkdir($spacePath);
+        if (!$this->fileSystem->exists($spacePath)) {
+            $this->fileSystem->mkdir($spacePath);
         }
 
         return $spacePath;
