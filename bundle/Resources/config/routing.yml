@@ -2,4 +2,4 @@ contentful_webhook:
     path: /webhook
     methods: [GET, POST]
     defaults:
-        _controller: "NetgenContentfulBlockManagerBundle:Contentful:webhook"
+        _controller: "ngbm_contentful:webhook"

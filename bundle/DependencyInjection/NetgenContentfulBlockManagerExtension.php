@@ -19,6 +19,7 @@ class NetgenContentfulBlockManagerExtension extends Extension implements Prepend
             new FileLocator(__DIR__ . '/../Resources/config')
         );
 
+        $loader->load('services/controllers.yml');
         $loader->load('services/block_definitions.yml');
         $loader->load('services/items.yml');
         $loader->load('services/layout_resolver.yml');

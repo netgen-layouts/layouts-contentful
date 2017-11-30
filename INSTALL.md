@@ -138,7 +138,7 @@ cmf_routing:
             router.default: 200
             cmf_routing.dynamic_router: 100
     dynamic:
-        default_controller: NetgenContentfulBlockManagerBundle:Contentful:view
+        default_controller: ngbm_contentful:view
         persistence:
             orm:
                 enabled: true
