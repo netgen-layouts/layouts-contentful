@@ -1,4 +1,3 @@
 block_type_groups:
     placeholders:
         block_types: [contentful_entry_field]
-

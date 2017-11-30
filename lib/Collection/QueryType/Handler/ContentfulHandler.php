@@ -18,7 +18,6 @@ class ContentfulHandler implements QueryTypeHandlerInterface
      */
     const DEFAULT_LIMIT = 25;
 
-
     /**
      * @var array
      */
@@ -28,12 +27,12 @@ class ContentfulHandler implements QueryTypeHandlerInterface
     );
 
     /**
-     * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful
+     * @var \Netgen\BlockManager\Contentful\Service\Contentful
      */
     private $contentful;
 
     public function __construct(
-        \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful $contentful
+        \Netgen\BlockManager\Contentful\Service\Contentful $contentful
     ) {
         $this->contentful = $contentful;
     }
@@ -44,7 +43,7 @@ class ContentfulHandler implements QueryTypeHandlerInterface
             'client',
             ParameterType\ChoiceType::class,
             array(
-                'options' => $this->contentful->getClientsAndContentTypesAsChoices()
+                'options' => $this->contentful->getClientsAndContentTypesAsChoices(),
             )
         );
 
@@ -95,16 +94,16 @@ class ContentfulHandler implements QueryTypeHandlerInterface
             array(
                 'groups' => array(self::GROUP_ADVANCED),
             )
-
         );
     }
 
     public function getValues(Query $query, $offset = 0, $limit = null)
     {
-        if ($query->getParameter('client')->getValue() == null)
+        if ($query->getParameter('client')->getValue() === null) {
             return array();
+        }
 
-        $optionsArray = explode("|",$query->getParameter('client')->getValue());
+        $optionsArray = explode('|', $query->getParameter('client')->getValue());
         /*
          * \Contentful\Delivery\Client $contentful_service
          */
@@ -115,10 +114,11 @@ class ContentfulHandler implements QueryTypeHandlerInterface
 
     public function getCount(Query $query)
     {
-        if ($query->getParameter('client')->getValue() == null)
+        if ($query->getParameter('client')->getValue() === null) {
             return 0;
-        
-        $optionsArray = explode("|",$query->getParameter('client')->getValue());
+        }
+
+        $optionsArray = explode('|', $query->getParameter('client')->getValue());
         /*
          * \Contentful\Delivery\Client $contentful_service
          */
@@ -142,7 +142,6 @@ class ContentfulHandler implements QueryTypeHandlerInterface
         return false;
     }
 
-
     /**
      * Builds the query from current parameters.
      *
@@ -156,15 +155,16 @@ class ContentfulHandler implements QueryTypeHandlerInterface
         /*
          * \Contentful\Delivery\Query $contentfulQuery $contentfulQuery
          */
-        $contentfulQuery = new \Contentful\Delivery\Query;
+        $contentfulQuery = new \Contentful\Delivery\Query();
 
         if ($query->getParameter('search_text')->getValue()) {
-            $contentfulQuery->where("query", $query->getParameter('search_text')->getValue());
+            $contentfulQuery->where('query', $query->getParameter('search_text')->getValue());
         }
 
-        $optionsArray = explode("|",$query->getParameter('client')->getValue());
-        if (array_key_exists(1, $optionsArray))
-             $contentfulQuery->setContentType($optionsArray[1]);
+        $optionsArray = explode('|', $query->getParameter('client')->getValue());
+        if (array_key_exists(1, $optionsArray)) {
+            $contentfulQuery->setContentType($optionsArray[1]);
+        }
 
         if (!$buildCountQuery) {
             $offset = $query->getParameter('offset')->getValue();
@@ -174,7 +174,7 @@ class ContentfulHandler implements QueryTypeHandlerInterface
 
         $sortType = $query->getParameter('sort_type')->getValue();
         if ($sortType) {
-            $contentfulQuery->orderBy($sortType,$query->getParameter('sort_direction')->getValue());
+            $contentfulQuery->orderBy($sortType, $query->getParameter('sort_direction')->getValue());
         }
 
         return $contentfulQuery;

@@ -8,12 +8,12 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class ContentType extends Mapper
 {
     /**
-     * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful
+     * @var \Netgen\BlockManager\Contentful\Service\Contentful
      */
     private $contentful;
 
     public function __construct(
-        \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful $contentful
+        \Netgen\BlockManager\Contentful\Service\Contentful $contentful
     ) {
         $this->contentful = $contentful;
     }
@@ -32,9 +32,7 @@ class ContentType extends Mapper
     {
         return array(
             'choices' => $this->contentful->getSpacesAndContentTypesAsChoices(),
-            'multiple' => true
+            'multiple' => true,
         );
     }
-
-
 }

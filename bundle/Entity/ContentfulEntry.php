@@ -2,11 +2,10 @@
 
 namespace Netgen\Bundle\ContentfulBlockManagerBundle\Entity;
 
-use Exception;
 use Contentful\Delivery\EntryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Cmf\Component\Routing\RouteObjectInterface;
+use Exception;
 use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
 
 /**
@@ -42,217 +41,24 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     private $isDeleted;
 
     /**
-     * @var EntryInterface $entry
-     * original entry
+     * Original Contentful entry.
+     *
+     * @var \Contentful\Delivery\DynamicEntry
      */
-    private $remote_entry;
+    private $remoteEntry;
 
     /**
-     * @var RouteObjectInterface[]|ArrayCollection
+     * @var \Symfony\Cmf\Component\Routing\RouteObjectInterface[]|\Doctrine\Common\Collections\ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route", cascade={"persist", "remove"})
      */
     private $routes;
 
-    public function __construct(EntryInterface $remote_entry)
+    public function __construct(EntryInterface $remoteEntry)
     {
         $this->routes = new ArrayCollection();
-        $this->setRemoteEntry($remote_entry);
+        $this->setRemoteEntry($remoteEntry);
     }
-
-    /**
-     * Get id
-     *
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set id
-     *
-     * @param string $id
-     * @return ContentfulEntry
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return ContentfulEntry
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get json
-     *
-     * @return string
-     */
-    public function getJson()
-    {
-        return $this->json;
-    }
-
-    /**
-     * Set isPublished
-     *
-     * @param boolean
-     * @return ContentfulEntry
-     */
-    public function setIsPublished($isPublished)
-    {
-        $this->isPublished = $isPublished;
-
-        return $this;
-    }
-
-    /**
-     * Get isPublished
-     *
-     * @return boolean
-     */
-    public function getIsPublished()
-    {
-        return $this->isPublished;
-    }
-
-    /**
-     * Set isDeleted
-     *
-     * @param boolean
-     * @return ContentfulEntry
-     */
-    public function setIsDeleted($isDeleted)
-    {
-        $this->isDeleted = $isDeleted;
-
-        return $this;
-    }
-
-    /**
-     * Get isDeleted
-     *
-     * @return boolean
-     */
-    public function getIsDeleted()
-    {
-        return $this->isDeleted;
-    }
-    
-    /**
-     * Set json
-     *
-     * @param string $json
-     * @return ContentfulEntry
-     */
-    public function setJson($json)
-    {
-        $this->json = $json;
-
-        return $this;
-    }
-
-    /**
-     * @return RouteObjectInterface[]|ArrayCollection
-     */
-    public function getRoutes()
-    {
-        return $this->routes;
-    }
-
-    /**
-     * @param RouteObjectInterface[]|ArrayCollection $routes
-     */
-    public function setRoutes($routes)
-    {
-        $this->routes = $routes;
-    }
-
-    /**
-     * @param RouteObjectInterface $route
-     *
-     * @return $this
-     */
-    public function addRoute($route)
-    {
-        $this->routes[] = $route;
-
-        return $this;
-    }
-
-    /**
-     * @param RouteObjectInterface $route
-     *
-     * @return $this
-     */
-    public function removeRoute($route)
-    {
-        $this->routes->removeElement($route);
-
-        return $this;
-    }
-
-    /**
-     * @return EntryInterface
-     */
-    public function getRemoteEntry()
-    {
-        return $this->remote_entry;
-    }
-
-
-    public function getRevision()
-    {
-        return $this->remote_entry->getRevision();
-    }
-
-    public function getUpdatedAt()
-    {
-        return $this->remote_entry->getUpdatedAt();
-    }
-
-    public function getCreatedAt()
-    {
-        return $this->remote_entry->getCreatedAt();
-    }
-
-    public function getSpace()
-    {
-        return $this->remote_entry->getSpace();
-    }
-
-    public function getContentType()
-    {
-        return $this->remote_entry->getContentType();
-    }
-
-    public function jsonSerialize() {
-        return $this->remote_entry->jsonSerialize();
-    }
-
 
     /**
      * @param  string $name
@@ -268,22 +74,223 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
 
         $ret = null;
         try {
-            $ret = call_user_func(array($this->remote_entry, $name));
-        } catch (Exception $e) {}
+            $ret = call_user_func(array($this->remoteEntry, $name));
+        } catch (Exception $e) {
+        }
 
         return $ret;
     }
 
     /**
-     * @param EntryInterface $remote_entry
+     * Get id.
+     *
+     * @return string
      */
-    public function setRemoteEntry($remote_entry)
+    public function getId()
     {
-        $this->remote_entry = $remote_entry;
-        $this->id = $this->remote_entry->getSpace()->getId() ."|". $this->remote_entry->getId();
+        return $this->id;
+    }
 
-        $name_field = $this->remote_entry->getContentType()->getDisplayField();
-        $this->name = call_user_func(array($this->remote_entry, "get".$name_field->getId()));
+    /**
+     * Set id.
+     *
+     * @param string $id
+     *
+     * @return ContentfulEntry
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set name.
+     *
+     * @param string $name
+     *
+     * @return ContentfulEntry
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get json.
+     *
+     * @return string
+     */
+    public function getJson()
+    {
+        return $this->json;
+    }
+
+    /**
+     * Set isPublished.
+     *
+     * @param bool
+     * @param mixed $isPublished
+     *
+     * @return ContentfulEntry
+     */
+    public function setIsPublished($isPublished)
+    {
+        $this->isPublished = $isPublished;
+
+        return $this;
+    }
+
+    /**
+     * Get isPublished.
+     *
+     * @return bool
+     */
+    public function getIsPublished()
+    {
+        return $this->isPublished;
+    }
+
+    /**
+     * Set isDeleted.
+     *
+     * @param bool
+     * @param mixed $isDeleted
+     *
+     * @return ContentfulEntry
+     */
+    public function setIsDeleted($isDeleted)
+    {
+        $this->isDeleted = $isDeleted;
+
+        return $this;
+    }
+
+    /**
+     * Get isDeleted.
+     *
+     * @return bool
+     */
+    public function getIsDeleted()
+    {
+        return $this->isDeleted;
+    }
+
+    /**
+     * Set json.
+     *
+     * @param string $json
+     *
+     * @return ContentfulEntry
+     */
+    public function setJson($json)
+    {
+        $this->json = $json;
+
+        return $this;
+    }
+
+    /**
+     * @return \Symfony\Cmf\Component\Routing\RouteObjectInterface[]|\Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getRoutes()
+    {
+        return $this->routes;
+    }
+
+    /**
+     * @param \Symfony\Cmf\Component\Routing\RouteObjectInterface[]|\Doctrine\Common\Collections\ArrayCollection $routes
+     */
+    public function setRoutes($routes)
+    {
+        $this->routes = $routes;
+    }
+
+    /**
+     * @param \Symfony\Cmf\Component\Routing\RouteObjectInterface $route
+     *
+     * @return $this
+     */
+    public function addRoute($route)
+    {
+        $this->routes[] = $route;
+
+        return $this;
+    }
+
+    /**
+     * @param \Symfony\Cmf\Component\Routing\RouteObjectInterface $route
+     *
+     * @return $this
+     */
+    public function removeRoute($route)
+    {
+        $this->routes->removeElement($route);
+
+        return $this;
+    }
+
+    /**
+     * @return \Contentful\Delivery\EntryInterface
+     */
+    public function getRemoteEntry()
+    {
+        return $this->remoteEntry;
+    }
+
+    public function getRevision()
+    {
+        return $this->remoteEntry->getRevision();
+    }
+
+    public function getUpdatedAt()
+    {
+        return $this->remoteEntry->getUpdatedAt();
+    }
+
+    public function getCreatedAt()
+    {
+        return $this->remoteEntry->getCreatedAt();
+    }
+
+    public function getSpace()
+    {
+        return $this->remoteEntry->getSpace();
+    }
+
+    public function getContentType()
+    {
+        return $this->remoteEntry->getContentType();
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->remoteEntry->jsonSerialize();
+    }
+
+    /**
+     * @param \Contentful\Delivery\EntryInterface $remoteEntry
+     */
+    public function setRemoteEntry($remoteEntry)
+    {
+        $this->remoteEntry = $remoteEntry;
+        $this->id = $this->remoteEntry->getSpace()->getId() . '|' . $this->remoteEntry->getId();
+
+        $name_field = $this->remoteEntry->getContentType()->getDisplayField();
+        $this->name = call_user_func(array($this->remoteEntry, 'get' . $name_field->getId()));
     }
 
     /**
@@ -291,10 +298,10 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
      */
     public function reviveRemoteEntry($client)
     {
-        $this->remote_entry = $client->reviveJson($this->json);
-        $this->id = $this->remote_entry->getSpace()->getId() ."|". $this->remote_entry->getId();
+        $this->remoteEntry = $client->reviveJson($this->json);
+        $this->id = $this->remoteEntry->getSpace()->getId() . '|' . $this->remoteEntry->getId();
 
-        $name_field = $this->remote_entry->getContentType()->getDisplayField();
-        $this->name = call_user_func(array($this->remote_entry, "get".$name_field->getId()));
+        $name_field = $this->remoteEntry->getContentType()->getDisplayField();
+        $this->name = call_user_func(array($this->remoteEntry, 'get' . $name_field->getId()));
     }
 }

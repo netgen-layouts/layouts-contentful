@@ -1,26 +1,31 @@
 services:
     netgen_block_manager.contentful.target_type.contentful_entry_target:
         class: Netgen\BlockManager\Contentful\Layout\Resolver\TargetType\Entry
+        public: false
         tags:
             - { name: netgen_block_manager.layout.resolver.target_type }
 
     netgen_block_manager.contentful.target_type.form.mapper.contentful_entry_target:
         class: Netgen\BlockManager\Contentful\Layout\Resolver\TargetType\FormMapper\Entry
+        public: false
         tags:
             - { name: netgen_block_manager.layout.resolver.form.target_type.mapper, target_type: contentful_entry }
 
     netgen_block_manager.contentful.target_handler.doctrine.contentful_entry_target:
         class: Netgen\BlockManager\Contentful\Layout\Resolver\TargetHandler\Entry
+        public: false
         tags:
             - { name: netgen_block_manager.persistence.doctrine.layout_resolver.query_handler.target_handler, target_type: contentful_entry }
 
     netgen_block_manager.contentful.target_type.contentful_space_target:
         class: Netgen\BlockManager\Contentful\Layout\Resolver\TargetType\Space
+        public: false
         tags:
             - { name: netgen_block_manager.layout.resolver.target_type }
 
     netgen_block_manager.contentful.target_type.form.mapper.contentful_space_target:
         class: Netgen\BlockManager\Contentful\Layout\Resolver\TargetType\FormMapper\Space
+        public: false
         arguments:
             - "@netgen_block_manager.contentful.service"
         tags:
@@ -28,11 +33,13 @@ services:
 
     netgen_block_manager.contentful.target_handler.doctrine.contentful_space_target:
         class: Netgen\BlockManager\Contentful\Layout\Resolver\TargetHandler\Space
+        public: false
         tags:
             - { name: netgen_block_manager.persistence.doctrine.layout_resolver.query_handler.target_handler, target_type: contentful_space }
 
     netgen_block_manager.contentful.condition_type.contentful_content_type_condition:
         class: Netgen\BlockManager\Contentful\Layout\Resolver\ConditionType\ContentType
+        public: false
         arguments:
             - "@netgen_block_manager.contentful.service"
         tags:
@@ -40,6 +47,7 @@ services:
 
     netgen_block_manager.contentful.condition_type.form.mapper.contentful_content_type_condition:
         class: Netgen\BlockManager\Contentful\Layout\Resolver\ConditionType\FormMapper\ContentType
+        public: false
         arguments:
             - "@netgen_block_manager.contentful.service"
         tags:

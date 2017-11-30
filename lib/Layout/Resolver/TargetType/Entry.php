@@ -4,9 +4,9 @@ namespace Netgen\BlockManager\Contentful\Layout\Resolver\TargetType;
 
 use Exception;
 use Netgen\BlockManager\Layout\Resolver\TargetTypeInterface;
+use Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints;
-use Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
 
 class Entry implements TargetTypeInterface
 {
@@ -18,18 +18,19 @@ class Entry implements TargetTypeInterface
     public function getConstraints()
     {
         return array(
-            new Constraints\NotBlank()
+            new Constraints\NotBlank(),
         );
     }
 
     public function provideValue(Request $request)
     {
-        $id = $request->attributes->get("_content_id");
-        if ($id == null)
+        $id = $request->attributes->get('_content_id');
+        if ($id === null) {
             return null;
-        
-        $id_array = explode(":", $id);
-        if (count($id_array) != 2) {
+        }
+
+        $id_array = explode(':', $id);
+        if (count($id_array) !== 2) {
             throw new Exception(
                 sprintf(
                     'Item ID %s not valid.',
@@ -38,8 +39,9 @@ class Entry implements TargetTypeInterface
             );
         }
 
-        if ($id_array[0] == ContentfulEntry::class)
+        if ($id_array[0] === ContentfulEntry::class) {
             return $id_array[1];
+        }
 
         return null;
     }
