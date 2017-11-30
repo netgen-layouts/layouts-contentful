@@ -1,4 +1,4 @@
 block_type_groups:
     placeholders:
-        block_types: [twig_block, full_view, contentful_entry_field]
+        block_types: [contentful_entry_field]
 
