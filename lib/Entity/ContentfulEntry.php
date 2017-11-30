@@ -1,44 +1,43 @@
 <?php
 
-namespace Netgen\Bundle\ContentfulBlockManagerBundle\Entity;
+namespace Netgen\BlockManager\Contentful\Entity;
 
 use Contentful\Delivery\EntryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
 
-/**
- * @ORM\Table(name="contentful_entry")
- * @ORM\Entity
- */
 final class ContentfulEntry implements RouteReferrersInterface, EntryInterface
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="string")
+     * @var string
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @var string
      */
     private $name;
 
     /**
-     * @ORM\Column(type="text")
+     * @var string
      */
     private $json;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @var bool
      */
     private $isPublished;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @var bool
      */
     private $isDeleted;
+
+    /**
+     * @var \Symfony\Cmf\Component\Routing\RouteObjectInterface[]|\Doctrine\Common\Collections\ArrayCollection
+     */
+    private $routes;
 
     /**
      * Original Contentful entry.
@@ -46,13 +45,6 @@ final class ContentfulEntry implements RouteReferrersInterface, EntryInterface
      * @var \Contentful\Delivery\DynamicEntry
      */
     private $remoteEntry;
-
-    /**
-     * @var \Symfony\Cmf\Component\Routing\RouteObjectInterface[]|\Doctrine\Common\Collections\ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route", cascade={"persist", "remove"})
-     */
-    private $routes;
 
     public function __construct(EntryInterface $remoteEntry)
     {

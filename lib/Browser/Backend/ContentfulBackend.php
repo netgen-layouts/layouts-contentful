@@ -6,8 +6,8 @@ use Contentful\Delivery\Client;
 use Netgen\BlockManager\Contentful\Browser\Item\Client\Location;
 use Netgen\BlockManager\Contentful\Browser\Item\Client\RootLocation;
 use Netgen\BlockManager\Contentful\Browser\Item\Entry\Item;
+use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
 use Netgen\BlockManager\Contentful\Service\Contentful;
-use Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
 use Netgen\ContentBrowser\Backend\BackendInterface;
 use Netgen\ContentBrowser\Item\LocationInterface;
 
@@ -51,7 +51,7 @@ final class ContentfulBackend implements BackendInterface
     public function loadItem($id)
     {
         /**
-         * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry
+         * @var \Netgen\BlockManager\Contentful\Entity\ContentfulEntry
          */
         $contentfulEntry = $this->contentful->loadContentfulEntry($id);
 
@@ -153,7 +153,7 @@ final class ContentfulBackend implements BackendInterface
     /**
      * Builds the item from provided client.
      *
-     * @param \Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry $entry
+     * @param \Netgen\BlockManager\Contentful\Entity\ContentfulEntry $entry
      *
      * @return \Netgen\BlockManager\Contentful\Browser\Item\Entry\Item
      */
@@ -165,7 +165,7 @@ final class ContentfulBackend implements BackendInterface
     /**
      * Builds the locations from provided clients.
      *
-     * @param \Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry[] $entries
+     * @param \Netgen\BlockManager\Contentful\Entity\ContentfulEntry[] $entries
      *
      * @return \Netgen\BlockManager\Contentful\Browser\Item\Entry\Item[]
      */

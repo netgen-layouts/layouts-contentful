@@ -40,6 +40,7 @@ final class NetgenContentfulBlockManagerExtension extends Extension implements P
             'view/rule_condition_view.yml' => 'netgen_block_manager',
             'view/block_view.yml' => 'netgen_block_manager',
             'browser/item_types.yml' => 'netgen_content_browser',
+            'framework/doctrine.yml' => 'doctrine',
         );
 
         foreach ($prependConfigs as $configFile => $prependConfig) {

@@ -5,7 +5,7 @@ namespace Netgen\BlockManager\Contentful\Service;
 use Contentful\Delivery\EntryInterface;
 use Contentful\Delivery\Query;
 use Exception;
-use Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
+use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
