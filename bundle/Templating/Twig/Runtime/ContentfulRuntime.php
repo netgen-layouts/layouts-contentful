@@ -2,6 +2,8 @@
 
 namespace Netgen\Bundle\ContentfulBlockManagerBundle\Templating\Twig\Runtime;
 
+use Contentful\Delivery\Client;
+use Contentful\Delivery\ContentType;
 use Exception;
 use Netgen\BlockManager\Contentful\Service\Contentful;
 
@@ -45,6 +47,9 @@ final class ContentfulRuntime
     public function contentfulSpaceName($spaceId)
     {
         $client = $this->contentful->getClientBySpaceId($spaceId);
+        if (!$client instanceof Client) {
+            return '';
+        }
 
         return $client->getSpace()->getName();
     }
@@ -59,6 +64,9 @@ final class ContentfulRuntime
     public function contentfulContentTypeName($contentTypeId)
     {
         $contentType = $this->contentful->getContentType($contentTypeId);
+        if (!$contentType instanceof ContentType) {
+            return '';
+        }
 
         return $contentType->getName();
     }

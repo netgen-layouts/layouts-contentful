@@ -97,10 +97,9 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
 
         $optionsArray = explode('|', $query->getParameter('client')->getValue());
 
-        /** @var \Contentful\Delivery\Client $contentfulService */
-        $contentfulService = $this->contentful->getClientByName($optionsArray[0]);
+        $client = $this->contentful->getClientByName($optionsArray[0]);
 
-        return $this->contentful->getContentfulEntries($offset, $limit, $contentfulService, $this->buildQuery($query));
+        return $this->contentful->getContentfulEntries($offset, $limit, $client, $this->buildQuery($query));
     }
 
     public function getCount(Query $query)
@@ -111,10 +110,9 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
 
         $optionsArray = explode('|', $query->getParameter('client')->getValue());
 
-        /** @var \Contentful\Delivery\Client $contentfulService */
-        $contentfulService = $this->contentful->getClientByName($optionsArray[0]);
+        $client = $this->contentful->getClientByName($optionsArray[0]);
 
-        return $this->contentful->getContentfulEntriesCount($contentfulService, $this->buildQuery($query, true));
+        return $this->contentful->getContentfulEntriesCount($client, $this->buildQuery($query, true));
     }
 
     public function getInternalLimit(Query $query)
