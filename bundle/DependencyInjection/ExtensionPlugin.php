@@ -4,7 +4,7 @@ namespace Netgen\Bundle\ContentfulBlockManagerBundle\DependencyInjection;
 
 use Netgen\Bundle\BlockManagerBundle\DependencyInjection\ExtensionPlugin as BaseExtensionPlugin;
 
-class ExtensionPlugin extends BaseExtensionPlugin
+final class ExtensionPlugin extends BaseExtensionPlugin
 {
     /**
      * Returns the array of files to be appended to main bundle configuration.

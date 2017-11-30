@@ -5,7 +5,7 @@ namespace Netgen\Bundle\ContentfulBlockManagerBundle\Templating\Twig\Runtime;
 use Exception;
 use Netgen\BlockManager\Contentful\Service\Contentful;
 
-class ContentfulRuntime
+final class ContentfulRuntime
 {
     /**
      * @var \Netgen\BlockManager\Contentful\Service\Contentful

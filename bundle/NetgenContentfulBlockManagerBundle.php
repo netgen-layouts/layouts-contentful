@@ -6,7 +6,7 @@ use Netgen\Bundle\ContentfulBlockManagerBundle\DependencyInjection\ExtensionPlug
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class NetgenContentfulBlockManagerBundle extends Bundle
+final class NetgenContentfulBlockManagerBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {

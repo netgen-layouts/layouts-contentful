@@ -6,7 +6,7 @@ use Netgen\BlockManager\Contentful\Service\Contentful;
 use Symfony\Cmf\Component\Routing\Enhancer\RouteEnhancerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class ContentfulEnhancer implements RouteEnhancerInterface
+final class ContentfulEnhancer implements RouteEnhancerInterface
 {
     /**
      * @var \Netgen\BlockManager\Contentful\Service\Contentful

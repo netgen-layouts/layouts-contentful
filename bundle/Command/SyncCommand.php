@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-class SyncCommand extends ContainerAwareCommand
+final class SyncCommand extends ContainerAwareCommand
 {
     /**
      * @var \Netgen\BlockManager\Contentful\Service\Contentful
@@ -75,7 +75,7 @@ class SyncCommand extends ContainerAwareCommand
         }
     }
 
-    protected function buildContentEntries($entries, OutputInterface $output)
+    private function buildContentEntries($entries, OutputInterface $output)
     {
         foreach ($entries as $remoteEntry) {
             if ($remoteEntry instanceof DynamicEntry) {

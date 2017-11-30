@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ContentfulController extends Controller
+final class ContentfulController extends Controller
 {
     /*
      * Contentful topic constants (sent as X-Contentful-Topic header)

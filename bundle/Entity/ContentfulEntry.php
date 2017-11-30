@@ -12,7 +12,7 @@ use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
  * @ORM\Table(name="contentful_entry")
  * @ORM\Entity
  */
-class ContentfulEntry implements RouteReferrersInterface, EntryInterface
+final class ContentfulEntry implements RouteReferrersInterface, EntryInterface
 {
     /**
      * @ORM\Id
