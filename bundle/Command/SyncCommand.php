@@ -8,6 +8,7 @@ use Netgen\BlockManager\Contentful\Service\Contentful;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 
 final class SyncCommand extends ContainerAwareCommand
@@ -21,6 +22,11 @@ final class SyncCommand extends ContainerAwareCommand
      * @var array
      */
     private $contentfulClients;
+
+    /**
+     * @var \Symfony\Component\Console\Style\SymfonyStyle
+     */
+    private $io;
 
     public function __construct(Contentful $contentful, array $contentfulClients)
     {
@@ -40,8 +46,10 @@ final class SyncCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->io = new SymfonyStyle($input, $output);
+
         if (empty($this->contentfulClients)) {
-            $output->writeln('<comment>There are no Contentful clients configured.</comment>');
+            $this->io->error('There are no Contentful clients configured.');
 
             return;
         }
@@ -52,7 +60,6 @@ final class SyncCommand extends ContainerAwareCommand
             $clientService = $this->getContainer()->get($client['service']);
 
             $this->contentful->refreshSpaceCache($clientService, $fs);
-
             $this->contentful->refreshContentTypeCache($clientService, $fs);
 
             /** @var \Contentful\Delivery\Synchronization\Manager $syncManager */
@@ -66,7 +73,7 @@ final class SyncCommand extends ContainerAwareCommand
                 $result = $syncManager->continueSync($token);
             }
 
-            $this->buildContentEntries($result->getItems(), $output);
+            $this->buildContentEntries($result->getItems());
 
             if (!$result->isDone()) {
                 $token = $result->getToken();
@@ -75,17 +82,17 @@ final class SyncCommand extends ContainerAwareCommand
         }
     }
 
-    private function buildContentEntries($entries, OutputInterface $output)
+    private function buildContentEntries($entries)
     {
         foreach ($entries as $remoteEntry) {
             if ($remoteEntry instanceof DynamicEntry) {
                 $contentfulEntry = $this->contentful->refreshContentfulEntry($remoteEntry);
-                $output->writeln('<comment>Remote entry ' . $contentfulEntry->getId() . ' synced.</comment>');
+                $this->io->writeln(sprintf('Remote entry %s synced.', $contentfulEntry->getId()));
             } elseif ($remoteEntry instanceof DeletedEntry) {
                 $contentfulEntry = $this->contentful->deleteContentfulEntry($remoteEntry);
-                $output->writeln('<comment>Remote entry ' . $contentfulEntry->getId() . ' deleted.</comment>');
+                $this->io->writeln(sprintf('Remote entry %s deleted.', $contentfulEntry->getId()));
             } else {
-                $output->writeln('<comment>Unexpected entry ' . get_class($remoteEntry) . '. Not synced.</comment>');
+                $this->io->writeln(sprintf('Unexpected entry %s. Not synced.', get_class($remoteEntry)));
             }
         }
     }
