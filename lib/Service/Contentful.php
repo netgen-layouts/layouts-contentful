@@ -2,8 +2,10 @@
 
 namespace Netgen\BlockManager\Contentful\Service;
 
+use Contentful\Delivery\Client;
 use Contentful\Delivery\EntryInterface;
 use Contentful\Delivery\Query;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
@@ -13,9 +15,19 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 final class Contentful
 {
     /**
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     */
+    private $container;
+
+    /**
      * @var \Contentful\Delivery\Client
      */
     private $defaultClient;
+
+    /**
+     * @var \Doctrine\ORM\EntityManagerInterface
+     */
+    private $entityManager;
 
     /**
      * @var array
@@ -23,24 +35,22 @@ final class Contentful
     private $clientsConfig;
 
     /**
-     * @var ContainerInterface
+     * @var string
      */
-    private $container;
-
-    /**
-     * @var \Doctrine\ORM\EntityManagerInterface
-     */
-    private $entityManager;
+    private $cacheDir;
 
     public function __construct(
-        array $clientsConfig,
         ContainerInterface $container,
-        $entityManager
+        Client $defaultClient,
+        EntityManagerInterface $entityManager,
+        array $clientsConfig,
+        $cacheDir
     ) {
-        $this->clientsConfig = $clientsConfig;
         $this->container = $container;
-        $this->defaultClient = $this->container->get('contentful.delivery');
+        $this->defaultClient = $defaultClient;
         $this->entityManager = $entityManager;
+        $this->clientsConfig = $clientsConfig;
+        $this->cacheDir = $cacheDir;
 
         if (count($this->clientsConfig) === 0) {
             throw new Contentful\Exception\ApiException(
@@ -338,7 +348,7 @@ final class Contentful
     public function getSpaceCachePath($client, $fs)
     {
         $space = $client->getSpace();
-        $spacePath = $this->container->getParameter('kernel.cache_dir') . '/contentful/' . $space->getId();
+        $spacePath = $this->cacheDir . $space->getId();
         if (!$fs->exists($spacePath)) {
             $fs->mkdir($spacePath);
         }

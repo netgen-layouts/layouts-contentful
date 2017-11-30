@@ -27,6 +27,7 @@ final class NetgenContentfulBlockManagerExtension extends Extension implements P
         $loader->load('services/templating.yml');
         $loader->load('services/query_types.yml');
         $loader->load('browser/services.yml');
+        $loader->load('default_settings.yml');
     }
 
     public function prepend(ContainerBuilder $container)
