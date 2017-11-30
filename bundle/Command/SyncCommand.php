@@ -82,6 +82,11 @@ final class SyncCommand extends ContainerAwareCommand
         }
     }
 
+    /**
+     * Builds the local content entries from provided remote entries.
+     *
+     * @param \Contentful\Delivery\EntryInterface[] $entries
+     */
     private function buildContentEntries($entries)
     {
         foreach ($entries as $remoteEntry) {

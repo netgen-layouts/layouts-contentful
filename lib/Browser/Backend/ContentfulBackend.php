@@ -6,20 +6,20 @@ use Contentful\Delivery\Client;
 use Netgen\BlockManager\Contentful\Browser\Item\Client\Location;
 use Netgen\BlockManager\Contentful\Browser\Item\Client\RootLocation;
 use Netgen\BlockManager\Contentful\Browser\Item\Entry\Item;
+use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
 use Netgen\ContentBrowser\Backend\BackendInterface;
 use Netgen\ContentBrowser\Item\LocationInterface;
 
-class ContentfulBackend implements BackendInterface
+final class ContentfulBackend implements BackendInterface
 {
     /**
      * @var \Netgen\BlockManager\Contentful\Service\Contentful
      */
     private $contentful;
 
-    public function __construct(
-        \Netgen\BlockManager\Contentful\Service\Contentful $contentful
-    ) {
+    public function __construct(Contentful $contentful)
+    {
         $this->contentful = $contentful;
     }
 
@@ -34,17 +34,15 @@ class ContentfulBackend implements BackendInterface
             return new RootLocation();
         }
 
-        /**
-         * @var \Contentful\Delivery\Client
-         */
-        $client_service = $this->contentful->getClientByName($id);
+        /** @var \Contentful\Delivery\Client $clientService */
+        $clientService = $this->contentful->getClientByName($id);
         $space = $this->contentful->getSpaceByClientName($id);
 
-        return new Location($client_service, $space);
+        return new Location($clientService, $space);
     }
 
     /**
-     * Loads contentful entry.
+     * Loads a Contentful entry by its ID.
      *
      * @param string $id
      *
@@ -81,10 +79,11 @@ class ContentfulBackend implements BackendInterface
     }
 
     /**
-     * gets contentful entries.
+     * Loads Contentful entries located below provided location.
      *
-     * @param mixed $offset
-     * @param mixed $limit
+     * @param \Netgen\ContentBrowser\Item\LocationInterface $location
+     * @param int $offset
+     * @param int $limit
      *
      * @return \Netgen\BlockManager\Contentful\Browser\Item\Entry\Item[]
      */
@@ -96,9 +95,7 @@ class ContentfulBackend implements BackendInterface
             $contentfulEntries = $this->contentful->getContentfulEntries($offset, $limit, $location->getClient());
         }
 
-        return $this->buildItems(
-            $contentfulEntries
-        );
+        return $this->buildItems($contentfulEntries);
     }
 
     public function getSubItemsCount(LocationInterface $location)
@@ -126,7 +123,7 @@ class ContentfulBackend implements BackendInterface
      * Builds the location from provided client.
      *
      * @param \Contentful\Delivery\Client $client
-     * @param mixed $id
+     * @param string $id
      *
      * @return \Netgen\BlockManager\Contentful\Browser\Item\Client\Location
      */

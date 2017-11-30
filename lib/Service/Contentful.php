@@ -10,17 +10,17 @@ use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class Contentful
+final class Contentful
 {
     /**
      * @var \Contentful\Delivery\Client
      */
-    private $default_client;
+    private $defaultClient;
 
     /**
      * @var array
      */
-    private $clients_config;
+    private $clientsConfig;
 
     /**
      * @var ContainerInterface
@@ -30,19 +30,19 @@ class Contentful
     /**
      * @var \Doctrine\ORM\EntityManagerInterface
      */
-    private $entity_manager;
+    private $entityManager;
 
     public function __construct(
-        array $clients_config,
+        array $clientsConfig,
         ContainerInterface $container,
-        $entity_manager
+        $entityManager
     ) {
-        $this->clients_config = $clients_config;
+        $this->clientsConfig = $clientsConfig;
         $this->container = $container;
-        $this->default_client = $this->container->get('contentful.delivery');
-        $this->entity_manager = $entity_manager;
+        $this->defaultClient = $this->container->get('contentful.delivery');
+        $this->entityManager = $entityManager;
 
-        if (count($this->clients_config) === 0) {
+        if (count($this->clientsConfig) === 0) {
             throw new Contentful\Exception\ApiException(
                 sprintf(
                     'No Contentful clients configured'
@@ -58,17 +58,17 @@ class Contentful
 
     public function getClientByName($name)
     {
-        return $this->container->get($this->clients_config[$name]['service']);
+        return $this->container->get($this->clientsConfig[$name]['service']);
     }
 
     public function getSpaceByClientName($name)
     {
-        return $this->clients_config[$name]['space'];
+        return $this->clientsConfig[$name]['space'];
     }
 
     public function getClientBySpaceId($spaceId)
     {
-        foreach ($this->clients_config as $clientName) {
+        foreach ($this->clientsConfig as $clientName) {
             if ($clientName['space'] === $spaceId) {
                 return $this->container->get($clientName['service']);
             }
@@ -83,7 +83,7 @@ class Contentful
          * @var \Contentful\Delivery\Client[]
          */
         $clients = array();
-        foreach ($this->clients_config as $clientName) {
+        foreach ($this->clientsConfig as $clientName) {
             $client = $this->container->get($clientName['service']);
             $clients[] = $client;
         }
@@ -93,7 +93,7 @@ class Contentful
 
     public function getContentType($id)
     {
-        foreach ($this->clients_config as $clientName) {
+        foreach ($this->clientsConfig as $clientName) {
             /**
              * @var \Contentful\Delivery\Client
              */
@@ -110,7 +110,7 @@ class Contentful
 
     public function getClientsNames()
     {
-        return array_keys($this->clients_config);
+        return array_keys($this->clientsConfig);
     }
 
     /*
@@ -172,7 +172,7 @@ class Contentful
     public function getContentfulEntries($offset = 0, $limit = 25, $client = null, $query = null)
     {
         if ($client === null) {
-            $client = $this->default_client;
+            $client = $this->defaultClient;
         }
 
         if ($query === null) {
@@ -187,7 +187,7 @@ class Contentful
     public function getContentfulEntriesCount($client = null, $query = null)
     {
         if ($client === null) {
-            $client = $this->default_client;
+            $client = $this->defaultClient;
         }
 
         if ($query === null) {
@@ -200,7 +200,7 @@ class Contentful
     public function searchContentfulEntries($searchText, $offset = 0, $limit = 25, $client = null)
     {
         if ($client === null) {
-            $client = $this->default_client;
+            $client = $this->defaultClient;
         }
 
         $query = new Query();
@@ -214,7 +214,7 @@ class Contentful
     public function searchContentfulEntriesCount($searchText, $client = null)
     {
         if ($client === null) {
-            $client = $this->default_client;
+            $client = $this->defaultClient;
         }
 
         $query = new Query();
@@ -230,7 +230,7 @@ class Contentful
     public function getClientsAndContentTypesAsChoices()
     {
         $clientsAndContentTypes = array();
-        foreach ($this->clients_config as $clientName => $clientDetails) {
+        foreach ($this->clientsConfig as $clientName => $clientDetails) {
             /**
              * @var \Contentful\Delivery\Client
              */
@@ -247,7 +247,7 @@ class Contentful
     public function getSpacesAsChoices()
     {
         $spaces = array();
-        foreach ($this->clients_config as $clientName) {
+        foreach ($this->clientsConfig as $clientName) {
             $spaces[$this->container->get($clientName['service'])->getSpace()->getName()] = $clientName['space'];
         }
 
@@ -257,7 +257,7 @@ class Contentful
     public function getSpacesAndContentTypesAsChoices()
     {
         $spaces = array();
-        foreach ($this->clients_config as $clientName) {
+        foreach ($this->clientsConfig as $clientName) {
             /**
              * @var \Contentful\Delivery\Client
              */
@@ -284,8 +284,8 @@ class Contentful
         if ($contentfulEntry instanceof ContentfulEntry) {
             $contentfulEntry->setJson(json_encode($remote_entry));
             $contentfulEntry->setIsPublished(true);
-            $this->entity_manager->persist($contentfulEntry);
-            $this->entity_manager->flush();
+            $this->entityManager->persist($contentfulEntry);
+            $this->entityManager->flush();
         } else {
             $contentfulEntry = $this->buildContentfulEntry($remote_entry, $id);
         }
@@ -299,8 +299,8 @@ class Contentful
         $contentfulEntry = $this->findContentfulEntry($id);
         if ($contentfulEntry instanceof ContentfulEntry) {
             $contentfulEntry->setIsPublished(false);
-            $this->entity_manager->persist($contentfulEntry);
-            $this->entity_manager->flush();
+            $this->entityManager->persist($contentfulEntry);
+            $this->entityManager->flush();
         }
     }
 
@@ -310,13 +310,13 @@ class Contentful
         $contentfulEntry = $this->findContentfulEntry($id);
         if ($contentfulEntry instanceof ContentfulEntry) {
             $contentfulEntry->setIsDeleted(true);
-            $this->entity_manager->persist($contentfulEntry);
+            $this->entityManager->persist($contentfulEntry);
 
             foreach ($contentfulEntry->getRoutes() as $route) {
-                $this->entity_manager->remove($route);
+                $this->entityManager->remove($route);
             }
 
-            $this->entity_manager->flush();
+            $this->entityManager->flush();
         }
     }
 
@@ -348,7 +348,7 @@ class Contentful
 
     private function findContentfulEntry($id)
     {
-        $contentfulEntry = $this->entity_manager->getRepository(ContentfulEntry::class)->find($id);
+        $contentfulEntry = $this->entityManager->getRepository(ContentfulEntry::class)->find($id);
 
         return $contentfulEntry;
     }
@@ -368,9 +368,9 @@ class Contentful
         $route->setContent($contentfulEntry);
         $contentfulEntry->addRoute($route); // Create the backlink from content to route
 
-        $this->entity_manager->persist($contentfulEntry);
-        $this->entity_manager->persist($route);
-        $this->entity_manager->flush();
+        $this->entityManager->persist($contentfulEntry);
+        $this->entityManager->persist($route);
+        $this->entityManager->flush();
 
         return $contentfulEntry;
     }

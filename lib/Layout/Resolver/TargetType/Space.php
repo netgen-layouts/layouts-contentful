@@ -7,7 +7,7 @@ use Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints;
 
-class Space implements TargetTypeInterface
+final class Space implements TargetTypeInterface
 {
     public function getType()
     {
@@ -23,25 +23,25 @@ class Space implements TargetTypeInterface
 
     public function provideValue(Request $request)
     {
-        $content_id = $request->attributes->get('_content_id');
-        if ($content_id === null) {
+        $contentId = $request->attributes->get('_content_id');
+        if ($contentId === null) {
             return null;
         }
 
-        $cid_array = explode(':', $content_id);
-        if (count($cid_array) !== 2) {
+        $contentIds = explode(':', $contentId);
+        if (count($contentIds) !== 2) {
             return null;
         }
 
-        if ($cid_array[0] !== ContentfulEntry::class) {
+        if ($contentIds[0] !== ContentfulEntry::class) {
             return null;
         }
 
-        $id_array = explode('|', $cid_array[1]);
-        if (count($id_array) !== 2) {
+        $contentIds = explode('|', $contentIds[1]);
+        if (count($contentIds) !== 2) {
             return null;
         }
 
-        return $id_array[0];
+        return $contentIds[0];
     }
 }

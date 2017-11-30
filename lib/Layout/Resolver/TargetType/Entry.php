@@ -8,7 +8,7 @@ use Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints;
 
-class Entry implements TargetTypeInterface
+final class Entry implements TargetTypeInterface
 {
     public function getType()
     {
@@ -29,8 +29,8 @@ class Entry implements TargetTypeInterface
             return null;
         }
 
-        $id_array = explode(':', $id);
-        if (count($id_array) !== 2) {
+        $idList = explode(':', $id);
+        if (count($idList) !== 2) {
             throw new Exception(
                 sprintf(
                     'Item ID %s not valid.',
@@ -39,8 +39,8 @@ class Entry implements TargetTypeInterface
             );
         }
 
-        if ($id_array[0] === ContentfulEntry::class) {
-            return $id_array[1];
+        if ($idList[0] === ContentfulEntry::class) {
+            return $idList[1];
         }
 
         return null;

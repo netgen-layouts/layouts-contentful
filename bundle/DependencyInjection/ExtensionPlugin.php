@@ -6,11 +6,6 @@ use Netgen\Bundle\BlockManagerBundle\DependencyInjection\ExtensionPlugin as Base
 
 final class ExtensionPlugin extends BaseExtensionPlugin
 {
-    /**
-     * Returns the array of files to be appended to main bundle configuration.
-     *
-     * @return array
-     */
     public function appendConfigurationFiles()
     {
         return array(
