@@ -8,7 +8,7 @@ Follow the instructions in Netgen Layouts documentation to [install the Block Ma
 
 As a minimum you need to:
 
-* require the `netgen/block-manager` package in Composer
+* require `netgen/block-manager` and `netgen/block-manager-standard` packages in Composer
 * activate all needed bundles
 * activate Block Manager and Content Browser routes
 * import Block Manager database tables with Doctrine Migrations
@@ -42,8 +42,8 @@ security:
             memory:
                 users:
                     admin:
-                        password: thisisalongpasswordwhichyoushouldreplace
-                        roles: 'ROLE_NGBM_ADMIN'
+                        password: admin
+                        roles: ROLE_NGBM_ADMIN
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
 
@@ -51,12 +51,13 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
         main:
             anonymous: ~
             http_basic: ~
 
     access_control:
-        - { path: ^/bm, role: [ROLE_NGBM_ADMIN] }
+        - { path: ^/bm/(api|app|admin), role: [ROLE_NGBM_ADMIN] }
         - { path: ^/cb, role: [ROLE_NGBM_ADMIN] }
 ```
 
