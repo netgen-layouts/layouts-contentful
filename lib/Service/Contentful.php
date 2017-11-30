@@ -134,8 +134,8 @@ final class Contentful
 
     public function loadContentfulEntry($id)
     {
-        $id_array = explode('|', $id);
-        if (count($id_array) !== 2) {
+        $idList = explode('|', $id);
+        if (count($idList) !== 2) {
             throw new Exception(
                 sprintf(
                     'Item ID %s not valid.',
@@ -147,14 +147,14 @@ final class Contentful
         /**
          * @var \Contentful\Delivery\Client
          */
-        $client = $this->getClientBySpaceId($id_array[0]);
+        $client = $this->getClientBySpaceId($idList[0]);
 
         $contentfulEntry = $this->findContentfulEntry($id);
 
         if ($contentfulEntry instanceof ContentfulEntry) {
             $contentfulEntry->reviveRemoteEntry($client);
         } else {
-            $remoteEntry = $client->getEntry($id_array[1]);
+            $remoteEntry = $client->getEntry($idList[1]);
 
             if (!$remoteEntry instanceof EntryInterface) {
                 throw new Exception(
