@@ -12,9 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * A custom controller to handle a content specified by a route.
- */
 class ContentfulController extends Controller
 {
     /*
@@ -29,17 +26,20 @@ class ContentfulController extends Controller
     const CONTENT_TYPE_DELETE = 'ContentManagement.ContentType.delete';
 
     /**
-     * @param object $contentDocument the name of this parameter is defined
-     *      by the RoutingBundle. You can also expect any route parameters
-     *      or $template if you configured templates_by_class (see below).
+     * Renders a Contentful entry.
      *
-     * @return Response
+     * @param object $contentDocument the Contentful entry which is being rendered
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If provided Contentful entry doesn't exist
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function viewAction($contentDocument)
     {
         if (!$contentDocument->getIsPublished() or $contentDocument->getIsDeleted()) {
             throw new NotFoundHttpException('Not found.');
         }
+
         return $this->render('@NetgenContentfulBlockManager/contentful/content.html.twig', array(
             'content' => $contentDocument,
         ));
@@ -47,6 +47,12 @@ class ContentfulController extends Controller
 
     /**
      * Contentful webhook for clearing local caches.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException If the webhook request is not valid
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function webhookAction(Request $request)
     {
@@ -58,9 +64,7 @@ class ContentfulController extends Controller
         $spaceId = $request->headers->get('X-Space-Id');
 
         try {
-            /**
-             * @var \Contentful\Delivery\Client @client
-             */
+            /** @var \Contentful\Delivery\Client $client */
             $client = $service->getClientBySpaceId($spaceId);
             $remote_entry = $client->reviveJson($content);
         } catch (Exception $e) {

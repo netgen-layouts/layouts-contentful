@@ -1,30 +1,30 @@
 <?php
 
-namespace Netgen\Bundle\ContentfulBlockManagerBundle\Twig\Extensions;
+namespace Netgen\Bundle\ContentfulBlockManagerBundle\Templating\Twig\Extension;
 
 use Exception;
-use Twig_Extension;
-use Twig_SimpleFunction;
+use Netgen\BlockManager\Contentful\Service\Contentful;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
-class ContentfulExtension extends Twig_Extension
+class ContentfulExtension extends AbstractExtension
 {
     /**
      * @var \Netgen\BlockManager\Contentful\Service\Contentful
      */
     private $contentful;
 
-    public function __construct(
-        \Netgen\BlockManager\Contentful\Service\Contentful $contentful
-    ) {
+    public function __construct(Contentful $contentful)
+    {
         $this->contentful = $contentful;
     }
 
     public function getFunctions()
     {
         return array(
-            new Twig_SimpleFunction('contentful_entry_name', array($this, 'contentfulEntryName')),
-            new Twig_SimpleFunction('contentful_space_name', array($this, 'contentfulSpaceName')),
-            new Twig_SimpleFunction('contentful_content_type_name', array($this, 'contentfulContentTypeName')),
+            new TwigFunction('contentful_entry_name', array($this, 'contentfulEntryName')),
+            new TwigFunction('contentful_space_name', array($this, 'contentfulSpaceName')),
+            new TwigFunction('contentful_content_type_name', array($this, 'contentfulContentTypeName')),
         );
     }
 

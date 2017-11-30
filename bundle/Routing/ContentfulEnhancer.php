@@ -2,6 +2,7 @@
 
 namespace Netgen\Bundle\ContentfulBlockManagerBundle\Routing;
 
+use Netgen\BlockManager\Contentful\Service\Contentful;
 use Symfony\Cmf\Component\Routing\Enhancer\RouteEnhancerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -12,9 +13,8 @@ class ContentfulEnhancer implements RouteEnhancerInterface
      */
     private $contentful;
 
-    public function __construct(
-        \Netgen\BlockManager\Contentful\Service\Contentful $contentful
-    ) {
+    public function __construct(Contentful $contentful)
+    {
         $this->contentful = $contentful;
     }
 

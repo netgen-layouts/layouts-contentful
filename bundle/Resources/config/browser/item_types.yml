@@ -2,13 +2,11 @@ item_types:
     contentful_entry:
         name: item_types.contentful_entry
         preview:
-            enabled: true
-            template: '@NetgenContentfulBlockManager/ngcb/contentful_entry.html.twig'
+            template: '@NetgenContentfulBlockManager/browser/contentful_entry.html.twig'
         columns:
-            # At least a "name" column must exist
             name:
-                name: columns.name # Will be translated with "ngcb" catalog
-                value_provider: name # Using a built in "name" value provider
+                name: columns.name
+                value_provider: name
             content_type:
                 name: columns.contentful_entry.content_type
                 value_provider: contentful_entry\content_type

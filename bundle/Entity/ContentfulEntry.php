@@ -6,7 +6,6 @@ use Contentful\Delivery\EntryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
-use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
 
 /**
@@ -42,22 +41,23 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     private $isDeleted;
 
     /**
-     * @var EntryInterface
-     * original entry
+     * Original Contentful entry.
+     *
+     * @var \Contentful\Delivery\DynamicEntry
      */
-    private $remote_entry;
+    private $remoteEntry;
 
     /**
-     * @var RouteObjectInterface[]|ArrayCollection
+     * @var \Symfony\Cmf\Component\Routing\RouteObjectInterface[]|\Doctrine\Common\Collections\ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route", cascade={"persist", "remove"})
      */
     private $routes;
 
-    public function __construct(EntryInterface $remote_entry)
+    public function __construct(EntryInterface $remoteEntry)
     {
         $this->routes = new ArrayCollection();
-        $this->setRemoteEntry($remote_entry);
+        $this->setRemoteEntry($remoteEntry);
     }
 
     /**
@@ -74,7 +74,7 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
 
         $ret = null;
         try {
-            $ret = call_user_func(array($this->remote_entry, $name));
+            $ret = call_user_func(array($this->remoteEntry, $name));
         } catch (Exception $e) {
         }
 
@@ -204,7 +204,7 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     }
 
     /**
-     * @return RouteObjectInterface[]|ArrayCollection
+     * @return \Symfony\Cmf\Component\Routing\RouteObjectInterface[]|\Doctrine\Common\Collections\ArrayCollection
      */
     public function getRoutes()
     {
@@ -212,7 +212,7 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     }
 
     /**
-     * @param RouteObjectInterface[]|ArrayCollection $routes
+     * @param \Symfony\Cmf\Component\Routing\RouteObjectInterface[]|\Doctrine\Common\Collections\ArrayCollection $routes
      */
     public function setRoutes($routes)
     {
@@ -220,7 +220,7 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     }
 
     /**
-     * @param RouteObjectInterface $route
+     * @param \Symfony\Cmf\Component\Routing\RouteObjectInterface $route
      *
      * @return $this
      */
@@ -232,7 +232,7 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     }
 
     /**
-     * @param RouteObjectInterface $route
+     * @param \Symfony\Cmf\Component\Routing\RouteObjectInterface $route
      *
      * @return $this
      */
@@ -244,53 +244,53 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     }
 
     /**
-     * @return EntryInterface
+     * @return \Contentful\Delivery\EntryInterface
      */
     public function getRemoteEntry()
     {
-        return $this->remote_entry;
+        return $this->remoteEntry;
     }
 
     public function getRevision()
     {
-        return $this->remote_entry->getRevision();
+        return $this->remoteEntry->getRevision();
     }
 
     public function getUpdatedAt()
     {
-        return $this->remote_entry->getUpdatedAt();
+        return $this->remoteEntry->getUpdatedAt();
     }
 
     public function getCreatedAt()
     {
-        return $this->remote_entry->getCreatedAt();
+        return $this->remoteEntry->getCreatedAt();
     }
 
     public function getSpace()
     {
-        return $this->remote_entry->getSpace();
+        return $this->remoteEntry->getSpace();
     }
 
     public function getContentType()
     {
-        return $this->remote_entry->getContentType();
+        return $this->remoteEntry->getContentType();
     }
 
     public function jsonSerialize()
     {
-        return $this->remote_entry->jsonSerialize();
+        return $this->remoteEntry->jsonSerialize();
     }
 
     /**
-     * @param EntryInterface $remote_entry
+     * @param \Contentful\Delivery\EntryInterface $remoteEntry
      */
-    public function setRemoteEntry($remote_entry)
+    public function setRemoteEntry($remoteEntry)
     {
-        $this->remote_entry = $remote_entry;
-        $this->id = $this->remote_entry->getSpace()->getId() . '|' . $this->remote_entry->getId();
+        $this->remoteEntry = $remoteEntry;
+        $this->id = $this->remoteEntry->getSpace()->getId() . '|' . $this->remoteEntry->getId();
 
-        $name_field = $this->remote_entry->getContentType()->getDisplayField();
-        $this->name = call_user_func(array($this->remote_entry, 'get' . $name_field->getId()));
+        $name_field = $this->remoteEntry->getContentType()->getDisplayField();
+        $this->name = call_user_func(array($this->remoteEntry, 'get' . $name_field->getId()));
     }
 
     /**
@@ -298,10 +298,10 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
      */
     public function reviveRemoteEntry($client)
     {
-        $this->remote_entry = $client->reviveJson($this->json);
-        $this->id = $this->remote_entry->getSpace()->getId() . '|' . $this->remote_entry->getId();
+        $this->remoteEntry = $client->reviveJson($this->json);
+        $this->id = $this->remoteEntry->getSpace()->getId() . '|' . $this->remoteEntry->getId();
 
-        $name_field = $this->remote_entry->getContentType()->getDisplayField();
-        $this->name = call_user_func(array($this->remote_entry, 'get' . $name_field->getId()));
+        $name_field = $this->remoteEntry->getContentType()->getDisplayField();
+        $this->name = call_user_func(array($this->remoteEntry, 'get' . $name_field->getId()));
     }
 }

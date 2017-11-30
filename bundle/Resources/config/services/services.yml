@@ -1,17 +1,16 @@
 services:
     netgen_block_manager.contentful.service:
         class: Netgen\BlockManager\Contentful\Service\Contentful
+        public: true
         arguments:
             - "%contentful.clients%"
             - "@service_container"
             - "@doctrine.orm.entity_manager"
-        public: true
 
-    netgen_block_manager.contentful.sync_command:
+    netgen_block_manager.contentful.command.sync:
         class: Netgen\Bundle\ContentfulBlockManagerBundle\Command\SyncCommand
+        # public: false
         arguments:
               - "@netgen_block_manager.contentful.service"
-        public: true
         tags:
-              - { name: console.command }
-
+              - { name: console.command, command: contentful:sync }

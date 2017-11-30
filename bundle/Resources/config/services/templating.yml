@@ -1,6 +1,7 @@
 services:
-    netgen_block_manager.contentful.twig_function.contentful:
-        class: Netgen\Bundle\ContentfulBlockManagerBundle\Twig\Extensions\ContentfulExtension
+    netgen_block_manager.contentful.templating.twig.extension.contentful:
+        class: Netgen\Bundle\ContentfulBlockManagerBundle\Templating\Twig\Extension\ContentfulExtension
+        public: false
         arguments:
             - "@netgen_block_manager.contentful.service"
         tags:
