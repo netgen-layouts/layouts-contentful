@@ -23,14 +23,10 @@ class ContentfulController extends Controller
     const ENTRY_PUBLISH = "ContentManagement.Entry.publish";
     const ENTRY_UNPUBLISH = "ContentManagement.Entry.unpublish";
     const ENTRY_DELETE = "ContentManagement.Entry.delete";
-    const ENTRY_ARCHIVE = "ContentManagement.Entry.archive";
-    const ENTRY_UNARCHIVE = "ContentManagement.Entry.unarchive";
-    const ENTRY_CREATE = "ContentManagement.Entry.create";
-    
+
     const CONTENT_TYPE_PUBLISH = "ContentManagement.ContentType.publish";
     const CONTENT_TYPE_UNPUBLISH = "ContentManagement.ContentType.unpublish";
     const CONTENT_TYPE_DELETE = "ContentManagement.ContentType.delete";
-    const CONTENT_TYPE_CREATE = "ContentManagement.ContentType.create";
 
     /**
     * @param object $contentDocument the name of this parameter is defined
@@ -73,15 +69,12 @@ class ContentfulController extends Controller
         }
 
         switch ($request->headers->get("X-Contentful-Topic")) {
-            case $this::ENTRY_CREATE:
             case $this::ENTRY_PUBLISH:
-            case $this::ENTRY_UNARCHIVE:
                 if (! $remote_entry instanceof DynamicEntry)
                     throw new BadRequestHttpException("Invalid request");
                 $service->refreshContentfulEntry($remote_entry);
                 break;
             case $this::ENTRY_UNPUBLISH:
-            case $this::ENTRY_ARCHIVE:    
                 if (! $remote_entry instanceof DeletedEntry)
                     throw new BadRequestHttpException("Invalid request");
                 $service->unpublishContentfulEntry($remote_entry);
@@ -91,7 +84,6 @@ class ContentfulController extends Controller
                     throw new BadRequestHttpException("Invalid request");
                 $service->deleteContentfulEntry($remote_entry);
                 break;
-            case $this::CONTENT_TYPE_CREATE:
             case $this::CONTENT_TYPE_PUBLISH:
             case $this::CONTENT_TYPE_UNPUBLISH:
             case $this::CONTENT_TYPE_DELETE:
