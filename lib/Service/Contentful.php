@@ -66,11 +66,6 @@ final class Contentful
         }
     }
 
-    public function __toString()
-    {
-        return 'Contentful service wrapper';
-    }
-
     public function getClientByName($name)
     {
         return $this->container->get($this->clientsConfig[$name]['service']);
