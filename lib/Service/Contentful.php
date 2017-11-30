@@ -1,6 +1,6 @@
 <?php
 
-namespace Netgen\Bundle\ContentfulBlockManagerBundle\Service;
+namespace Netgen\BlockManager\Contentful\Service;
 
 use Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;

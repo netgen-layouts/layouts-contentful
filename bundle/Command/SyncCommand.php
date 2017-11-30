@@ -12,12 +12,12 @@ use Contentful\Delivery\DynamicEntry;
 class SyncCommand extends ContainerAwareCommand
 {
     /**
-     * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful $contentful
+     * @var \Netgen\BlockManager\Contentful\Service\Contentful $contentful
      */
     private $contentful;
 
-    public function __construct(        
-        \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful $contentful
+    public function __construct(
+        \Netgen\BlockManager\Contentful\Service\Contentful $contentful
     )
     {
         parent::__construct();

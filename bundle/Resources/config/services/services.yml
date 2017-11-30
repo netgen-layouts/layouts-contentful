@@ -1,6 +1,6 @@
 services:
     netgen_block_manager.contentful.service:
-        class: Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful
+        class: Netgen\BlockManager\Contentful\Service\Contentful
         arguments:
             - "%contentful.clients%"
             - "@service_container"

@@ -9,12 +9,12 @@ class ContentfulEnhancer implements RouteEnhancerInterface
 {
 
     /**
-     * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful
+     * @var \Netgen\BlockManager\Contentful\Service\Contentful
      */
     private $contentful;
 
     public function __construct(
-        \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful $contentful
+        \Netgen\BlockManager\Contentful\Service\Contentful $contentful
     ) {
         $this->contentful = $contentful;
     }

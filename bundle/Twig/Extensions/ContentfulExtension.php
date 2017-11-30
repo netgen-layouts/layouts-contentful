@@ -9,12 +9,12 @@ use Twig_SimpleFunction;
 class ContentfulExtension extends Twig_Extension
 {
     /**
-     * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful $contentful
+     * @var \Netgen\BlockManager\Contentful\Service\Contentful $contentful
      */
     private $contentful;
 
     public function __construct(
-        \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful $contentful
+        \Netgen\BlockManager\Contentful\Service\Contentful $contentful
     ) {
         $this->contentful = $contentful;
     }

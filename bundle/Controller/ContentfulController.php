@@ -51,7 +51,7 @@ class ContentfulController extends Controller
     public function webhookAction(Request $request)
     {
         /**
-         * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful $service
+         * @var \Netgen\BlockManager\Contentful\Service\Contentful $service
          */
         $service = $this->container->get("netgen_block_manager.contentful.service");
         $content = $request->getContent();

@@ -28,12 +28,12 @@ class ContentfulHandler implements QueryTypeHandlerInterface
     );
 
     /**
-     * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful
+     * @var \Netgen\BlockManager\Contentful\Service\Contentful
      */
     private $contentful;
 
     public function __construct(
-        \Netgen\Bundle\ContentfulBlockManagerBundle\Service\Contentful $contentful
+        \Netgen\BlockManager\Contentful\Service\Contentful $contentful
     ) {
         $this->contentful = $contentful;
     }
@@ -117,7 +117,7 @@ class ContentfulHandler implements QueryTypeHandlerInterface
     {
         if ($query->getParameter('client')->getValue() == null)
             return 0;
-        
+
         $optionsArray = explode("|",$query->getParameter('client')->getValue());
         /*
          * \Contentful\Delivery\Client $contentful_service
