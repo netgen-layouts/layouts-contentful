@@ -3,21 +3,21 @@
 namespace Netgen\BlockManager\Contentful\Layout\Resolver\ConditionType;
 
 use Exception;
+use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\BlockManager\Layout\Resolver\ConditionTypeInterface;
 use Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints;
 
-class ContentType implements ConditionTypeInterface
+final class ContentType implements ConditionTypeInterface
 {
     /**
      * @var \Netgen\BlockManager\Contentful\Service\Contentful
      */
     private $contentful;
 
-    public function __construct(
-        \Netgen\BlockManager\Contentful\Service\Contentful $contentful
-    ) {
+    public function __construct(Contentful $contentful)
+    {
         $this->contentful = $contentful;
     }
 
@@ -40,22 +40,22 @@ class ContentType implements ConditionTypeInterface
             return false;
         }
 
-        $content_id = $request->attributes->get('_content_id');
-        if ($content_id === null) {
+        $contentId = $request->attributes->get('_content_id');
+        if ($contentId === null) {
             return false;
         }
 
-        $cid_array = explode(':', $content_id);
-        if (count($cid_array) !== 2) {
+        $contentIds = explode(':', $contentId);
+        if (count($contentIds) !== 2) {
             return false;
         }
 
-        if ($cid_array[0] !== ContentfulEntry::class) {
+        if ($contentIds[0] !== ContentfulEntry::class) {
             return false;
         }
 
         try {
-            $contentfulEntry = $this->contentful->loadContentfulEntry($cid_array[1]);
+            $contentfulEntry = $this->contentful->loadContentfulEntry($contentIds[1]);
         } catch (Exception $e) {
             return false;
         }

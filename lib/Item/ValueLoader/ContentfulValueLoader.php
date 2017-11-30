@@ -3,6 +3,7 @@
 namespace Netgen\BlockManager\Contentful\Item\ValueLoader;
 
 use Exception;
+use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\BlockManager\Exception\Item\ItemException;
 use Netgen\BlockManager\Item\ValueLoaderInterface;
 
@@ -13,9 +14,8 @@ final class ContentfulValueLoader implements ValueLoaderInterface
      */
     private $contentful;
 
-    public function __construct(
-        \Netgen\BlockManager\Contentful\Service\Contentful $contentful
-    ) {
+    public function __construct(Contentful $contentful)
+    {
         $this->contentful = $contentful;
     }
 

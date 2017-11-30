@@ -2,16 +2,17 @@
 
 namespace Netgen\BlockManager\Contentful\Collection\QueryType\Handler;
 
+use Contentful\Delivery\Query as ContentfulQuery;
 use Netgen\BlockManager\API\Values\Collection\Query;
 use Netgen\BlockManager\Collection\QueryType\QueryTypeHandlerInterface;
+use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\BlockManager\Parameters\ParameterBuilderInterface;
 use Netgen\BlockManager\Parameters\ParameterType;
 
 /**
- * Handler for a query which retrieves the Contentful content
- * based on parameters provided in the query.
+ * Handler for a query which retrieves the entries from Contentful.
  */
-class ContentfulHandler implements QueryTypeHandlerInterface
+final class ContentfulHandler implements QueryTypeHandlerInterface
 {
     /**
      * @const int
@@ -19,21 +20,12 @@ class ContentfulHandler implements QueryTypeHandlerInterface
     const DEFAULT_LIMIT = 25;
 
     /**
-     * @var array
-     */
-    private $sortClauses = array(
-        'sys.createdAt',
-        'sys.updatedAt',
-    );
-
-    /**
      * @var \Netgen\BlockManager\Contentful\Service\Contentful
      */
     private $contentful;
 
-    public function __construct(
-        \Netgen\BlockManager\Contentful\Service\Contentful $contentful
-    ) {
+    public function __construct(Contentful $contentful)
+    {
         $this->contentful = $contentful;
     }
 
@@ -104,12 +96,11 @@ class ContentfulHandler implements QueryTypeHandlerInterface
         }
 
         $optionsArray = explode('|', $query->getParameter('client')->getValue());
-        /*
-         * \Contentful\Delivery\Client $contentful_service
-         */
-        $contentful_service = $this->contentful->getClientByName($optionsArray[0]);
 
-        return $this->contentful->getContentfulEntries($offset, $limit, $contentful_service, $this->buildQuery($query));
+        /** @var \Contentful\Delivery\Client $contentfulService */
+        $contentfulService = $this->contentful->getClientByName($optionsArray[0]);
+
+        return $this->contentful->getContentfulEntries($offset, $limit, $contentfulService, $this->buildQuery($query));
     }
 
     public function getCount(Query $query)
@@ -119,12 +110,11 @@ class ContentfulHandler implements QueryTypeHandlerInterface
         }
 
         $optionsArray = explode('|', $query->getParameter('client')->getValue());
-        /*
-         * \Contentful\Delivery\Client $contentful_service
-         */
-        $contentful_service = $this->contentful->getClientByName($optionsArray[0]);
 
-        return $this->contentful->getContentfulEntriesCount($contentful_service, $this->buildQuery($query, true));
+        /** @var \Contentful\Delivery\Client $contentfulService */
+        $contentfulService = $this->contentful->getClientByName($optionsArray[0]);
+
+        return $this->contentful->getContentfulEntriesCount($contentfulService, $this->buildQuery($query, true));
     }
 
     public function getInternalLimit(Query $query)
@@ -152,10 +142,7 @@ class ContentfulHandler implements QueryTypeHandlerInterface
      */
     private function buildQuery(Query $query, $buildCountQuery = false)
     {
-        /*
-         * \Contentful\Delivery\Query $contentfulQuery $contentfulQuery
-         */
-        $contentfulQuery = new \Contentful\Delivery\Query();
+        $contentfulQuery = new ContentfulQuery();
 
         if ($query->getParameter('search_text')->getValue()) {
             $contentfulQuery->where('query', $query->getParameter('search_text')->getValue());

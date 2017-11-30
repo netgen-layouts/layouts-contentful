@@ -2,7 +2,7 @@
 
 namespace Netgen\BlockManager\Contentful\Browser\Item\Entry\ColumnValueProvider;
 
-use Netgen\BlockManager\Contentful\Browser\Item\Entry\Item;
+use Netgen\BlockManager\Contentful\Browser\Item\Entry\EntryInterface;
 use Netgen\ContentBrowser\Item\ColumnProvider\ColumnValueProviderInterface;
 use Netgen\ContentBrowser\Item\ItemInterface;
 
@@ -14,8 +14,6 @@ final class UpdatedAt implements ColumnValueProviderInterface
     private $dateFormat;
 
     /**
-     * Constructor.
-     *
      * @param string $dateFormat
      */
     public function __construct($dateFormat)
@@ -25,12 +23,10 @@ final class UpdatedAt implements ColumnValueProviderInterface
 
     public function getValue(ItemInterface $item)
     {
-        if (!$item instanceof Item) {
+        if (!$item instanceof EntryInterface) {
             return null;
         }
 
-        return $item->getEntry()->getUpdatedAt()->format(
-            $this->dateFormat
-        );
+        return $item->getEntry()->getUpdatedAt()->format($this->dateFormat);
     }
 }

@@ -25,6 +25,7 @@ final class ContentfulController extends Controller
     const CONTENT_TYPE_PUBLISH = 'ContentManagement.ContentType.publish';
     const CONTENT_TYPE_UNPUBLISH = 'ContentManagement.ContentType.unpublish';
     const CONTENT_TYPE_DELETE = 'ContentManagement.ContentType.delete';
+
     /**
      * @var \Netgen\BlockManager\Contentful\Service\Contentful
      */
@@ -75,34 +76,41 @@ final class ContentfulController extends Controller
         try {
             /** @var \Contentful\Delivery\Client $client */
             $client = $this->contentful->getClientBySpaceId($spaceId);
-            $remote_entry = $client->reviveJson($content);
+            $remoteEntry = $client->reviveJson($content);
         } catch (Exception $e) {
             throw new BadRequestHttpException('Invalid request');
         }
 
         switch ($request->headers->get('X-Contentful-Topic')) {
-            case $this::ENTRY_PUBLISH:
-                if (!$remote_entry instanceof DynamicEntry) {
+            case self::ENTRY_PUBLISH:
+                if (!$remoteEntry instanceof DynamicEntry) {
                     throw new BadRequestHttpException('Invalid request');
                 }
-                $this->contentful->refreshContentfulEntry($remote_entry);
+
+                $this->contentful->refreshContentfulEntry($remoteEntry);
+
                 break;
-            case $this::ENTRY_UNPUBLISH:
-                if (!$remote_entry instanceof DeletedEntry) {
+            case self::ENTRY_UNPUBLISH:
+                if (!$remoteEntry instanceof DeletedEntry) {
                     throw new BadRequestHttpException('Invalid request');
                 }
-                $this->contentful->unpublishContentfulEntry($remote_entry);
+
+                $this->contentful->unpublishContentfulEntry($remoteEntry);
+
                 break;
-            case $this::ENTRY_DELETE:
-                if (!$remote_entry instanceof DeletedEntry) {
+            case self::ENTRY_DELETE:
+                if (!$remoteEntry instanceof DeletedEntry) {
                     throw new BadRequestHttpException('Invalid request');
                 }
-                $this->contentful->deleteContentfulEntry($remote_entry);
+
+                $this->contentful->deleteContentfulEntry($remoteEntry);
+
                 break;
-            case $this::CONTENT_TYPE_PUBLISH:
-            case $this::CONTENT_TYPE_UNPUBLISH:
-            case $this::CONTENT_TYPE_DELETE:
+            case self::CONTENT_TYPE_PUBLISH:
+            case self::CONTENT_TYPE_UNPUBLISH:
+            case self::CONTENT_TYPE_DELETE:
                 $this->contentful->refreshContentTypeCache($client, new Filesystem());
+
                 break;
             default:
                 throw new BadRequestHttpException('Invalid request');

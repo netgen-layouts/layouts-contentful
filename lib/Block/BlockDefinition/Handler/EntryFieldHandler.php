@@ -2,13 +2,16 @@
 
 namespace Netgen\BlockManager\Contentful\Block\BlockDefinition\Handler;
 
+use Exception;
 use Netgen\BlockManager\API\Values\Block\Block;
 use Netgen\BlockManager\Block\BlockDefinition\BlockDefinitionHandler;
 use Netgen\BlockManager\Block\DynamicParameters;
+use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\BlockManager\Parameters\ParameterBuilderInterface;
 use Netgen\BlockManager\Parameters\ParameterType;
+use Symfony\Component\HttpFoundation\RequestStack;
 
-class EntryFieldHandler extends BlockDefinitionHandler
+final class EntryFieldHandler extends BlockDefinitionHandler
 {
     /**
      * @var \Netgen\BlockManager\Contentful\Service\Contentful
@@ -16,16 +19,14 @@ class EntryFieldHandler extends BlockDefinitionHandler
     private $contentful;
 
     /**
-     * @var \Symfony\Component\HttpFoundation\Request
+     * @var \Symfony\Component\HttpFoundation\RequestStack
      */
-    private $request;
+    private $requestStack;
 
-    public function __construct(
-        \Netgen\BlockManager\Contentful\Service\Contentful $contentful,
-        \Symfony\Component\HttpFoundation\RequestStack $requestStack
-    ) {
+    public function __construct(Contentful $contentful, RequestStack $requestStack)
+    {
         $this->contentful = $contentful;
-        $this->request = $requestStack->getCurrentRequest();
+        $this->requestStack = $requestStack;
     }
 
     public function buildParameters(ParameterBuilderInterface $builder)
@@ -35,12 +36,14 @@ class EntryFieldHandler extends BlockDefinitionHandler
 
     public function getDynamicParameters(DynamicParameters $params, Block $block)
     {
-        $contentfulEntry = $this->request->attributes->get('contentDocument');
+        $currentRequest = $this->requestStack->getCurrentRequest();
+        $contentfulEntry = $currentRequest->attributes->get('contentDocument');
         $params['content'] = $contentfulEntry;
 
         try {
             $field = call_user_func(array($contentfulEntry, 'get' . $block->getParameter('field_identifier')));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
+            // Do nothing
         }
 
         $fieldType = $this->getFieldType($field);
@@ -51,14 +54,15 @@ class EntryFieldHandler extends BlockDefinitionHandler
         } elseif ($fieldType === 'array') {
             $fieldValues = array();
 
-            foreach ($field as $f) {
-                $ft = $this->getFieldType($f);
-                if ($ft === 'dynamicentry') {
-                    $fieldValues['entry'] = $this->contentful->loadContentfulEntry($f->getSpace()->getId() . '|' . $f->getId());
+            foreach ($field as $innerField) {
+                $innerFieldType = $this->getFieldType($innerField);
+                if ($innerFieldType === 'dynamicentry') {
+                    $fieldValues['entry'] = $this->contentful->loadContentfulEntry($innerField->getSpace()->getId() . '|' . $innerField->getId());
                 } else {
-                    $fieldValues[$ft] = $f;
+                    $fieldValues[$innerFieldType] = $innerField;
                 }
             }
+
             $params['field_value'] = $fieldValues;
             $params['field_type'] = $fieldType;
         } elseif ($fieldType !== null) {
@@ -72,6 +76,13 @@ class EntryFieldHandler extends BlockDefinitionHandler
         return true;
     }
 
+    /**
+     * Returns the field type of the provided field.
+     *
+     * @param mixed $field
+     *
+     * @return string|null
+     */
     private function getFieldType($field)
     {
         if ($field === null) {
