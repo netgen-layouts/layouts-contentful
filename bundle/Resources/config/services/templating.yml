@@ -6,3 +6,12 @@ services:
             - "@netgen_block_manager.contentful.service"
         tags:
             - { name: twig.extension }
+
+    netgen_block_manager.contentful.templating.twig.runtime.contentful:
+        class: Netgen\Bundle\ContentfulBlockManagerBundle\Templating\Twig\Runtime\ContentfulRuntime
+        # public: false
+        arguments:
+            - "@netgen_block_manager.contentful.service"
+        tags:
+            - { name: twig.runtime }
+            - { name: netgen_block_manager.twig.runtime }
