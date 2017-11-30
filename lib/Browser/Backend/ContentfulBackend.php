@@ -50,9 +50,7 @@ final class ContentfulBackend implements BackendInterface
      */
     public function loadItem($id)
     {
-        /**
-         * @var \Netgen\BlockManager\Contentful\Entity\ContentfulEntry
-         */
+        /** @var \Netgen\BlockManager\Contentful\Entity\ContentfulEntry $contentfulEntry */
         $contentfulEntry = $this->contentful->loadContentfulEntry($id);
 
         return $this->buildItem($contentfulEntry);

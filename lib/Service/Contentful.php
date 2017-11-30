@@ -89,9 +89,7 @@ final class Contentful
 
     public function getClients()
     {
-        /**
-         * @var \Contentful\Delivery\Client[]
-         */
+        /** @var \Contentful\Delivery\Client[] $clients */
         $clients = array();
         foreach ($this->clientsConfig as $clientName) {
             $client = $this->container->get($clientName['service']);
@@ -104,11 +102,10 @@ final class Contentful
     public function getContentType($id)
     {
         foreach ($this->clientsConfig as $clientName) {
-            /**
-             * @var \Contentful\Delivery\Client
-             */
+            /** @var \Contentful\Delivery\Client $client */
             $client = $this->container->get($clientName['service']);
             foreach ($client->getContentTypes()->getItems() as $contentType) {
+                /** @var \Contentful\Delivery\ContentType $contentType */
                 if ($contentType->getId() === $id) {
                     return $contentType;
                 }
@@ -139,9 +136,7 @@ final class Contentful
             );
         }
 
-        /**
-         * @var \Contentful\Delivery\Client
-         */
+        /** @var \Contentful\Delivery\Client $client */
         $client = $this->getClientBySpaceId($idList[0]);
 
         $contentfulEntry = $this->findContentfulEntry($id);
@@ -241,12 +236,11 @@ final class Contentful
     {
         $clientsAndContentTypes = array();
         foreach ($this->clientsConfig as $clientName => $clientDetails) {
-            /**
-             * @var \Contentful\Delivery\Client
-             */
+            /** @var \Contentful\Delivery\Client $client */
             $client = $this->container->get($clientDetails['service']);
             $clientsAndContentTypes[$client->getSpace()->getName()] = $clientName;
             foreach ($client->getContentTypes()->getItems() as $contentType) {
+                /** @var \Contentful\Delivery\ContentType $contentType */
                 $clientsAndContentTypes['>  ' . $contentType->getName()] = $clientName . '|' . $contentType->getId();
             }
         }
@@ -268,12 +262,11 @@ final class Contentful
     {
         $spaces = array();
         foreach ($this->clientsConfig as $clientName) {
-            /**
-             * @var \Contentful\Delivery\Client
-             */
+            /** @var \Contentful\Delivery\Client $client */
             $client = $this->container->get($clientName['service']);
             $contentTypes = array();
             foreach ($client->getContentTypes()->getItems() as $contentType) {
+                /** @var \Contentful\Delivery\ContentType $contentType */
                 $contentTypes[$contentType->getName()] = $contentType->getId();
             }
             $spaces[$client->getSpace()->getName()] = $contentTypes;
@@ -341,6 +334,7 @@ final class Contentful
         $spacePath = $this->getSpaceCachePath($client);
         $contentTypes = $client->getContentTypes(new Query());
         foreach ($contentTypes as $contentType) {
+            /** @var \Contentful\Delivery\ContentType $contentType */
             $this->fileSystem->dumpFile($spacePath . '/ct-' . $contentType->getId() . '.json', json_encode($contentType));
         }
     }
@@ -376,7 +370,7 @@ final class Contentful
         $route->setStaticPrefix($slug);
         $route->setDefault(RouteObjectInterface::CONTENT_ID, ContentfulEntry::class . ':' . $id);
         $route->setContent($contentfulEntry);
-        $contentfulEntry->addRoute($route); // Create the backlink from content to route
+        $contentfulEntry->addRoute($route); // Create the back-link from content to route
 
         $this->entityManager->persist($contentfulEntry);
         $this->entityManager->persist($route);
