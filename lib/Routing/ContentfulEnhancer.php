@@ -1,6 +1,6 @@
 <?php
 
-namespace Netgen\Bundle\ContentfulBlockManagerBundle\Routing;
+namespace Netgen\BlockManager\Contentful\Routing;
 
 use Netgen\BlockManager\Contentful\Service\Contentful;
 use Symfony\Cmf\Component\Routing\Enhancer\RouteEnhancerInterface;
