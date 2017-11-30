@@ -177,8 +177,8 @@ Go to Contentful space settings and create a webhook with:
 - the full url for webhook (http://your.domain/webhook)
 - basic auth credentials if necessary
 - additional X-Space-Id header with the related value
-- checked Create, Published, Unpublished and Delete events for Content Types
-- checked Create, Archived, Unarchived, Published, Unpublished and Delete events for Entries
+- checked Published, Unpublished and Delete events for Content Types
+- checked Published, Unpublished and Delete events for Entries
 
 Set user rights
 ---------------
