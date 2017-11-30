@@ -3,8 +3,8 @@
 namespace Netgen\BlockManager\Contentful\Layout\Resolver\TargetType;
 
 use Exception;
+use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
 use Netgen\BlockManager\Layout\Resolver\TargetTypeInterface;
-use Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints;
 

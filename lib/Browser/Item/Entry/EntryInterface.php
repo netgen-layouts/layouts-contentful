@@ -7,7 +7,7 @@ interface EntryInterface
     /**
      * Returns the Contentful entry.
      *
-     * @return \Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry
+     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry
      */
     public function getEntry();
 }

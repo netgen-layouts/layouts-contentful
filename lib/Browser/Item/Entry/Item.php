@@ -2,13 +2,13 @@
 
 namespace Netgen\BlockManager\Contentful\Browser\Item\Entry;
 
-use Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry;
+use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
 use Netgen\ContentBrowser\Item\ItemInterface;
 
 final class Item implements ItemInterface, EntryInterface
 {
     /**
-     * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Entity\ContentfulEntry
+     * @var \Netgen\BlockManager\Contentful\Entity\ContentfulEntry
      */
     private $entry;
 
