@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "netgen/block-manager": "~0.9.0@dev",
+        "netgen/block-manager": "~0.10.0@dev",
         "contentful/contentful-bundle": "^2.0",
         "symfony-cmf/routing-bundle": "^2.0"
     },
@@ -40,7 +40,7 @@
     "prefer-stable": true,
     "extra": {
         "branch-alias": {
-            "dev-master": "0.9.x-dev"
+            "dev-master": "0.10.x-dev"
         }
     }
 }
