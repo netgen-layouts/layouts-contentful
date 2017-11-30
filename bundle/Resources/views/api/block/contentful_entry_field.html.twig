@@ -8,7 +8,7 @@
     {% set field_identifier = block.parameter('field_identifier') %}
 
     {% if not field_identifier.empty %}
-        {{ macros.info('block.info.contentful_entry_field'|trans({ '%field%': field_identifier.value }), 'icon-contentful_entry_field') }}
+        {{ macros.info('block.info.contentful_entry_field'|trans({ '%field%': field_identifier.value }), 'icon-twig_block') }}
     {% else %}
         {{ macros.notice('block.notice.empty_contentful_entry_field'|trans) }}
     {% endif %}

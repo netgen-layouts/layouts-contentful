@@ -1,4 +1,4 @@
-{% extends '@NetgenBlockManager/block/block.html.twig' %}
+{% extends '@ngbm/block/block.html.twig' %}
 
 {% set field_identifier = block.parameter('field_identifier').value %}
 
@@ -13,10 +13,10 @@
 
     {% block contentful_entry_field %}
         {% if field_value is not null and field_type is not null %}
-            <b>{{ field_identifier }}:</b><br/>
-            {% include 'ngbm/block/field_type/' ~ field_type ~ '.html.twig' with {'field': field_value} %} <br/>
+            <div class="field">
+                <p><strong>{{ field_identifier }}:</strong></p>
+                {% include '@NetgenBlockManagerContentful/contentful/field_type/' ~ field_type ~ '.html.twig' with {'field': field_value} %} <br/>
+            </div>
         {% endif %}
-
-        <br/>
     {% endblock %}
 {% endblock %}
