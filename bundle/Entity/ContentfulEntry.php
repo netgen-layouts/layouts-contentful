@@ -2,10 +2,10 @@
 
 namespace Netgen\Bundle\ContentfulBlockManagerBundle\Entity;
 
-use Exception;
 use Contentful\Delivery\EntryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
 
@@ -42,7 +42,7 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     private $isDeleted;
 
     /**
-     * @var EntryInterface $entry
+     * @var EntryInterface
      * original entry
      */
     private $remote_entry;
@@ -61,7 +61,28 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     }
 
     /**
-     * Get id
+     * @param  string $name
+     * @param  array  $arguments
+     *
+     * @return mixed
+     */
+    public function __call($name, $arguments)
+    {
+        if (0 !== strpos($name, 'get')) {
+            trigger_error('Call to undefined method ' . __CLASS__ . '::' . $name . '()', E_USER_ERROR);
+        }
+
+        $ret = null;
+        try {
+            $ret = call_user_func(array($this->remote_entry, $name));
+        } catch (Exception $e) {
+        }
+
+        return $ret;
+    }
+
+    /**
+     * Get id.
      *
      * @return string
      */
@@ -71,9 +92,10 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     }
 
     /**
-     * Set id
+     * Set id.
      *
      * @param string $id
+     *
      * @return ContentfulEntry
      */
     public function setId($id)
@@ -84,7 +106,7 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -94,9 +116,10 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
+     *
      * @return ContentfulEntry
      */
     public function setName($name)
@@ -107,7 +130,7 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     }
 
     /**
-     * Get json
+     * Get json.
      *
      * @return string
      */
@@ -117,9 +140,11 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     }
 
     /**
-     * Set isPublished
+     * Set isPublished.
      *
-     * @param boolean
+     * @param bool
+     * @param mixed $isPublished
+     *
      * @return ContentfulEntry
      */
     public function setIsPublished($isPublished)
@@ -130,9 +155,9 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     }
 
     /**
-     * Get isPublished
+     * Get isPublished.
      *
-     * @return boolean
+     * @return bool
      */
     public function getIsPublished()
     {
@@ -140,9 +165,11 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     }
 
     /**
-     * Set isDeleted
+     * Set isDeleted.
      *
-     * @param boolean
+     * @param bool
+     * @param mixed $isDeleted
+     *
      * @return ContentfulEntry
      */
     public function setIsDeleted($isDeleted)
@@ -153,19 +180,20 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     }
 
     /**
-     * Get isDeleted
+     * Get isDeleted.
      *
-     * @return boolean
+     * @return bool
      */
     public function getIsDeleted()
     {
         return $this->isDeleted;
     }
-    
+
     /**
-     * Set json
+     * Set json.
      *
      * @param string $json
+     *
      * @return ContentfulEntry
      */
     public function setJson($json)
@@ -223,7 +251,6 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
         return $this->remote_entry;
     }
 
-
     public function getRevision()
     {
         return $this->remote_entry->getRevision();
@@ -249,29 +276,9 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
         return $this->remote_entry->getContentType();
     }
 
-    public function jsonSerialize() {
-        return $this->remote_entry->jsonSerialize();
-    }
-
-
-    /**
-     * @param  string $name
-     * @param  array  $arguments
-     *
-     * @return mixed
-     */
-    public function __call($name, $arguments)
+    public function jsonSerialize()
     {
-        if (0 !== strpos($name, 'get')) {
-            trigger_error('Call to undefined method ' . __CLASS__ . '::' . $name . '()', E_USER_ERROR);
-        }
-
-        $ret = null;
-        try {
-            $ret = call_user_func(array($this->remote_entry, $name));
-        } catch (Exception $e) {}
-
-        return $ret;
+        return $this->remote_entry->jsonSerialize();
     }
 
     /**
@@ -280,10 +287,10 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     public function setRemoteEntry($remote_entry)
     {
         $this->remote_entry = $remote_entry;
-        $this->id = $this->remote_entry->getSpace()->getId() ."|". $this->remote_entry->getId();
+        $this->id = $this->remote_entry->getSpace()->getId() . '|' . $this->remote_entry->getId();
 
         $name_field = $this->remote_entry->getContentType()->getDisplayField();
-        $this->name = call_user_func(array($this->remote_entry, "get".$name_field->getId()));
+        $this->name = call_user_func(array($this->remote_entry, 'get' . $name_field->getId()));
     }
 
     /**
@@ -292,9 +299,9 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     public function reviveRemoteEntry($client)
     {
         $this->remote_entry = $client->reviveJson($this->json);
-        $this->id = $this->remote_entry->getSpace()->getId() ."|". $this->remote_entry->getId();
+        $this->id = $this->remote_entry->getSpace()->getId() . '|' . $this->remote_entry->getId();
 
         $name_field = $this->remote_entry->getContentType()->getDisplayField();
-        $this->name = call_user_func(array($this->remote_entry, "get".$name_field->getId()));
+        $this->name = call_user_func(array($this->remote_entry, 'get' . $name_field->getId()));
     }
 }

@@ -2,24 +2,23 @@
 
 namespace Netgen\Bundle\ContentfulBlockManagerBundle\Command;
 
+use Contentful\Delivery\DynamicEntry;
 use Contentful\Delivery\Synchronization\DeletedEntry;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Contentful\Delivery\DynamicEntry;
 
 class SyncCommand extends ContainerAwareCommand
 {
     /**
-     * @var \Netgen\BlockManager\Contentful\Service\Contentful $contentful
+     * @var \Netgen\BlockManager\Contentful\Service\Contentful
      */
     private $contentful;
 
     public function __construct(
         \Netgen\BlockManager\Contentful\Service\Contentful $contentful
-    )
-    {
+    ) {
         parent::__construct();
         $this->contentful = $contentful;
     }
@@ -37,20 +36,21 @@ class SyncCommand extends ContainerAwareCommand
 
         if (count($info) === 0) {
             $output->writeln('<comment>There are no Contentful clients configured.</comment>');
+
             return;
         }
 
         $fs = new Filesystem();
 
         foreach ($info as $client) {
-            $clientService = $this->getContainer()->get($client["service"]);
+            $clientService = $this->getContainer()->get($client['service']);
 
             $this->contentful->refreshSpaceCache($clientService, $fs);
 
             $this->contentful->refreshContentTypeCache($clientService, $fs);
 
             /**
-             * @var \Contentful\Delivery\Synchronization\Manager $syncManager
+             * @var \Contentful\Delivery\Synchronization\Manager
              */
             $syncManager = $clientService->getSynchronizationManager();
 
@@ -68,11 +68,11 @@ class SyncCommand extends ContainerAwareCommand
                 $token = $result->getToken();
                 $fs->dumpFile($tokenPath, $token);
             }
-
         }
     }
 
-    protected function buildContentEntries($entries, OutputInterface $output) {
+    protected function buildContentEntries($entries, OutputInterface $output)
+    {
         foreach ($entries as $remote_entry) {
             if ($remote_entry instanceof DynamicEntry) {
                 $contentfulEntry = $this->contentful->refreshContentfulEntry($remote_entry);

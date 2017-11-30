@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ContentfulEnhancer implements RouteEnhancerInterface
 {
-
     /**
      * @var \Netgen\BlockManager\Contentful\Service\Contentful
      */
@@ -21,7 +20,7 @@ class ContentfulEnhancer implements RouteEnhancerInterface
 
     public function enhance(array $defaults, Request $request)
     {
-        $defaults["_content"] = $this->contentful->loadContentfulEntry($defaults["_route"]);
+        $defaults['_content'] = $this->contentful->loadContentfulEntry($defaults['_route']);
 
         return $defaults;
     }

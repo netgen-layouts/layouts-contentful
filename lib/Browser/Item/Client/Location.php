@@ -2,8 +2,8 @@
 
 namespace Netgen\BlockManager\Contentful\Browser\Item\Client;
 
-use Netgen\ContentBrowser\Item\LocationInterface;
 use Contentful\Delivery\Client;
+use Netgen\ContentBrowser\Item\LocationInterface;
 
 final class Location implements LocationInterface
 {

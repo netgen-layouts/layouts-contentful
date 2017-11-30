@@ -9,7 +9,7 @@ use Twig_SimpleFunction;
 class ContentfulExtension extends Twig_Extension
 {
     /**
-     * @var \Netgen\BlockManager\Contentful\Service\Contentful $contentful
+     * @var \Netgen\BlockManager\Contentful\Service\Contentful
      */
     private $contentful;
 
@@ -24,7 +24,7 @@ class ContentfulExtension extends Twig_Extension
         return array(
             new Twig_SimpleFunction('contentful_entry_name', array($this, 'contentfulEntryName')),
             new Twig_SimpleFunction('contentful_space_name', array($this, 'contentfulSpaceName')),
-            new Twig_SimpleFunction('contentful_content_type_name', array($this, 'contentfulContentTypeName'))
+            new Twig_SimpleFunction('contentful_content_type_name', array($this, 'contentfulContentTypeName')),
         );
     }
 
@@ -33,8 +33,9 @@ class ContentfulExtension extends Twig_Extension
         try {
             $contentfulEntry = $this->contentful->loadContentfulEntry($value);
         } catch (Exception $e) {
-            return "";
+            return '';
         }
+
         return $contentfulEntry->getName();
     }
 
@@ -48,6 +49,7 @@ class ContentfulExtension extends Twig_Extension
     public function contentfulContentTypeName($value)
     {
         $contentType = $this->contentful->getContentType($value);
+
         return $contentType->getName();
     }
 }

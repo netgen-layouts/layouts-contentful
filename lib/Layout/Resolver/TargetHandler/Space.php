@@ -8,7 +8,6 @@ use Netgen\BlockManager\Persistence\Doctrine\QueryHandler\LayoutResolver\TargetH
 
 class Space implements TargetHandler
 {
-
     public function handleQuery(QueryBuilder $query, $value)
     {
         $query->andWhere(

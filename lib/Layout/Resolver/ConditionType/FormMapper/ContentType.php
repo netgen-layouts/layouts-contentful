@@ -32,9 +32,7 @@ class ContentType extends Mapper
     {
         return array(
             'choices' => $this->contentful->getSpacesAndContentTypesAsChoices(),
-            'multiple' => true
+            'multiple' => true,
         );
     }
-
-
 }

@@ -8,7 +8,7 @@ use Netgen\ContentBrowser\Item\ItemInterface;
 class Item implements ItemInterface
 {
     private $entry;
-    
+
     public function __construct(ContentfulEntry $entry)
     {
         $this->entry = $entry;
