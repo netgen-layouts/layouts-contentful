@@ -12,5 +12,6 @@ services:
         # public: false
         arguments:
               - "@netgen_block_manager.contentful.service"
+              - "%contentful.clients%"
         tags:
               - { name: console.command, command: contentful:sync }
