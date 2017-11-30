@@ -8,6 +8,7 @@ use Contentful\Delivery\Query;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
+use RuntimeException;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -53,11 +54,7 @@ final class Contentful
         $this->cacheDir = $cacheDir;
 
         if (count($this->clientsConfig) === 0) {
-            throw new Contentful\Exception\ApiException(
-                sprintf(
-                    'No Contentful clients configured'
-                )
-            );
+            throw new RuntimeException('No Contentful clients configured');
         }
     }
 
