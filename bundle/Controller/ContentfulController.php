@@ -5,7 +5,8 @@ namespace Netgen\Bundle\ContentfulBlockManagerBundle\Controller;
 use Contentful\Delivery\DynamicEntry;
 use Contentful\Delivery\Synchronization\DeletedEntry;
 use Exception;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Netgen\BlockManager\Contentful\Service\Contentful;
+use Netgen\Bundle\BlockManagerBundle\Controller\Controller;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,15 @@ class ContentfulController extends Controller
     const CONTENT_TYPE_PUBLISH = 'ContentManagement.ContentType.publish';
     const CONTENT_TYPE_UNPUBLISH = 'ContentManagement.ContentType.unpublish';
     const CONTENT_TYPE_DELETE = 'ContentManagement.ContentType.delete';
+    /**
+     * @var \Netgen\BlockManager\Contentful\Service\Contentful
+     */
+    private $contentful;
+
+    public function __construct(Contentful $contentful)
+    {
+        $this->contentful = $contentful;
+    }
 
     /**
      * Renders a Contentful entry.
@@ -34,15 +44,18 @@ class ContentfulController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function viewAction($contentDocument)
+    public function view($contentDocument)
     {
         if (!$contentDocument->getIsPublished() or $contentDocument->getIsDeleted()) {
-            throw new NotFoundHttpException('Not found.');
+            throw new NotFoundHttpException();
         }
 
-        return $this->render('@NetgenContentfulBlockManager/contentful/content.html.twig', array(
-            'content' => $contentDocument,
-        ));
+        return $this->render(
+            '@NetgenContentfulBlockManager/contentful/content.html.twig',
+            array(
+                'content' => $contentDocument,
+            )
+        );
     }
 
     /**
@@ -54,18 +67,14 @@ class ContentfulController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function webhookAction(Request $request)
+    public function webhook(Request $request)
     {
-        /**
-         * @var \Netgen\BlockManager\Contentful\Service\Contentful
-         */
-        $service = $this->container->get('netgen_block_manager.contentful.service');
         $content = $request->getContent();
         $spaceId = $request->headers->get('X-Space-Id');
 
         try {
             /** @var \Contentful\Delivery\Client $client */
-            $client = $service->getClientBySpaceId($spaceId);
+            $client = $this->contentful->getClientBySpaceId($spaceId);
             $remote_entry = $client->reviveJson($content);
         } catch (Exception $e) {
             throw new BadRequestHttpException('Invalid request');
@@ -76,29 +85,34 @@ class ContentfulController extends Controller
                 if (!$remote_entry instanceof DynamicEntry) {
                     throw new BadRequestHttpException('Invalid request');
                 }
-                $service->refreshContentfulEntry($remote_entry);
+                $this->contentful->refreshContentfulEntry($remote_entry);
                 break;
             case $this::ENTRY_UNPUBLISH:
                 if (!$remote_entry instanceof DeletedEntry) {
                     throw new BadRequestHttpException('Invalid request');
                 }
-                $service->unpublishContentfulEntry($remote_entry);
+                $this->contentful->unpublishContentfulEntry($remote_entry);
                 break;
             case $this::ENTRY_DELETE:
                 if (!$remote_entry instanceof DeletedEntry) {
                     throw new BadRequestHttpException('Invalid request');
                 }
-                $service->deleteContentfulEntry($remote_entry);
+                $this->contentful->deleteContentfulEntry($remote_entry);
                 break;
             case $this::CONTENT_TYPE_PUBLISH:
             case $this::CONTENT_TYPE_UNPUBLISH:
             case $this::CONTENT_TYPE_DELETE:
-                $service->refreshContentTypeCache($client, new Filesystem());
+                $this->contentful->refreshContentTypeCache($client, new Filesystem());
                 break;
             default:
                 throw new BadRequestHttpException('Invalid request');
         }
 
-        return new Response('OK', Response::HTTP_OK);
+        return new Response();
+    }
+
+    protected function checkPermissions()
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_ANONYMOUSLY');
     }
 }
