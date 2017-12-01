@@ -3,10 +3,10 @@ services:
         class: Netgen\BlockManager\Contentful\Service\Contentful
         public: true
         arguments:
+            - []
             - "@contentful.delivery"
             - "@doctrine.orm.entity_manager"
             - "@filesystem"
-            - []
             - "%netgen_block_manager.contentful.cache_dir%"
 
     netgen_block_manager.contentful.command.sync:

@@ -19,6 +19,11 @@ use Symfony\Component\Filesystem\Filesystem;
 final class Contentful
 {
     /**
+     * @var array
+     */
+    private $clientsConfig;
+
+    /**
      * @var \Contentful\Delivery\Client
      */
     private $defaultClient;
@@ -34,26 +39,21 @@ final class Contentful
     private $fileSystem;
 
     /**
-     * @var array
-     */
-    private $clientsConfig;
-
-    /**
      * @var string
      */
     private $cacheDir;
 
     public function __construct(
+        array $clientsConfig,
         Client $defaultClient,
         EntityManagerInterface $entityManager,
         Filesystem $fileSystem,
-        array $clientsConfig,
         $cacheDir
     ) {
+        $this->clientsConfig = $clientsConfig;
         $this->defaultClient = $defaultClient;
         $this->entityManager = $entityManager;
         $this->fileSystem = $fileSystem;
-        $this->clientsConfig = $clientsConfig;
         $this->cacheDir = $cacheDir;
 
         if (empty($this->clientsConfig)) {

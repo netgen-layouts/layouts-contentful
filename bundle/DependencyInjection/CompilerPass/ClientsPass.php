@@ -27,6 +27,6 @@ final class ClientsPass implements CompilerPassInterface
             $contentfulClients[$name]['service'] = new Reference($contentfulClients[$name]['service']);
         }
 
-        $contentfulService->replaceArgument(3, $contentfulClients);
+        $contentfulService->replaceArgument(0, $contentfulClients);
     }
 }
