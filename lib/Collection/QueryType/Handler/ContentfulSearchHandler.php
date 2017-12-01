@@ -15,11 +15,6 @@ use Netgen\BlockManager\Parameters\ParameterType;
 final class ContentfulSearchHandler implements QueryTypeHandlerInterface
 {
     /**
-     * @const int
-     */
-    const DEFAULT_LIMIT = 25;
-
-    /**
      * @var \Netgen\BlockManager\Contentful\Service\Contentful
      */
     private $contentful;
@@ -64,23 +59,6 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
         );
 
         $builder->add(
-            'limit',
-            ParameterType\IntegerType::class,
-            array(
-                'min' => 0,
-            )
-        );
-
-        $builder->add(
-            'offset',
-            ParameterType\IntegerType::class,
-            array(
-                'min' => 0,
-                'groups' => array(self::GROUP_ADVANCED),
-            )
-        );
-
-        $builder->add(
             'search_text',
             ParameterType\TextLineType::class,
             array(
@@ -99,7 +77,12 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
 
         $client = $this->contentful->getClientByName($optionsArray[0]);
 
-        return $this->contentful->getContentfulEntries($offset, $limit, $client, $this->buildQuery($query));
+        return $this->contentful->getContentfulEntries(
+            $this->getOffset($offset),
+            $this->getLimit($limit),
+            $client,
+            $this->buildQuery($query)
+        );
     }
 
     public function getCount(Query $query)
@@ -112,17 +95,7 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
 
         $client = $this->contentful->getClientByName($optionsArray[0]);
 
-        return $this->contentful->getContentfulEntriesCount($client, $this->buildQuery($query, true));
-    }
-
-    public function getInternalLimit(Query $query)
-    {
-        $limit = $query->getParameter('limit')->getValue();
-        if (!is_int($limit)) {
-            return self::DEFAULT_LIMIT;
-        }
-
-        return $limit >= 0 ? $limit : self::DEFAULT_LIMIT;
+        return $this->contentful->getContentfulEntriesCount($client, $this->buildQuery($query));
     }
 
     public function isContextual(Query $query)
@@ -131,14 +104,45 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
     }
 
     /**
+     * Return filtered offset value to use.
+     *
+     * @param int $offset
+     *
+     * @return int
+     */
+    private function getOffset($offset)
+    {
+        if (is_int($offset) && $offset >= 0) {
+            return $offset;
+        }
+
+        return 0;
+    }
+
+    /**
+     * Return filtered limit value to use.
+     *
+     * @param int $limit
+     *
+     * @return int
+     */
+    private function getLimit($limit)
+    {
+        if (is_int($limit) && $limit >= 0) {
+            return $limit;
+        }
+
+        return null;
+    }
+
+    /**
      * Builds the query from current parameters.
      *
      * @param \Netgen\BlockManager\API\Values\Collection\Query $query
-     * @param bool $buildCountQuery
      *
      * @return \Contentful\Delivery\Query
      */
-    private function buildQuery(Query $query, $buildCountQuery = false)
+    private function buildQuery(Query $query)
     {
         $contentfulQuery = new ContentfulQuery();
 
@@ -149,12 +153,6 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
         $optionsArray = explode('|', $query->getParameter('client')->getValue());
         if (array_key_exists(1, $optionsArray)) {
             $contentfulQuery->setContentType($optionsArray[1]);
-        }
-
-        if (!$buildCountQuery) {
-            $offset = $query->getParameter('offset')->getValue();
-            $contentfulQuery->setSkip(is_int($offset) && $offset >= 0 ? $offset : 0);
-            $contentfulQuery->setLimit($this->getInternalLimit($query));
         }
 
         $sortType = $query->getParameter('sort_type')->getValue();

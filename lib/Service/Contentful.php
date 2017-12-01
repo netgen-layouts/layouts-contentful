@@ -227,14 +227,14 @@ final class Contentful
      *
      * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry[]
      */
-    public function getContentfulEntries($offset = 0, $limit = 25, Client $client = null, Query $query = null)
+    public function getContentfulEntries($offset = 0, $limit = null, Client $client = null, Query $query = null)
     {
         $client = $client ?: $this->defaultClient;
+        $query = $query ?: new Query();
 
-        if ($query === null) {
-            $query = new Query();
+        $query->setSkip($offset);
+        if ($limit !== null) {
             $query->setLimit($limit);
-            $query->setSkip($offset);
         }
 
         return $this->buildContentfulEntries($client->getEntries($query), $client);
