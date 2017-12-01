@@ -14,16 +14,10 @@ use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
 use RuntimeException;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 final class Contentful
 {
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    private $container;
-
     /**
      * @var \Contentful\Delivery\Client
      */
@@ -50,14 +44,12 @@ final class Contentful
     private $cacheDir;
 
     public function __construct(
-        ContainerInterface $container,
         Client $defaultClient,
         EntityManagerInterface $entityManager,
         Filesystem $fileSystem,
         array $clientsConfig,
         $cacheDir
     ) {
-        $this->container = $container;
         $this->defaultClient = $defaultClient;
         $this->entityManager = $entityManager;
         $this->fileSystem = $fileSystem;
@@ -74,11 +66,17 @@ final class Contentful
      *
      * @param string $name
      *
+     * @throws \RuntimeException If client with provided name does not exist
+     *
      * @return \Contentful\Delivery\Client
      */
     public function getClientByName($name)
     {
-        return $this->getClient($this->clientsConfig[$name]['service']);
+        if (!isset($this->clientsConfig[$name])) {
+            throw new RuntimeException(sprintf('Contentful client with "%s" name does not exist.', $name));
+        }
+
+        return $this->clientsConfig[$name]['service'];
     }
 
     /**
@@ -104,9 +102,9 @@ final class Contentful
      */
     public function getClientBySpaceId($spaceId)
     {
-        foreach ($this->clientsConfig as $clientName) {
-            if ($clientName['space'] === $spaceId) {
-                return $this->getClient($clientName['service']);
+        foreach ($this->clientsConfig as $clientConfig) {
+            if ($clientConfig['space'] === $spaceId) {
+                return $clientConfig['service'];
             }
         }
 
@@ -122,8 +120,8 @@ final class Contentful
     {
         $clients = array();
 
-        foreach ($this->clientsConfig as $clientName) {
-            $clients[] = $this->getClient($clientName['service']);
+        foreach ($this->clientsConfig as $clientConfig) {
+            $clients[] = $clientConfig['service'];
         }
 
         return $clients;
@@ -140,8 +138,10 @@ final class Contentful
      */
     public function getContentType($id)
     {
-        foreach ($this->clientsConfig as $clientName) {
-            $client = $this->getClient($clientName['service']);
+        foreach ($this->clientsConfig as $clientConfig) {
+            /** @var \Contentful\Delivery\Client $client */
+            $client = $clientConfig['service'];
+
             foreach ($client->getContentTypes()->getItems() as $contentType) {
                 /** @var \Contentful\Delivery\ContentType $contentType */
                 if ($contentType->getId() === $id) {
@@ -304,8 +304,10 @@ final class Contentful
     {
         $clientsAndContentTypes = array();
 
-        foreach ($this->clientsConfig as $clientName => $clientDetails) {
-            $client = $this->getClient($clientDetails['service']);
+        foreach ($this->clientsConfig as $clientName => $clientConfig) {
+            /** @var \Contentful\Delivery\Client $client */
+            $client = $clientConfig['service'];
+
             $clientsAndContentTypes[$client->getSpace()->getName()] = $clientName;
             foreach ($client->getContentTypes()->getItems() as $contentType) {
                 /* @var \Contentful\Delivery\ContentType $contentType */
@@ -325,8 +327,11 @@ final class Contentful
     {
         $spaces = array();
 
-        foreach ($this->clientsConfig as $clientName) {
-            $spaces[$this->getClient($clientName['service'])->getSpace()->getName()] = $clientName['space'];
+        foreach ($this->clientsConfig as $clientConfig) {
+            /** @var \Contentful\Delivery\Client $client */
+            $client = $clientConfig['service'];
+
+            $spaces[$client->getSpace()->getName()] = $clientConfig['space'];
         }
 
         return $spaces;
@@ -341,8 +346,10 @@ final class Contentful
     {
         $spaces = array();
 
-        foreach ($this->clientsConfig as $clientName) {
-            $client = $this->getClient($clientName['service']);
+        foreach ($this->clientsConfig as $clientConfig) {
+            /** @var \Contentful\Delivery\Client $client */
+            $client = $clientConfig['service'];
+
             $contentTypes = array();
             foreach ($client->getContentTypes()->getItems() as $contentType) {
                 /* @var \Contentful\Delivery\ContentType $contentType */
@@ -539,17 +546,5 @@ final class Contentful
         }
 
         return $contentfulEntries;
-    }
-
-    /**
-     * Returns the client with specified service name from the container.
-     *
-     * @param string $serviceName
-     *
-     * @return \Contentful\Delivery\Client
-     */
-    private function getClient($serviceName)
-    {
-        return $this->container->get($serviceName);
     }
 }
