@@ -2,7 +2,7 @@
 
 namespace Netgen\Bundle\ContentfulBlockManagerBundle\DependencyInjection\CompilerPass;
 
-use Exception;
+use RuntimeException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -24,7 +24,7 @@ final class EntrySluggerPass implements CompilerPassInterface
         foreach ($sluggers as $sluggerService => $tags) {
             foreach ($tags as $tag) {
                 if (!isset($tag['type'])) {
-                    throw new Exception('Entry slugger service tags should have an "type" attribute.');
+                    throw new RuntimeException('Entry slugger service tags should have an "type" attribute.');
                 }
 
                 $sluggers[$tag['type']] = new Reference($sluggerService);

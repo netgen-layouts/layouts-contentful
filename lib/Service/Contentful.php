@@ -25,6 +25,11 @@ final class Contentful
     private $clientsConfig;
 
     /**
+     * @var \Netgen\BlockManager\Contentful\Routing\EntrySluggerInterface
+     */
+    private $entrySlugger;
+
+    /**
      * @var \Contentful\Delivery\Client
      */
     private $defaultClient;
@@ -44,25 +49,20 @@ final class Contentful
      */
     private $cacheDir;
 
-    /**
-     * @var EntrySluggerInterface
-     */
-    private $entry_slugger;
-
     public function __construct(
         array $clientsConfig,
+        EntrySluggerInterface $entrySlugger,
         Client $defaultClient,
         EntityManagerInterface $entityManager,
         Filesystem $fileSystem,
-        $cacheDir,
-        $entry_slugger
+        $cacheDir
     ) {
         $this->clientsConfig = $clientsConfig;
+        $this->entrySlugger = $entrySlugger;
         $this->defaultClient = $defaultClient;
         $this->entityManager = $entityManager;
         $this->fileSystem = $fileSystem;
         $this->cacheDir = $cacheDir;
-        $this->entry_slugger = $entry_slugger;
 
         if (empty($this->clientsConfig)) {
             throw new RuntimeException('No Contentful clients configured');
@@ -504,7 +504,7 @@ final class Contentful
 
         $route = new Route();
         $route->setName($id);
-        $route->setStaticPrefix($this->entry_slugger->getSlug($contentfulEntry));
+        $route->setStaticPrefix($this->entrySlugger->getSlug($contentfulEntry));
         $route->setDefault(RouteObjectInterface::CONTENT_ID, ContentfulEntry::class . ':' . $id);
         $route->setContent($contentfulEntry);
         $contentfulEntry->addRoute($route); // Create the back-link from content to route

@@ -15,9 +15,9 @@ final class NetgenContentfulBlockManagerExtension extends Extension implements P
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
-        $processedConfig = $this->processConfiguration( $configuration, $configs );
+        $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter( 'netgen_contentful_block_manager.entry_slug_type', $processedConfig['entry_slug_type'] );
+        $container->setParameter('netgen_block_manager.contentful.entry_slug_type', $config['entry_slug_type']);
 
         $loader = new YamlFileLoader(
             $container,

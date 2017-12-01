@@ -4,11 +4,11 @@ services:
         public: true
         arguments:
             - []
+            - "@netgen_block_manager.contentful.entry_slugger.configurable"
             - "@contentful.delivery"
             - "@doctrine.orm.entity_manager"
             - "@filesystem"
             - "%netgen_block_manager.contentful.cache_dir%"
-            - "@netgen_block_manager.contentful.slugger.configurable"
 
     netgen_block_manager.contentful.command.sync:
         class: Netgen\Bundle\ContentfulBlockManagerBundle\Command\SyncCommand
@@ -19,18 +19,21 @@ services:
         tags:
               - { name: console.command, command: contentful:sync }
 
-    netgen_block_manager.contentful.slugger.configurable:
-        class: Netgen\BlockManager\Contentful\Routing\EntrySlugger\EntrySluggerConfigurable
+    netgen_block_manager.contentful.entry_slugger.configurable:
+        class: Netgen\BlockManager\Contentful\Routing\EntrySlugger\Configurable
+        public: false
         arguments:
-            - "%netgen_contentful_block_manager.entry_slug_type%"
+            - "%netgen_block_manager.contentful.entry_slug_type%"
             - []
 
-    netgen_block_manager.contentful.slugger.simple:
-        class: Netgen\BlockManager\Contentful\Routing\EntrySlugger\EntrySluggerSimple
+    netgen_block_manager.contentful.entry_slugger.simple:
+        class: Netgen\BlockManager\Contentful\Routing\EntrySlugger\Simple
+        public: false
         tags:
             - { name: netgen_block_manager.contentful.entry_slugger, type: simple }
 
-    netgen_block_manager.contentful.slugger.with_space_name:
-        class: Netgen\BlockManager\Contentful\Routing\EntrySlugger\EntrySluggerWithSpaceName
+    netgen_block_manager.contentful.entry_slugger.with_space:
+        class: Netgen\BlockManager\Contentful\Routing\EntrySlugger\WithSpace
+        public: false
         tags:
-            - { name: netgen_block_manager.contentful.entry_slugger, type: with_space_name }
+            - { name: netgen_block_manager.contentful.entry_slugger, type: with_space }
