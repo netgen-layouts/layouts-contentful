@@ -85,8 +85,6 @@ final class SyncCommand extends Command
             } elseif ($remoteEntry instanceof DeletedEntry) {
                 $this->contentful->deleteContentfulEntry($remoteEntry);
                 $this->io->writeln(sprintf('Remote entry %s deleted.', $remoteEntry->getId()));
-            } else {
-                $this->io->writeln(sprintf('Unexpected entry %s. Not synced.', get_class($remoteEntry)));
             }
         }
     }
