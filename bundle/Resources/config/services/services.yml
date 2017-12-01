@@ -16,6 +16,5 @@ services:
         arguments:
               - "@netgen_block_manager.contentful.service"
               - "@filesystem"
-              - "%contentful.clients%"
         tags:
               - { name: console.command, command: contentful:sync }

@@ -5,13 +5,13 @@ namespace Netgen\Bundle\ContentfulBlockManagerBundle\Command;
 use Contentful\Delivery\DynamicEntry;
 use Contentful\Delivery\Synchronization\DeletedEntry;
 use Netgen\BlockManager\Contentful\Service\Contentful;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 
-final class SyncCommand extends ContainerAwareCommand
+final class SyncCommand extends Command
 {
     /**
      * @var \Netgen\BlockManager\Contentful\Service\Contentful
@@ -24,23 +24,14 @@ final class SyncCommand extends ContainerAwareCommand
     private $fileSystem;
 
     /**
-     * @var array
-     */
-    private $contentfulClients;
-
-    /**
      * @var \Symfony\Component\Console\Style\SymfonyStyle
      */
     private $io;
 
-    public function __construct(
-        Contentful $contentful,
-        Filesystem $fileSystem,
-        array $contentfulClients
-    ) {
+    public function __construct(Contentful $contentful, Filesystem $fileSystem)
+    {
         $this->contentful = $contentful;
         $this->fileSystem = $fileSystem;
-        $this->contentfulClients = $contentfulClients;
 
         // Parent constructor call is mandatory in commands registered as services
         parent::__construct();
@@ -57,22 +48,13 @@ final class SyncCommand extends ContainerAwareCommand
     {
         $this->io = new SymfonyStyle($input, $output);
 
-        if (empty($this->contentfulClients)) {
-            $this->io->error('There are no Contentful clients configured.');
+        foreach ($this->contentful->getClients() as $client) {
+            $this->contentful->refreshSpaceCache($client);
+            $this->contentful->refreshContentTypeCache($client);
 
-            return;
-        }
+            $syncManager = $client->getSynchronizationManager();
 
-        foreach ($this->contentfulClients as $client) {
-            /** @var \Contentful\Delivery\Client $clientService */
-            $clientService = $this->getContainer()->get($client['service']);
-
-            $this->contentful->refreshSpaceCache($clientService);
-            $this->contentful->refreshContentTypeCache($clientService);
-
-            $syncManager = $clientService->getSynchronizationManager();
-
-            $tokenPath = $this->contentful->getSpaceCachePath($clientService) . '/token';
+            $tokenPath = $this->contentful->getSpaceCachePath($client) . '/token';
             if (!$this->fileSystem->exists($tokenPath)) {
                 $result = $syncManager->startSync();
             } else {
