@@ -2,8 +2,8 @@
 
 namespace Netgen\BlockManager\Contentful\Layout\Resolver\TargetType;
 
-use Exception;
 use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
+use Netgen\BlockManager\Contentful\Exception\NotFoundException;
 use Netgen\BlockManager\Layout\Resolver\TargetTypeInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints;
@@ -31,7 +31,7 @@ final class Entry implements TargetTypeInterface
 
         $idList = explode(':', $id);
         if (count($idList) !== 2) {
-            throw new Exception(
+            throw new NotFoundException(
                 sprintf(
                     'Item ID %s not valid.',
                     $id

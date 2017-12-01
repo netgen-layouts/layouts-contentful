@@ -2,7 +2,7 @@
 
 namespace Netgen\Bundle\ContentfulBlockManagerBundle\DependencyInjection\CompilerPass;
 
-use RuntimeException;
+use Netgen\BlockManager\Contentful\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;

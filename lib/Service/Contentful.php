@@ -9,10 +9,10 @@ use Contentful\Delivery\Query;
 use Contentful\Delivery\Synchronization\DeletedEntry;
 use Contentful\ResourceArray;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
+use Netgen\BlockManager\Contentful\Exception\NotFoundException;
+use Netgen\BlockManager\Contentful\Exception\RuntimeException;
 use Netgen\BlockManager\Contentful\Routing\EntrySluggerInterface;
-use RuntimeException;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -70,7 +70,7 @@ final class Contentful
      *
      * @param string $name
      *
-     * @throws \RuntimeException If client with provided name does not exist
+     * @throws \Netgen\BlockManager\Contentful\Exception\RuntimeException If client with provided name does not exist
      *
      * @return \Contentful\Delivery\Client
      */
@@ -172,7 +172,7 @@ final class Contentful
      *
      * @param string $id
      *
-     * @throws \Exception If entry could not be loaded
+     * @throws \Netgen\BlockManager\Contentful\Exception\NotFoundException If entry could not be loaded
      *
      * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry
      */
@@ -180,7 +180,7 @@ final class Contentful
     {
         $idList = explode('|', $id);
         if (count($idList) !== 2) {
-            throw new Exception(
+            throw new NotFoundException(
                 sprintf(
                     'Item ID %s not valid.',
                     $id
@@ -198,7 +198,7 @@ final class Contentful
             $remoteEntry = $client->getEntry($idList[1]);
 
             if (!$remoteEntry instanceof EntryInterface) {
-                throw new Exception(
+                throw new NotFoundException(
                     sprintf(
                         'Entry with ID %s not found.',
                         $id
@@ -210,7 +210,7 @@ final class Contentful
         }
 
         if ($contentfulEntry->getIsDeleted()) {
-            throw new Exception(
+            throw new NotFoundException(
                 sprintf(
                     'Entry with ID %s deleted.',
                     $id
