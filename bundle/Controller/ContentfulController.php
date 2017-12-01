@@ -47,7 +47,7 @@ final class ContentfulController extends Controller
      */
     public function view(ContentfulEntry $contentDocument)
     {
-        if (!$contentDocument->getIsPublished() or $contentDocument->getIsDeleted()) {
+        if (!$contentDocument->getIsPublished() || $contentDocument->getIsDeleted()) {
             throw new NotFoundHttpException();
         }
 
