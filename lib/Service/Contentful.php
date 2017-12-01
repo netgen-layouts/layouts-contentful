@@ -63,10 +63,6 @@ final class Contentful
         $this->entityManager = $entityManager;
         $this->fileSystem = $fileSystem;
         $this->cacheDir = $cacheDir;
-
-        if (empty($this->clientsConfig)) {
-            throw new RuntimeException('No Contentful clients configured');
-        }
     }
 
     /**

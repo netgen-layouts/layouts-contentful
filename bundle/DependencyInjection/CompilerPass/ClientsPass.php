@@ -2,6 +2,7 @@
 
 namespace Netgen\Bundle\ContentfulBlockManagerBundle\DependencyInjection\CompilerPass;
 
+use RuntimeException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -22,6 +23,10 @@ final class ClientsPass implements CompilerPassInterface
 
         $contentfulService = $container->findDefinition(self::SERVICE_NAME);
         $contentfulClients = $container->getParameter('contentful.clients');
+
+        if (empty($contentfulClients)) {
+            throw new RuntimeException('At least one Contentful client needs to be configured');
+        }
 
         foreach ($contentfulClients as $name => $client) {
             $contentfulClients[$name]['service'] = new Reference($contentfulClients[$name]['service']);
