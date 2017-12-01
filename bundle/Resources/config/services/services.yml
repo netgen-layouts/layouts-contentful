@@ -8,6 +8,7 @@ services:
             - "@doctrine.orm.entity_manager"
             - "@filesystem"
             - "%netgen_block_manager.contentful.cache_dir%"
+            - "@netgen_block_manager.contentful.slugger.configurable"
 
     netgen_block_manager.contentful.command.sync:
         class: Netgen\Bundle\ContentfulBlockManagerBundle\Command\SyncCommand
@@ -17,3 +18,19 @@ services:
               - "@filesystem"
         tags:
               - { name: console.command, command: contentful:sync }
+
+    netgen_block_manager.contentful.slugger.configurable:
+        class: Netgen\BlockManager\Contentful\Routing\EntrySlugger\EntrySluggerConfigurable
+        arguments:
+            - "%netgen_contentful_block_manager.entry_slug_type%"
+            - []
+
+    netgen_block_manager.contentful.slugger.simple:
+        class: Netgen\BlockManager\Contentful\Routing\EntrySlugger\EntrySluggerSimple
+        tags:
+            - { name: netgen_block_manager.contentful.entry_slugger, type: simple }
+
+    netgen_block_manager.contentful.slugger.with_space_name:
+        class: Netgen\BlockManager\Contentful\Routing\EntrySlugger\EntrySluggerWithSpaceName
+        tags:
+            - { name: netgen_block_manager.contentful.entry_slugger, type: with_space_name }

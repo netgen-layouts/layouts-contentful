@@ -11,6 +11,7 @@ use Contentful\ResourceArray;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
+use Netgen\BlockManager\Contentful\Routing\EntrySluggerInterface;
 use RuntimeException;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
@@ -43,18 +44,25 @@ final class Contentful
      */
     private $cacheDir;
 
+    /**
+     * @var EntrySluggerInterface
+     */
+    private $entry_slugger;
+
     public function __construct(
         array $clientsConfig,
         Client $defaultClient,
         EntityManagerInterface $entityManager,
         Filesystem $fileSystem,
-        $cacheDir
+        $cacheDir,
+        $entry_slugger
     ) {
         $this->clientsConfig = $clientsConfig;
         $this->defaultClient = $defaultClient;
         $this->entityManager = $entityManager;
         $this->fileSystem = $fileSystem;
         $this->cacheDir = $cacheDir;
+        $this->entry_slugger = $entry_slugger;
 
         if (empty($this->clientsConfig)) {
             throw new RuntimeException('No Contentful clients configured');
@@ -496,9 +504,7 @@ final class Contentful
 
         $route = new Route();
         $route->setName($id);
-        $slug = '/' . $this->createSlugPart($contentfulEntry->getSpace()->getName());
-        $slug .= '/' . $this->createSlugPart($contentfulEntry->getName());
-        $route->setStaticPrefix($slug);
+        $route->setStaticPrefix($this->entry_slugger->getSlug($contentfulEntry));
         $route->setDefault(RouteObjectInterface::CONTENT_ID, ContentfulEntry::class . ':' . $id);
         $route->setContent($contentfulEntry);
         $contentfulEntry->addRoute($route); // Create the back-link from content to route
@@ -508,18 +514,6 @@ final class Contentful
         $this->entityManager->flush();
 
         return $contentfulEntry;
-    }
-
-    /**
-     * Builds the slug from provided slug.
-     *
-     * @param string $string
-     *
-     * @return string
-     */
-    private function createSlugPart($string)
-    {
-        return strtolower(trim(preg_replace('~[^0-9a-z]+~i', '-', html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', htmlentities($string, ENT_QUOTES, 'UTF-8')), ENT_QUOTES, 'UTF-8')), '-'));
     }
 
     /**

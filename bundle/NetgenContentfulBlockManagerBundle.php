@@ -2,6 +2,7 @@
 
 namespace Netgen\Bundle\ContentfulBlockManagerBundle;
 
+use Netgen\Bundle\ContentfulBlockManagerBundle\DependencyInjection\CompilerPass\EntrySluggerPass;
 use Netgen\Bundle\ContentfulBlockManagerBundle\DependencyInjection\CompilerPass\ClientsPass;
 use Netgen\Bundle\ContentfulBlockManagerBundle\DependencyInjection\ExtensionPlugin;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -16,5 +17,7 @@ final class NetgenContentfulBlockManagerBundle extends Bundle
         $blockManagerExtension->addPlugin(new ExtensionPlugin());
 
         $container->addCompilerPass(new ClientsPass());
+        $container->addCompilerPass(new EntrySluggerPass());
+
     }
 }
