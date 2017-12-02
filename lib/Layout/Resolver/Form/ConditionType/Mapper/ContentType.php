@@ -1,6 +1,6 @@
 <?php
 
-namespace Netgen\BlockManager\Contentful\Layout\Resolver\ConditionType\FormMapper;
+namespace Netgen\BlockManager\Contentful\Layout\Resolver\Form\ConditionType\Mapper;
 
 use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\BlockManager\Layout\Resolver\Form\ConditionType\Mapper;

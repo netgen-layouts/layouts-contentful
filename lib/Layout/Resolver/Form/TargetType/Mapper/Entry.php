@@ -1,6 +1,6 @@
 <?php
 
-namespace Netgen\BlockManager\Contentful\Layout\Resolver\TargetType\FormMapper;
+namespace Netgen\BlockManager\Contentful\Layout\Resolver\Form\TargetType\Mapper;
 
 use Netgen\BlockManager\Layout\Resolver\Form\TargetType\Mapper;
 use Netgen\ContentBrowser\Form\Type\ContentBrowserType;
