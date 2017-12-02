@@ -34,7 +34,11 @@
     "autoload-dev": {
         "files": [
             "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
-        ]
+        ],
+        "psr-4": {
+            "Netgen\\BlockManager\\Contentful\\Tests\\": "tests/lib/",
+            "Netgen\\Bundle\\ContentfulBlockManagerBundle\\Tests\\": "tests/bundle/"
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
