@@ -1,12 +1,12 @@
 <?php
 
-namespace Netgen\BlockManager\Contentful\Browser\Item\Entry\ColumnValueProvider;
+namespace Netgen\BlockManager\Contentful\Browser\Item\ColumnProvider\Entry;
 
 use Netgen\BlockManager\Contentful\Browser\Item\Entry\EntryInterface;
 use Netgen\ContentBrowser\Item\ColumnProvider\ColumnValueProviderInterface;
 use Netgen\ContentBrowser\Item\ItemInterface;
 
-final class UpdatedAt implements ColumnValueProviderInterface
+final class CreatedAt implements ColumnValueProviderInterface
 {
     /**
      * @var string
@@ -27,6 +27,6 @@ final class UpdatedAt implements ColumnValueProviderInterface
             return null;
         }
 
-        return $item->getEntry()->getUpdatedAt()->format($this->dateFormat);
+        return $item->getEntry()->getCreatedAt()->format($this->dateFormat);
     }
 }

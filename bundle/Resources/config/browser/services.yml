@@ -1,5 +1,5 @@
 services:
-    netgen_block_manager.contentful.content_browser.backend.contentful_entry:
+    netgen_block_manager.contentful.browser.backend.contentful:
         class: Netgen\BlockManager\Contentful\Browser\Backend\ContentfulBackend
         public: false
         arguments:
@@ -7,24 +7,24 @@ services:
         tags:
             -  { name: netgen_content_browser.backend, item_type: contentful_entry }
 
-    netgen_block_manager.contentful.content_browser.template_value_provider.contentful_entry.created_at:
-        class: Netgen\BlockManager\Contentful\Browser\Item\Entry\ColumnValueProvider\CreatedAt
+    netgen_block_manager.contentful.browser.column_value_provider.contentful_entry.created_at:
+        class: Netgen\BlockManager\Contentful\Browser\Item\ColumnProvider\Entry\CreatedAt
         public: false
         arguments:
             - "%netgen_content_browser.columns.date_format%"
         tags:
             - { name: netgen_content_browser.column_value_provider, identifier: contentful_entry\created_at }
 
-    netgen_block_manager.contentful.content_browser.template_value_provider.contentful_entry.updated_at:
-        class: Netgen\BlockManager\Contentful\Browser\Item\Entry\ColumnValueProvider\UpdatedAt
+    netgen_block_manager.contentful.browser.column_value_provider.contentful_entry.updated_at:
+        class: Netgen\BlockManager\Contentful\Browser\Item\ColumnProvider\Entry\UpdatedAt
         public: false
         arguments:
             - "%netgen_content_browser.columns.date_format%"
         tags:
             - { name: netgen_content_browser.column_value_provider, identifier: contentful_entry\updated_at }
 
-    netgen_block_manager.contentful.content_browser.template_value_provider.contentful_entry.content_type:
-        class: Netgen\BlockManager\Contentful\Browser\Item\Entry\ColumnValueProvider\ContentType
+    netgen_block_manager.contentful.browser.column_value_provider.contentful_entry.content_type:
+        class: Netgen\BlockManager\Contentful\Browser\Item\ColumnProvider\Entry\ContentType
         public: false
         tags:
             - { name: netgen_content_browser.column_value_provider, identifier: contentful_entry\content_type }
