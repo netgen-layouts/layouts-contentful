@@ -301,8 +301,8 @@ final class ContentfulEntry implements RouteReferrersInterface, EntryInterface
         $this->remoteEntry = $remoteEntry;
         $this->id = $this->remoteEntry->getSpace()->getId() . '|' . $this->remoteEntry->getId();
 
-        $nameField  = $this->remoteEntry->getContentType()->getDisplayField();
-        $this->name = call_user_func(array($this->remoteEntry, 'get' . $nameField ->getId()));
+        $nameField = $this->remoteEntry->getContentType()->getDisplayField();
+        $this->name = call_user_func(array($this->remoteEntry, 'get' . $nameField->getId()));
     }
 
     /**
@@ -315,7 +315,7 @@ final class ContentfulEntry implements RouteReferrersInterface, EntryInterface
         $this->remoteEntry = $client->reviveJson($this->json);
         $this->id = $this->remoteEntry->getSpace()->getId() . '|' . $this->remoteEntry->getId();
 
-        $nameField  = $this->remoteEntry->getContentType()->getDisplayField();
-        $this->name = call_user_func(array($this->remoteEntry, 'get' . $nameField ->getId()));
+        $nameField = $this->remoteEntry->getContentType()->getDisplayField();
+        $this->name = call_user_func(array($this->remoteEntry, 'get' . $nameField->getId()));
     }
 }
