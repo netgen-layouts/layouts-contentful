@@ -47,10 +47,13 @@ final class ContentfulEntry implements RouteReferrersInterface, EntryInterface
      */
     private $remoteEntry;
 
-    public function __construct(EntryInterface $remoteEntry)
+    public function __construct(EntryInterface $remoteEntry = null)
     {
         $this->routes = new ArrayCollection();
-        $this->setRemoteEntry($remoteEntry);
+
+        if ($remoteEntry !== null) {
+            $this->setRemoteEntry($remoteEntry);
+        }
     }
 
     /**
