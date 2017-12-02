@@ -5,7 +5,7 @@ namespace Netgen\BlockManager\Contentful\Item\ValueConverter;
 use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
 use Netgen\BlockManager\Item\ValueConverterInterface;
 
-final class ContentfulValueConverter implements ValueConverterInterface
+final class EntryValueConverter implements ValueConverterInterface
 {
     public function supports($object)
     {

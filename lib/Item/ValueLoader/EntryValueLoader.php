@@ -7,7 +7,7 @@ use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\BlockManager\Exception\Item\ItemException;
 use Netgen\BlockManager\Item\ValueLoaderInterface;
 
-final class ContentfulValueLoader implements ValueLoaderInterface
+final class EntryValueLoader implements ValueLoaderInterface
 {
     /**
      * @var \Netgen\BlockManager\Contentful\Service\Contentful
@@ -24,11 +24,7 @@ final class ContentfulValueLoader implements ValueLoaderInterface
         try {
             $contentfulEntry = $this->contentful->loadContentfulEntry($id);
         } catch (NotFoundException $e) {
-            throw new ItemException(
-                sprintf('Entry with ID "%s" could not be loaded.', $id),
-                0,
-                $e
-            );
+            throw ItemException::noValue($id);
         }
 
         return $contentfulEntry;
