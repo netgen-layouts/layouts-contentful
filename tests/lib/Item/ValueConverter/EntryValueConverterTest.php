@@ -53,6 +53,17 @@ class EntryValueConverterTest extends TestCase
     }
 
     /**
+     * @covers \Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter::getRemoteId
+     */
+    public function testGetRemoteId()
+    {
+        $entry = new ContentfulEntry();
+        $entry->setId(42);
+
+        $this->assertEquals(42, $this->valueConverter->getRemoteId($entry));
+    }
+
+    /**
      * @covers \Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter::getName
      */
     public function testGetName()

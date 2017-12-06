@@ -29,4 +29,9 @@ final class EntryValueLoader implements ValueLoaderInterface
 
         return $contentfulEntry;
     }
+
+    public function loadByRemoteId($remoteId)
+    {
+        return $this->load($remoteId);
+    }
 }
