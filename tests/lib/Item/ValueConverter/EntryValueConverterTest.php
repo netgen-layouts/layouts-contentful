@@ -84,4 +84,14 @@ class EntryValueConverterTest extends TestCase
 
         $this->assertTrue($this->valueConverter->getIsVisible($entry));
     }
+
+    /**
+     * @covers \Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter::getObject
+     */
+    public function testGetObject()
+    {
+        $entry = new ContentfulEntry();
+
+        $this->assertEquals($entry, $this->valueConverter->getObject($entry));
+    }
 }

@@ -36,4 +36,9 @@ final class EntryValueConverter implements ValueConverterInterface
     {
         return $object->getIsPublished();
     }
+
+    public function getObject($object)
+    {
+        return $object;
+    }
 }
