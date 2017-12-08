@@ -11,11 +11,11 @@ services:
         tags:
             - { name: netgen_block_manager.layout.resolver.form.target_type.mapper, target_type: contentful_entry }
 
-    netgen_block_manager.contentful.persistence.doctrine.layout_resolver.query_handler.target_handler.entry:
-        class: Netgen\BlockManager\Contentful\Persistence\Doctrine\QueryHandler\LayoutResolver\TargetHandler\Entry
+    netgen_block_manager.contentful.layout.resolver.target_handler.doctrine.entry:
+        class: Netgen\BlockManager\Contentful\Layout\Resolver\TargetHandler\Doctrine\Entry
         public: false
         tags:
-            - { name: netgen_block_manager.persistence.doctrine.layout_resolver.query_handler.target_handler, target_type: contentful_entry }
+            - { name: netgen_block_manager.layout.resolver.target_handler.doctrine, target_type: contentful_entry }
 
     netgen_block_manager.contentful.layout.resolver.target_type.space:
         class: Netgen\BlockManager\Contentful\Layout\Resolver\TargetType\Space
@@ -31,11 +31,11 @@ services:
         tags:
             - { name: netgen_block_manager.layout.resolver.form.target_type.mapper, target_type: contentful_space }
 
-    netgen_block_manager.contentful.persistence.doctrine.layout_resolver.query_handler.target_handler.space:
-        class: Netgen\BlockManager\Contentful\Persistence\Doctrine\QueryHandler\LayoutResolver\TargetHandler\Space
+    netgen_block_manager.contentful.layout.resolver.target_handler.doctrine.space:
+        class: Netgen\BlockManager\Contentful\Layout\Resolver\TargetHandler\Doctrine\Space
         public: false
         tags:
-            - { name: netgen_block_manager.persistence.doctrine.layout_resolver.query_handler.target_handler, target_type: contentful_space }
+            - { name: netgen_block_manager.layout.resolver.target_handler.doctrine, target_type: contentful_space }
 
     netgen_block_manager.contentful.layout.resolver.condition_type.content_type:
         class: Netgen\BlockManager\Contentful\Layout\Resolver\ConditionType\ContentType
