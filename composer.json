@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "netgen/block-manager": "~0.10.0@dev",
+        "netgen/block-manager": "~0.10.0",
         "contentful/contentful-bundle": "^2.0",
         "symfony-cmf/routing-bundle": "^2.0"
     },
