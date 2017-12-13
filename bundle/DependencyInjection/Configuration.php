@@ -10,7 +10,7 @@ final class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('contentful_block_manager');
+        $rootNode = $treeBuilder->root('netgen_contentful_block_manager');
 
         $rootNode
             ->children()
