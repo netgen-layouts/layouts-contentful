@@ -193,12 +193,12 @@ Go to Contentful space settings and create a webhook with:
 Optional: Implement custom sluggers
 -----------------------------------
 
-This bundle offer the possiblity to implement custom sluggers to generate url for full content based  pages. Out of the box there are 2 sluggers immplemented:
+This bundle offer the possibility to implement custom sluggers to generate URLs for full content based pages. Out of the box there are 2 sluggers implemented:
 
-* simple slugger - takes the name of the contentful entry and makes the slug. This one is used by default
-* with_space_name slugger - adds the space name before the entry name so the url will hav this format: /[space_name_slug]/[entry_name_slug]
+* `simple` slugger - takes the name of the Contentful entry and makes the slug. This one is used by default
+* `with_space` slugger - adds the space name before the entry name so the URL will have the format `/[space_name_slug]/[entry_name_slug]`
 
-To implement custom slugger you need to extend the base Slugger class and implement the EntrySluggerInterface:
+To implement a custom slugger you need to extend the base `Slugger` class and implement the `EntrySluggerInterface`:
 
 ```
 final class MySlugger extends Slugger implements EntrySluggerInterface
@@ -210,27 +210,29 @@ final class MySlugger extends Slugger implements EntrySluggerInterface
 }
 ```
 
-The function filterSlug() created a URL friendly string from any given string.
+The function `filterSlug()` creates an URL friendly string from any given string.
 
-Then declare your class as service and tag it as 'entry_slugger':
+Then declare your class as service and tag it:
 
 ```
-    my_app.entry_slugger.with_space:
+    my_app.entry_slugger.with_my_prefix:
         class: MyApp\Routing\EntrySlugger\WithMyPrefix
         public: false
         tags:
             - { name: netgen_block_manager.contentful.entry_slugger, type: with_my_prefix }
 ```
 
-Finally you need to configure your app in config.yml to use your slugger. You can declare it as default one and declare it for each content type using the content type id:
+Finally, you need to configure your app in `config.yml` to use your slugger. You can declare it as a default one and declare it for each content type using the content type ID:
 
 ```
 netgen_contentful_block_manager:
     entry_slug_type:
         default: with_my_prefix
         content_type:
-            5KMiN6YPvi42icqAUQMCQe: simple                  #category
-            2wKn6yEnZewu2SCCkus4as: with_my_prefix          #post
+            # Category content type
+            5KMiN6YPvi42icqAUQMCQe: simple
+            # Post content type
+            2wKn6yEnZewu2SCCkus4as: with_my_prefix
 ```
 
 And that should be it!
