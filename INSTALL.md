@@ -190,6 +190,51 @@ Go to Contentful space settings and create a webhook with:
 * checked Published, Unpublished and Delete events for Content types
 * checked Published, Unpublished and Delete events for entries
 
+Optional: Implement custom sluggers
+-----------------------------------
+
+This bundle offer the possiblity to implement custom sluggers to generate url for full content based  pages. Out of the box there are 2 sluggers immplemented:
+
+* simple slugger - takes the name of the contentful entry and makes the slug. This one is used by default
+* with_space_name slugger - adds the space name before the entry name so the url will hav this format: /[space_name_slug]/[entry_name_slug]
+
+To implement custom slugger you need to extend the base Slugger class and implement the EntrySluggerInterface:
+
+```
+final class MySlugger extends Slugger implements EntrySluggerInterface
+{
+    public function getSlug(ContentfulEntry $contentfulEntry)
+    {
+        return '/my_prefix/' . $this->filterSlug($contentfulEntry->getName());
+    }
+}
+```
+
+The function filterSlug() created a URL friendly string from any given string.
+
+Then declare your class as service and tag it as 'entry_slugger':
+
+```
+    my_app.entry_slugger.with_space:
+        class: MyApp\Routing\EntrySlugger\WithMyPrefix
+        public: false
+        tags:
+            - { name: netgen_block_manager.contentful.entry_slugger, type: with_my_prefix }
+```
+
+Finally you need to configure your app in config.yml to use your slugger. You can declare it as default one and declare it for each content type using the content type id:
+
+```
+netgen_contentful_block_manager:
+    entry_slug_type:
+        default: with_my_prefix
+        content_type:
+            5KMiN6YPvi42icqAUQMCQe: simple                  #category
+            2wKn6yEnZewu2SCCkus4as: with_my_prefix          #post
+```
+
+And that should be it!
+
 Use it
 ------
 
