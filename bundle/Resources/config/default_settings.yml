@@ -1,3 +1,2 @@
 parameters:
     netgen_block_manager.contentful.cache_dir: '%kernel.cache_dir%/contentful/'
-    netgen_contentful_block_manager.entry_slug_type.default: simple
