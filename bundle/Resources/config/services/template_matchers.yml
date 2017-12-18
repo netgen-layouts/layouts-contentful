@@ -1,0 +1,12 @@
+services:
+    netgen_block_manager.contentful.view.matcher.item.content_type_view_type:
+        class: Netgen\BlockManager\Contentful\View\Matcher\Item\ContentTypeViewType
+        public: false
+        tags:
+            - { name: netgen_block_manager.view.template_matcher, identifier: contentful\content_type }
+
+    netgen_block_manager.contentful.view.matcher.item.space_view_type:
+        class: Netgen\BlockManager\Contentful\View\Matcher\Item\SpaceViewType
+        public: false
+        tags:
+            - { name: netgen_block_manager.view.template_matcher, identifier: contentful\space }
