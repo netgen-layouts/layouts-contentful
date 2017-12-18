@@ -6,7 +6,7 @@ use Netgen\BlockManager\View\Matcher\MatcherInterface;
 use Netgen\BlockManager\View\View\ItemViewInterface;
 use Netgen\BlockManager\View\ViewInterface;
 
-final class SpaceViewType implements MatcherInterface
+final class ContentType implements MatcherInterface
 {
     public function match(ViewInterface $view, array $config)
     {
@@ -14,6 +14,6 @@ final class SpaceViewType implements MatcherInterface
             return false;
         }
 
-        return in_array($view->getItem()->getObject()->getSpace()->getId(), $config, true);
+        return in_array($view->getItem()->getObject()->getContentType()->getId(), $config, true);
     }
 }
