@@ -8,7 +8,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
 
-final class ContentfulEntry implements RouteReferrersInterface, EntryInterface
+/**
+ * @final
+ */
+class ContentfulEntry implements RouteReferrersInterface, EntryInterface
 {
     /**
      * @var string
