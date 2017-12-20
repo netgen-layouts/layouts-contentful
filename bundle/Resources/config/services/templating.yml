@@ -27,4 +27,3 @@ services:
             - "@netgen_block_manager.contentful.templating.twig.extension.markdown.engine"
         tags:
             - { name: twig.extension }
-
