@@ -15,7 +15,7 @@
         {% if field_value is not null and field_type is not null %}
             <div class="field">
                 <p><strong>{{ field_identifier }}:</strong></p>
-                {% include '@NetgenBlockManagerContentful/contentful/field_type/' ~ field_type ~ '.html.twig' with {'field': field_value} %} <br/>
+                {% include '@NetgenContentfulBlockManager/contentful/field_type/' ~ field_type ~ '.html.twig' with {'field': field_value} %} <br/>
             </div>
         {% endif %}
     {% endblock %}
