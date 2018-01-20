@@ -7,7 +7,7 @@ use Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
-class EntryValueConverterTest extends TestCase
+final class EntryValueConverterTest extends TestCase
 {
     /**
      * @var \Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter

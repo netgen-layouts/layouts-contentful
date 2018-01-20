@@ -6,7 +6,7 @@ use Netgen\Bundle\ContentfulBlockManagerBundle\Templating\Twig\Extension\Content
 use PHPUnit\Framework\TestCase;
 use Twig\TwigFunction;
 
-class ContentfulExtensionTest extends TestCase
+final class ContentfulExtensionTest extends TestCase
 {
     /**
      * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Templating\Twig\Extension\ContentfulExtension
