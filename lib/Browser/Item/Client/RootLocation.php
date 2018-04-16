@@ -18,11 +18,9 @@ final class RootLocation implements LocationInterface, ClientInterface
 
     public function getParentId()
     {
-        return null;
     }
 
     public function getClient()
     {
-        return null;
     }
 }

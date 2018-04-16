@@ -24,7 +24,7 @@ final class CreatedAt implements ColumnValueProviderInterface
     public function getValue(ItemInterface $item)
     {
         if (!$item instanceof EntryInterface) {
-            return null;
+            return;
         }
 
         return $item->getEntry()->getCreatedAt()->format($this->dateFormat);

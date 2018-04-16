@@ -25,21 +25,21 @@ final class Space implements TargetTypeInterface
     {
         $contentId = $request->attributes->get('_content_id');
         if ($contentId === null) {
-            return null;
+            return;
         }
 
         $contentIds = explode(':', $contentId);
         if (count($contentIds) !== 2) {
-            return null;
+            return;
         }
 
         if ($contentIds[0] !== ContentfulEntry::class) {
-            return null;
+            return;
         }
 
         $contentIds = explode('|', $contentIds[1]);
         if (count($contentIds) !== 2) {
-            return null;
+            return;
         }
 
         return $contentIds[0];

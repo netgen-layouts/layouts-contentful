@@ -26,7 +26,7 @@ final class Entry implements TargetTypeInterface
     {
         $id = $request->attributes->get('_content_id');
         if ($id === null) {
-            return null;
+            return;
         }
 
         $idList = explode(':', $id);
@@ -42,7 +42,5 @@ final class Entry implements TargetTypeInterface
         if ($idList[0] === ContentfulEntry::class) {
             return $idList[1];
         }
-
-        return null;
     }
 }

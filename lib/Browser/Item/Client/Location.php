@@ -41,7 +41,6 @@ final class Location implements LocationInterface, ClientInterface
 
     public function getParentId()
     {
-        return null;
     }
 
     public function getClient()

@@ -111,8 +111,6 @@ final class Contentful
                 return $clientConfig['service'];
             }
         }
-
-        return null;
     }
 
     /**
@@ -153,8 +151,6 @@ final class Contentful
                 }
             }
         }
-
-        return null;
     }
 
     /**

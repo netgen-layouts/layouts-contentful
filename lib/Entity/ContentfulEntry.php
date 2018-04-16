@@ -67,7 +67,7 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
      */
     public function __call($name, $arguments)
     {
-        if (0 !== strpos($name, 'get')) {
+        if (mb_strpos($name, 'get') !== 0) {
             trigger_error('Call to undefined method ' . __CLASS__ . '::' . $name . '()', E_USER_ERROR);
         }
 

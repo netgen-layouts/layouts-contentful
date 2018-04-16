@@ -11,7 +11,7 @@ final class ContentType implements ColumnValueProviderInterface
     public function getValue(ItemInterface $item)
     {
         if (!$item instanceof EntryInterface) {
-            return null;
+            return;
         }
 
         return $item->getEntry()->getContentType()->getName();
