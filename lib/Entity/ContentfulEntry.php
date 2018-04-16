@@ -72,6 +72,7 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
         }
 
         $ret = null;
+
         try {
             $ret = call_user_func(array($this->remoteEntry, $name));
         } catch (Exception $e) {

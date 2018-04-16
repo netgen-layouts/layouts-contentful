@@ -15,9 +15,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class ContentfulController extends Controller
 {
-    /*
-     * Contentful topic constants (sent as X-Contentful-Topic header)
-     */
+    // Contentful topic constants (sent as X-Contentful-Topic header)
     const ENTRY_PUBLISH = 'ContentManagement.Entry.publish';
     const ENTRY_UNPUBLISH = 'ContentManagement.Entry.unpublish';
     const ENTRY_DELETE = 'ContentManagement.Entry.delete';

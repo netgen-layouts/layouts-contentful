@@ -314,7 +314,6 @@ final class Contentful
 
             $clientsAndContentTypes[$client->getSpace()->getName()] = $clientName;
             foreach ($client->getContentTypes()->getItems() as $contentType) {
-                /* @var \Contentful\Delivery\ContentType $contentType */
                 $clientsAndContentTypes['>  ' . $contentType->getName()] = $clientName . '|' . $contentType->getId();
             }
         }
@@ -356,7 +355,6 @@ final class Contentful
 
             $contentTypes = array();
             foreach ($client->getContentTypes()->getItems() as $contentType) {
-                /* @var \Contentful\Delivery\ContentType $contentType */
                 $contentTypes[$contentType->getName()] = $contentType->getId();
             }
             $spaces[$client->getSpace()->getName()] = $contentTypes;
@@ -447,7 +445,6 @@ final class Contentful
         $spacePath = $this->getSpaceCachePath($client);
         $contentTypes = $client->getContentTypes();
         foreach ($contentTypes as $contentType) {
-            /* @var \Contentful\Delivery\ContentType $contentType */
             $this->fileSystem->dumpFile($spacePath . '/ct-' . $contentType->getId() . '.json', json_encode($contentType));
         }
     }
