@@ -38,7 +38,7 @@ final class NetgenContentfulBlockManagerExtension extends Extension implements P
 
     public function prepend(ContainerBuilder $container)
     {
-        $prependConfigs = array(
+        $prependConfigs = [
             'block_definitions.yml' => 'netgen_block_manager',
             'value_types.yml' => 'netgen_block_manager',
             'query_types.yml' => 'netgen_block_manager',
@@ -48,7 +48,7 @@ final class NetgenContentfulBlockManagerExtension extends Extension implements P
             'view/block_view.yml' => 'netgen_block_manager',
             'browser/item_types.yml' => 'netgen_content_browser',
             'framework/doctrine.yml' => 'doctrine',
-        );
+        ];
 
         foreach ($prependConfigs as $configFile => $prependConfig) {
             $configFile = __DIR__ . '/../Resources/config/' . $configFile;

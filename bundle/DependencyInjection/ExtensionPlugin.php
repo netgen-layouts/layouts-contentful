@@ -8,8 +8,8 @@ final class ExtensionPlugin extends BaseExtensionPlugin
 {
     public function appendConfigurationFiles()
     {
-        return array(
+        return [
             __DIR__ . '/../Resources/config/block_type_groups.yml',
-        );
+        ];
     }
 }

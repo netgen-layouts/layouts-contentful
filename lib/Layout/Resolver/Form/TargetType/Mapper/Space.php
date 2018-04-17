@@ -25,8 +25,8 @@ final class Space extends Mapper
 
     public function getFormOptions()
     {
-        return array(
+        return [
             'choices' => $this->contentful->getSpacesAsChoices(),
-        );
+        ];
     }
 }

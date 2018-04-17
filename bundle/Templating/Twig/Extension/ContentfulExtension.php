@@ -10,19 +10,19 @@ final class ContentfulExtension extends AbstractExtension
 {
     public function getFunctions()
     {
-        return array(
+        return [
             new TwigFunction(
                 'contentful_entry_name',
-                array(ContentfulRuntime::class, 'contentfulEntryName')
+                [ContentfulRuntime::class, 'contentfulEntryName']
             ),
             new TwigFunction(
                 'contentful_space_name',
-                array(ContentfulRuntime::class, 'contentfulSpaceName')
+                [ContentfulRuntime::class, 'contentfulSpaceName']
             ),
             new TwigFunction(
                 'contentful_content_type_name',
-                array(ContentfulRuntime::class, 'contentfulContentTypeName')
+                [ContentfulRuntime::class, 'contentfulContentTypeName']
             ),
-        );
+        ];
     }
 }

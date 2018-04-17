@@ -29,48 +29,48 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
         $builder->add(
             'client',
             ParameterType\ChoiceType::class,
-            array(
+            [
                 'options' => $this->contentful->getClientsAndContentTypesAsChoices(),
-            )
+            ]
         );
 
         $builder->add(
             'sort_type',
             ParameterType\ChoiceType::class,
-            array(
+            [
                 'required' => false,
-                'options' => array(
+                'options' => [
                     'Created' => 'sys.createdAt',
                     'Updated' => 'sys.updatedAt',
-                ),
-            )
+                ],
+            ]
         );
 
         $builder->add(
             'sort_direction',
             ParameterType\ChoiceType::class,
-            array(
+            [
                 'required' => true,
-                'options' => array(
+                'options' => [
                     'Descending' => true,
                     'Ascending' => false,
-                ),
-            )
+                ],
+            ]
         );
 
         $builder->add(
             'search_text',
             ParameterType\TextLineType::class,
-            array(
-                'groups' => array(self::GROUP_ADVANCED),
-            )
+            [
+                'groups' => [self::GROUP_ADVANCED],
+            ]
         );
     }
 
     public function getValues(Query $query, $offset = 0, $limit = null)
     {
         if ($query->getParameter('client')->getValue() === null || $limit === 0) {
-            return array();
+            return [];
         }
 
         $optionsArray = explode('|', $query->getParameter('client')->getValue());

@@ -120,7 +120,7 @@ final class Contentful
      */
     public function getClients()
     {
-        $clients = array();
+        $clients = [];
 
         foreach ($this->clientsConfig as $clientConfig) {
             $clients[] = $clientConfig['service'];
@@ -302,7 +302,7 @@ final class Contentful
      */
     public function getClientsAndContentTypesAsChoices()
     {
-        $clientsAndContentTypes = array();
+        $clientsAndContentTypes = [];
 
         foreach ($this->clientsConfig as $clientName => $clientConfig) {
             /** @var \Contentful\Delivery\Client $client */
@@ -324,7 +324,7 @@ final class Contentful
      */
     public function getSpacesAsChoices()
     {
-        $spaces = array();
+        $spaces = [];
 
         foreach ($this->clientsConfig as $clientConfig) {
             /** @var \Contentful\Delivery\Client $client */
@@ -343,13 +343,13 @@ final class Contentful
      */
     public function getSpacesAndContentTypesAsChoices()
     {
-        $spaces = array();
+        $spaces = [];
 
         foreach ($this->clientsConfig as $clientConfig) {
             /** @var \Contentful\Delivery\Client $client */
             $client = $clientConfig['service'];
 
-            $contentTypes = array();
+            $contentTypes = [];
             foreach ($client->getContentTypes()->getItems() as $contentType) {
                 $contentTypes[$contentType->getName()] = $contentType->getId();
             }
@@ -515,7 +515,7 @@ final class Contentful
      */
     private function buildContentfulEntries(ResourceArray $entries, Client $client)
     {
-        $contentfulEntries = array();
+        $contentfulEntries = [];
 
         foreach ($entries as $remoteEntry) {
             $id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();

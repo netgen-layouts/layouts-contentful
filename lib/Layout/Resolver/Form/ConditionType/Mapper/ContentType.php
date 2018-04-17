@@ -25,9 +25,9 @@ final class ContentType extends Mapper
 
     public function getFormOptions()
     {
-        return array(
+        return [
             'choices' => $this->contentful->getSpacesAndContentTypesAsChoices(),
             'multiple' => true,
-        );
+        ];
     }
 }

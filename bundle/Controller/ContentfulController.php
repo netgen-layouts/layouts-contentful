@@ -51,9 +51,9 @@ final class ContentfulController extends Controller
 
         return $this->render(
             '@NetgenContentfulBlockManager/contentful/content.html.twig',
-            array(
+            [
                 'content' => $contentDocument,
-            )
+            ]
         );
     }
 

@@ -14,8 +14,8 @@ final class Entry extends Mapper
 
     public function getFormOptions()
     {
-        return array(
+        return [
             'item_type' => 'contentful_entry',
-        );
+        ];
     }
 }

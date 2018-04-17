@@ -41,7 +41,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
         $params['content'] = $contentfulEntry;
 
         try {
-            $field = call_user_func(array($contentfulEntry, 'get' . $block->getParameter('field_identifier')));
+            $field = call_user_func([$contentfulEntry, 'get' . $block->getParameter('field_identifier')]);
         } catch (Exception $e) {
             // Do nothing
         }
@@ -52,7 +52,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
             $params['field_value'] = $this->contentful->loadContentfulEntry($field->getSpace()->getId() . '|' . $field->getId());
             $params['field_type'] = 'entry';
         } elseif ($fieldType === 'array') {
-            $fieldValues = array();
+            $fieldValues = [];
 
             foreach ($field as $innerField) {
                 $innerFieldType = $this->getFieldType($innerField);

@@ -21,7 +21,7 @@ final class EntrySluggerPass implements CompilerPassInterface
         $service = $container->findDefinition(self::SERVICE_NAME);
         $sluggerServices = $container->findTaggedServiceIds(self::TAG_NAME);
 
-        $sluggers = array();
+        $sluggers = [];
         foreach ($sluggerServices as $sluggerService => $tags) {
             foreach ($tags as $tag) {
                 if (!isset($tag['type'])) {

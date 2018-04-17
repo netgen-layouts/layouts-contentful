@@ -16,9 +16,9 @@ final class Space implements TargetTypeInterface
 
     public function getConstraints()
     {
-        return array(
+        return [
             new Constraints\NotBlank(),
-        );
+        ];
     }
 
     public function provideValue(Request $request)

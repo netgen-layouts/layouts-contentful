@@ -25,7 +25,7 @@ final class ContentfulBackend implements BackendInterface
 
     public function getDefaultSections()
     {
-        return array(new RootLocation());
+        return [new RootLocation()];
     }
 
     public function loadLocation($id)
@@ -50,7 +50,7 @@ final class ContentfulBackend implements BackendInterface
     public function getSubLocations(LocationInterface $location)
     {
         if (!$location instanceof RootLocation) {
-            return array();
+            return [];
         }
 
         return $this->buildLocations(
@@ -81,7 +81,7 @@ final class ContentfulBackend implements BackendInterface
     public function getSubItemsCount(LocationInterface $location)
     {
         if ($location instanceof RootLocation) {
-            return array();
+            return [];
         }
 
         return $this->contentful->getContentfulEntriesCount($location->getClient());
