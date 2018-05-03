@@ -1,0 +1,13 @@
+parameters:
+    ignoreErrors:
+        # Symfony Config component
+        - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::children\(\)#'
+
+        # Doctrine ORM
+        - '#Contentful::findContentfulEntry\(\) should return Netgen\\BlockManager\\Contentful\\Entity\\ContentfulEntry|null but returns object|null.#'
+
+        # Contentful
+        - '#Client::reviveJson\(\) expects string, resource|string given.#'
+
+        # Bug?
+        - '#Netgen\\BlockManager\\Contentful\\Browser\\Item\\Client\\Location constructor expects string, Contentful\\Delivery\\Space given.#'
