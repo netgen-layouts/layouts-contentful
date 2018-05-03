@@ -47,9 +47,9 @@ final class EntryValueConverterTest extends TestCase
     public function testGetId()
     {
         $entry = new ContentfulEntry();
-        $entry->setId(42);
+        $entry->setId('abc');
 
-        $this->assertEquals(42, $this->valueConverter->getId($entry));
+        $this->assertEquals('abc', $this->valueConverter->getId($entry));
     }
 
     /**
@@ -58,9 +58,9 @@ final class EntryValueConverterTest extends TestCase
     public function testGetRemoteId()
     {
         $entry = new ContentfulEntry();
-        $entry->setId(42);
+        $entry->setId('abc');
 
-        $this->assertEquals(42, $this->valueConverter->getRemoteId($entry));
+        $this->assertEquals('abc', $this->valueConverter->getRemoteId($entry));
     }
 
     /**

@@ -40,6 +40,8 @@ final class EntryFieldHandler extends BlockDefinitionHandler
         $contentfulEntry = $currentRequest->attributes->get('contentDocument');
         $params['content'] = $contentfulEntry;
 
+        $field = null;
+
         try {
             $field = call_user_func([$contentfulEntry, 'get' . $block->getParameter('field_identifier')]);
         } catch (Exception $e) {

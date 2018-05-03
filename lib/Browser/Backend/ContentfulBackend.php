@@ -3,6 +3,7 @@
 namespace Netgen\BlockManager\Contentful\Browser\Backend;
 
 use Contentful\Delivery\Client;
+use Netgen\BlockManager\Contentful\Browser\Item\Client\ClientInterface;
 use Netgen\BlockManager\Contentful\Browser\Item\Client\Location;
 use Netgen\BlockManager\Contentful\Browser\Item\Client\RootLocation;
 use Netgen\BlockManager\Contentful\Browser\Item\Entry\Item;
@@ -69,9 +70,11 @@ final class ContentfulBackend implements BackendInterface
 
     public function getSubItems(LocationInterface $location, $offset = 0, $limit = 25)
     {
+        $contentfulEntries = [];
+
         if ($location instanceof RootLocation) {
             $contentfulEntries = $this->contentful->getContentfulEntries($offset, $limit);
-        } else {
+        } elseif ($location instanceof Location) {
             $contentfulEntries = $this->contentful->getContentfulEntries($offset, $limit, $location->getClient());
         }
 
@@ -80,8 +83,8 @@ final class ContentfulBackend implements BackendInterface
 
     public function getSubItemsCount(LocationInterface $location)
     {
-        if ($location instanceof RootLocation) {
-            return [];
+        if (!$location instanceof ClientInterface || $location instanceof RootLocation) {
+            return 0;
         }
 
         return $this->contentful->getContentfulEntriesCount($location->getClient());

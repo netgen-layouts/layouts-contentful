@@ -22,7 +22,7 @@ final class ContentfulRuntime
     /**
      * Returns the Contentful entry name.
      *
-     * @param int|string $entryId
+     * @param string $entryId
      *
      * @return string
      */
@@ -40,7 +40,7 @@ final class ContentfulRuntime
     /**
      * Returns the Contentful space name.
      *
-     * @param int|string $spaceId
+     * @param string $spaceId
      *
      * @return string
      */
@@ -57,7 +57,7 @@ final class ContentfulRuntime
     /**
      * Returns the Contentful content type name.
      *
-     * @param int|string $contentTypeId
+     * @param string $contentTypeId
      *
      * @return string
      */

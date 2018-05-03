@@ -3,6 +3,7 @@
 namespace Netgen\BlockManager\Contentful\Entity;
 
 use Contentful\Delivery\Client;
+use Contentful\Delivery\DynamicEntry;
 use Contentful\Delivery\EntryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
@@ -46,15 +47,15 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     /**
      * Original Contentful entry.
      *
-     * @var \Contentful\Delivery\DynamicEntry
+     * @var \Contentful\Delivery\DynamicEntry $remoteEntry
      */
     private $remoteEntry;
 
-    public function __construct(EntryInterface $remoteEntry = null)
+    public function __construct(DynamicEntry $remoteEntry = null)
     {
         $this->routes = new ArrayCollection();
 
-        if ($remoteEntry !== null) {
+        if ($remoteEntry instanceof DynamicEntry) {
             $this->setRemoteEntry($remoteEntry);
         }
     }
@@ -298,9 +299,9 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     /**
      * Sets the remote entry.
      *
-     * @param \Contentful\Delivery\EntryInterface $remoteEntry
+     * @param \Contentful\Delivery\DynamicEntry $remoteEntry
      */
-    public function setRemoteEntry($remoteEntry)
+    public function setRemoteEntry(DynamicEntry $remoteEntry)
     {
         $this->remoteEntry = $remoteEntry;
         $this->id = $this->remoteEntry->getSpace()->getId() . '|' . $this->remoteEntry->getId();
@@ -316,10 +317,13 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
      */
     public function reviveRemoteEntry(Client $client)
     {
-        $this->remoteEntry = $client->reviveJson($this->json);
-        $this->id = $this->remoteEntry->getSpace()->getId() . '|' . $this->remoteEntry->getId();
+        /** @var \Contentful\Delivery\DynamicEntry $remoteEntry */
+        $remoteEntry = $client->reviveJson($this->json);
+        $this->id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
 
-        $nameField = $this->remoteEntry->getContentType()->getDisplayField();
-        $this->name = call_user_func([$this->remoteEntry, 'get' . $nameField->getId()]);
+        $nameField = $remoteEntry->getContentType()->getDisplayField();
+
+        $this->name = call_user_func([$remoteEntry, 'get' . $nameField->getId()]);
+        $this->remoteEntry = $remoteEntry;
     }
 }
