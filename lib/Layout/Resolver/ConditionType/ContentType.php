@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\BlockManager\Contentful\Layout\Resolver\ConditionType;
 
 use Exception;

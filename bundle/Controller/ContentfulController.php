@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\Bundle\ContentfulBlockManagerBundle\Controller;
 
 use Contentful\Delivery\DynamicEntry;

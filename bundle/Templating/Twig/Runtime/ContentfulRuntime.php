@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\Bundle\ContentfulBlockManagerBundle\Templating\Twig\Runtime;
 
 use Contentful\Delivery\Client;

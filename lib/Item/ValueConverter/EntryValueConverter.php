@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\BlockManager\Contentful\Item\ValueConverter;
 
 use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;

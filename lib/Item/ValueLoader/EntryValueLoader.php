@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\BlockManager\Contentful\Item\ValueLoader;
 
 use Netgen\BlockManager\Contentful\Exception\NotFoundException;

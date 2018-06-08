@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\Bundle\ContentfulBlockManagerBundle\Tests\Templating\Twig\Extension;
 
 use Netgen\Bundle\ContentfulBlockManagerBundle\Templating\Twig\Extension\ContentfulExtension;
@@ -13,7 +15,7 @@ final class ContentfulExtensionTest extends TestCase
      */
     private $extension;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->extension = new ContentfulExtension();
     }
@@ -21,7 +23,7 @@ final class ContentfulExtensionTest extends TestCase
     /**
      * @covers \Netgen\Bundle\ContentfulBlockManagerBundle\Templating\Twig\Extension\ContentfulExtension::getFunctions
      */
-    public function testGetFunctions()
+    public function testGetFunctions(): void
     {
         $this->assertNotEmpty($this->extension->getFunctions());
 

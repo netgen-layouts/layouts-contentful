@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\BlockManager\Contentful\Entity;
 
 use Contentful\Delivery\Client;
@@ -47,7 +49,7 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     /**
      * Original Contentful entry.
      *
-     * @var \Contentful\Delivery\DynamicEntry $remoteEntry
+     * @var \Contentful\Delivery\DynamicEntry
      */
     private $remoteEntry;
 

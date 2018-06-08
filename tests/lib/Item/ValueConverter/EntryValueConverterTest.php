@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\BlockManager\Contentful\Tests\Item\ValueConverter;
 
 use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
@@ -14,7 +16,7 @@ final class EntryValueConverterTest extends TestCase
      */
     private $valueConverter;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->valueConverter = new EntryValueConverter();
     }
@@ -22,7 +24,7 @@ final class EntryValueConverterTest extends TestCase
     /**
      * @covers \Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter::supports
      */
-    public function testSupports()
+    public function testSupports(): void
     {
         $this->assertTrue($this->valueConverter->supports(new ContentfulEntry()));
         $this->assertFalse($this->valueConverter->supports(new stdClass()));
@@ -31,7 +33,7 @@ final class EntryValueConverterTest extends TestCase
     /**
      * @covers \Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter::getValueType
      */
-    public function testGetValueType()
+    public function testGetValueType(): void
     {
         $this->assertEquals(
             'contentful_entry',
@@ -44,7 +46,7 @@ final class EntryValueConverterTest extends TestCase
     /**
      * @covers \Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter::getId
      */
-    public function testGetId()
+    public function testGetId(): void
     {
         $entry = new ContentfulEntry();
         $entry->setId('abc');
@@ -55,7 +57,7 @@ final class EntryValueConverterTest extends TestCase
     /**
      * @covers \Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter::getRemoteId
      */
-    public function testGetRemoteId()
+    public function testGetRemoteId(): void
     {
         $entry = new ContentfulEntry();
         $entry->setId('abc');
@@ -66,7 +68,7 @@ final class EntryValueConverterTest extends TestCase
     /**
      * @covers \Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter::getName
      */
-    public function testGetName()
+    public function testGetName(): void
     {
         $entry = new ContentfulEntry();
         $entry->setName('Entry name');
@@ -77,7 +79,7 @@ final class EntryValueConverterTest extends TestCase
     /**
      * @covers \Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter::getIsVisible
      */
-    public function testGetIsVisible()
+    public function testGetIsVisible(): void
     {
         $entry = new ContentfulEntry();
         $entry->setIsPublished(true);
@@ -88,7 +90,7 @@ final class EntryValueConverterTest extends TestCase
     /**
      * @covers \Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter::getObject
      */
-    public function testGetObject()
+    public function testGetObject(): void
     {
         $entry = new ContentfulEntry();
 

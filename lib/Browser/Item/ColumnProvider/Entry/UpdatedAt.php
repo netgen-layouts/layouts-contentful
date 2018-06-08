@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\BlockManager\Contentful\Browser\Item\ColumnProvider\Entry;
 
 use Netgen\BlockManager\Contentful\Browser\Item\Entry\EntryInterface;

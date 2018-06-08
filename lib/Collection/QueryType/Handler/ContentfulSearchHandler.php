@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\BlockManager\Contentful\Collection\QueryType\Handler;
 
 use Contentful\Delivery\Query as ContentfulQuery;

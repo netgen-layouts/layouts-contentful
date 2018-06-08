@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\BlockManager\Contentful\Browser\Item\Client;
 
 use Contentful\Delivery\Client;
