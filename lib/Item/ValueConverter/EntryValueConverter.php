@@ -9,12 +9,12 @@ use Netgen\BlockManager\Item\ValueConverterInterface;
 
 final class EntryValueConverter implements ValueConverterInterface
 {
-    public function supports($object)
+    public function supports($object): bool
     {
         return $object instanceof ContentfulEntry;
     }
 
-    public function getValueType($object)
+    public function getValueType($object): string
     {
         return 'contentful_entry';
     }
@@ -29,12 +29,12 @@ final class EntryValueConverter implements ValueConverterInterface
         return $object->getId();
     }
 
-    public function getName($object)
+    public function getName($object): string
     {
         return $object->getName();
     }
 
-    public function getIsVisible($object)
+    public function getIsVisible($object): bool
     {
         return $object->getIsPublished();
     }

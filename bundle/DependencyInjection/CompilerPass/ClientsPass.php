@@ -11,11 +11,11 @@ use Symfony\Component\DependencyInjection\Reference;
 
 final class ClientsPass implements CompilerPassInterface
 {
-    const SERVICE_NAME = 'netgen_block_manager.contentful.service';
+    private static $serviceName = 'netgen_block_manager.contentful.service';
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
-        if (!$container->has(self::SERVICE_NAME)) {
+        if (!$container->has(self::$serviceName)) {
             return;
         }
 
@@ -23,7 +23,7 @@ final class ClientsPass implements CompilerPassInterface
             return;
         }
 
-        $contentfulService = $container->findDefinition(self::SERVICE_NAME);
+        $contentfulService = $container->findDefinition(self::$serviceName);
         $contentfulClients = $container->getParameter('contentful.clients');
 
         if (empty($contentfulClients)) {

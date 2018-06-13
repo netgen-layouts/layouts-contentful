@@ -31,12 +31,12 @@ final class EntryFieldHandler extends BlockDefinitionHandler
         $this->requestStack = $requestStack;
     }
 
-    public function buildParameters(ParameterBuilderInterface $builder)
+    public function buildParameters(ParameterBuilderInterface $builder): void
     {
         $builder->add('field_identifier', ParameterType\IdentifierType::class);
     }
 
-    public function getDynamicParameters(DynamicParameters $params, Block $block)
+    public function getDynamicParameters(DynamicParameters $params, Block $block): void
     {
         $currentRequest = $this->requestStack->getCurrentRequest();
         $contentfulEntry = $currentRequest->attributes->get('contentDocument');
@@ -75,7 +75,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
         }
     }
 
-    public function isContextual(Block $block)
+    public function isContextual(Block $block): bool
     {
         return true;
     }
@@ -87,10 +87,10 @@ final class EntryFieldHandler extends BlockDefinitionHandler
      *
      * @return string|null
      */
-    private function getFieldType($field)
+    private function getFieldType($field): ?string
     {
         if ($field === null) {
-            return;
+            return null;
         }
 
         $fieldType = gettype($field);

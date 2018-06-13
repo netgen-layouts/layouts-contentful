@@ -9,7 +9,7 @@ use Netgen\BlockManager\Contentful\Routing\EntrySluggerInterface;
 
 final class Simple extends Slugger implements EntrySluggerInterface
 {
-    public function getSlug(ContentfulEntry $contentfulEntry)
+    public function getSlug(ContentfulEntry $contentfulEntry): string
     {
         return '/' . $this->filterSlug($contentfulEntry->getName());
     }

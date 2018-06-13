@@ -19,12 +19,6 @@ final class Location implements LocationInterface, ClientInterface
      */
     private $id;
 
-    /**
-     * Constructor.
-     *
-     * @param \Contentful\Delivery\Client $client
-     * @param string $id
-     */
     public function __construct(Client $client, $id)
     {
         $this->client = $client;
@@ -45,7 +39,7 @@ final class Location implements LocationInterface, ClientInterface
     {
     }
 
-    public function getClient()
+    public function getClient(): Client
     {
         return $this->client;
     }

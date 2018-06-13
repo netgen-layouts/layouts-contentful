@@ -12,6 +12,7 @@ use Netgen\BlockManager\Contentful\Browser\Item\Entry\Item;
 use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
 use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\ContentBrowser\Backend\BackendInterface;
+use Netgen\ContentBrowser\Item\ItemInterface;
 use Netgen\ContentBrowser\Item\LocationInterface;
 
 final class ContentfulBackend implements BackendInterface
@@ -26,12 +27,12 @@ final class ContentfulBackend implements BackendInterface
         $this->contentful = $contentful;
     }
 
-    public function getDefaultSections()
+    public function getDefaultSections(): array
     {
         return [new RootLocation()];
     }
 
-    public function loadLocation($id)
+    public function loadLocation($id): LocationInterface
     {
         if ($id === '0') {
             return new RootLocation();
@@ -43,7 +44,7 @@ final class ContentfulBackend implements BackendInterface
         return new Location($clientService, $space);
     }
 
-    public function loadItem($id)
+    public function loadItem($id): ItemInterface
     {
         $contentfulEntry = $this->contentful->loadContentfulEntry($id);
 
@@ -61,7 +62,7 @@ final class ContentfulBackend implements BackendInterface
         );
     }
 
-    public function getSubLocationsCount(LocationInterface $location)
+    public function getSubLocationsCount(LocationInterface $location): int
     {
         if (!$location instanceof RootLocation) {
             return 0;
@@ -83,7 +84,7 @@ final class ContentfulBackend implements BackendInterface
         return $this->buildItems($contentfulEntries);
     }
 
-    public function getSubItemsCount(LocationInterface $location)
+    public function getSubItemsCount(LocationInterface $location): int
     {
         if (!$location instanceof ClientInterface || $location instanceof RootLocation) {
             return 0;
@@ -99,7 +100,7 @@ final class ContentfulBackend implements BackendInterface
         );
     }
 
-    public function searchCount($searchText)
+    public function searchCount($searchText): int
     {
         return $this->contentful->searchContentfulEntriesCount($searchText);
     }
@@ -112,7 +113,7 @@ final class ContentfulBackend implements BackendInterface
      *
      * @return \Netgen\BlockManager\Contentful\Browser\Item\Client\Location
      */
-    private function buildLocation(Client $client, $id)
+    private function buildLocation(Client $client, $id): Location
     {
         return new Location($client, $id);
     }
@@ -124,7 +125,7 @@ final class ContentfulBackend implements BackendInterface
      *
      * @return \Netgen\BlockManager\Contentful\Browser\Item\Client\Location[]
      */
-    private function buildLocations(array $clients)
+    private function buildLocations(array $clients): array
     {
         return array_map(
             function (Client $client, $id) {
@@ -142,7 +143,7 @@ final class ContentfulBackend implements BackendInterface
      *
      * @return \Netgen\BlockManager\Contentful\Browser\Item\Entry\Item
      */
-    private function buildItem(ContentfulEntry $entry)
+    private function buildItem(ContentfulEntry $entry): Item
     {
         return new Item($entry);
     }
@@ -154,7 +155,7 @@ final class ContentfulBackend implements BackendInterface
      *
      * @return \Netgen\BlockManager\Contentful\Browser\Item\Entry\Item[]
      */
-    private function buildItems(array $entries)
+    private function buildItems(array $entries): array
     {
         return array_map(
             function (ContentfulEntry $entry) {

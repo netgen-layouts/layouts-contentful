@@ -10,7 +10,7 @@ use Netgen\BlockManager\View\ViewInterface;
 
 final class Space implements MatcherInterface
 {
-    public function match(ViewInterface $view, array $config)
+    public function match(ViewInterface $view, array $config): bool
     {
         if (!$view instanceof ItemViewInterface) {
             return false;

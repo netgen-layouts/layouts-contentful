@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Netgen\BlockManager\Contentful\Browser\Item\Client;
 
+use Contentful\Delivery\Client;
 use Netgen\ContentBrowser\Item\LocationInterface;
 
 final class RootLocation implements LocationInterface, ClientInterface
 {
     public function getLocationId()
     {
-        return 0;
+        return '0';
     }
 
     public function getName()
@@ -22,7 +23,7 @@ final class RootLocation implements LocationInterface, ClientInterface
     {
     }
 
-    public function getClient()
+    public function getClient(): Client
     {
     }
 }

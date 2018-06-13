@@ -28,7 +28,7 @@ final class ContentfulRuntime
      *
      * @return string
      */
-    public function contentfulEntryName($entryId)
+    public function contentfulEntryName(string $entryId): string
     {
         try {
             $contentfulEntry = $this->contentful->loadContentfulEntry($entryId);
@@ -46,7 +46,7 @@ final class ContentfulRuntime
      *
      * @return string
      */
-    public function contentfulSpaceName($spaceId)
+    public function contentfulSpaceName(string $spaceId): string
     {
         $client = $this->contentful->getClientBySpaceId($spaceId);
         if (!$client instanceof Client) {
@@ -63,7 +63,7 @@ final class ContentfulRuntime
      *
      * @return string
      */
-    public function contentfulContentTypeName($contentTypeId)
+    public function contentfulContentTypeName(string $contentTypeId): string
     {
         $contentType = $this->contentful->getContentType($contentTypeId);
         if (!$contentType instanceof ContentType) {

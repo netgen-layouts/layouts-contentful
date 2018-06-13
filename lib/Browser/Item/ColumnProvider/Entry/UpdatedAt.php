@@ -15,18 +15,15 @@ final class UpdatedAt implements ColumnValueProviderInterface
      */
     private $dateFormat;
 
-    /**
-     * @param string $dateFormat
-     */
-    public function __construct($dateFormat)
+    public function __construct(string $dateFormat)
     {
         $this->dateFormat = $dateFormat;
     }
 
-    public function getValue(ItemInterface $item)
+    public function getValue(ItemInterface $item): ?string
     {
         if (!$item instanceof EntryInterface) {
-            return;
+            return null;
         }
 
         return $item->getEntry()->getUpdatedAt()->format($this->dateFormat);

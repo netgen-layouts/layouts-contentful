@@ -29,7 +29,7 @@ final class Configurable implements EntrySluggerInterface
         $this->sluggers = $sluggers;
     }
 
-    public function getSlug(ContentfulEntry $contentfulEntry)
+    public function getSlug(ContentfulEntry $contentfulEntry): string
     {
         $sluggerType = $this->configuration['default'];
 

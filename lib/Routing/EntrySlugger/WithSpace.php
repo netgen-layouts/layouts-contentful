@@ -9,7 +9,7 @@ use Netgen\BlockManager\Contentful\Routing\EntrySluggerInterface;
 
 final class WithSpace extends Slugger implements EntrySluggerInterface
 {
-    public function getSlug(ContentfulEntry $contentfulEntry)
+    public function getSlug(ContentfulEntry $contentfulEntry): string
     {
         return '/' . $this->filterSlug($contentfulEntry->getSpace()->getName()) .
             '/' . $this->filterSlug($contentfulEntry->getName());

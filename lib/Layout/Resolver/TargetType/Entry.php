@@ -12,12 +12,12 @@ use Symfony\Component\Validator\Constraints;
 
 final class Entry implements TargetTypeInterface
 {
-    public function getType()
+    public function getType(): string
     {
         return 'contentful_entry';
     }
 
-    public function getConstraints()
+    public function getConstraints(): array
     {
         return [
             new Constraints\NotBlank(),
@@ -28,7 +28,7 @@ final class Entry implements TargetTypeInterface
     {
         $id = $request->attributes->get('_content_id');
         if ($id === null) {
-            return;
+            return null;
         }
 
         $idList = explode(':', $id);

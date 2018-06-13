@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Netgen\BlockManager\Contentful\Service;
 
 use Contentful\Delivery\Client;
+use Contentful\Delivery\ContentType;
 use Contentful\Delivery\DynamicEntry;
 use Contentful\Delivery\EntryInterface;
 use Contentful\Delivery\Query;
+use Contentful\Delivery\Space;
 use Contentful\Delivery\Synchronization\DeletedEntry;
 use Contentful\ResourceArray;
 use Doctrine\ORM\EntityManagerInterface;
@@ -57,7 +59,7 @@ final class Contentful
         Client $defaultClient,
         EntityManagerInterface $entityManager,
         Filesystem $fileSystem,
-        $cacheDir
+        string $cacheDir
     ) {
         $this->clientsConfig = $clientsConfig;
         $this->entrySlugger = $entrySlugger;
@@ -70,13 +72,9 @@ final class Contentful
     /**
      * Returns the Contentful client with provided name.
      *
-     * @param string $name
-     *
      * @throws \Netgen\BlockManager\Contentful\Exception\RuntimeException If client with provided name does not exist
-     *
-     * @return \Contentful\Delivery\Client
      */
-    public function getClientByName($name)
+    public function getClientByName(string $name): Client
     {
         if (!isset($this->clientsConfig[$name])) {
             throw new RuntimeException(sprintf('Contentful client with "%s" name does not exist.', $name));
@@ -87,12 +85,8 @@ final class Contentful
 
     /**
      * Returns the Contentful space with provided client name.
-     *
-     * @param string $name
-     *
-     * @return \Contentful\Delivery\Space
      */
-    public function getSpaceByClientName($name)
+    public function getSpaceByClientName(string $name): Space
     {
         return $this->clientsConfig[$name]['space'];
     }
@@ -101,18 +95,16 @@ final class Contentful
      * Returns the Contentful client which serves the space with provided ID.
      *
      * If no client is found, null is returned.
-     *
-     * @param string $spaceId
-     *
-     * @return \Contentful\Delivery\Client|null
      */
-    public function getClientBySpaceId($spaceId)
+    public function getClientBySpaceId(string $spaceId): ?Client
     {
         foreach ($this->clientsConfig as $clientConfig) {
             if ($clientConfig['space'] === $spaceId) {
                 return $clientConfig['service'];
             }
         }
+
+        return null;
     }
 
     /**
@@ -120,7 +112,7 @@ final class Contentful
      *
      * @return \Contentful\Delivery\Client[]
      */
-    public function getClients()
+    public function getClients(): array
     {
         $clients = [];
 
@@ -135,12 +127,8 @@ final class Contentful
      * Returns the content type with specified ID.
      *
      * If no content type is found, null is returned.
-     *
-     * @param string $id
-     *
-     * @return \Contentful\Delivery\ContentType|null
      */
-    public function getContentType($id)
+    public function getContentType(string $id): ?ContentType
     {
         foreach ($this->clientsConfig as $clientConfig) {
             /** @var \Contentful\Delivery\Client $client */
@@ -153,6 +141,8 @@ final class Contentful
                 }
             }
         }
+
+        return null;
     }
 
     /**
@@ -160,7 +150,7 @@ final class Contentful
      *
      * @return string[]
      */
-    public function getClientsNames()
+    public function getClientsNames(): array
     {
         return array_keys($this->clientsConfig);
     }
@@ -168,13 +158,9 @@ final class Contentful
     /**
      * Returns the Contentful entry with provided ID.
      *
-     * @param string $id
-     *
      * @throws \Netgen\BlockManager\Contentful\Exception\NotFoundException If entry could not be loaded
-     *
-     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry
      */
-    public function loadContentfulEntry($id)
+    public function loadContentfulEntry(string $id): ContentfulEntry
     {
         $idList = explode('|', $id);
         if (count($idList) !== 2) {
@@ -221,15 +207,8 @@ final class Contentful
 
     /**
      * Returns the list of Contentful entries.
-     *
-     * @param int $offset
-     * @param int $limit
-     * @param \Contentful\Delivery\Client $client
-     * @param \Contentful\Delivery\Query $query
-     *
-     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry[]
      */
-    public function getContentfulEntries($offset = 0, $limit = null, Client $client = null, Query $query = null)
+    public function getContentfulEntries(int $offset = 0, int $limit = null, Client $client = null, Query $query = null): array
     {
         $client = $client ?: $this->defaultClient;
         $query = $query ?: new Query();
@@ -244,13 +223,8 @@ final class Contentful
 
     /**
      * Returns the count of Contentful entries.
-     *
-     * @param \Contentful\Delivery\Client $client
-     * @param \Contentful\Delivery\Query $query
-     *
-     * @return int
      */
-    public function getContentfulEntriesCount(Client $client = null, Query $query = null)
+    public function getContentfulEntriesCount(Client $client = null, Query $query = null): int
     {
         $client = $client ?: $this->defaultClient;
 
@@ -259,15 +233,8 @@ final class Contentful
 
     /**
      * Searches for Contentful entries.
-     *
-     * @param string $searchText
-     * @param int $offset
-     * @param int $limit
-     * @param \Contentful\Delivery\Client $client
-     *
-     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry[]
      */
-    public function searchContentfulEntries($searchText, $offset = 0, $limit = 25, Client $client = null)
+    public function searchContentfulEntries(string $searchText, int $offset = 0, int $limit = 25, Client $client = null): array
     {
         $client = $client ?: $this->defaultClient;
 
@@ -281,13 +248,8 @@ final class Contentful
 
     /**
      * Returns the count of searched Contentful entries.
-     *
-     * @param string $searchText
-     * @param \Contentful\Delivery\Client $client
-     *
-     * @return int
      */
-    public function searchContentfulEntriesCount($searchText, Client $client = null)
+    public function searchContentfulEntriesCount(string $searchText, Client $client = null): int
     {
         $client = $client ?: $this->defaultClient;
 
@@ -302,7 +264,7 @@ final class Contentful
      *
      * @return string[]
      */
-    public function getClientsAndContentTypesAsChoices()
+    public function getClientsAndContentTypesAsChoices(): array
     {
         $clientsAndContentTypes = [];
 
@@ -324,7 +286,7 @@ final class Contentful
      *
      * @return string[]
      */
-    public function getSpacesAsChoices()
+    public function getSpacesAsChoices(): array
     {
         $spaces = [];
 
@@ -343,7 +305,7 @@ final class Contentful
      *
      * @return string[]
      */
-    public function getSpacesAndContentTypesAsChoices()
+    public function getSpacesAndContentTypesAsChoices(): array
     {
         $spaces = [];
 
@@ -363,12 +325,8 @@ final class Contentful
 
     /**
      * Refreshes the Contentful entry for provided remote entry.
-     *
-     * @param \Contentful\Delivery\DynamicEntry $remoteEntry
-     *
-     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry|null
      */
-    public function refreshContentfulEntry(DynamicEntry $remoteEntry)
+    public function refreshContentfulEntry(DynamicEntry $remoteEntry): ?ContentfulEntry
     {
         $id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
         $contentfulEntry = $this->findContentfulEntry($id);
@@ -387,10 +345,8 @@ final class Contentful
 
     /**
      * Unpublishes the Contentful entry for provided remote entry.
-     *
-     * @param \Contentful\Delivery\Synchronization\DeletedEntry $remoteEntry
      */
-    public function unpublishContentfulEntry(DeletedEntry $remoteEntry)
+    public function unpublishContentfulEntry(DeletedEntry $remoteEntry): void
     {
         $id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
         $contentfulEntry = $this->findContentfulEntry($id);
@@ -403,10 +359,8 @@ final class Contentful
 
     /**
      * Deletes the Contentful entry for provided remote entry.
-     *
-     * @param \Contentful\Delivery\Synchronization\DeletedEntry $remoteEntry
      */
-    public function deleteContentfulEntry(DeletedEntry $remoteEntry)
+    public function deleteContentfulEntry(DeletedEntry $remoteEntry): void
     {
         $id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
         $contentfulEntry = $this->findContentfulEntry($id);
@@ -424,10 +378,8 @@ final class Contentful
 
     /**
      * Refreshes space caches for provided client.
-     *
-     * @param \Contentful\Delivery\Client $client
      */
-    public function refreshSpaceCache(Client $client)
+    public function refreshSpaceCache(Client $client): void
     {
         $spacePath = $this->getSpaceCachePath($client);
         $this->fileSystem->dumpFile($spacePath . '/space.json', json_encode($client->getSpace()));
@@ -435,10 +387,8 @@ final class Contentful
 
     /**
      * Refreshes content type caches for provided client.
-     *
-     * @param \Contentful\Delivery\Client $client
      */
-    public function refreshContentTypeCache(Client $client)
+    public function refreshContentTypeCache(Client $client): void
     {
         $spacePath = $this->getSpaceCachePath($client);
         $contentTypes = $client->getContentTypes();
@@ -449,12 +399,8 @@ final class Contentful
 
     /**
      * Returns the cache path for provided client.
-     *
-     * @param \Contentful\Delivery\Client $client
-     *
-     * @return string
      */
-    public function getSpaceCachePath(Client $client)
+    public function getSpaceCachePath(Client $client): string
     {
         $space = $client->getSpace();
         $spacePath = $this->cacheDir . $space->getId();
@@ -469,25 +415,16 @@ final class Contentful
      * Returns the Contentful entry with provided ID from the repository.
      *
      * Returns null if entry could not be found.
-     *
-     * @param string $id
-     *
-     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry|null
      */
-    private function findContentfulEntry($id)
+    private function findContentfulEntry(string $id): ?ContentfulEntry
     {
         return $this->entityManager->getRepository(ContentfulEntry::class)->find($id);
     }
 
     /**
      * Builds the Contentful entry from provided remote entry.
-     *
-     * @param \Contentful\Delivery\EntryInterface $remoteEntry
-     * @param string $id
-     *
-     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry|null
      */
-    private function buildContentfulEntry(EntryInterface $remoteEntry, $id)
+    private function buildContentfulEntry(EntryInterface $remoteEntry, string $id): ContentfulEntry
     {
         $contentfulEntry = new ContentfulEntry($remoteEntry);
         $contentfulEntry->setIsPublished(true);
@@ -515,7 +452,7 @@ final class Contentful
      *
      * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry[]
      */
-    private function buildContentfulEntries(ResourceArray $entries, Client $client)
+    private function buildContentfulEntries(ResourceArray $entries, Client $client): array
     {
         $contentfulEntries = [];
 

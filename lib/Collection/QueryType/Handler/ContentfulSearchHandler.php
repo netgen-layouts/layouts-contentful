@@ -26,7 +26,7 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
         $this->contentful = $contentful;
     }
 
-    public function buildParameters(ParameterBuilderInterface $builder)
+    public function buildParameters(ParameterBuilderInterface $builder): void
     {
         $builder->add(
             'client',
@@ -87,7 +87,7 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
         );
     }
 
-    public function getCount(Query $query)
+    public function getCount(Query $query): int
     {
         if ($query->getParameter('client')->getValue() === null) {
             return 0;
@@ -100,49 +100,35 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
         return $this->contentful->getContentfulEntriesCount($client, $this->buildQuery($query));
     }
 
-    public function isContextual(Query $query)
+    public function isContextual(Query $query): bool
     {
         return false;
     }
 
     /**
      * Return filtered offset value to use.
-     *
-     * @param int $offset
-     *
-     * @return int
      */
-    private function getOffset($offset)
+    private function getOffset(int $offset): int
     {
-        if (is_int($offset) && $offset >= 0) {
-            return $offset;
-        }
-
-        return 0;
+        return $offset >= 0 ? $offset : 0;
     }
 
     /**
      * Return filtered limit value to use.
-     *
-     * @param int $limit
-     *
-     * @return int
      */
-    private function getLimit($limit)
+    private function getLimit(int $limit = null): ?int
     {
         if (is_int($limit) && $limit >= 0) {
             return $limit;
         }
+
+        return null;
     }
 
     /**
      * Builds the query from current parameters.
-     *
-     * @param \Netgen\BlockManager\API\Values\Collection\Query $query
-     *
-     * @return \Contentful\Delivery\Query
      */
-    private function buildQuery(Query $query)
+    private function buildQuery(Query $query): ContentfulQuery
     {
         $contentfulQuery = new ContentfulQuery();
 

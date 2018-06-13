@@ -39,7 +39,7 @@ final class Item implements ItemInterface, EntryInterface
         return true;
     }
 
-    public function getEntry()
+    public function getEntry(): ContentfulEntry
     {
         return $this->entry;
     }

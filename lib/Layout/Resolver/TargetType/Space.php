@@ -11,12 +11,12 @@ use Symfony\Component\Validator\Constraints;
 
 final class Space implements TargetTypeInterface
 {
-    public function getType()
+    public function getType(): string
     {
         return 'contentful_space';
     }
 
-    public function getConstraints()
+    public function getConstraints(): array
     {
         return [
             new Constraints\NotBlank(),
@@ -27,21 +27,21 @@ final class Space implements TargetTypeInterface
     {
         $contentId = $request->attributes->get('_content_id');
         if ($contentId === null) {
-            return;
+            return null;
         }
 
         $contentIds = explode(':', $contentId);
         if (count($contentIds) !== 2) {
-            return;
+            return null;
         }
 
         if ($contentIds[0] !== ContentfulEntry::class) {
-            return;
+            return null;
         }
 
         $contentIds = explode('|', $contentIds[1]);
         if (count($contentIds) !== 2) {
-            return;
+            return null;
         }
 
         return $contentIds[0];

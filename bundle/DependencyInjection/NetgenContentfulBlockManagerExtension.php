@@ -14,7 +14,7 @@ use Symfony\Component\Yaml\Yaml;
 
 final class NetgenContentfulBlockManagerExtension extends Extension implements PrependExtensionInterface
 {
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
@@ -38,7 +38,7 @@ final class NetgenContentfulBlockManagerExtension extends Extension implements P
         $loader->load('default_settings.yml');
     }
 
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         $prependConfigs = [
             'block_definitions.yml' => 'netgen_block_manager',

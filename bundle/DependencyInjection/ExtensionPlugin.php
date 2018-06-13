@@ -8,7 +8,7 @@ use Netgen\Bundle\BlockManagerBundle\DependencyInjection\ExtensionPlugin as Base
 
 final class ExtensionPlugin extends BaseExtensionPlugin
 {
-    public function appendConfigurationFiles()
+    public function appendConfigurationFiles(): array
     {
         return [
             __DIR__ . '/../Resources/config/block_type_groups.yml',

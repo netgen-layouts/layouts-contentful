@@ -39,14 +39,14 @@ final class SyncCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('contentful:sync')
             ->setDescription('Syncs space and content type cache');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $this->io = new SymfonyStyle($input, $output);
 
@@ -71,6 +71,8 @@ final class SyncCommand extends Command
                 $this->fileSystem->dumpFile($tokenPath, $token);
             }
         }
+
+        return 0;
     }
 
     /**
@@ -78,7 +80,7 @@ final class SyncCommand extends Command
      *
      * @param \Contentful\Delivery\EntryInterface[] $entries
      */
-    private function buildContentEntries(array $entries)
+    private function buildContentEntries(array $entries): void
     {
         foreach ($entries as $remoteEntry) {
             if ($remoteEntry instanceof DynamicEntry) {

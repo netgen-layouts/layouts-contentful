@@ -20,7 +20,7 @@ final class ContentfulEnhancer implements RouteEnhancerInterface
         $this->contentful = $contentful;
     }
 
-    public function enhance(array $defaults, Request $request)
+    public function enhance(array $defaults, Request $request): array
     {
         $defaults['_content'] = $this->contentful->loadContentfulEntry($defaults['_route']);
 

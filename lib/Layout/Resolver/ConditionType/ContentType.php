@@ -23,12 +23,12 @@ final class ContentType implements ConditionTypeInterface
         $this->contentful = $contentful;
     }
 
-    public function getType()
+    public function getType(): string
     {
         return 'contentful_content_type';
     }
 
-    public function getConstraints()
+    public function getConstraints(): array
     {
         return [
             new Constraints\NotBlank(),
@@ -36,7 +36,7 @@ final class ContentType implements ConditionTypeInterface
         ];
     }
 
-    public function matches(Request $request, $value)
+    public function matches(Request $request, $value): bool
     {
         if (!is_array($value) || empty($value)) {
             return false;

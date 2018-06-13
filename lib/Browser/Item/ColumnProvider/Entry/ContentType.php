@@ -10,10 +10,10 @@ use Netgen\ContentBrowser\Item\ItemInterface;
 
 final class ContentType implements ColumnValueProviderInterface
 {
-    public function getValue(ItemInterface $item)
+    public function getValue(ItemInterface $item): ?string
     {
         if (!$item instanceof EntryInterface) {
-            return;
+            return null;
         }
 
         return $item->getEntry()->getContentType()->getName();

@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Netgen\BlockManager\Contentful\Entity;
 
 use Contentful\Delivery\Client;
+use Contentful\Delivery\ContentType;
 use Contentful\Delivery\DynamicEntry;
 use Contentful\Delivery\EntryInterface;
+use Contentful\Delivery\Space;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
@@ -86,22 +89,16 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
 
     /**
      * Returns the entry ID.
-     *
-     * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
     /**
      * Sets the entry ID.
-     *
-     * @param string $id
-     *
-     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry
      */
-    public function setId($id)
+    public function setId(string $id): self
     {
         $this->id = $id;
 
@@ -110,22 +107,16 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
 
     /**
      * Returns the entry name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
      * Sets the entry name.
-     *
-     * @param string $name
-     *
-     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry
      */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -134,22 +125,16 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
 
     /**
      * Returns the entry JSON representation.
-     *
-     * @return string
      */
-    public function getJson()
+    public function getJson(): string
     {
         return $this->json;
     }
 
     /**
      * Sets the JSON representation of the entry.
-     *
-     * @param string $json
-     *
-     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry
      */
-    public function setJson($json)
+    public function setJson(string $json): self
     {
         $this->json = $json;
 
@@ -158,22 +143,16 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
 
     /**
      * Returns if the entry is published.
-     *
-     * @return bool
      */
-    public function getIsPublished()
+    public function getIsPublished(): bool
     {
         return $this->isPublished;
     }
 
     /**
      * Sets if the entry is published.
-     *
-     * @param bool $isPublished
-     *
-     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry
      */
-    public function setIsPublished($isPublished)
+    public function setIsPublished(bool $isPublished): self
     {
         $this->isPublished = $isPublished;
 
@@ -182,22 +161,16 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
 
     /**
      * Returns if the entry is deleted.
-     *
-     * @return bool
      */
-    public function getIsDeleted()
+    public function getIsDeleted(): bool
     {
         return $this->isDeleted;
     }
 
     /**
      * Sets if the entry is deleted.
-     *
-     * @param bool $isDeleted
-     *
-     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry
      */
-    public function setIsDeleted($isDeleted)
+    public function setIsDeleted(bool $isDeleted): self
     {
         $this->isDeleted = $isDeleted;
 
@@ -209,24 +182,24 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
      *
      * @param \Symfony\Cmf\Component\Routing\RouteObjectInterface[]|\Doctrine\Common\Collections\ArrayCollection $routes
      */
-    public function setRoutes(ArrayCollection $routes)
+    public function setRoutes(ArrayCollection $routes): void
     {
         $this->routes = $routes;
     }
 
-    public function getRoutes()
+    public function getRoutes(): ArrayCollection
     {
         return $this->routes;
     }
 
-    public function addRoute($route)
+    public function addRoute($route): self
     {
         $this->routes[] = $route;
 
         return $this;
     }
 
-    public function removeRoute($route)
+    public function removeRoute($route): self
     {
         $this->routes->removeElement($route);
 
@@ -235,60 +208,48 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
 
     /**
      * Returns the remote entry.
-     *
-     * @return \Contentful\Delivery\EntryInterface
      */
-    public function getRemoteEntry()
+    public function getRemoteEntry(): EntryInterface
     {
         return $this->remoteEntry;
     }
 
     /**
      * Returns the remote entry revision.
-     *
-     * @return int
      */
-    public function getRevision()
+    public function getRevision(): int
     {
         return $this->remoteEntry->getRevision();
     }
 
     /**
      * Returns the date when the remote entry was last updated.
-     *
-     * @return \DateTimeInterface
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): DateTimeInterface
     {
         return $this->remoteEntry->getUpdatedAt();
     }
 
     /**
      * Returns the date when the remote entry was created.
-     *
-     * @return \DateTimeInterface
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): DateTimeInterface
     {
         return $this->remoteEntry->getCreatedAt();
     }
 
     /**
      * Returns the remote entry space.
-     *
-     * @return \Contentful\Delivery\Space
      */
-    public function getSpace()
+    public function getSpace(): Space
     {
         return $this->remoteEntry->getSpace();
     }
 
     /**
      * Returns the remote entry content type.
-     *
-     * @return \Contentful\Delivery\ContentType
      */
-    public function getContentType()
+    public function getContentType(): ContentType
     {
         return $this->remoteEntry->getContentType();
     }
@@ -300,10 +261,8 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
 
     /**
      * Sets the remote entry.
-     *
-     * @param \Contentful\Delivery\DynamicEntry $remoteEntry
      */
-    public function setRemoteEntry(DynamicEntry $remoteEntry)
+    public function setRemoteEntry(DynamicEntry $remoteEntry): void
     {
         $this->remoteEntry = $remoteEntry;
         $this->id = $this->remoteEntry->getSpace()->getId() . '|' . $this->remoteEntry->getId();
@@ -314,10 +273,8 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
 
     /**
      * Revives the remote entry from provided client.
-     *
-     * @param \Contentful\Delivery\Client $client
      */
-    public function reviveRemoteEntry(Client $client)
+    public function reviveRemoteEntry(Client $client): void
     {
         /** @var \Contentful\Delivery\DynamicEntry $remoteEntry */
         $remoteEntry = $client->reviveJson($this->json);

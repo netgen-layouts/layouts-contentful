@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 final class NetgenContentfulBlockManagerBundle extends Bundle
 {
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         /** @var \Netgen\Bundle\BlockManagerBundle\DependencyInjection\NetgenBlockManagerExtension $blockManagerExtension */
         $blockManagerExtension = $container->getExtension('netgen_block_manager');
