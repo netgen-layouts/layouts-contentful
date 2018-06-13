@@ -8,6 +8,3 @@ parameters:
 
         # Contentful
         - '#Client::reviveJson\(\) expects string, resource|string given.#'
-
-        # Bug?
-        - '#Netgen\\BlockManager\\Contentful\\Browser\\Item\\Client\\Location constructor expects string, Contentful\\Delivery\\Space given.#'
