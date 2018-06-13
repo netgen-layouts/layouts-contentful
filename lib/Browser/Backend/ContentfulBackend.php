@@ -128,7 +128,7 @@ final class ContentfulBackend implements BackendInterface
     private function buildLocations(array $clients): array
     {
         return array_map(
-            function (Client $client, $id) {
+            function (Client $client, $id): Location {
                 return $this->buildLocation($client, $id);
             },
             $clients,
@@ -158,7 +158,7 @@ final class ContentfulBackend implements BackendInterface
     private function buildItems(array $entries): array
     {
         return array_map(
-            function (ContentfulEntry $entry) {
+            function (ContentfulEntry $entry): Item {
                 return $this->buildItem($entry);
             },
             $entries
