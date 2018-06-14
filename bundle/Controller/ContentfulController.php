@@ -39,11 +39,7 @@ final class ContentfulController extends Controller
     /**
      * Renders a Contentful entry.
      *
-     * @param \Netgen\BlockManager\Contentful\Entity\ContentfulEntry $contentDocument the Contentful entry which is being rendered
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If provided Contentful entry doesn't exist
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function view(ContentfulEntry $contentDocument): Response
     {
@@ -62,11 +58,7 @@ final class ContentfulController extends Controller
     /**
      * Contentful webhook for clearing local caches.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException If the webhook request is not valid
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function webhook(Request $request): Response
     {

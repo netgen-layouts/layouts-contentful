@@ -19,7 +19,7 @@ final class Location implements LocationInterface, ClientInterface
      */
     private $id;
 
-    public function __construct(Client $client, $id)
+    public function __construct(Client $client, string $id)
     {
         $this->client = $client;
         $this->id = $id;
@@ -30,7 +30,7 @@ final class Location implements LocationInterface, ClientInterface
         return $this->id;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->client->getSpace()->getName();
     }

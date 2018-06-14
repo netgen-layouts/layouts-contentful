@@ -41,7 +41,7 @@ final class ContentfulBackend implements BackendInterface
         $clientService = $this->contentful->getClientByName($id);
         $space = $this->contentful->getSpaceByClientName($id);
 
-        return new Location($clientService, $space);
+        return new Location($clientService, $space->getId());
     }
 
     public function loadItem($id): ItemInterface
@@ -107,13 +107,8 @@ final class ContentfulBackend implements BackendInterface
 
     /**
      * Builds the location from provided client.
-     *
-     * @param \Contentful\Delivery\Client $client
-     * @param string $id
-     *
-     * @return \Netgen\BlockManager\Contentful\Browser\Item\Client\Location
      */
-    private function buildLocation(Client $client, $id): Location
+    private function buildLocation(Client $client, string $id): Location
     {
         return new Location($client, $id);
     }
@@ -128,7 +123,7 @@ final class ContentfulBackend implements BackendInterface
     private function buildLocations(array $clients): array
     {
         return array_map(
-            function (Client $client, $id): Location {
+            function (Client $client, string $id): Location {
                 return $this->buildLocation($client, $id);
             },
             $clients,
@@ -138,10 +133,6 @@ final class ContentfulBackend implements BackendInterface
 
     /**
      * Builds the item from provided client.
-     *
-     * @param \Netgen\BlockManager\Contentful\Entity\ContentfulEntry $entry
-     *
-     * @return \Netgen\BlockManager\Contentful\Browser\Item\Entry\Item
      */
     private function buildItem(ContentfulEntry $entry): Item
     {

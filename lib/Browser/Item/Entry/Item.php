@@ -24,17 +24,17 @@ final class Item implements ItemInterface, EntryInterface
         return $this->entry->getId();
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->getEntry()->getName();
     }
 
-    public function isVisible()
+    public function isVisible(): bool
     {
         return true;
     }
 
-    public function isSelectable()
+    public function isSelectable(): bool
     {
         return true;
     }

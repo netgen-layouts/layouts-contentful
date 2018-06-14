@@ -14,7 +14,7 @@ final class RootLocation implements LocationInterface, ClientInterface
         return '0';
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'Content';
     }

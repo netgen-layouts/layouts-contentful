@@ -23,10 +23,6 @@ final class ContentfulRuntime
 
     /**
      * Returns the Contentful entry name.
-     *
-     * @param string $entryId
-     *
-     * @return string
      */
     public function contentfulEntryName(string $entryId): string
     {
@@ -41,10 +37,6 @@ final class ContentfulRuntime
 
     /**
      * Returns the Contentful space name.
-     *
-     * @param string $spaceId
-     *
-     * @return string
      */
     public function contentfulSpaceName(string $spaceId): string
     {
@@ -58,10 +50,6 @@ final class ContentfulRuntime
 
     /**
      * Returns the Contentful content type name.
-     *
-     * @param string $contentTypeId
-     *
-     * @return string
      */
     public function contentfulContentTypeName(string $contentTypeId): string
     {
