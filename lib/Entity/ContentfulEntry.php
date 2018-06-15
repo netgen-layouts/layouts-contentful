@@ -66,9 +66,6 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     }
 
     /**
-     * @param string $name
-     * @param array $arguments
-     *
      * @return mixed
      */
     public function __call(string $name, array $arguments)

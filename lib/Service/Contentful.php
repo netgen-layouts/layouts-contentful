@@ -447,9 +447,6 @@ final class Contentful
     /**
      * Builds the Contentful entries from provided remote entries.
      *
-     * @param \Contentful\ResourceArray $entries
-     * @param \Contentful\Delivery\Client $client
-     *
      * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry[]
      */
     private function buildContentfulEntries(ResourceArray $entries, Client $client): array
