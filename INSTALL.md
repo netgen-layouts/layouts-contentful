@@ -203,7 +203,7 @@ To implement a custom slugger you need to extend the base `Slugger` class and im
 ```
 final class MySlugger extends Slugger implements EntrySluggerInterface
 {
-    public function getSlug(ContentfulEntry $contentfulEntry)
+    public function getSlug(ContentfulEntry $contentfulEntry): string
     {
         return '/my_prefix/' . $this->filterSlug($contentfulEntry->getName());
     }
