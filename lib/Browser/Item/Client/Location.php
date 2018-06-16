@@ -37,9 +37,10 @@ final class Location implements LocationInterface, ClientInterface
 
     public function getParentId()
     {
+        return null;
     }
 
-    public function getClient(): Client
+    public function getClient(): ?Client
     {
         return $this->client;
     }

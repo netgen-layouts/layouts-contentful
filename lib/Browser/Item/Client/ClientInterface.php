@@ -11,5 +11,5 @@ interface ClientInterface
     /**
      * Returns the Contentful client.
      */
-    public function getClient(): Client;
+    public function getClient(): ?Client;
 }

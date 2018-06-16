@@ -73,20 +73,22 @@ final class ContentfulBackend implements BackendInterface
 
     public function getSubItems(LocationInterface $location, $offset = 0, $limit = 25)
     {
-        $contentfulEntries = [];
-
-        if ($location instanceof RootLocation) {
-            $contentfulEntries = $this->contentful->getContentfulEntries($offset, $limit);
-        } elseif ($location instanceof Location) {
-            $contentfulEntries = $this->contentful->getContentfulEntries($offset, $limit, $location->getClient());
+        if (!$location instanceof ClientInterface) {
+            return [];
         }
 
-        return $this->buildItems($contentfulEntries);
+        return $this->buildItems(
+            $this->contentful->getContentfulEntries(
+                $offset,
+                $limit,
+                $location->getClient()
+            )
+        );
     }
 
     public function getSubItemsCount(LocationInterface $location): int
     {
-        if (!$location instanceof ClientInterface || $location instanceof RootLocation) {
+        if (!$location instanceof ClientInterface || !$location->getClient() instanceof Client) {
             return 0;
         }
 
