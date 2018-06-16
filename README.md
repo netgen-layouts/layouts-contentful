@@ -1,5 +1,5 @@
-Netgen Block Manager & Contentful integration
-=============================================
+Netgen Layouts & Contentful integration
+=======================================
 
 # Installation instructions
 

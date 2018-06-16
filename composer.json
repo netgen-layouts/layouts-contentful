@@ -1,6 +1,6 @@
 {
     "name": "netgen/block-manager-contentful",
-    "description": "Netgen Block Manager & Contentful integration",
+    "description": "Netgen Layouts & Contentful integration",
     "license": "proprietary",
     "authors": [
         {

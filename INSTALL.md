@@ -1,21 +1,21 @@
-Netgen Block Manager & Contentful integration installation instructions
-=======================================================================
+Netgen Layouts & Contentful integration installation instructions
+=================================================================
 
-Installing Netgen Block Manager
--------------------------------
+Installing Netgen Layouts
+-------------------------
 
-Follow the instructions in Netgen Layouts documentation to [install the Block Manager](http://docs.netgen.io/projects/layouts/en/latest/reference/install_instructions.html).
+Follow the instructions in Netgen Layouts documentation to [install Netgen Layouts](http://docs.netgen.io/projects/layouts/en/latest/reference/install_instructions.html).
 
 As a minimum you need to:
 
 * require `netgen/block-manager` and `netgen/block-manager-standard` packages in Composer
 * activate all needed bundles
-* activate Block Manager and Content Browser routes
-* import Block Manager database tables with Doctrine Migrations
+* activate Netgen Layouts and Content Browser routes
+* import Netgen Layouts database tables with Doctrine Migrations
 * install assets
 * extend your view templates with `ngbm.layoutTemplate` (for fresh Symfony installations, the template is `default/index.html.twig`)
 * add the "layout" twig block to your base pagelayout (for fresh Symfony installations, the template is `base.html.twig`)
-* configure the block manager to use your base pagelayout (for fresh Symfony installations, the template is `base.html.twig`)
+* configure Netgen Layouts to use your base pagelayout (for fresh Symfony installations, the template is `base.html.twig`)
 
 Enable Translator component
 ---------------------------
@@ -27,10 +27,10 @@ framework:
     translator: { fallbacks: ['%locale%'] }
 ```
 
-Configure authentication for Block Manager
-------------------------------------------
+Configure authentication for Netgen Layouts
+-------------------------------------------
 
-It is highly recommended to secure the Block Manager interface and allow only
+It is highly recommended to secure the Netgen Layouts interface and allow only
 authenticated users in. For fresh Symfony installations the simplest way is to
 define an admin user in memory with the `ROLE_NGBM_ADMIN` role and enable the
 HTTP basic auth firewall. Your `app/config/security.yml` should like this:
@@ -62,8 +62,8 @@ security:
         - { path: ^/cb, role: [ROLE_NGBM_ADMIN] }
 ```
 
-Verifying that Block Manager works
-----------------------------------
+Verifying that Netgen Layouts works
+-----------------------------------
 
 Start the server with:
 
@@ -85,9 +85,9 @@ composer require netgen/block-manager-contentful
 Activating integration bundle
 -----------------------------
 
-After completing standard Block Manager install instructions, you also need to
+After completing standard Netgen Layouts install instructions, you also need to
 activate `NetgenContentfulBlockManagerBundle` together with its dependencies in `app/AppKernel.php`.
-Make sure it is activated after all other Block Manager bundles.
+Make sure it is activated after all other Netgen Layouts bundles.
 
 ```
 new Contentful\ContentfulBundle\ContentfulBundle(),
