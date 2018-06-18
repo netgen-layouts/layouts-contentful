@@ -35,7 +35,7 @@ final class EntryValueConverterTest extends TestCase
      */
     public function testGetValueType(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             'contentful_entry',
             $this->valueConverter->getValueType(
                 new ContentfulEntry()
@@ -51,7 +51,7 @@ final class EntryValueConverterTest extends TestCase
         $entry = new ContentfulEntry();
         $entry->setId('abc');
 
-        $this->assertEquals('abc', $this->valueConverter->getId($entry));
+        $this->assertSame('abc', $this->valueConverter->getId($entry));
     }
 
     /**
@@ -62,7 +62,7 @@ final class EntryValueConverterTest extends TestCase
         $entry = new ContentfulEntry();
         $entry->setId('abc');
 
-        $this->assertEquals('abc', $this->valueConverter->getRemoteId($entry));
+        $this->assertSame('abc', $this->valueConverter->getRemoteId($entry));
     }
 
     /**
@@ -73,7 +73,7 @@ final class EntryValueConverterTest extends TestCase
         $entry = new ContentfulEntry();
         $entry->setName('Entry name');
 
-        $this->assertEquals('Entry name', $this->valueConverter->getName($entry));
+        $this->assertSame('Entry name', $this->valueConverter->getName($entry));
     }
 
     /**
@@ -94,6 +94,6 @@ final class EntryValueConverterTest extends TestCase
     {
         $entry = new ContentfulEntry();
 
-        $this->assertEquals($entry, $this->valueConverter->getObject($entry));
+        $this->assertSame($entry, $this->valueConverter->getObject($entry));
     }
 }
