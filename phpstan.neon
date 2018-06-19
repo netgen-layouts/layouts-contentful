@@ -5,6 +5,3 @@ parameters:
 
         # Doctrine ORM
         - '#Contentful::findContentfulEntry\(\) should return Netgen\\BlockManager\\Contentful\\Entity\\ContentfulEntry|null but returns object|null.#'
-
-        # Contentful
-        - '#Client::reviveJson\(\) expects string, resource|string given.#'

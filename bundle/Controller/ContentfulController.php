@@ -62,7 +62,7 @@ final class ContentfulController extends Controller
      */
     public function webhook(Request $request): Response
     {
-        $content = $request->getContent();
+        $content = (string) $request->getContent();
         $spaceId = (string) $request->headers->get('X-Space-Id');
 
         try {
