@@ -79,7 +79,7 @@ Use Composer to install the integration
 Run the following command to install Contentful integration:
 
 ```
-composer require netgen/block-manager-contentful
+composer require netgen/block-manager-standard:^1.0 netgen/block-manager-contentful:^1.0
 ```
 
 Activating integration bundle
