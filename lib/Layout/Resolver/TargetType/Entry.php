@@ -44,5 +44,7 @@ final class Entry implements TargetTypeInterface
         if ($idList[0] === ContentfulEntry::class) {
             return $idList[1];
         }
+
+        return null;
     }
 }

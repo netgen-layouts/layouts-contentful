@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\Bundle\ContentfulBlockManagerBundle\Controller;
 
-use Contentful\Delivery\DynamicEntry;
-use Contentful\Delivery\Synchronization\DeletedEntry;
+use Contentful\Delivery\Resource\DeletedEntry;
+use Contentful\Delivery\Resource\Entry;
 use Exception;
 use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
 use Netgen\BlockManager\Contentful\Service\Contentful;
@@ -68,14 +68,14 @@ final class ContentfulController extends Controller
 
         try {
             $client = $this->contentful->getClientBySpaceId($spaceId);
-            $remoteEntry = $client->reviveJson($content);
+            $remoteEntry = $client->parseJson($content);
         } catch (Exception $e) {
             throw new BadRequestHttpException('Invalid request');
         }
 
         switch ($request->headers->get('X-Contentful-Topic')) {
             case self::ENTRY_PUBLISH:
-                if (!$remoteEntry instanceof DynamicEntry) {
+                if (!$remoteEntry instanceof Entry) {
                     throw new BadRequestHttpException('Invalid request');
                 }
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\Bundle\ContentfulBlockManagerBundle\Command;
 
-use Contentful\Delivery\DynamicEntry;
-use Contentful\Delivery\Synchronization\DeletedEntry;
+use Contentful\Delivery\Resource\DeletedEntry;
+use Contentful\Delivery\Resource\Entry;
 use Netgen\BlockManager\Contentful\Service\Contentful;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -77,13 +77,11 @@ final class SyncCommand extends Command
 
     /**
      * Builds the local content entries from provided remote entries.
-     *
-     * @param \Contentful\Delivery\EntryInterface[] $entries
      */
     private function buildContentEntries(array $entries): void
     {
         foreach ($entries as $remoteEntry) {
-            if ($remoteEntry instanceof DynamicEntry) {
+            if ($remoteEntry instanceof Entry) {
                 $contentfulEntry = $this->contentful->refreshContentfulEntry($remoteEntry);
                 $this->io->writeln(sprintf('Remote entry %s synced.', $contentfulEntry->getId()));
             } elseif ($remoteEntry instanceof DeletedEntry) {

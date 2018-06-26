@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Netgen\Bundle\ContentfulBlockManagerBundle\Templating\Twig\Runtime;
 
 use Contentful\Delivery\Client;
-use Contentful\Delivery\ContentType;
+use Contentful\Delivery\Resource\ContentType;
 use Exception;
 use Netgen\BlockManager\Contentful\Service\Contentful;
 

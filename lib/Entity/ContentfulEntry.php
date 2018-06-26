@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace Netgen\BlockManager\Contentful\Entity;
 
 use Contentful\Delivery\Client;
-use Contentful\Delivery\ContentType;
-use Contentful\Delivery\DynamicEntry;
-use Contentful\Delivery\EntryInterface;
-use Contentful\Delivery\Space;
+use Contentful\Delivery\Resource\ContentType;
+use Contentful\Delivery\Resource\Entry;
+use Contentful\Delivery\Resource\Space;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
+use JsonSerializable;
 use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
 
 /**
  * @final
  */
-class ContentfulEntry implements RouteReferrersInterface, EntryInterface
+class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
 {
     /**
      * @var string
@@ -52,15 +52,15 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     /**
      * Original Contentful entry.
      *
-     * @var \Contentful\Delivery\DynamicEntry
+     * @var \Contentful\Delivery\Resource\Entry
      */
     private $remoteEntry;
 
-    public function __construct(?DynamicEntry $remoteEntry = null)
+    public function __construct(?Entry $remoteEntry = null)
     {
         $this->routes = new ArrayCollection();
 
-        if ($remoteEntry instanceof DynamicEntry) {
+        if ($remoteEntry instanceof Entry) {
             $this->setRemoteEntry($remoteEntry);
         }
     }
@@ -206,7 +206,7 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     /**
      * Returns the remote entry.
      */
-    public function getRemoteEntry(): EntryInterface
+    public function getRemoteEntry(): Entry
     {
         return $this->remoteEntry;
     }
@@ -214,25 +214,25 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     /**
      * Returns the remote entry revision.
      */
-    public function getRevision(): int
+    public function getRevision(): ?int
     {
-        return $this->remoteEntry->getRevision();
+        return $this->remoteEntry->getSystemProperties()->getRevision();
     }
 
     /**
      * Returns the date when the remote entry was last updated.
      */
-    public function getUpdatedAt(): DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeInterface
     {
-        return $this->remoteEntry->getUpdatedAt();
+        return $this->remoteEntry->getSystemProperties()->getUpdatedAt();
     }
 
     /**
      * Returns the date when the remote entry was created.
      */
-    public function getCreatedAt(): DateTimeInterface
+    public function getCreatedAt(): ?DateTimeInterface
     {
-        return $this->remoteEntry->getCreatedAt();
+        return $this->remoteEntry->getSystemProperties()->getCreatedAt();
     }
 
     /**
@@ -259,7 +259,7 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
     /**
      * Sets the remote entry.
      */
-    public function setRemoteEntry(DynamicEntry $remoteEntry): void
+    public function setRemoteEntry(Entry $remoteEntry): void
     {
         $this->remoteEntry = $remoteEntry;
         $this->id = $this->remoteEntry->getSpace()->getId() . '|' . $this->remoteEntry->getId();
@@ -273,8 +273,8 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
      */
     public function reviveRemoteEntry(Client $client): void
     {
-        /** @var \Contentful\Delivery\DynamicEntry $remoteEntry */
-        $remoteEntry = $client->reviveJson($this->json);
+        /** @var \Contentful\Delivery\Resource\Entry $remoteEntry */
+        $remoteEntry = $client->parseJson($this->json);
         $this->id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
 
         $nameField = $remoteEntry->getContentType()->getDisplayField();

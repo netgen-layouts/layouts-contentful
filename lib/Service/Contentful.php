@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Netgen\BlockManager\Contentful\Service;
 
+use Contentful\Core\Resource\ResourceArray;
 use Contentful\Delivery\Client;
-use Contentful\Delivery\ContentType;
-use Contentful\Delivery\DynamicEntry;
-use Contentful\Delivery\EntryInterface;
 use Contentful\Delivery\Query;
-use Contentful\Delivery\Space;
-use Contentful\Delivery\Synchronization\DeletedEntry;
-use Contentful\ResourceArray;
+use Contentful\Delivery\Resource\ContentType;
+use Contentful\Delivery\Resource\DeletedEntry;
+use Contentful\Delivery\Resource\Entry;
+use Contentful\Delivery\Resource\Space;
 use Doctrine\ORM\EntityManagerInterface;
 use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
 use Netgen\BlockManager\Contentful\Exception\NotFoundException;
@@ -135,7 +134,7 @@ final class Contentful
             $client = $clientConfig['service'];
 
             foreach ($client->getContentTypes()->getItems() as $contentType) {
-                /** @var \Contentful\Delivery\ContentType $contentType */
+                /** @var \Contentful\Delivery\Resource\ContentType $contentType */
                 if ($contentType->getId() === $id) {
                     return $contentType;
                 }
@@ -181,7 +180,7 @@ final class Contentful
         } else {
             $remoteEntry = $client->getEntry($idList[1]);
 
-            if (!$remoteEntry instanceof EntryInterface) {
+            if (!$remoteEntry instanceof Entry) {
                 throw new NotFoundException(
                     sprintf(
                         'Entry with ID %s not found.',
@@ -272,6 +271,7 @@ final class Contentful
 
             $clientsAndContentTypes[$client->getSpace()->getName()] = $clientName;
             foreach ($client->getContentTypes()->getItems() as $contentType) {
+                /* @var \Contentful\Delivery\Resource\ContentType $contentType */
                 $clientsAndContentTypes['>  ' . $contentType->getName()] = $clientName . '|' . $contentType->getId();
             }
         }
@@ -311,6 +311,7 @@ final class Contentful
 
             $contentTypes = [];
             foreach ($client->getContentTypes()->getItems() as $contentType) {
+                /* @var \Contentful\Delivery\Resource\ContentType $contentType */
                 $contentTypes[$contentType->getName()] = $contentType->getId();
             }
             $spaces[$client->getSpace()->getName()] = $contentTypes;
@@ -322,7 +323,7 @@ final class Contentful
     /**
      * Refreshes the Contentful entry for provided remote entry.
      */
-    public function refreshContentfulEntry(DynamicEntry $remoteEntry): ?ContentfulEntry
+    public function refreshContentfulEntry(Entry $remoteEntry): ?ContentfulEntry
     {
         $id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
         $contentfulEntry = $this->findContentfulEntry($id);
@@ -344,7 +345,7 @@ final class Contentful
      */
     public function unpublishContentfulEntry(DeletedEntry $remoteEntry): void
     {
-        $id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
+        $id = $remoteEntry->getSystemProperties()->getSpace()->getId() . '|' . $remoteEntry->getId();
         $contentfulEntry = $this->findContentfulEntry($id);
         if ($contentfulEntry instanceof ContentfulEntry) {
             $contentfulEntry->setIsPublished(false);
@@ -358,7 +359,7 @@ final class Contentful
      */
     public function deleteContentfulEntry(DeletedEntry $remoteEntry): void
     {
-        $id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
+        $id = $remoteEntry->getSystemProperties()->getSpace()->getId() . '|' . $remoteEntry->getId();
         $contentfulEntry = $this->findContentfulEntry($id);
         if ($contentfulEntry instanceof ContentfulEntry) {
             $contentfulEntry->setIsDeleted(true);
@@ -420,7 +421,7 @@ final class Contentful
     /**
      * Builds the Contentful entry from provided remote entry.
      */
-    private function buildContentfulEntry(EntryInterface $remoteEntry, string $id): ContentfulEntry
+    private function buildContentfulEntry(Entry $remoteEntry, string $id): ContentfulEntry
     {
         $contentfulEntry = new ContentfulEntry($remoteEntry);
         $contentfulEntry->setIsPublished(true);
