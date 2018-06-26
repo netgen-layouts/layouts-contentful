@@ -63,7 +63,8 @@ final class ContentfulController extends Controller
     public function webhook(Request $request): Response
     {
         $content = (string) $request->getContent();
-        $spaceId = (string) $request->headers->get('X-Space-Id');
+        $spaceId = $request->headers->get('X-Space-Id');
+        $spaceId = is_array($spaceId) ? $spaceId[0] : $spaceId;
 
         try {
             $client = $this->contentful->getClientBySpaceId($spaceId);

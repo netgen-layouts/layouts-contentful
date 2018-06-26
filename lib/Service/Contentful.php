@@ -261,8 +261,6 @@ final class Contentful
 
     /**
      * Returns the list of clients and content types for usage in Symfony Forms.
-     *
-     * @return string[]
      */
     public function getClientsAndContentTypesAsChoices(): array
     {
@@ -302,8 +300,6 @@ final class Contentful
 
     /**
      * Returns the list of spaces and content types for usage in Symfony Forms.
-     *
-     * @return string[]
      */
     public function getSpacesAndContentTypesAsChoices(): array
     {
@@ -332,7 +328,7 @@ final class Contentful
         $contentfulEntry = $this->findContentfulEntry($id);
 
         if ($contentfulEntry instanceof ContentfulEntry) {
-            $contentfulEntry->setJson(json_encode($remoteEntry));
+            $contentfulEntry->setJson((string) json_encode($remoteEntry));
             $contentfulEntry->setIsPublished(true);
             $this->entityManager->persist($contentfulEntry);
             $this->entityManager->flush();
@@ -382,7 +378,7 @@ final class Contentful
     public function refreshSpaceCache(Client $client): void
     {
         $spacePath = $this->getSpaceCachePath($client);
-        $this->fileSystem->dumpFile($spacePath . '/space.json', json_encode($client->getSpace()));
+        $this->fileSystem->dumpFile($spacePath . '/space.json', (string) json_encode($client->getSpace()));
     }
 
     /**
@@ -393,7 +389,7 @@ final class Contentful
         $spacePath = $this->getSpaceCachePath($client);
         $contentTypes = $client->getContentTypes();
         foreach ($contentTypes as $contentType) {
-            $this->fileSystem->dumpFile($spacePath . '/ct-' . $contentType->getId() . '.json', json_encode($contentType));
+            $this->fileSystem->dumpFile($spacePath . '/ct-' . $contentType->getId() . '.json', (string) json_encode($contentType));
         }
     }
 
@@ -428,7 +424,7 @@ final class Contentful
     {
         $contentfulEntry = new ContentfulEntry($remoteEntry);
         $contentfulEntry->setIsPublished(true);
-        $contentfulEntry->setJson(json_encode($remoteEntry));
+        $contentfulEntry->setJson((string) json_encode($remoteEntry));
 
         $route = new Route();
         $route->setName($id);

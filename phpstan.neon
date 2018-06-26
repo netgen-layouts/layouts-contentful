@@ -5,3 +5,6 @@ parameters:
 
         # Doctrine ORM
         - '#Contentful::findContentfulEntry\(\) should return Netgen\\BlockManager\\Contentful\\Entity\\ContentfulEntry|null but returns object|null.#'
+
+        # Other errors
+        - '#Parameter \#1 \$function of function call_user_func expects callable, array<.+, .+> given.#'

@@ -60,7 +60,7 @@ final class SyncCommand extends Command
             if (!$this->fileSystem->exists($tokenPath)) {
                 $result = $syncManager->startSync();
             } else {
-                $token = file_get_contents($tokenPath);
+                $token = (string) file_get_contents($tokenPath);
                 $result = $syncManager->continueSync($token);
             }
 
