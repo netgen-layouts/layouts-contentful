@@ -11,17 +11,17 @@ use Symfony\Component\DependencyInjection\Reference;
 
 final class EntrySluggerPass implements CompilerPassInterface
 {
-    private static $serviceName = 'netgen_block_manager.contentful.entry_slugger.configurable';
-    private static $tagName = 'netgen_block_manager.contentful.entry_slugger';
+    private const SERVICE_NAME = 'netgen_block_manager.contentful.entry_slugger.configurable';
+    private const TAG_NAME = 'netgen_block_manager.contentful.entry_slugger';
 
     public function process(ContainerBuilder $container): void
     {
-        if (!$container->has(self::$serviceName)) {
+        if (!$container->has(self::SERVICE_NAME)) {
             return;
         }
 
-        $service = $container->findDefinition(self::$serviceName);
-        $sluggerServices = $container->findTaggedServiceIds(self::$tagName);
+        $service = $container->findDefinition(self::SERVICE_NAME);
+        $sluggerServices = $container->findTaggedServiceIds(self::TAG_NAME);
 
         $sluggers = [];
         foreach ($sluggerServices as $sluggerService => $tags) {
