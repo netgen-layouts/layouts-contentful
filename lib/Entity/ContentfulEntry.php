@@ -56,7 +56,7 @@ class ContentfulEntry implements RouteReferrersInterface, EntryInterface
      */
     private $remoteEntry;
 
-    public function __construct(DynamicEntry $remoteEntry = null)
+    public function __construct(?DynamicEntry $remoteEntry = null)
     {
         $this->routes = new ArrayCollection();
 

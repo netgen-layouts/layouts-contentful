@@ -116,7 +116,7 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
     /**
      * Return filtered limit value to use.
      */
-    private function getLimit(int $limit = null): ?int
+    private function getLimit(?int $limit = null): ?int
     {
         if (is_int($limit) && $limit >= 0) {
             return $limit;

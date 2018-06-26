@@ -208,7 +208,7 @@ final class Contentful
     /**
      * Returns the list of Contentful entries.
      */
-    public function getContentfulEntries(int $offset = 0, int $limit = null, Client $client = null, Query $query = null): array
+    public function getContentfulEntries(int $offset = 0, ?int $limit = null, ?Client $client = null, ?Query $query = null): array
     {
         $client = $client ?? $this->defaultClient;
         $query = $query ?? new Query();
@@ -224,7 +224,7 @@ final class Contentful
     /**
      * Returns the count of Contentful entries.
      */
-    public function getContentfulEntriesCount(Client $client = null, Query $query = null): int
+    public function getContentfulEntriesCount(?Client $client = null, ?Query $query = null): int
     {
         $client = $client ?? $this->defaultClient;
 
@@ -234,7 +234,7 @@ final class Contentful
     /**
      * Searches for Contentful entries.
      */
-    public function searchContentfulEntries(string $searchText, int $offset = 0, int $limit = 25, Client $client = null): array
+    public function searchContentfulEntries(string $searchText, int $offset = 0, int $limit = 25, ?Client $client = null): array
     {
         $client = $client ?? $this->defaultClient;
 
@@ -249,7 +249,7 @@ final class Contentful
     /**
      * Returns the count of searched Contentful entries.
      */
-    public function searchContentfulEntriesCount(string $searchText, Client $client = null): int
+    public function searchContentfulEntriesCount(string $searchText, ?Client $client = null): int
     {
         $client = $client ?? $this->defaultClient;
 
