@@ -265,7 +265,7 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
         $this->id = $this->remoteEntry->getSpace()->getId() . '|' . $this->remoteEntry->getId();
 
         $nameField = $this->remoteEntry->getContentType()->getDisplayField();
-        $this->name = call_user_func([$this->remoteEntry, 'get' . $nameField->getId()]);
+        $this->name = $remoteEntry->{'get' . $nameField->getId()}();
     }
 
     /**
@@ -279,7 +279,7 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
 
         $nameField = $remoteEntry->getContentType()->getDisplayField();
 
-        $this->name = call_user_func([$remoteEntry, 'get' . $nameField->getId()]);
+        $this->name = $remoteEntry->{'get' . $nameField->getId()}();
         $this->remoteEntry = $remoteEntry;
     }
 }

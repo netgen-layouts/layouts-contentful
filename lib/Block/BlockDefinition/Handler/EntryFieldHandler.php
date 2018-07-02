@@ -45,7 +45,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
         $field = null;
 
         try {
-            $field = call_user_func([$contentfulEntry, 'get' . $block->getParameter('field_identifier')]);
+            $field = $contentfulEntry->{'get' . $block->getParameter('field_identifier')}();
         } catch (Exception $e) {
             // Do nothing
         }
