@@ -16,7 +16,7 @@ final class NetgenContentfulBlockManagerExtension extends Extension implements P
 {
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $configuration = new Configuration();
+        $configuration = $this->getConfiguration($configs, $container);
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('netgen_block_manager.contentful.entry_slug_type', $config['entry_slug_type']);
@@ -58,5 +58,10 @@ final class NetgenContentfulBlockManagerExtension extends Extension implements P
             $container->prependExtensionConfig($prependConfig, $config);
             $container->addResource(new FileResource($configFile));
         }
+    }
+
+    public function getConfiguration(array $config, ContainerBuilder $container)
+    {
+        return new Configuration($this);
     }
 }

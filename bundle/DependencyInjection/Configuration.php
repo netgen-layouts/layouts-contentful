@@ -4,15 +4,27 @@ declare(strict_types=1);
 
 namespace Netgen\Bundle\ContentfulBlockManagerBundle\DependencyInjection;
 
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
+use Netgen\Bundle\BlockManagerBundle\DependencyInjection\TreeBuilder;
+use Symfony\Component\Config\Definition\Builder\TreeBuilder as BaseTreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 
 final class Configuration implements ConfigurationInterface
 {
-    public function getConfigTreeBuilder(): TreeBuilder
+    /**
+     * @var \Symfony\Component\DependencyInjection\Extension\ExtensionInterface
+     */
+    private $extension;
+
+    public function __construct(ExtensionInterface $extension)
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('netgen_contentful_block_manager');
+        $this->extension = $extension;
+    }
+
+    public function getConfigTreeBuilder(): BaseTreeBuilder
+    {
+        $treeBuilder = new TreeBuilder($this->extension->getAlias());
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()
