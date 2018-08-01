@@ -6,7 +6,6 @@ namespace Netgen\BlockManager\Contentful\Item\ValueLoader;
 
 use Netgen\BlockManager\Contentful\Exception\NotFoundException;
 use Netgen\BlockManager\Contentful\Service\Contentful;
-use Netgen\BlockManager\Exception\Item\ItemException;
 use Netgen\BlockManager\Item\ValueLoaderInterface;
 
 final class EntryValueLoader implements ValueLoaderInterface
@@ -26,7 +25,7 @@ final class EntryValueLoader implements ValueLoaderInterface
         try {
             $contentfulEntry = $this->contentful->loadContentfulEntry($id);
         } catch (NotFoundException $e) {
-            throw ItemException::noValue($id);
+            return null;
         }
 
         return $contentfulEntry;
