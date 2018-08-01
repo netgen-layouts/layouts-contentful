@@ -6,8 +6,8 @@ namespace Netgen\Bundle\ContentfulBlockManagerBundle\Templating\Twig\Runtime;
 
 use Contentful\Delivery\Client;
 use Contentful\Delivery\Resource\ContentType;
-use Exception;
 use Netgen\BlockManager\Contentful\Service\Contentful;
+use Throwable;
 
 final class ContentfulRuntime
 {
@@ -28,7 +28,7 @@ final class ContentfulRuntime
     {
         try {
             $contentfulEntry = $this->contentful->loadContentfulEntry($entryId);
-        } catch (Exception $e) {
+        } catch (Throwable $t) {
             return '';
         }
 

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Netgen\BlockManager\Contentful\Layout\Resolver\ConditionType;
 
-use Exception;
 use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
 use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\BlockManager\Layout\Resolver\ConditionTypeInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints;
+use Throwable;
 
 final class ContentType implements ConditionTypeInterface
 {
@@ -58,7 +58,7 @@ final class ContentType implements ConditionTypeInterface
 
         try {
             $contentfulEntry = $this->contentful->loadContentfulEntry($contentIds[1]);
-        } catch (Exception $e) {
+        } catch (Throwable $t) {
             return false;
         }
 

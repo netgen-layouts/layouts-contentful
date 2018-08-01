@@ -10,9 +10,9 @@ use Contentful\Delivery\Resource\Entry;
 use Contentful\Delivery\Resource\Space;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Exception;
 use JsonSerializable;
 use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
+use Throwable;
 
 /**
  * @final
@@ -78,7 +78,7 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
 
         try {
             $ret = call_user_func([$this->remoteEntry, $name]);
-        } catch (Exception $e) {
+        } catch (Throwable $t) {
         }
 
         return $ret;

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Netgen\BlockManager\Contentful\Block\BlockDefinition\Handler;
 
-use Exception;
 use Netgen\BlockManager\API\Values\Block\Block;
 use Netgen\BlockManager\Block\BlockDefinition\BlockDefinitionHandler;
 use Netgen\BlockManager\Block\DynamicParameters;
@@ -12,6 +11,7 @@ use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\BlockManager\Parameters\ParameterBuilderInterface;
 use Netgen\BlockManager\Parameters\ParameterType;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Throwable;
 
 final class EntryFieldHandler extends BlockDefinitionHandler
 {
@@ -46,7 +46,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
 
         try {
             $field = $contentfulEntry->{'get' . $block->getParameter('field_identifier')}();
-        } catch (Exception $e) {
+        } catch (Throwable $t) {
             // Do nothing
         }
 

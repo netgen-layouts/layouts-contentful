@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Netgen\BlockManager\Contentful\Item\ValueLoader;
 
-use Netgen\BlockManager\Contentful\Exception\NotFoundException;
 use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\BlockManager\Item\ValueLoaderInterface;
+use Throwable;
 
 final class EntryValueLoader implements ValueLoaderInterface
 {
@@ -23,12 +23,10 @@ final class EntryValueLoader implements ValueLoaderInterface
     public function load($id)
     {
         try {
-            $contentfulEntry = $this->contentful->loadContentfulEntry($id);
-        } catch (NotFoundException $e) {
+            return $this->contentful->loadContentfulEntry($id);
+        } catch (Throwable $t) {
             return null;
         }
-
-        return $contentfulEntry;
     }
 
     public function loadByRemoteId($remoteId)

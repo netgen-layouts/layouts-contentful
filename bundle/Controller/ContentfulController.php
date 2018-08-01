@@ -6,7 +6,6 @@ namespace Netgen\Bundle\ContentfulBlockManagerBundle\Controller;
 
 use Contentful\Delivery\Resource\DeletedEntry;
 use Contentful\Delivery\Resource\Entry;
-use Exception;
 use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
 use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\Bundle\BlockManagerBundle\Controller\Controller;
@@ -14,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 final class ContentfulController extends Controller
 {
@@ -69,7 +69,7 @@ final class ContentfulController extends Controller
         try {
             $client = $this->contentful->getClientBySpaceId($spaceId);
             $remoteEntry = $client->parseJson($content);
-        } catch (Exception $e) {
+        } catch (Throwable $t) {
             throw new BadRequestHttpException('Invalid request');
         }
 
