@@ -23,7 +23,7 @@ final class ContentType implements ConditionTypeInterface
         $this->contentful = $contentful;
     }
 
-    public function getType(): string
+    public static function getType(): string
     {
         return 'contentful_content_type';
     }
