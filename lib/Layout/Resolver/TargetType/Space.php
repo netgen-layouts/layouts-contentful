@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints;
 
 final class Space implements TargetTypeInterface
 {
-    public function getType(): string
+    public static function getType(): string
     {
         return 'contentful_space';
     }
