@@ -16,7 +16,7 @@
         "aptoma/twig-markdown": "^3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.2",
+        "phpunit/phpunit": "^7.3",
         "symfony/phpunit-bridge": "^4.1",
         "phpstan/phpstan": "^0.10",
         "phpstan/phpstan-phpunit": "^0.10",
