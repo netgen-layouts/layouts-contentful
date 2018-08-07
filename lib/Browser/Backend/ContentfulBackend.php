@@ -27,7 +27,7 @@ final class ContentfulBackend implements BackendInterface
         $this->contentful = $contentful;
     }
 
-    public function getDefaultSections(): array
+    public function getSections(): array
     {
         return [new RootLocation()];
     }
