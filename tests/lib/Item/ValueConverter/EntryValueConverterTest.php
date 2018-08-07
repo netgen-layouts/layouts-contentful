@@ -26,8 +26,8 @@ final class EntryValueConverterTest extends TestCase
      */
     public function testSupports(): void
     {
-        $this->assertTrue($this->valueConverter->supports(new ContentfulEntry()));
-        $this->assertFalse($this->valueConverter->supports(new stdClass()));
+        self::assertTrue($this->valueConverter->supports(new ContentfulEntry()));
+        self::assertFalse($this->valueConverter->supports(new stdClass()));
     }
 
     /**
@@ -35,7 +35,7 @@ final class EntryValueConverterTest extends TestCase
      */
     public function testGetValueType(): void
     {
-        $this->assertSame(
+        self::assertSame(
             'contentful_entry',
             $this->valueConverter->getValueType(
                 new ContentfulEntry()
@@ -51,7 +51,7 @@ final class EntryValueConverterTest extends TestCase
         $entry = new ContentfulEntry();
         $entry->setId('abc');
 
-        $this->assertSame('abc', $this->valueConverter->getId($entry));
+        self::assertSame('abc', $this->valueConverter->getId($entry));
     }
 
     /**
@@ -62,7 +62,7 @@ final class EntryValueConverterTest extends TestCase
         $entry = new ContentfulEntry();
         $entry->setId('abc');
 
-        $this->assertSame('abc', $this->valueConverter->getRemoteId($entry));
+        self::assertSame('abc', $this->valueConverter->getRemoteId($entry));
     }
 
     /**
@@ -73,7 +73,7 @@ final class EntryValueConverterTest extends TestCase
         $entry = new ContentfulEntry();
         $entry->setName('Entry name');
 
-        $this->assertSame('Entry name', $this->valueConverter->getName($entry));
+        self::assertSame('Entry name', $this->valueConverter->getName($entry));
     }
 
     /**
@@ -84,7 +84,7 @@ final class EntryValueConverterTest extends TestCase
         $entry = new ContentfulEntry();
         $entry->setIsPublished(true);
 
-        $this->assertTrue($this->valueConverter->getIsVisible($entry));
+        self::assertTrue($this->valueConverter->getIsVisible($entry));
     }
 
     /**
@@ -94,6 +94,6 @@ final class EntryValueConverterTest extends TestCase
     {
         $entry = new ContentfulEntry();
 
-        $this->assertSame($entry, $this->valueConverter->getObject($entry));
+        self::assertSame($entry, $this->valueConverter->getObject($entry));
     }
 }
