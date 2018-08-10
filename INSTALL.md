@@ -4,11 +4,11 @@ Netgen Layouts & Contentful integration installation instructions
 Installing Netgen Layouts
 -------------------------
 
-Follow the instructions in Netgen Layouts documentation to [install Netgen Layouts](http://docs.netgen.io/projects/layouts/en/latest/reference/install_instructions.html).
+Follow the instructions in Netgen Layouts documentation to [install Netgen Layouts](https://docs.netgen.io/projects/layouts/en/latest/reference/install_instructions.html).
 
 As a minimum you need to:
 
-* require `netgen/block-manager` and `netgen/block-manager-standard` packages in Composer
+* require `netgen/layouts-standard` package in Composer
 * activate all needed bundles
 * activate Netgen Layouts and Content Browser routes
 * import Netgen Layouts database tables with Doctrine Migrations
@@ -79,7 +79,7 @@ Use Composer to install the integration
 Run the following command to install Contentful integration:
 
 ```
-composer require netgen/block-manager-standard:^1.0 netgen/block-manager-contentful:^1.0
+composer require netgen/layouts-standard netgen/layouts-contentful
 ```
 
 Activating integration bundle

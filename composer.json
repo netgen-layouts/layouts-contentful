@@ -1,5 +1,5 @@
 {
-    "name": "netgen/block-manager-contentful",
+    "name": "netgen/layouts-contentful",
     "description": "Netgen Layouts & Contentful integration",
     "license": "proprietary",
     "authors": [
@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "netgen/block-manager": "~0.12.0",
+        "netgen/layouts-core": "~0.12.0",
         "contentful/contentful-bundle": "^3.0",
         "doctrine/orm": "^2.6",
         "symfony-cmf/routing-bundle": "^2.1",
@@ -29,9 +29,6 @@
         "phpstan": "@php vendor/bin/phpstan analyse -c phpstan.neon --level=7 --ansi lib bundle",
         "phpstan-tests": "@php vendor/bin/phpstan analyse -c phpstan.tests.neon --level=7 --ansi tests"
     },
-    "repositories": [
-        { "type": "composer", "url": "https://packagist.netgen.biz" }
-    ],
     "autoload": {
         "psr-4": {
             "Netgen\\BlockManager\\Contentful\\": "lib/",
