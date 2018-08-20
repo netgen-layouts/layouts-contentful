@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Netgen\Bundle\ContentfulBlockManagerBundle\Templating\Twig\Extension;
+namespace Netgen\Bundle\LayoutsContentfulBundle\Templating\Twig\Extension;
 
-use Netgen\Bundle\ContentfulBlockManagerBundle\Templating\Twig\Runtime\ContentfulRuntime;
+use Netgen\Bundle\LayoutsContentfulBundle\Templating\Twig\Runtime\ContentfulRuntime;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 

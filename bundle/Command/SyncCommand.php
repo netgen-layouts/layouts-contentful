@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Netgen\Bundle\ContentfulBlockManagerBundle\Command;
+namespace Netgen\Bundle\LayoutsContentfulBundle\Command;
 
 use Contentful\Delivery\Resource\DeletedEntry;
 use Contentful\Delivery\Resource\Entry;
-use Netgen\BlockManager\Contentful\Service\Contentful;
+use Netgen\Layouts\Contentful\Service\Contentful;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,7 +16,7 @@ use Symfony\Component\Filesystem\Filesystem;
 final class SyncCommand extends Command
 {
     /**
-     * @var \Netgen\BlockManager\Contentful\Service\Contentful
+     * @var \Netgen\Layouts\Contentful\Service\Contentful
      */
     private $contentful;
 

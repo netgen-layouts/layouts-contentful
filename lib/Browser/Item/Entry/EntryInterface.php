@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Netgen\BlockManager\Contentful\Browser\Item\Entry;
+namespace Netgen\Layouts\Contentful\Browser\Item\Entry;
 
-use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
+use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 
 interface EntryInterface
 {

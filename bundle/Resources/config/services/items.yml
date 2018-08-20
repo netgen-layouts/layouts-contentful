@@ -1,14 +1,14 @@
 services:
-    netgen_block_manager.contentful.value_converter.contentful_entry:
-        class: Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter
+    netgen_layouts.contentful.value_converter.contentful_entry:
+        class: Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter
         public: false
         tags:
             - { name: netgen_block_manager.item.value_converter }
 
-    netgen_block_manager.contentful.value_loader.contentful_entry:
-        class: Netgen\BlockManager\Contentful\Item\ValueLoader\EntryValueLoader
+    netgen_layouts.contentful.value_loader.contentful_entry:
+        class: Netgen\Layouts\Contentful\Item\ValueLoader\EntryValueLoader
         public: false
         arguments:
-            - "@netgen_block_manager.contentful.service"
+            - "@netgen_layouts.contentful.service"
         tags:
             - { name: netgen_block_manager.item.value_loader, value_type: contentful_entry }

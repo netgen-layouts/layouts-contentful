@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Netgen\BlockManager\Contentful\Service;
+namespace Netgen\Layouts\Contentful\Service;
 
 use Contentful\Core\Resource\ResourceArray;
 use Contentful\Delivery\Client;
@@ -12,10 +12,10 @@ use Contentful\Delivery\Resource\DeletedEntry;
 use Contentful\Delivery\Resource\Entry;
 use Contentful\Delivery\Resource\Space;
 use Doctrine\ORM\EntityManagerInterface;
-use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
-use Netgen\BlockManager\Contentful\Exception\NotFoundException;
-use Netgen\BlockManager\Contentful\Exception\RuntimeException;
-use Netgen\BlockManager\Contentful\Routing\EntrySluggerInterface;
+use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
+use Netgen\Layouts\Contentful\Exception\NotFoundException;
+use Netgen\Layouts\Contentful\Exception\RuntimeException;
+use Netgen\Layouts\Contentful\Routing\EntrySluggerInterface;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -28,7 +28,7 @@ final class Contentful
     private $clientsConfig;
 
     /**
-     * @var \Netgen\BlockManager\Contentful\Routing\EntrySluggerInterface
+     * @var \Netgen\Layouts\Contentful\Routing\EntrySluggerInterface
      */
     private $entrySlugger;
 
@@ -71,7 +71,7 @@ final class Contentful
     /**
      * Returns the Contentful client with provided name.
      *
-     * @throws \Netgen\BlockManager\Contentful\Exception\RuntimeException If client with provided name does not exist
+     * @throws \Netgen\Layouts\Contentful\Exception\RuntimeException If client with provided name does not exist
      */
     public function getClientByName(string $name): Client
     {
@@ -157,7 +157,7 @@ final class Contentful
     /**
      * Returns the Contentful entry with provided ID.
      *
-     * @throws \Netgen\BlockManager\Contentful\Exception\NotFoundException If entry could not be loaded
+     * @throws \Netgen\Layouts\Contentful\Exception\NotFoundException If entry could not be loaded
      */
     public function loadContentfulEntry(string $id): ContentfulEntry
     {
@@ -444,7 +444,7 @@ final class Contentful
     /**
      * Builds the Contentful entries from provided remote entries.
      *
-     * @return \Netgen\BlockManager\Contentful\Entity\ContentfulEntry[]
+     * @return \Netgen\Layouts\Contentful\Entity\ContentfulEntry[]
      */
     private function buildContentfulEntries(ResourceArray $entries, Client $client): array
     {

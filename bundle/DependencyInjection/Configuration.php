@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Netgen\Bundle\ContentfulBlockManagerBundle\DependencyInjection;
+namespace Netgen\Bundle\LayoutsContentfulBundle\DependencyInjection;
 
 use Netgen\Bundle\BlockManagerBundle\DependencyInjection\TreeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder as BaseTreeBuilder;

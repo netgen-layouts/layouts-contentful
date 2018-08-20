@@ -2,7 +2,7 @@ item_types:
     contentful_entry:
         name: item_types.contentful_entry
         preview:
-            template: '@NetgenContentfulBlockManager/browser/contentful_entry.html.twig'
+            template: '@NetgenLayoutsContentful/browser/contentful_entry.html.twig'
         columns:
             name:
                 name: columns.name

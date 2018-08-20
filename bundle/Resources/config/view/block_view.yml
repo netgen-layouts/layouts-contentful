@@ -8,7 +8,7 @@ view:
                     block\view_type: contentful_entry_field
         api:
             contentful_entry_field:
-                template: "@NetgenContentfulBlockManager/api/block/contentful_entry_field.html.twig"
+                template: "@NetgenLayoutsContentful/api/block/contentful_entry_field.html.twig"
                 match:
                     block\definition: contentful_entry_field
                     api_version: 1

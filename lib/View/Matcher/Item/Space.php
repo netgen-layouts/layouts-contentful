@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Netgen\BlockManager\Contentful\View\Matcher\Item;
+namespace Netgen\Layouts\Contentful\View\Matcher\Item;
 
 use Netgen\BlockManager\View\Matcher\MatcherInterface;
 use Netgen\BlockManager\View\View\ItemViewInterface;

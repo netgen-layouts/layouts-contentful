@@ -1,12 +1,12 @@
 services:
-    netgen_block_manager.contentful.view.matcher.item.content_type:
-        class: Netgen\BlockManager\Contentful\View\Matcher\Item\ContentType
+    netgen_layouts.contentful.view.matcher.item.content_type:
+        class: Netgen\Layouts\Contentful\View\Matcher\Item\ContentType
         public: false
         tags:
             - { name: netgen_block_manager.view.template_matcher, identifier: contentful\content_type }
 
-    netgen_block_manager.contentful.view.matcher.item.space:
-        class: Netgen\BlockManager\Contentful\View\Matcher\Item\Space
+    netgen_layouts.contentful.view.matcher.item.space:
+        class: Netgen\Layouts\Contentful\View\Matcher\Item\Space
         public: false
         tags:
             - { name: netgen_block_manager.view.template_matcher, identifier: contentful\space }

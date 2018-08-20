@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Netgen\Bundle\ContentfulBlockManagerBundle\DependencyInjection\CompilerPass;
+namespace Netgen\Bundle\LayoutsContentfulBundle\DependencyInjection\CompilerPass;
 
-use Netgen\BlockManager\Contentful\Exception\RuntimeException;
+use Netgen\Layouts\Contentful\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 final class ClientsPass implements CompilerPassInterface
 {
-    private const SERVICE_NAME = 'netgen_block_manager.contentful.service';
+    private const SERVICE_NAME = 'netgen_layouts.contentful.service';
 
     public function process(ContainerBuilder $container): void
     {

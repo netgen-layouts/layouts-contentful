@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Netgen\Bundle\ContentfulBlockManagerBundle\Templating\Twig\Runtime;
+namespace Netgen\Bundle\LayoutsContentfulBundle\Templating\Twig\Runtime;
 
 use Contentful\Delivery\Client;
 use Contentful\Delivery\Resource\ContentType;
-use Netgen\BlockManager\Contentful\Service\Contentful;
+use Netgen\Layouts\Contentful\Service\Contentful;
 use Throwable;
 
 final class ContentfulRuntime
 {
     /**
-     * @var \Netgen\BlockManager\Contentful\Service\Contentful
+     * @var \Netgen\Layouts\Contentful\Service\Contentful
      */
     private $contentful;
 

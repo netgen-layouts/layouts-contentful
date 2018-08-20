@@ -1,8 +1,8 @@
 services:
-    netgen_block_manager.contentful.routing.enhancer:
-        class: Netgen\BlockManager\Contentful\Routing\ContentfulEnhancer
+    netgen_layouts.contentful.routing.enhancer:
+        class: Netgen\Layouts\Contentful\Routing\ContentfulEnhancer
         public: true
         arguments:
-            - "@netgen_block_manager.contentful.service"
+            - "@netgen_layouts.contentful.service"
         tags:
             -  { name: dynamic_router_route_enhancer, priority: 10 }

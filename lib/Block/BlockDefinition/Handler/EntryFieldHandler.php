@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Netgen\BlockManager\Contentful\Block\BlockDefinition\Handler;
+namespace Netgen\Layouts\Contentful\Block\BlockDefinition\Handler;
 
 use Netgen\BlockManager\API\Values\Block\Block;
 use Netgen\BlockManager\Block\BlockDefinition\BlockDefinitionHandler;
 use Netgen\BlockManager\Block\DynamicParameters;
-use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\BlockManager\Parameters\ParameterBuilderInterface;
 use Netgen\BlockManager\Parameters\ParameterType;
+use Netgen\Layouts\Contentful\Service\Contentful;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Throwable;
 
 final class EntryFieldHandler extends BlockDefinitionHandler
 {
     /**
-     * @var \Netgen\BlockManager\Contentful\Service\Contentful
+     * @var \Netgen\Layouts\Contentful\Service\Contentful
      */
     private $contentful;
 

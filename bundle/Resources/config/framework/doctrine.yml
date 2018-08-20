@@ -1,5 +1,5 @@
 orm:
     mappings:
-        NetgenContentfulBlockManagerBundle:
-            prefix: Netgen\BlockManager\Contentful\Entity
-            alias: NetgenContentfulBlockManager
+        NetgenLayoutsContentfulBundle:
+            prefix: Netgen\Layouts\Contentful\Entity
+            alias: NetgenLayoutsContentful

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Netgen\BlockManager\Contentful\Layout\Resolver\Form\TargetType\Mapper;
+namespace Netgen\Layouts\Contentful\Layout\Resolver\Form\TargetType\Mapper;
 
-use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\BlockManager\Layout\Resolver\Form\TargetType\Mapper;
+use Netgen\Layouts\Contentful\Service\Contentful;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 final class Space extends Mapper
 {
     /**
-     * @var \Netgen\BlockManager\Contentful\Service\Contentful
+     * @var \Netgen\Layouts\Contentful\Service\Contentful
      */
     private $contentful;
 

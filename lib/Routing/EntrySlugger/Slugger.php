@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Netgen\BlockManager\Contentful\Routing\EntrySlugger;
+namespace Netgen\Layouts\Contentful\Routing\EntrySlugger;
 
 abstract class Slugger
 {

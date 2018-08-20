@@ -1,7 +1,7 @@
 block_definitions:
     contentful_entry_field:
         name: 'Contentful entry field'
-        icon: '/bundles/netgencontentfulblockmanager/icons/block/contentful_entry_field.svg'
+        icon: '/bundles/netgenlayoutscontentful/icons/block/contentful_entry_field.svg'
         view_types:
             contentful_entry_field:
                 name: 'Contentful entry field'

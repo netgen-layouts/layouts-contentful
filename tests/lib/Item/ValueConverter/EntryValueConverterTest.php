@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Netgen\BlockManager\Contentful\Tests\Item\ValueConverter;
+namespace Netgen\Layouts\Contentful\Tests\Item\ValueConverter;
 
-use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
-use Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter;
+use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
+use Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
 final class EntryValueConverterTest extends TestCase
 {
     /**
-     * @var \Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter
+     * @var \Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter
      */
     private $valueConverter;
 
@@ -22,7 +22,7 @@ final class EntryValueConverterTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter::supports
+     * @covers \Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter::supports
      */
     public function testSupports(): void
     {
@@ -31,7 +31,7 @@ final class EntryValueConverterTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter::getValueType
+     * @covers \Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter::getValueType
      */
     public function testGetValueType(): void
     {
@@ -44,7 +44,7 @@ final class EntryValueConverterTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter::getId
+     * @covers \Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter::getId
      */
     public function testGetId(): void
     {
@@ -55,7 +55,7 @@ final class EntryValueConverterTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter::getRemoteId
+     * @covers \Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter::getRemoteId
      */
     public function testGetRemoteId(): void
     {
@@ -66,7 +66,7 @@ final class EntryValueConverterTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter::getName
+     * @covers \Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter::getName
      */
     public function testGetName(): void
     {
@@ -77,7 +77,7 @@ final class EntryValueConverterTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter::getIsVisible
+     * @covers \Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter::getIsVisible
      */
     public function testGetIsVisible(): void
     {
@@ -88,7 +88,7 @@ final class EntryValueConverterTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\BlockManager\Contentful\Item\ValueConverter\EntryValueConverter::getObject
+     * @covers \Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter::getObject
      */
     public function testGetObject(): void
     {

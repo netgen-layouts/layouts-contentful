@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Netgen\Bundle\ContentfulBlockManagerBundle\DependencyInjection;
+namespace Netgen\Bundle\LayoutsContentfulBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Resource\FileResource;
@@ -12,14 +12,14 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Yaml\Yaml;
 
-final class NetgenContentfulBlockManagerExtension extends Extension implements PrependExtensionInterface
+final class NetgenLayoutsContentfulExtension extends Extension implements PrependExtensionInterface
 {
     public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = $this->getConfiguration($configs, $container);
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter('netgen_block_manager.contentful.entry_slug_type', $config['entry_slug_type']);
+        $container->setParameter('netgen_layouts.contentful.entry_slug_type', $config['entry_slug_type']);
 
         $loader = new YamlFileLoader(
             $container,

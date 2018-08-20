@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Netgen\BlockManager\Contentful\Entity;
+namespace Netgen\Layouts\Contentful\Entity;
 
 use Contentful\Delivery\Client;
 use Contentful\Delivery\Resource\ContentType;

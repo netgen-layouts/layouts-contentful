@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Netgen\BlockManager\Contentful\Routing\EntrySlugger;
+namespace Netgen\Layouts\Contentful\Routing\EntrySlugger;
 
-use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
-use Netgen\BlockManager\Contentful\Routing\EntrySluggerInterface;
+use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
+use Netgen\Layouts\Contentful\Routing\EntrySluggerInterface;
 
 final class Simple extends Slugger implements EntrySluggerInterface
 {

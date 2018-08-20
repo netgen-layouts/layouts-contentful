@@ -1,8 +1,8 @@
 services:
-    netgen_block_manager.contentful.collection.query_type.handler.contentful_search:
-        class: Netgen\BlockManager\Contentful\Collection\QueryType\Handler\ContentfulSearchHandler
+    netgen_layouts.contentful.collection.query_type.handler.contentful_search:
+        class: Netgen\Layouts\Contentful\Collection\QueryType\Handler\ContentfulSearchHandler
         public: false
         arguments:
-            - "@netgen_block_manager.contentful.service"
+            - "@netgen_layouts.contentful.service"
         tags:
             - { name: netgen_block_manager.collection.query_type_handler, type: contentful_search }

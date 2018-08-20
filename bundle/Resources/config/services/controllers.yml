@@ -1,11 +1,11 @@
 services:
-    netgen_block_manager.contentful.controller.contenful:
-        class: Netgen\Bundle\ContentfulBlockManagerBundle\Controller\ContentfulController
+    netgen_layouts.contentful.controller.contenful:
+        class: Netgen\Bundle\LayoutsContentfulBundle\Controller\ContentfulController
         public: true
         parent: netgen_block_manager.controller.base
         arguments:
-            - "@netgen_block_manager.contentful.service"
+            - "@netgen_layouts.contentful.service"
 
-    ngbm_contentful:
-        alias: netgen_block_manager.contentful.controller.contenful
+    nglayouts_contentful:
+        alias: netgen_layouts.contentful.controller.contenful
         public: true

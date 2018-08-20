@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Netgen\BlockManager\Contentful\Layout\Resolver\TargetType;
+namespace Netgen\Layouts\Contentful\Layout\Resolver\TargetType;
 
-use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
 use Netgen\BlockManager\Layout\Resolver\TargetTypeInterface;
+use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints;
 

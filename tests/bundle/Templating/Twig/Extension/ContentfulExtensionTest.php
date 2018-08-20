@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Netgen\Bundle\ContentfulBlockManagerBundle\Tests\Templating\Twig\Extension;
+namespace Netgen\Bundle\LayoutsContentfulBundle\Tests\Templating\Twig\Extension;
 
-use Netgen\Bundle\ContentfulBlockManagerBundle\Templating\Twig\Extension\ContentfulExtension;
+use Netgen\Bundle\LayoutsContentfulBundle\Templating\Twig\Extension\ContentfulExtension;
 use PHPUnit\Framework\TestCase;
 use Twig\TwigFunction;
 
 final class ContentfulExtensionTest extends TestCase
 {
     /**
-     * @var \Netgen\Bundle\ContentfulBlockManagerBundle\Templating\Twig\Extension\ContentfulExtension
+     * @var \Netgen\Bundle\LayoutsContentfulBundle\Templating\Twig\Extension\ContentfulExtension
      */
     private $extension;
 
@@ -21,7 +21,7 @@ final class ContentfulExtensionTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\Bundle\ContentfulBlockManagerBundle\Templating\Twig\Extension\ContentfulExtension::getFunctions
+     * @covers \Netgen\Bundle\LayoutsContentfulBundle\Templating\Twig\Extension\ContentfulExtension::getFunctions
      */
     public function testGetFunctions(): void
     {

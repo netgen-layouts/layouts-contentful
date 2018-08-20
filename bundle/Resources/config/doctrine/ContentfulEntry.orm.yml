@@ -1,4 +1,4 @@
-Netgen\BlockManager\Contentful\Entity\ContentfulEntry:
+Netgen\Layouts\Contentful\Entity\ContentfulEntry:
     type: entity
     table: contentful_entry
     manyToMany:

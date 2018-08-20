@@ -31,8 +31,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Netgen\\BlockManager\\Contentful\\": "lib/",
-            "Netgen\\Bundle\\ContentfulBlockManagerBundle\\": "bundle/"
+            "Netgen\\Layouts\\Contentful\\": "lib/",
+            "Netgen\\Bundle\\LayoutsContentfulBundle\\": "bundle/"
         }
     },
     "autoload-dev": {
@@ -40,8 +40,8 @@
             "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
         ],
         "psr-4": {
-            "Netgen\\BlockManager\\Contentful\\Tests\\": "tests/lib/",
-            "Netgen\\Bundle\\ContentfulBlockManagerBundle\\Tests\\": "tests/bundle/"
+            "Netgen\\Layouts\\Contentful\\Tests\\": "tests/lib/",
+            "Netgen\\Bundle\\LayoutsContentfulBundle\\Tests\\": "tests/bundle/"
         }
     },
     "minimum-stability": "dev",

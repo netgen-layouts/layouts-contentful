@@ -15,10 +15,10 @@
     beStrictAboutChangesToGlobalState="true"
 >
     <testsuites>
-        <testsuite name="Netgen\BlockManager\Contentful">
+        <testsuite name="Netgen\Layouts\Contentful">
             <directory>tests/lib</directory>
         </testsuite>
-        <testsuite name="Netgen\Bundle\ContentfulBlockManagerBundle">
+        <testsuite name="Netgen\Bundle\LayoutsContentfulBundle">
             <directory>tests/bundle</directory>
         </testsuite>
     </testsuites>
@@ -28,7 +28,7 @@
             <directory suffix=".php">lib</directory>
             <directory suffix=".php">bundle</directory>
             <exclude>
-                <file>bundle/NetgenContentfulBlockManagerBundle.php</file>
+                <file>bundle/NetgenLayoutsContentfulBundle.php</file>
             </exclude>
             <exclude>
                 <directory>bundle/Command</directory>

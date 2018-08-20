@@ -86,13 +86,13 @@ Activating integration bundle
 -----------------------------
 
 After completing standard Netgen Layouts install instructions, you also need to
-activate `NetgenContentfulBlockManagerBundle` together with its dependencies in `app/AppKernel.php`.
+activate `NetgenLayoutsContentfulBundle` together with its dependencies in `app/AppKernel.php`.
 Make sure it is activated after all other Netgen Layouts bundles.
 
 ```
 new Contentful\ContentfulBundle\ContentfulBundle(),
 new Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle(),
-new Netgen\Bundle\ContentfulBlockManagerBundle\NetgenContentfulBlockManagerBundle(),
+new Netgen\Bundle\LayoutsContentfulBundle\NetgenLayoutsContentfulBundle(),
 ```
 
 Configure Contentful bundle
@@ -140,7 +140,7 @@ cmf_routing:
             router.default: 200
             cmf_routing.dynamic_router: 100
     dynamic:
-        default_controller: ngbm_contentful:view
+        default_controller: nglayouts_contentful:view
         persistence:
             orm:
                 enabled: true
@@ -154,8 +154,8 @@ Configure routing
 Add routing configuration to `app/config/routing.yml`:
 
 ```
-netgen_block_manager_contentful:
-    resource: "@NetgenContentfulBlockManagerBundle/Resources/config/routing.yml"
+netgen_layouts_contentful:
+    resource: "@NetgenLayoutsContentfulBundle/Resources/config/routing.yml"
 ```
 
 Import the schema
@@ -219,13 +219,13 @@ Then declare your class as service and tag it:
         class: MyApp\Routing\EntrySlugger\WithMyPrefix
         public: false
         tags:
-            - { name: netgen_block_manager.contentful.entry_slugger, type: with_my_prefix }
+            - { name: netgen_layouts.contentful.entry_slugger, type: with_my_prefix }
 ```
 
 Finally, you need to configure your app in `config.yml` to use your slugger. You can declare it as a default one and declare it for each content type using the content type ID:
 
 ```
-netgen_contentful_block_manager:
+netgen_layouts_contentful:
     entry_slug_type:
         default: with_my_prefix
         content_type:

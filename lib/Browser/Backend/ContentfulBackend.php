@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Netgen\BlockManager\Contentful\Browser\Backend;
+namespace Netgen\Layouts\Contentful\Browser\Backend;
 
 use Contentful\Delivery\Client;
-use Netgen\BlockManager\Contentful\Browser\Item\Client\ClientInterface;
-use Netgen\BlockManager\Contentful\Browser\Item\Client\Location;
-use Netgen\BlockManager\Contentful\Browser\Item\Client\RootLocation;
-use Netgen\BlockManager\Contentful\Browser\Item\Entry\Item;
-use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
-use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\ContentBrowser\Backend\BackendInterface;
 use Netgen\ContentBrowser\Item\ItemInterface;
 use Netgen\ContentBrowser\Item\LocationInterface;
+use Netgen\Layouts\Contentful\Browser\Item\Client\ClientInterface;
+use Netgen\Layouts\Contentful\Browser\Item\Client\Location;
+use Netgen\Layouts\Contentful\Browser\Item\Client\RootLocation;
+use Netgen\Layouts\Contentful\Browser\Item\Entry\Item;
+use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
+use Netgen\Layouts\Contentful\Service\Contentful;
 
 final class ContentfulBackend implements BackendInterface
 {
     /**
-     * @var \Netgen\BlockManager\Contentful\Service\Contentful
+     * @var \Netgen\Layouts\Contentful\Service\Contentful
      */
     private $contentful;
 
@@ -120,7 +120,7 @@ final class ContentfulBackend implements BackendInterface
      *
      * @param \Contentful\Delivery\Client[] $clients
      *
-     * @return \Netgen\BlockManager\Contentful\Browser\Item\Client\Location[]
+     * @return \Netgen\Layouts\Contentful\Browser\Item\Client\Location[]
      */
     private function buildLocations(array $clients): array
     {
@@ -144,9 +144,9 @@ final class ContentfulBackend implements BackendInterface
     /**
      * Builds the locations from provided clients.
      *
-     * @param \Netgen\BlockManager\Contentful\Entity\ContentfulEntry[] $entries
+     * @param \Netgen\Layouts\Contentful\Entity\ContentfulEntry[] $entries
      *
-     * @return \Netgen\BlockManager\Contentful\Browser\Item\Entry\Item[]
+     * @return \Netgen\Layouts\Contentful\Browser\Item\Entry\Item[]
      */
     private function buildItems(array $entries): array
     {

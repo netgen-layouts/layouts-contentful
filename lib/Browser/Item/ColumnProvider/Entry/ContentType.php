@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Netgen\BlockManager\Contentful\Browser\Item\ColumnProvider\Entry;
+namespace Netgen\Layouts\Contentful\Browser\Item\ColumnProvider\Entry;
 
-use Netgen\BlockManager\Contentful\Browser\Item\Entry\EntryInterface;
 use Netgen\ContentBrowser\Item\ColumnProvider\ColumnValueProviderInterface;
 use Netgen\ContentBrowser\Item\ItemInterface;
+use Netgen\Layouts\Contentful\Browser\Item\Entry\EntryInterface;
 
 final class ContentType implements ColumnValueProviderInterface
 {

@@ -1,9 +1,9 @@
 services:
-    netgen_block_manager.contentful.block.block_definition.handler.entry_field:
-        class: Netgen\BlockManager\Contentful\Block\BlockDefinition\Handler\EntryFieldHandler
+    netgen_layouts.contentful.block.block_definition.handler.entry_field:
+        class: Netgen\Layouts\Contentful\Block\BlockDefinition\Handler\EntryFieldHandler
         public: false
         arguments:
-            - "@netgen_block_manager.contentful.service"
+            - "@netgen_layouts.contentful.service"
             - "@request_stack"
         tags:
             - { name: netgen_block_manager.block.block_definition_handler, identifier: contentful_entry_field }

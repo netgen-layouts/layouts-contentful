@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Netgen\BlockManager\Contentful\Exception;
+namespace Netgen\Layouts\Contentful\Exception;
 
 use RuntimeException as BaseRuntimeException;
 

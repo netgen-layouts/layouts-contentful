@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Netgen\BlockManager\Contentful\Item\ValueConverter;
+namespace Netgen\Layouts\Contentful\Item\ValueConverter;
 
-use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
 use Netgen\BlockManager\Item\ValueConverterInterface;
+use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 
 final class EntryValueConverter implements ValueConverterInterface
 {

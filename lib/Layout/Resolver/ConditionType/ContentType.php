@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Netgen\BlockManager\Contentful\Layout\Resolver\ConditionType;
+namespace Netgen\Layouts\Contentful\Layout\Resolver\ConditionType;
 
-use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
-use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\BlockManager\Layout\Resolver\ConditionTypeInterface;
+use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
+use Netgen\Layouts\Contentful\Service\Contentful;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints;
 use Throwable;
@@ -14,7 +14,7 @@ use Throwable;
 final class ContentType implements ConditionTypeInterface
 {
     /**
-     * @var \Netgen\BlockManager\Contentful\Service\Contentful
+     * @var \Netgen\Layouts\Contentful\Service\Contentful
      */
     private $contentful;
 

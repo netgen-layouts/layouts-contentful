@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Netgen\Bundle\ContentfulBlockManagerBundle\Controller;
+namespace Netgen\Bundle\LayoutsContentfulBundle\Controller;
 
 use Contentful\Delivery\Resource\DeletedEntry;
 use Contentful\Delivery\Resource\Entry;
-use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
-use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\Bundle\BlockManagerBundle\Controller\Controller;
+use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
+use Netgen\Layouts\Contentful\Service\Contentful;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -27,7 +27,7 @@ final class ContentfulController extends Controller
     public const CONTENT_TYPE_DELETE = 'ContentManagement.ContentType.delete';
 
     /**
-     * @var \Netgen\BlockManager\Contentful\Service\Contentful
+     * @var \Netgen\Layouts\Contentful\Service\Contentful
      */
     private $contentful;
 
@@ -48,7 +48,7 @@ final class ContentfulController extends Controller
         }
 
         return $this->render(
-            '@NetgenContentfulBlockManager/contentful/content.html.twig',
+            '@NetgenLayoutsContentful/contentful/content.html.twig',
             [
                 'content' => $contentDocument,
             ]

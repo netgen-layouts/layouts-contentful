@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Netgen\BlockManager\Contentful\Routing;
+namespace Netgen\Layouts\Contentful\Routing;
 
-use Netgen\BlockManager\Contentful\Entity\ContentfulEntry;
+use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 
 interface EntrySluggerInterface
 {

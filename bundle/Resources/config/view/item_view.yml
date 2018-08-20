@@ -12,6 +12,6 @@ view:
                     item\value_type: contentful_entry
         api:
             contentful_entry:
-                template: "@NetgenContentfulBlockManager/api/item/contentful_entry.html.twig"
+                template: "@NetgenLayoutsContentful/api/item/contentful_entry.html.twig"
                 match:
                     item\value_type: contentful_entry

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Netgen\BlockManager\Contentful\Collection\QueryType\Handler;
+namespace Netgen\Layouts\Contentful\Collection\QueryType\Handler;
 
 use Contentful\Delivery\Query as ContentfulQuery;
 use Netgen\BlockManager\API\Values\Collection\Query;
 use Netgen\BlockManager\Collection\QueryType\QueryTypeHandlerInterface;
-use Netgen\BlockManager\Contentful\Service\Contentful;
 use Netgen\BlockManager\Parameters\ParameterBuilderInterface;
 use Netgen\BlockManager\Parameters\ParameterType;
+use Netgen\Layouts\Contentful\Service\Contentful;
 
 /**
  * Handler for a query which retrieves the entries from Contentful.
@@ -17,7 +17,7 @@ use Netgen\BlockManager\Parameters\ParameterType;
 final class ContentfulSearchHandler implements QueryTypeHandlerInterface
 {
     /**
-     * @var \Netgen\BlockManager\Contentful\Service\Contentful
+     * @var \Netgen\Layouts\Contentful\Service\Contentful
      */
     private $contentful;
 
