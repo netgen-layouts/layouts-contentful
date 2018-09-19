@@ -69,7 +69,7 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
         );
     }
 
-    public function getValues(Query $query, $offset = 0, $limit = null)
+    public function getValues(Query $query, int $offset = 0, ?int $limit = null): iterable
     {
         if ($limit === 0 || $query->getParameter('client')->getValue() === null) {
             return [];
