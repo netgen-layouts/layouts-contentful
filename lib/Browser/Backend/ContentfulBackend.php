@@ -27,7 +27,7 @@ final class ContentfulBackend implements BackendInterface
         $this->contentful = $contentful;
     }
 
-    public function getSections(): array
+    public function getSections(): iterable
     {
         return [new RootLocation()];
     }
@@ -51,7 +51,7 @@ final class ContentfulBackend implements BackendInterface
         return $this->buildItem($contentfulEntry);
     }
 
-    public function getSubLocations(LocationInterface $location)
+    public function getSubLocations(LocationInterface $location): iterable
     {
         if (!$location instanceof RootLocation) {
             return [];
@@ -71,7 +71,7 @@ final class ContentfulBackend implements BackendInterface
         return count($this->contentful->getClients());
     }
 
-    public function getSubItems(LocationInterface $location, $offset = 0, $limit = 25)
+    public function getSubItems(LocationInterface $location, int $offset = 0, int $limit = 25): iterable
     {
         if (!$location instanceof ClientInterface) {
             return [];
@@ -95,14 +95,14 @@ final class ContentfulBackend implements BackendInterface
         return $this->contentful->getContentfulEntriesCount($location->getClient());
     }
 
-    public function search($searchText, $offset = 0, $limit = 25)
+    public function search(string $searchText, int $offset = 0, int $limit = 25): iterable
     {
         return $this->buildItems(
             $this->contentful->searchContentfulEntries($searchText, $offset, $limit)
         );
     }
 
-    public function searchCount($searchText): int
+    public function searchCount(string $searchText): int
     {
         return $this->contentful->searchContentfulEntriesCount($searchText);
     }
