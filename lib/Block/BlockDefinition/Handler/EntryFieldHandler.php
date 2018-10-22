@@ -96,7 +96,11 @@ final class EntryFieldHandler extends BlockDefinitionHandler
         $fieldType = gettype($field);
         if ($fieldType === 'object') {
             $classNameArray = explode('\\', get_class($field));
-            $fieldType = mb_strtolower(end($classNameArray));
+            if (empty($classNameArray)) {
+                return null;
+            }
+
+            $fieldType = mb_strtolower($classNameArray[count($classNameArray) - 1]);
         }
 
         return $fieldType;
