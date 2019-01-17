@@ -38,8 +38,8 @@ final class ContentfulBackend implements BackendInterface
             return new RootLocation();
         }
 
-        $clientService = $this->contentful->getClientByName($id);
-        $space = $this->contentful->getSpaceByClientName($id);
+        $clientService = $this->contentful->getClientByName((string) $id);
+        $space = $this->contentful->getSpaceByClientName((string) $id);
 
         return new Location($clientService, $space->getId());
     }

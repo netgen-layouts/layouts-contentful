@@ -184,9 +184,12 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
         $this->routes = $routes;
     }
 
-    public function getRoutes(): ArrayCollection
+    /**
+     * @return \Symfony\Component\Routing\Route[]
+     */
+    public function getRoutes(): array
     {
-        return $this->routes;
+        return $this->routes->getValues();
     }
 
     public function addRoute($route): self

@@ -19,21 +19,37 @@ final class EntryValueConverter implements ValueConverterInterface
         return 'contentful_entry';
     }
 
+    /**
+     * @param \Netgen\Layouts\Contentful\Entity\ContentfulEntry $object
+     *
+     * @return int|string
+     */
     public function getId($object)
     {
         return $object->getId();
     }
 
+    /**
+     * @param \Netgen\Layouts\Contentful\Entity\ContentfulEntry $object
+     *
+     * @return int|string
+     */
     public function getRemoteId($object)
     {
         return $object->getId();
     }
 
+    /**
+     * @param \Netgen\Layouts\Contentful\Entity\ContentfulEntry $object
+     */
     public function getName($object): string
     {
         return $object->getName();
     }
 
+    /**
+     * @param \Netgen\Layouts\Contentful\Entity\ContentfulEntry $object
+     */
     public function getIsVisible($object): bool
     {
         return $object->getIsPublished();

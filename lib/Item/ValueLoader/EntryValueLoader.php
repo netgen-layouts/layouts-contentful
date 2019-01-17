@@ -23,7 +23,7 @@ final class EntryValueLoader implements ValueLoaderInterface
     public function load($id)
     {
         try {
-            return $this->contentful->loadContentfulEntry($id);
+            return $this->contentful->loadContentfulEntry((string) $id);
         } catch (Throwable $t) {
             return null;
         }
