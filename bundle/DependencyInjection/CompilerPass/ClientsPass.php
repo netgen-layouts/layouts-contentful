@@ -26,7 +26,7 @@ final class ClientsPass implements CompilerPassInterface
         $contentfulService = $container->findDefinition(self::SERVICE_NAME);
         $contentfulClients = $container->getParameter('contentful.clients');
 
-        if (empty($contentfulClients)) {
+        if (count($contentfulClients) === 0) {
             throw new RuntimeException('At least one Contentful client needs to be configured');
         }
 

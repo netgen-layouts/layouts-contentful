@@ -132,7 +132,7 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
     {
         $contentfulQuery = new ContentfulQuery();
 
-        if (!empty($query->getParameter('search_text')->getValue())) {
+        if (trim($query->getParameter('search_text')->getValue() ?? '') !== '') {
             $contentfulQuery->where('query', $query->getParameter('search_text')->getValue());
         }
 
@@ -142,7 +142,7 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
         }
 
         $sortType = $query->getParameter('sort_type')->getValue();
-        if (!empty($sortType)) {
+        if ($sortType !== null) {
             $contentfulQuery->orderBy($sortType, $query->getParameter('sort_direction')->getValue());
         }
 
