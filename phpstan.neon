@@ -1,3 +1,6 @@
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+
 parameters:
     ignoreErrors:
         # Symfony Config component
@@ -9,3 +12,13 @@ parameters:
         # Other errors
         - '#Parameter \#1 \$function of function call_user_func expects callable\(\): mixed, array\(.+, .+\) given.#'
         - '#Call to an undefined method Contentful\\Core\\Resource\\SystemPropertiesInterface::get\w+\(\).#'
+
+        -
+            message: '#should be contravariant with parameter \$object#'
+            path: lib/Item/ValueConverter/EntryValueConverter.php
+
+        -
+            message: '#Instanceof between Contentful\\Delivery\\Resource\\Entry and Contentful\\Delivery\\Resource\\Entry will always evaluate to true.#'
+            path: lib/Service/Contentful.php
+
+        - '#Variable method call#'

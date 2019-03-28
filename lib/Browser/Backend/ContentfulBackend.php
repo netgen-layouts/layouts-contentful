@@ -44,9 +44,9 @@ final class ContentfulBackend implements BackendInterface
         return new Location($clientService, $space->getId());
     }
 
-    public function loadItem($id): ItemInterface
+    public function loadItem($value): ItemInterface
     {
-        $contentfulEntry = $this->contentful->loadContentfulEntry($id);
+        $contentfulEntry = $this->contentful->loadContentfulEntry((string) $value);
 
         return $this->buildItem($contentfulEntry);
     }

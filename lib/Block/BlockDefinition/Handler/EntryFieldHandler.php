@@ -96,7 +96,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
         $fieldType = gettype($field);
         if ($fieldType === 'object') {
             $classNameArray = explode('\\', get_class($field));
-            if (!is_array($classNameArray) || count($classNameArray) === 0) {
+            if (count($classNameArray) === 0) {
                 return null;
             }
 

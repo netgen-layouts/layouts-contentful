@@ -254,7 +254,7 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
         return $this->remoteEntry->getContentType();
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->remoteEntry->jsonSerialize();
     }
