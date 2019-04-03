@@ -20,7 +20,7 @@ final class Configurable implements EntrySluggerInterface
     private $sluggers;
 
     /**
-     * @param array $configuration
+     * @param array<string, mixed> $configuration
      * @param \Netgen\Layouts\Contentful\Routing\EntrySluggerInterface[] $sluggers
      */
     public function __construct(array $configuration, array $sluggers)
