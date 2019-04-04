@@ -67,7 +67,16 @@ final class ContentfulController extends Controller
         $spaceId = is_array($spaceId) ? $spaceId[0] : $spaceId;
 
         try {
-            $client = $this->contentful->getClientBySpaceId($spaceId);
+            $client = $this->contentful->getClientBySpaceId((string) $spaceId);
+        } catch (Throwable $t) {
+            throw new BadRequestHttpException('Invalid request');
+        }
+
+        if ($client === null) {
+            throw new BadRequestHttpException('Invalid request');
+        }
+
+        try {
             $remoteEntry = $client->parseJson($content);
         } catch (Throwable $t) {
             throw new BadRequestHttpException('Invalid request');

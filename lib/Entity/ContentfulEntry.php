@@ -77,7 +77,9 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
         $ret = null;
 
         try {
-            $ret = call_user_func([$this->remoteEntry, $name]);
+            /** @var callable $callable */
+            $callable = [$this->remoteEntry, $name];
+            $ret = call_user_func($callable);
         } catch (Throwable $t) {
         }
 
@@ -219,7 +221,10 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
      */
     public function getRevision(): ?int
     {
-        return $this->remoteEntry->getSystemProperties()->getRevision();
+        /** @var \Contentful\Delivery\SystemProperties $systemProperties */
+        $systemProperties = $this->remoteEntry->getSystemProperties();
+
+        return $systemProperties->getRevision();
     }
 
     /**
@@ -227,7 +232,10 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
      */
     public function getUpdatedAt(): ?DateTimeInterface
     {
-        return $this->remoteEntry->getSystemProperties()->getUpdatedAt();
+        /** @var \Contentful\Delivery\SystemProperties $systemProperties */
+        $systemProperties = $this->remoteEntry->getSystemProperties();
+
+        return $systemProperties->getUpdatedAt();
     }
 
     /**
@@ -235,7 +243,10 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
      */
     public function getCreatedAt(): ?DateTimeInterface
     {
-        return $this->remoteEntry->getSystemProperties()->getCreatedAt();
+        /** @var \Contentful\Delivery\SystemProperties $systemProperties */
+        $systemProperties = $this->remoteEntry->getSystemProperties();
+
+        return $systemProperties->getCreatedAt();
     }
 
     /**
@@ -249,7 +260,7 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
     /**
      * Returns the remote entry content type.
      */
-    public function getContentType(): ContentType
+    public function getContentType(): ?ContentType
     {
         return $this->remoteEntry->getContentType();
     }
@@ -267,8 +278,19 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
         $this->remoteEntry = $remoteEntry;
         $this->id = $this->remoteEntry->getSpace()->getId() . '|' . $this->remoteEntry->getId();
 
-        $nameField = $this->remoteEntry->getContentType()->getDisplayField();
-        $this->name = $remoteEntry->{'get' . $nameField->getId()}();
+        $contentType = $this->remoteEntry->getContentType();
+        if ($contentType === null) {
+            return;
+        }
+
+        $nameField = $contentType->getDisplayField();
+        if ($nameField === null) {
+            return;
+        }
+
+        /** @var callable $callable */
+        $callable = [$remoteEntry, 'get' . $nameField->getId()];
+        $this->name = call_user_func($callable);
     }
 
     /**
@@ -280,9 +302,20 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
         $remoteEntry = $client->parseJson($this->json);
         $this->id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
 
-        $nameField = $remoteEntry->getContentType()->getDisplayField();
+        $contentType = $remoteEntry->getContentType();
+        if ($contentType === null) {
+            return;
+        }
 
-        $this->name = $remoteEntry->{'get' . $nameField->getId()}();
+        $nameField = $contentType->getDisplayField();
+        if ($nameField === null) {
+            return;
+        }
+
+        /** @var callable $callable */
+        $callable = [$remoteEntry, 'get' . $nameField->getId()];
+        $this->name = call_user_func($callable);
+
         $this->remoteEntry = $remoteEntry;
     }
 }

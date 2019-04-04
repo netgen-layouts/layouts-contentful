@@ -62,6 +62,12 @@ final class ContentType implements ConditionTypeInterface
             return false;
         }
 
-        return in_array($contentfulEntry->getContentType()->getId(), $value, true);
+        $contentType = $contentfulEntry->getContentType();
+
+        if ($contentType === null) {
+            return false;
+        }
+
+        return in_array($contentType->getId(), $value, true);
     }
 }

@@ -35,7 +35,8 @@ final class Configurable implements EntrySluggerInterface
 
         $contentTypeConfig = $this->configuration['content_type'];
         foreach ($contentTypeConfig as $contentTypeId => $contentTypeSlugger) {
-            if ($contentfulEntry->getContentType()->getId() === $contentTypeId) {
+            $contentType = $contentfulEntry->getContentType();
+            if ($contentType !== null && $contentType->getId() === $contentTypeId) {
                 $sluggerType = $contentTypeSlugger;
             }
         }

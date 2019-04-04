@@ -16,6 +16,18 @@ final class ContentType implements MatcherInterface
             return false;
         }
 
-        return in_array($view->getItem()->getObject()->getContentType()->getId(), $config, true);
+        /** @var \Netgen\Layouts\Contentful\Entity\ContentfulEntry|null $entry */
+        $entry = $view->getItem()->getObject();
+
+        if ($entry === null) {
+            return false;
+        }
+
+        $contentType = $entry->getContentType();
+        if ($contentType === null) {
+            return false;
+        }
+
+        return in_array($contentType->getId(), $config, true);
     }
 }

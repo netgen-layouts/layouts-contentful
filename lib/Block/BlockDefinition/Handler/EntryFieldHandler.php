@@ -39,13 +39,19 @@ final class EntryFieldHandler extends BlockDefinitionHandler
     public function getDynamicParameters(DynamicParameters $params, Block $block): void
     {
         $currentRequest = $this->requestStack->getCurrentRequest();
+        if ($currentRequest === null) {
+            return;
+        }
+
         $contentfulEntry = $currentRequest->attributes->get('contentDocument');
         $params['content'] = $contentfulEntry;
 
         $field = null;
 
         try {
-            $field = $contentfulEntry->{'get' . $block->getParameter('field_identifier')}();
+            /** @var callable $callable */
+            $callable = [$contentfulEntry, 'get' . $block->getParameter('field_identifier')];
+            $field = call_user_func($callable);
         } catch (Throwable $t) {
             // Do nothing
         }

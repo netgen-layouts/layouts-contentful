@@ -16,6 +16,13 @@ final class Space implements MatcherInterface
             return false;
         }
 
-        return in_array($view->getItem()->getObject()->getSpace()->getId(), $config, true);
+        /** @var \Netgen\Layouts\Contentful\Entity\ContentfulEntry|null $entry */
+        $entry = $view->getItem()->getObject();
+
+        if ($entry === null) {
+            return false;
+        }
+
+        return in_array($entry->getSpace()->getId(), $config, true);
     }
 }

@@ -173,23 +173,24 @@ final class Contentful
 
         $client = $this->getClientBySpaceId($idList[0]);
 
+        if ($client === null) {
+            throw new NotFoundException(
+                sprintf(
+                    'Item ID %s not valid.',
+                    $idList[0]
+                )
+            );
+        }
+
         $contentfulEntry = $this->findContentfulEntry($id);
 
         if ($contentfulEntry instanceof ContentfulEntry) {
             $contentfulEntry->reviveRemoteEntry($client);
         } else {
-            $remoteEntry = $client->getEntry($idList[1]);
-
-            if (!$remoteEntry instanceof Entry) {
-                throw new NotFoundException(
-                    sprintf(
-                        'Entry with ID %s not found.',
-                        $id
-                    )
-                );
-            }
-
-            $contentfulEntry = $this->buildContentfulEntry($remoteEntry, $id);
+            $contentfulEntry = $this->buildContentfulEntry(
+                $client->getEntry($idList[1]),
+                $id
+            );
         }
 
         if ($contentfulEntry->getIsDeleted()) {
@@ -345,7 +346,16 @@ final class Contentful
      */
     public function unpublishContentfulEntry(DeletedEntry $remoteEntry): void
     {
-        $id = $remoteEntry->getSystemProperties()->getSpace()->getId() . '|' . $remoteEntry->getId();
+        /** @var \Contentful\Delivery\SystemProperties $systemProperties */
+        $systemProperties = $remoteEntry->getSystemProperties();
+
+        $space = $systemProperties->getSpace();
+        if ($space === null) {
+            return;
+        }
+
+        $id = $space->getId() . '|' . $remoteEntry->getId();
+
         $contentfulEntry = $this->findContentfulEntry($id);
         if ($contentfulEntry instanceof ContentfulEntry) {
             $contentfulEntry->setIsPublished(false);
@@ -359,7 +369,16 @@ final class Contentful
      */
     public function deleteContentfulEntry(DeletedEntry $remoteEntry): void
     {
-        $id = $remoteEntry->getSystemProperties()->getSpace()->getId() . '|' . $remoteEntry->getId();
+        /** @var \Contentful\Delivery\SystemProperties $systemProperties */
+        $systemProperties = $remoteEntry->getSystemProperties();
+
+        $space = $systemProperties->getSpace();
+        if ($space === null) {
+            return;
+        }
+
+        $id = $space->getId() . '|' . $remoteEntry->getId();
+
         $contentfulEntry = $this->findContentfulEntry($id);
         if ($contentfulEntry instanceof ContentfulEntry) {
             $contentfulEntry->setIsDeleted(true);

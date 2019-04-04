@@ -60,6 +60,9 @@ final class NetgenLayoutsContentfulExtension extends Extension implements Prepen
         }
     }
 
+    /**
+     * @return \Symfony\Component\Config\Definition\ConfigurationInterface
+     */
     public function getConfiguration(array $config, ContainerBuilder $container)
     {
         return new Configuration($this);
