@@ -9,7 +9,7 @@ services:
         tags:
             - { name: netgen_block_manager.layout.resolver.form.target_type.mapper, target_type: contentful_entry }
 
-    netgen_layouts.contentful.layout.resolver.target_handler.doctrine.entry:
+    netgen_layouts.contentful.layout_resolver.target_handler.doctrine.entry:
         class: Netgen\Layouts\Contentful\Layout\Resolver\TargetHandler\Doctrine\Entry
         tags:
             - { name: netgen_block_manager.layout.resolver.target_handler.doctrine, target_type: contentful_entry }
@@ -26,7 +26,7 @@ services:
         tags:
             - { name: netgen_block_manager.layout.resolver.form.target_type.mapper, target_type: contentful_space }
 
-    netgen_layouts.contentful.layout.resolver.target_handler.doctrine.space:
+    netgen_layouts.contentful.layout_resolver.target_handler.doctrine.space:
         class: Netgen\Layouts\Contentful\Layout\Resolver\TargetHandler\Doctrine\Space
         tags:
             - { name: netgen_block_manager.layout.resolver.target_handler.doctrine, target_type: contentful_space }
