@@ -41,9 +41,7 @@ final class SyncCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->setName('contentful:sync')
-            ->setDescription('Syncs space and content type cache');
+        $this->setDescription('Syncs space and content type cache');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): ?int
