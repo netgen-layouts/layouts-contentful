@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Netgen\Bundle\LayoutsContentfulBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Loader\DelegatingLoader;
+use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
+use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Yaml\Yaml;
@@ -21,19 +24,18 @@ final class NetgenLayoutsContentfulExtension extends Extension implements Prepen
 
         $container->setParameter('netgen_layouts.contentful.entry_slug_type', $config['entry_slug_type']);
 
-        $loader = new YamlFileLoader(
-            $container,
-            new FileLocator(__DIR__ . '/../Resources/config')
+        $locator = new FileLocator(__DIR__ . '/../Resources/config');
+
+        $loader = new DelegatingLoader(
+            new LoaderResolver(
+                [
+                    new GlobFileLoader($container, $locator),
+                    new YamlFileLoader($container, $locator),
+                ]
+            )
         );
 
-        $loader->load('services/controllers.yml');
-        $loader->load('services/block_definitions.yml');
-        $loader->load('services/items.yml');
-        $loader->load('services/layout_resolver.yml');
-        $loader->load('services/services.yml');
-        $loader->load('services/templating.yml');
-        $loader->load('services/query_types.yml');
-        $loader->load('services/template_matchers.yml');
+        $loader->load('services/**/*.yml', 'glob');
         $loader->load('browser/services.yml');
         $loader->load('default_settings.yml');
     }
