@@ -1,5 +1,5 @@
 services:
-    netgen_layouts.contentful.collection.query_type.handler.contentful_search:
+    netgen_layouts.contentful.collection.query_type_handler.search:
         class: Netgen\Layouts\Contentful\Collection\QueryType\Handler\ContentfulSearchHandler
         arguments:
             - "@netgen_layouts.contentful.service"
