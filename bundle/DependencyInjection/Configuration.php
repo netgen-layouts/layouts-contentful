@@ -36,7 +36,7 @@ final class Configuration implements ConfigurationInterface
                         ->end()
                         ->arrayNode('content_type')
                             ->useAttributeAsKey('name')
-                            ->prototype('scalar')->end()
+                            ->scalarPrototype()->end()
                         ->end()
                     ->end()
                 ->end();
