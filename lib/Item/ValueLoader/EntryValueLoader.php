@@ -20,7 +20,7 @@ final class EntryValueLoader implements ValueLoaderInterface
         $this->contentful = $contentful;
     }
 
-    public function load($id)
+    public function load($id): ?object
     {
         try {
             return $this->contentful->loadContentfulEntry((string) $id);
@@ -29,7 +29,7 @@ final class EntryValueLoader implements ValueLoaderInterface
         }
     }
 
-    public function loadByRemoteId($remoteId)
+    public function loadByRemoteId($remoteId): ?object
     {
         return $this->load($remoteId);
     }
