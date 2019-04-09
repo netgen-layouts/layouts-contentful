@@ -1,7 +1,6 @@
 services:
     netgen_layouts.contentful.browser.backend:
         class: Netgen\Layouts\Contentful\Browser\Backend\ContentfulBackend
-        public: false
         arguments:
             - "@netgen_layouts.contentful.service"
         tags:
@@ -9,7 +8,6 @@ services:
 
     netgen_layouts.contentful.browser.column_value_provider.entry.created_at:
         class: Netgen\Layouts\Contentful\Browser\Item\ColumnProvider\Entry\CreatedAt
-        public: false
         arguments:
             - "%netgen_content_browser.columns.date_format%"
         tags:
@@ -17,7 +15,6 @@ services:
 
     netgen_layouts.contentful.browser.column_value_provider.entry.updated_at:
         class: Netgen\Layouts\Contentful\Browser\Item\ColumnProvider\Entry\UpdatedAt
-        public: false
         arguments:
             - "%netgen_content_browser.columns.date_format%"
         tags:
@@ -25,6 +22,5 @@ services:
 
     netgen_layouts.contentful.browser.column_value_provider.entry.content_type:
         class: Netgen\Layouts\Contentful\Browser\Item\ColumnProvider\Entry\ContentType
-        public: false
         tags:
             - { name: netgen_content_browser.column_value_provider, identifier: contentful_entry\content_type }

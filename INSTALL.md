@@ -217,7 +217,6 @@ Then declare your class as service and tag it:
 ```
     my_app.entry_slugger.with_my_prefix:
         class: MyApp\Routing\EntrySlugger\WithMyPrefix
-        public: false
         tags:
             - { name: netgen_layouts.contentful.entry_slugger, type: with_my_prefix }
 ```

@@ -1,13 +1,11 @@
 services:
     netgen_layouts.contentful.value_converter.contentful_entry:
         class: Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter
-        public: false
         tags:
             - { name: netgen_block_manager.item.value_converter }
 
     netgen_layouts.contentful.value_loader.contentful_entry:
         class: Netgen\Layouts\Contentful\Item\ValueLoader\EntryValueLoader
-        public: false
         arguments:
             - "@netgen_layouts.contentful.service"
         tags:

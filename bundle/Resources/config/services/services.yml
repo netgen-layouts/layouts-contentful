@@ -1,7 +1,6 @@
 services:
     netgen_layouts.contentful.service:
         class: Netgen\Layouts\Contentful\Service\Contentful
-        public: true
         arguments:
             - []
             - "@netgen_layouts.contentful.entry_slugger.configurable"
@@ -12,7 +11,6 @@ services:
 
     netgen_layouts.contentful.command.sync:
         class: Netgen\Bundle\LayoutsContentfulBundle\Command\SyncCommand
-        # public: false
         arguments:
               - "@netgen_layouts.contentful.service"
               - "@filesystem"
@@ -21,19 +19,16 @@ services:
 
     netgen_layouts.contentful.entry_slugger.configurable:
         class: Netgen\Layouts\Contentful\Routing\EntrySlugger\Configurable
-        public: false
         arguments:
             - "%netgen_layouts.contentful.entry_slug_type%"
             - []
 
     netgen_layouts.contentful.entry_slugger.simple:
         class: Netgen\Layouts\Contentful\Routing\EntrySlugger\Simple
-        public: false
         tags:
             - { name: netgen_layouts.contentful.entry_slugger, type: simple }
 
     netgen_layouts.contentful.entry_slugger.with_space:
         class: Netgen\Layouts\Contentful\Routing\EntrySlugger\WithSpace
-        public: false
         tags:
             - { name: netgen_layouts.contentful.entry_slugger, type: with_space }
