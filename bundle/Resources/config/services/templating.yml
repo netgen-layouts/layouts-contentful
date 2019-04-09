@@ -14,7 +14,6 @@ services:
             - "@netgen_layouts.contentful.service"
         tags:
             - { name: twig.runtime }
-            - { name: netgen_block_manager.twig.runtime }
 
     netgen_layouts.contentful.templating.twig.extension.markdown.engine:
         class: Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine
