@@ -6,7 +6,7 @@ namespace Netgen\Bundle\LayoutsContentfulBundle\Controller;
 
 use Contentful\Delivery\Resource\DeletedEntry;
 use Contentful\Delivery\Resource\Entry;
-use Netgen\Bundle\BlockManagerBundle\Controller\Controller;
+use Netgen\Bundle\BlockManagerBundle\Controller\AbstractController;
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Service\Contentful;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
-final class ContentfulController extends Controller
+final class ContentfulController extends AbstractController
 {
     // Contentful topic constants (sent as X-Contentful-Topic header)
     public const ENTRY_PUBLISH = 'ContentManagement.Entry.publish';
@@ -118,10 +118,5 @@ final class ContentfulController extends Controller
         }
 
         return new Response();
-    }
-
-    protected function checkPermissions(): void
-    {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_ANONYMOUSLY');
     }
 }
