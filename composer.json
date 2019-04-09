@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "netgen/layouts-core": "~0.13.0",
+        "netgen/layouts-core": "~1.0.0",
         "contentful/contentful-bundle": "^3.0",
         "doctrine/orm": "^2.6",
         "symfony-cmf/routing-bundle": "^2.1",
@@ -52,7 +52,7 @@
     "prefer-stable": true,
     "extra": {
         "branch-alias": {
-            "dev-master": "0.13.x-dev"
+            "dev-master": "1.0.x-dev"
         }
     }
 }
