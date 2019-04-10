@@ -6,7 +6,7 @@ namespace Netgen\Bundle\LayoutsContentfulBundle\Controller;
 
 use Contentful\Delivery\Resource\DeletedEntry;
 use Contentful\Delivery\Resource\Entry;
-use Netgen\Bundle\BlockManagerBundle\Controller\AbstractController;
+use Netgen\Bundle\LayoutsBundle\Controller\AbstractController;
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Service\Contentful;
 use Symfony\Component\HttpFoundation\Request;

@@ -13,9 +13,9 @@ final class NetgenLayoutsContentfulBundle extends Bundle
 {
     public function build(ContainerBuilder $container): void
     {
-        /** @var \Netgen\Bundle\BlockManagerBundle\DependencyInjection\NetgenBlockManagerExtension $layoutsCoreExtension */
-        $layoutsCoreExtension = $container->getExtension('netgen_block_manager');
-        $layoutsCoreExtension->addPlugin(new ExtensionPlugin());
+        /** @var \Netgen\Bundle\LayoutsBundle\DependencyInjection\NetgenLayoutsExtension $layoutsExtension */
+        $layoutsExtension = $container->getExtension('netgen_layouts');
+        $layoutsExtension->addPlugin(new ExtensionPlugin());
 
         $container->addCompilerPass(new CompilerPass\ClientsPass());
         $container->addCompilerPass(new CompilerPass\EntrySluggerPass());
