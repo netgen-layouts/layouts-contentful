@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Netgen\Layouts\Contentful\Layout\Resolver\ConditionType;
 
-use Netgen\BlockManager\Layout\Resolver\ConditionTypeInterface;
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Service\Contentful;
+use Netgen\Layouts\Layout\Resolver\ConditionTypeInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints;
 use Throwable;

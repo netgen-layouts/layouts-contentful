@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\Layouts\Contentful\Item\ValueConverter;
 
-use Netgen\BlockManager\Item\ValueConverterInterface;
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
+use Netgen\Layouts\Item\ValueConverterInterface;
 
 final class EntryValueConverter implements ValueConverterInterface
 {

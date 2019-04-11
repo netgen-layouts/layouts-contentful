@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\Layouts\Contentful\Item\ValueLoader;
 
-use Netgen\BlockManager\Item\ValueLoaderInterface;
 use Netgen\Layouts\Contentful\Service\Contentful;
+use Netgen\Layouts\Item\ValueLoaderInterface;
 use Throwable;
 
 final class EntryValueLoader implements ValueLoaderInterface

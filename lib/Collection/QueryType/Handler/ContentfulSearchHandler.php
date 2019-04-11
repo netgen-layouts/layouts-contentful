@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Netgen\Layouts\Contentful\Collection\QueryType\Handler;
 
 use Contentful\Delivery\Query as ContentfulQuery;
-use Netgen\BlockManager\API\Values\Collection\Query;
-use Netgen\BlockManager\Collection\QueryType\QueryTypeHandlerInterface;
-use Netgen\BlockManager\Parameters\ParameterBuilderInterface;
-use Netgen\BlockManager\Parameters\ParameterType;
+use Netgen\Layouts\API\Values\Collection\Query;
+use Netgen\Layouts\Collection\QueryType\QueryTypeHandlerInterface;
 use Netgen\Layouts\Contentful\Service\Contentful;
+use Netgen\Layouts\Parameters\ParameterBuilderInterface;
+use Netgen\Layouts\Parameters\ParameterType;
 
 /**
  * Handler for a query which retrieves the entries from Contentful.
