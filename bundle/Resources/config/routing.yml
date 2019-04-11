@@ -2,4 +2,4 @@ contentful_webhook:
     path: /webhook
     methods: [GET, POST]
     defaults:
-        _controller: "nglayouts_contentful:webhook"
+        _controller: 'nglayouts_contentful:webhook'
