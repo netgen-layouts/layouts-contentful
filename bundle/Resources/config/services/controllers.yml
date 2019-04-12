@@ -2,7 +2,7 @@ services:
     netgen_layouts.contentful.controller.contenful:
         class: Netgen\Bundle\LayoutsContentfulBundle\Controller\ContentfulController
         public: true
-        parent: netgen_block_manager.controller.base
+        parent: netgen_layouts.controller.base
         arguments:
             - "@netgen_layouts.contentful.service"
 
