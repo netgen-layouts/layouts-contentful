@@ -13,7 +13,7 @@ As a minimum you need to:
 * activate Netgen Layouts and Content Browser routes
 * import Netgen Layouts database tables with Doctrine Migrations
 * install assets
-* extend your view templates with `ngbm.layoutTemplate` (for fresh Symfony installations, the template is `default/index.html.twig`)
+* extend your view templates with `nglayouts.layoutTemplate` (for fresh Symfony installations, the template is `default/index.html.twig`)
 * add the "layout" twig block to your base pagelayout (for fresh Symfony installations, the template is `base.html.twig`)
 * configure Netgen Layouts to use your base pagelayout (for fresh Symfony installations, the template is `base.html.twig`)
 
