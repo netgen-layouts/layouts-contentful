@@ -58,7 +58,7 @@ security:
             http_basic: ~
 
     access_control:
-        - { path: ^/bm/(api|app|admin), role: [ROLE_NGLAYOUTS_ADMIN] }
+        - { path: ^/nglayouts/(api|app|admin), role: [ROLE_NGLAYOUTS_ADMIN] }
         - { path: ^/cb, role: [ROLE_NGLAYOUTS_ADMIN] }
 ```
 
@@ -71,7 +71,7 @@ Start the server with:
 php bin/console server:run
 ```
 
-Open [http://127.0.0.1:8000/bm/admin/layouts](http://127.0.0.1:8000/bm/admin/layouts/), give the admin credentials and you should be able to create new layouts.
+Open [http://127.0.0.1:8000/nglayouts/admin/layouts](http://127.0.0.1:8000/nglayouts/admin/layouts/), give the admin credentials and you should be able to create new layouts.
 
 Use Composer to install the integration
 ---------------------------------------
@@ -239,5 +239,5 @@ And that should be it!
 Use it
 ------
 
-Open again [http://127.0.0.1:8000/bm/admin/layouts](http://127.0.0.1:8000/bm/admin/layouts/) and start creating
+Open again [http://127.0.0.1:8000/nglayouts/admin/layouts](http://127.0.0.1:8000/nglayouts/admin/layouts/) and start creating
 Contentful specific layouts and map them to URL targets.

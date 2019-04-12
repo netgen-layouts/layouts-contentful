@@ -20,5 +20,5 @@ security:
             http_basic: ~
 
     access_control:
-        - { path: ^/bm/(api|app|admin), role: [ROLE_NGLAYOUTS_ADMIN] }
+        - { path: ^/nglayouts/(api|app|admin), role: [ROLE_NGLAYOUTS_ADMIN] }
         - { path: ^/cb, role: [ROLE_NGLAYOUTS_ADMIN] }
