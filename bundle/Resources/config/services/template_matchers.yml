@@ -2,9 +2,9 @@ services:
     netgen_layouts.contentful.view.matcher.item.content_type:
         class: Netgen\Layouts\Contentful\View\Matcher\Item\ContentType
         tags:
-            - { name: netgen_block_manager.view.template_matcher, identifier: contentful\content_type }
+            - { name: netgen_layouts.view_matcher, identifier: contentful\content_type }
 
     netgen_layouts.contentful.view.matcher.item.space:
         class: Netgen\Layouts\Contentful\View\Matcher\Item\Space
         tags:
-            - { name: netgen_block_manager.view.template_matcher, identifier: contentful\space }
+            - { name: netgen_layouts.view_matcher, identifier: contentful\space }

@@ -2,45 +2,45 @@ services:
     netgen_layouts.contentful.layout_resolver.target_type.entry:
         class: Netgen\Layouts\Contentful\Layout\Resolver\TargetType\Entry
         tags:
-            - { name: netgen_block_manager.layout.resolver.target_type }
+            - { name: netgen_layouts.target_type }
 
     netgen_layouts.contentful.layout_resolver.target_type.form_mapper.entry:
         class: Netgen\Layouts\Contentful\Layout\Resolver\Form\TargetType\Mapper\Entry
         tags:
-            - { name: netgen_block_manager.layout.resolver.form.target_type.mapper, target_type: contentful_entry }
+            - { name: netgen_layouts.target_type.form_mapper, target_type: contentful_entry }
 
     netgen_layouts.contentful.layout_resolver.target_handler.doctrine.entry:
         class: Netgen\Layouts\Contentful\Layout\Resolver\TargetHandler\Doctrine\Entry
         tags:
-            - { name: netgen_block_manager.layout.resolver.target_handler.doctrine, target_type: contentful_entry }
+            - { name: netgen_layouts.target_type.doctrine_handler, target_type: contentful_entry }
 
     netgen_layouts.contentful.layout_resolver.target_type.space:
         class: Netgen\Layouts\Contentful\Layout\Resolver\TargetType\Space
         tags:
-            - { name: netgen_block_manager.layout.resolver.target_type }
+            - { name: netgen_layouts.target_type }
 
     netgen_layouts.contentful.layout_resolver.target_type.form_mapper.space:
         class: Netgen\Layouts\Contentful\Layout\Resolver\Form\TargetType\Mapper\Space
         arguments:
             - "@netgen_layouts.contentful.service"
         tags:
-            - { name: netgen_block_manager.layout.resolver.form.target_type.mapper, target_type: contentful_space }
+            - { name: netgen_layouts.target_type.form_mapper, target_type: contentful_space }
 
     netgen_layouts.contentful.layout_resolver.target_handler.doctrine.space:
         class: Netgen\Layouts\Contentful\Layout\Resolver\TargetHandler\Doctrine\Space
         tags:
-            - { name: netgen_block_manager.layout.resolver.target_handler.doctrine, target_type: contentful_space }
+            - { name: netgen_layouts.target_type.doctrine_handler, target_type: contentful_space }
 
     netgen_layouts.contentful.layout_resolver.condition_type.content_type:
         class: Netgen\Layouts\Contentful\Layout\Resolver\ConditionType\ContentType
         arguments:
             - "@netgen_layouts.contentful.service"
         tags:
-            - { name: netgen_block_manager.layout.resolver.condition_type }
+            - { name: netgen_layouts.condition_type }
 
     netgen_layouts.contentful.layout_resolver.condition_type.form_mapper.content_type:
         class: Netgen\Layouts\Contentful\Layout\Resolver\Form\ConditionType\Mapper\ContentType
         arguments:
             - "@netgen_layouts.contentful.service"
         tags:
-            - { name: netgen_block_manager.layout.resolver.form.condition_type.mapper, condition_type: contentful_content_type }
+            - { name: netgen_layouts.condition_type.form_mapper, condition_type: contentful_content_type }

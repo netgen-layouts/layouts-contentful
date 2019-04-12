@@ -4,4 +4,4 @@ services:
         arguments:
             - "@netgen_layouts.contentful.service"
         tags:
-            - { name: netgen_block_manager.collection.query_type_handler, type: contentful_search }
+            - { name: netgen_layouts.query_type_handler, type: contentful_search }
