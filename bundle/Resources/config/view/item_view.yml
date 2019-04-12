@@ -2,12 +2,12 @@ view:
     item_view:
         default:
             contentful_entry:
-                template: "@ngbm/item/contentful_entry.html.twig"
+                template: "@nglayouts/item/contentful_entry.html.twig"
                 match:
                     item\value_type: contentful_entry
         ajax:
             contentful_entry:
-                template: "@ngbm/item/contentful_entry.html.twig"
+                template: "@nglayouts/item/contentful_entry.html.twig"
                 match:
                     item\value_type: contentful_entry
         api:

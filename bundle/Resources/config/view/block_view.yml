@@ -2,7 +2,7 @@ view:
     block_view:
         default:
             contentful_entry_field:
-                template: "@ngbm/block/contentful_entry_field.html.twig"
+                template: "@nglayouts/block/contentful_entry_field.html.twig"
                 match:
                     block\definition: contentful_entry_field
                     block\view_type: contentful_entry_field
