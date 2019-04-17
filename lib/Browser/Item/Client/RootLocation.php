@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\Layouts\Contentful\Browser\Item\Client;
 
-use Contentful\Delivery\Client;
+use Contentful\Delivery\Client\ClientInterface as ContentfulClientInterface;
 use Netgen\ContentBrowser\Item\LocationInterface;
 
 final class RootLocation implements LocationInterface, ClientInterface
@@ -24,7 +24,7 @@ final class RootLocation implements LocationInterface, ClientInterface
         return null;
     }
 
-    public function getClient(): ?Client
+    public function getClient(): ?ContentfulClientInterface
     {
         return null;
     }

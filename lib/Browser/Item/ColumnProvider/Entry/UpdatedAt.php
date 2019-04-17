@@ -26,11 +26,6 @@ final class UpdatedAt implements ColumnValueProviderInterface
             return null;
         }
 
-        $updatedAt = $item->getEntry()->getUpdatedAt();
-        if ($updatedAt === null) {
-            return null;
-        }
-
-        return $updatedAt->format($this->dateFormat);
+        return $item->getEntry()->getUpdatedAt()->format($this->dateFormat);
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\Bundle\LayoutsContentfulBundle\Controller;
 
+use Contentful\Delivery\Client\ClientInterface;
 use Contentful\Delivery\Resource\DeletedEntry;
 use Contentful\Delivery\Resource\Entry;
 use Netgen\Bundle\LayoutsBundle\Controller\AbstractController;
@@ -67,12 +68,13 @@ final class ContentfulController extends AbstractController
         $spaceId = is_array($spaceId) ? $spaceId[0] : $spaceId;
 
         try {
+            /** @var (\Contentful\Delivery\Client\ClientInterface&\Contentful\Delivery\Client\JsonDecoderClientInterface)|null $client */
             $client = $this->contentful->getClientBySpaceId((string) $spaceId);
         } catch (Throwable $t) {
             throw new BadRequestHttpException('Invalid request');
         }
 
-        if ($client === null) {
+        if (!$client instanceof ClientInterface) {
             throw new BadRequestHttpException('Invalid request');
         }
 

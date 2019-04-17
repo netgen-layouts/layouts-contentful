@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\Bundle\LayoutsContentfulBundle\Templating\Twig\Runtime;
 
-use Contentful\Delivery\Client;
+use Contentful\Delivery\Client\ClientInterface;
 use Contentful\Delivery\Resource\ContentType;
 use Netgen\Layouts\Contentful\Service\Contentful;
 use Throwable;
@@ -41,7 +41,7 @@ final class ContentfulRuntime
     public function contentfulSpaceName(string $spaceId): string
     {
         $client = $this->contentful->getClientBySpaceId($spaceId);
-        if (!$client instanceof Client) {
+        if (!$client instanceof ClientInterface) {
             return '';
         }
 

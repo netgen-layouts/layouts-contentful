@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Netgen\Layouts\Contentful\Browser\Item\Client;
 
-use Contentful\Delivery\Client;
+use Contentful\Delivery\Client\ClientInterface as ContentfulClientInterface;
 use Netgen\ContentBrowser\Item\LocationInterface;
 
 final class Location implements LocationInterface, ClientInterface
 {
     /**
-     * @var \Contentful\Delivery\Client
+     * @var \Contentful\Delivery\Client\ClientInterface
      */
     private $client;
 
@@ -19,7 +19,7 @@ final class Location implements LocationInterface, ClientInterface
      */
     private $id;
 
-    public function __construct(Client $client, string $id)
+    public function __construct(ContentfulClientInterface $client, string $id)
     {
         $this->client = $client;
         $this->id = $id;
@@ -40,7 +40,7 @@ final class Location implements LocationInterface, ClientInterface
         return null;
     }
 
-    public function getClient(): ?Client
+    public function getClient(): ?ContentfulClientInterface
     {
         return $this->client;
     }

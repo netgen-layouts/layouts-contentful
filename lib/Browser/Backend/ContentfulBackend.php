@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\Layouts\Contentful\Browser\Backend;
 
-use Contentful\Delivery\Client;
+use Contentful\Delivery\Client\ClientInterface as ContentfulClientInterface;
 use Netgen\ContentBrowser\Backend\BackendInterface;
 use Netgen\ContentBrowser\Item\ItemInterface;
 use Netgen\ContentBrowser\Item\LocationInterface;
@@ -88,7 +88,7 @@ final class ContentfulBackend implements BackendInterface
 
     public function getSubItemsCount(LocationInterface $location): int
     {
-        if (!$location instanceof ClientInterface || !$location->getClient() instanceof Client) {
+        if (!$location instanceof ClientInterface || !$location->getClient() instanceof ContentfulClientInterface) {
             return 0;
         }
 
@@ -110,7 +110,7 @@ final class ContentfulBackend implements BackendInterface
     /**
      * Builds the location from provided client.
      */
-    private function buildLocation(Client $client, string $id): Location
+    private function buildLocation(ContentfulClientInterface $client, string $id): Location
     {
         return new Location($client, $id);
     }
@@ -118,14 +118,14 @@ final class ContentfulBackend implements BackendInterface
     /**
      * Builds the locations from provided clients.
      *
-     * @param \Contentful\Delivery\Client[] $clients
+     * @param \Contentful\Delivery\Client\ClientInterface[] $clients
      *
      * @return \Netgen\Layouts\Contentful\Browser\Item\Client\Location[]
      */
     private function buildLocations(array $clients): array
     {
         return array_map(
-            function (Client $client, string $id): Location {
+            function (ContentfulClientInterface $client, string $id): Location {
                 return $this->buildLocation($client, $id);
             },
             $clients,

@@ -4,7 +4,7 @@ services:
         arguments:
             - []
             - "@netgen_layouts.contentful.entry_slugger.configurable"
-            - "@contentful.delivery"
+            - "@contentful.delivery.default_client"
             - "@doctrine.orm.entity_manager"
             - "@filesystem"
             - "%netgen_layouts.contentful.cache_dir%"

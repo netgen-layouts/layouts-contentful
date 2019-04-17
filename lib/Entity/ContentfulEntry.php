@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\Layouts\Contentful\Entity;
 
-use Contentful\Delivery\Client;
+use Contentful\Delivery\Client\ClientInterface;
+use Contentful\Delivery\Client\JsonDecoderClientInterface;
 use Contentful\Delivery\Resource\ContentType;
 use Contentful\Delivery\Resource\Entry;
 use Contentful\Delivery\Resource\Space;
@@ -219,34 +220,25 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
     /**
      * Returns the remote entry revision.
      */
-    public function getRevision(): ?int
+    public function getRevision(): int
     {
-        /** @var \Contentful\Delivery\SystemProperties $systemProperties */
-        $systemProperties = $this->remoteEntry->getSystemProperties();
-
-        return $systemProperties->getRevision();
+        return $this->remoteEntry->getSystemProperties()->getRevision();
     }
 
     /**
      * Returns the date when the remote entry was last updated.
      */
-    public function getUpdatedAt(): ?DateTimeInterface
+    public function getUpdatedAt(): DateTimeInterface
     {
-        /** @var \Contentful\Delivery\SystemProperties $systemProperties */
-        $systemProperties = $this->remoteEntry->getSystemProperties();
-
-        return $systemProperties->getUpdatedAt();
+        return $this->remoteEntry->getSystemProperties()->getUpdatedAt();
     }
 
     /**
      * Returns the date when the remote entry was created.
      */
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): DateTimeInterface
     {
-        /** @var \Contentful\Delivery\SystemProperties $systemProperties */
-        $systemProperties = $this->remoteEntry->getSystemProperties();
-
-        return $systemProperties->getCreatedAt();
+        return $this->remoteEntry->getSystemProperties()->getCreatedAt();
     }
 
     /**
@@ -278,12 +270,7 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
         $this->remoteEntry = $remoteEntry;
         $this->id = $this->remoteEntry->getSpace()->getId() . '|' . $this->remoteEntry->getId();
 
-        $contentType = $this->remoteEntry->getContentType();
-        if ($contentType === null) {
-            return;
-        }
-
-        $nameField = $contentType->getDisplayField();
+        $nameField = $this->remoteEntry->getContentType()->getDisplayField();
         if ($nameField === null) {
             return;
         }
@@ -296,18 +283,17 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
     /**
      * Revives the remote entry from provided client.
      */
-    public function reviveRemoteEntry(Client $client): void
+    public function reviveRemoteEntry(ClientInterface $client): void
     {
+        if (!$client instanceof JsonDecoderClientInterface) {
+            return;
+        }
+
         /** @var \Contentful\Delivery\Resource\Entry $remoteEntry */
         $remoteEntry = $client->parseJson($this->json);
         $this->id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
 
-        $contentType = $remoteEntry->getContentType();
-        if ($contentType === null) {
-            return;
-        }
-
-        $nameField = $contentType->getDisplayField();
+        $nameField = $remoteEntry->getContentType()->getDisplayField();
         if ($nameField === null) {
             return;
         }

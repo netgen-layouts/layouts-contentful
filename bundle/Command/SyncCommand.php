@@ -48,6 +48,7 @@ final class SyncCommand extends Command
     {
         $this->io = new SymfonyStyle($input, $output);
 
+        /** @var \Contentful\Delivery\Client\ClientInterface&\Contentful\Delivery\Client\SynchronizationClientInterface $client */
         foreach ($this->contentful->getClients() as $client) {
             $this->contentful->refreshSpaceCache($client);
             $this->contentful->refreshContentTypeCache($client);

@@ -26,11 +26,6 @@ final class CreatedAt implements ColumnValueProviderInterface
             return null;
         }
 
-        $createdAt = $item->getEntry()->getCreatedAt();
-        if ($createdAt === null) {
-            return null;
-        }
-
-        return $createdAt->format($this->dateFormat);
+        return $item->getEntry()->getCreatedAt()->format($this->dateFormat);
     }
 }

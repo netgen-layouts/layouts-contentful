@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Netgen\Layouts\Contentful\Service;
 
 use Contentful\Core\Resource\ResourceArray;
-use Contentful\Delivery\Client;
+use Contentful\Delivery\Client\ClientInterface;
 use Contentful\Delivery\Query;
 use Contentful\Delivery\Resource\ContentType;
 use Contentful\Delivery\Resource\DeletedEntry;
@@ -33,7 +33,7 @@ final class Contentful
     private $entrySlugger;
 
     /**
-     * @var \Contentful\Delivery\Client
+     * @var \Contentful\Delivery\Client\ClientInterface
      */
     private $defaultClient;
 
@@ -55,7 +55,7 @@ final class Contentful
     public function __construct(
         array $clientsConfig,
         EntrySluggerInterface $entrySlugger,
-        Client $defaultClient,
+        ClientInterface $defaultClient,
         EntityManagerInterface $entityManager,
         Filesystem $fileSystem,
         string $cacheDir
@@ -73,7 +73,7 @@ final class Contentful
      *
      * @throws \Netgen\Layouts\Contentful\Exception\RuntimeException If client with provided name does not exist
      */
-    public function getClientByName(string $name): Client
+    public function getClientByName(string $name): ClientInterface
     {
         if (!isset($this->clientsConfig[$name])) {
             throw new RuntimeException(sprintf('Contentful client with "%s" name does not exist.', $name));
@@ -95,7 +95,7 @@ final class Contentful
      *
      * If no client is found, null is returned.
      */
-    public function getClientBySpaceId(string $spaceId): ?Client
+    public function getClientBySpaceId(string $spaceId): ?ClientInterface
     {
         foreach ($this->clientsConfig as $clientConfig) {
             if ($clientConfig['space'] === $spaceId) {
@@ -109,7 +109,7 @@ final class Contentful
     /**
      * Returns all configured clients.
      *
-     * @return \Contentful\Delivery\Client[]
+     * @return \Contentful\Delivery\Client\ClientInterface[]
      */
     public function getClients(): array
     {
@@ -130,11 +130,11 @@ final class Contentful
     public function getContentType(string $id): ?ContentType
     {
         foreach ($this->clientsConfig as $clientConfig) {
-            /** @var \Contentful\Delivery\Client $client */
+            /** @var \Contentful\Delivery\Client\ClientInterface $client */
             $client = $clientConfig['service'];
 
+            /** @var \Contentful\Delivery\Resource\ContentType $contentType */
             foreach ($client->getContentTypes()->getItems() as $contentType) {
-                /** @var \Contentful\Delivery\Resource\ContentType $contentType */
                 if ($contentType->getId() === $id) {
                     return $contentType;
                 }
@@ -208,7 +208,7 @@ final class Contentful
     /**
      * Returns the list of Contentful entries.
      */
-    public function getContentfulEntries(int $offset = 0, ?int $limit = null, ?Client $client = null, ?Query $query = null): array
+    public function getContentfulEntries(int $offset = 0, ?int $limit = null, ?ClientInterface $client = null, ?Query $query = null): array
     {
         $client = $client ?? $this->defaultClient;
         $query = $query ?? new Query();
@@ -224,7 +224,7 @@ final class Contentful
     /**
      * Returns the count of Contentful entries.
      */
-    public function getContentfulEntriesCount(?Client $client = null, ?Query $query = null): int
+    public function getContentfulEntriesCount(?ClientInterface $client = null, ?Query $query = null): int
     {
         $client = $client ?? $this->defaultClient;
 
@@ -234,7 +234,7 @@ final class Contentful
     /**
      * Searches for Contentful entries.
      */
-    public function searchContentfulEntries(string $searchText, int $offset = 0, int $limit = 25, ?Client $client = null): array
+    public function searchContentfulEntries(string $searchText, int $offset = 0, int $limit = 25, ?ClientInterface $client = null): array
     {
         $client = $client ?? $this->defaultClient;
 
@@ -249,7 +249,7 @@ final class Contentful
     /**
      * Returns the count of searched Contentful entries.
      */
-    public function searchContentfulEntriesCount(string $searchText, ?Client $client = null): int
+    public function searchContentfulEntriesCount(string $searchText, ?ClientInterface $client = null): int
     {
         $client = $client ?? $this->defaultClient;
 
@@ -267,12 +267,12 @@ final class Contentful
         $clientsAndContentTypes = [];
 
         foreach ($this->clientsConfig as $clientName => $clientConfig) {
-            /** @var \Contentful\Delivery\Client $client */
+            /** @var \Contentful\Delivery\Client\ClientInterface $client */
             $client = $clientConfig['service'];
 
             $clientsAndContentTypes[$client->getSpace()->getName()] = $clientName;
+            /** @var \Contentful\Delivery\Resource\ContentType $contentType */
             foreach ($client->getContentTypes()->getItems() as $contentType) {
-                /* @var \Contentful\Delivery\Resource\ContentType $contentType */
                 $clientsAndContentTypes['>  ' . $contentType->getName()] = $clientName . '|' . $contentType->getId();
             }
         }
@@ -290,7 +290,7 @@ final class Contentful
         $spaces = [];
 
         foreach ($this->clientsConfig as $clientConfig) {
-            /** @var \Contentful\Delivery\Client $client */
+            /** @var \Contentful\Delivery\Client\ClientInterface $client */
             $client = $clientConfig['service'];
 
             $spaces[$client->getSpace()->getName()] = $clientConfig['space'];
@@ -307,12 +307,12 @@ final class Contentful
         $spaces = [];
 
         foreach ($this->clientsConfig as $clientConfig) {
-            /** @var \Contentful\Delivery\Client $client */
+            /** @var \Contentful\Delivery\Client\ClientInterface $client */
             $client = $clientConfig['service'];
 
             $contentTypes = [];
+            /** @var \Contentful\Delivery\Resource\ContentType $contentType */
             foreach ($client->getContentTypes()->getItems() as $contentType) {
-                /* @var \Contentful\Delivery\Resource\ContentType $contentType */
                 $contentTypes[$contentType->getName()] = $contentType->getId();
             }
             $spaces[$client->getSpace()->getName()] = $contentTypes;
@@ -346,17 +346,14 @@ final class Contentful
      */
     public function unpublishContentfulEntry(DeletedEntry $remoteEntry): void
     {
-        /** @var \Contentful\Delivery\SystemProperties $systemProperties */
-        $systemProperties = $remoteEntry->getSystemProperties();
+        $contentfulEntry = $this->findContentfulEntry(
+            sprintf(
+                '%s|%s',
+                $remoteEntry->getSystemProperties()->getSpace()->getId(),
+                $remoteEntry->getId()
+            )
+        );
 
-        $space = $systemProperties->getSpace();
-        if ($space === null) {
-            return;
-        }
-
-        $id = $space->getId() . '|' . $remoteEntry->getId();
-
-        $contentfulEntry = $this->findContentfulEntry($id);
         if ($contentfulEntry instanceof ContentfulEntry) {
             $contentfulEntry->setIsPublished(false);
             $this->entityManager->persist($contentfulEntry);
@@ -369,17 +366,14 @@ final class Contentful
      */
     public function deleteContentfulEntry(DeletedEntry $remoteEntry): void
     {
-        /** @var \Contentful\Delivery\SystemProperties $systemProperties */
-        $systemProperties = $remoteEntry->getSystemProperties();
+        $contentfulEntry = $this->findContentfulEntry(
+            sprintf(
+                '%s|%s',
+                $remoteEntry->getSystemProperties()->getSpace()->getId(),
+                $remoteEntry->getId()
+            )
+        );
 
-        $space = $systemProperties->getSpace();
-        if ($space === null) {
-            return;
-        }
-
-        $id = $space->getId() . '|' . $remoteEntry->getId();
-
-        $contentfulEntry = $this->findContentfulEntry($id);
         if ($contentfulEntry instanceof ContentfulEntry) {
             $contentfulEntry->setIsDeleted(true);
             $this->entityManager->persist($contentfulEntry);
@@ -395,7 +389,7 @@ final class Contentful
     /**
      * Refreshes space caches for provided client.
      */
-    public function refreshSpaceCache(Client $client): void
+    public function refreshSpaceCache(ClientInterface $client): void
     {
         $spacePath = $this->getSpaceCachePath($client);
         $this->fileSystem->dumpFile($spacePath . '/space.json', (string) json_encode($client->getSpace()));
@@ -404,7 +398,7 @@ final class Contentful
     /**
      * Refreshes content type caches for provided client.
      */
-    public function refreshContentTypeCache(Client $client): void
+    public function refreshContentTypeCache(ClientInterface $client): void
     {
         $spacePath = $this->getSpaceCachePath($client);
         $contentTypes = $client->getContentTypes();
@@ -416,7 +410,7 @@ final class Contentful
     /**
      * Returns the cache path for provided client.
      */
-    public function getSpaceCachePath(Client $client): string
+    public function getSpaceCachePath(ClientInterface $client): string
     {
         $space = $client->getSpace();
         $spacePath = $this->cacheDir . $space->getId();
@@ -465,7 +459,7 @@ final class Contentful
      *
      * @return \Netgen\Layouts\Contentful\Entity\ContentfulEntry[]
      */
-    private function buildContentfulEntries(ResourceArray $entries, Client $client): array
+    private function buildContentfulEntries(ResourceArray $entries, ClientInterface $client): array
     {
         $contentfulEntries = [];
 
