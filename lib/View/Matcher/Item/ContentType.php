@@ -23,11 +23,6 @@ final class ContentType implements MatcherInterface
             return false;
         }
 
-        $contentType = $entry->getContentType();
-        if ($contentType === null) {
-            return false;
-        }
-
-        return in_array($contentType->getId(), $config, true);
+        return in_array($entry->getContentType()->getId(), $config, true);
     }
 }

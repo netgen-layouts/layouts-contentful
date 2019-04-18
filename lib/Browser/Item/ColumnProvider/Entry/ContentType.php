@@ -16,11 +16,6 @@ final class ContentType implements ColumnValueProviderInterface
             return null;
         }
 
-        $contentType = $item->getEntry()->getContentType();
-        if ($contentType === null) {
-            return null;
-        }
-
-        return $contentType->getName();
+        return $item->getEntry()->getContentType()->getName();
     }
 }

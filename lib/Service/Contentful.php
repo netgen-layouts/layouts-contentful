@@ -85,9 +85,9 @@ final class Contentful
     /**
      * Returns the Contentful space with provided client name.
      */
-    public function getSpaceByClientName(string $name): Space
+    public function getSpaceByClientName(string $name): string
     {
-        return $this->clients[$name]->getSpace();
+        return $this->clients[$name]->getSpace()->getId();
     }
 
     /**
@@ -279,7 +279,7 @@ final class Contentful
 
         foreach ($this->clients as $client) {
             $clientSpace = $client->getSpace();
-            $spaces[$clientSpace->getName()] = $clientSpace;
+            $spaces[$clientSpace->getName()] = $clientSpace->getId();
         }
 
         return $spaces;

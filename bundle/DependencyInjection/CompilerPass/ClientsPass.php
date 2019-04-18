@@ -25,7 +25,12 @@ final class ClientsPass implements CompilerPassInterface
         $clients = [];
         foreach ($clientServices as $clientService) {
             $clientName = str_replace('contentful.delivery.', '', $clientService);
-            $clientName = mb_substr($clientName, 0, mb_strlen($clientName) - mb_strrpos($clientName, '_client'));
+            $lastPosition = mb_strrpos($clientName, '_client');
+            if ($lastPosition === false) {
+                continue;
+            }
+
+            $clientName = mb_substr($clientName, 0, mb_strlen($clientName) - $lastPosition);
 
             $clients[$clientName] = new Reference($clientService);
         }
