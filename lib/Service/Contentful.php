@@ -307,7 +307,7 @@ final class Contentful
     /**
      * Refreshes the Contentful entry for provided remote entry.
      */
-    public function refreshContentfulEntry(Entry $remoteEntry): ?ContentfulEntry
+    public function refreshContentfulEntry(Entry $remoteEntry): ContentfulEntry
     {
         $id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
         $contentfulEntry = $this->findContentfulEntry($id);
@@ -317,11 +317,11 @@ final class Contentful
             $contentfulEntry->setIsPublished(true);
             $this->entityManager->persist($contentfulEntry);
             $this->entityManager->flush();
-        } else {
-            $contentfulEntry = $this->buildContentfulEntry($remoteEntry, $id);
+
+            return $contentfulEntry;
         }
 
-        return $contentfulEntry;
+        return $this->buildContentfulEntry($remoteEntry, $id);
     }
 
     /**
