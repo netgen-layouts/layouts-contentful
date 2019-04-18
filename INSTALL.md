@@ -107,21 +107,14 @@ and tokens from the APIs section from your Contentful instance at
 ```
 contentful:
     delivery:
-        clients:
-            default:
-                space: space1_identifier
-                token: space1_token
-                cache: true
-            some_other_space:
-                space: space1_identifier
-                token: space2_token
-                cache: false
-```
-
-You can verify the configuration with this command:
-
-```
-php bin/console contentful:info
+        default:
+            space: space1_identifier
+            token: space1_token
+            cache: true
+        some_other_space:
+            space: space1_identifier
+            token: space2_token
+            cache: false
 ```
 
 For more information, see Contentful bundle [official repo on Github](https://github.com/contentful/ContentfulBundle).
