@@ -98,7 +98,7 @@ final class Contentful
     public function getClientBySpaceId(string $spaceId): ?ClientInterface
     {
         foreach ($this->clients as $client) {
-            if ($client->getSpace()->getName() === $spaceId) {
+            if ($client->getSpace()->getId() === $spaceId) {
                 return $client;
             }
         }
