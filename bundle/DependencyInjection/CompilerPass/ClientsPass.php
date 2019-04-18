@@ -19,21 +19,21 @@ final class ClientsPass implements CompilerPassInterface
             return;
         }
 
-        if (!$container->hasParameter('contentful.clients')) {
-            return;
+        $contentfulService = $container->findDefinition(self::SERVICE_NAME);
+        $clientServices = array_keys($container->findTaggedServiceIds('contentful.delivery.client'));
+
+        $clients = [];
+        foreach ($clientServices as $clientService) {
+            $clientName = str_replace('contentful.delivery.', '', $clientService);
+            $clientName = mb_substr($clientName, 0, mb_strlen($clientName) - mb_strrpos($clientName, '_client'));
+
+            $clients[$clientName] = new Reference($clientService);
         }
 
-        $contentfulService = $container->findDefinition(self::SERVICE_NAME);
-        $contentfulClients = $container->getParameter('contentful.clients');
-
-        if (count($contentfulClients) === 0) {
+        if (count($clients) === 0) {
             throw new RuntimeException('At least one Contentful client needs to be configured');
         }
 
-        foreach ($contentfulClients as $name => $client) {
-            $contentfulClients[$name]['service'] = new Reference($contentfulClients[$name]['service']);
-        }
-
-        $contentfulService->replaceArgument(0, $contentfulClients);
+        $contentfulService->replaceArgument(0, $clients);
     }
 }
