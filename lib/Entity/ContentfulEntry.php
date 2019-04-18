@@ -38,12 +38,12 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
     /**
      * @var bool
      */
-    private $isPublished;
+    private $isPublished = false;
 
     /**
      * @var bool
      */
-    private $isDeleted;
+    private $isDeleted = false;
 
     /**
      * @var \Symfony\Cmf\Component\Routing\RouteObjectInterface[]|\Doctrine\Common\Collections\ArrayCollection
@@ -252,7 +252,7 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
     /**
      * Returns the remote entry content type.
      */
-    public function getContentType(): ?ContentType
+    public function getContentType(): ContentType
     {
         return $this->remoteEntry->getContentType();
     }
