@@ -129,7 +129,7 @@ final class ContentfulBackend implements BackendInterface
                 return $this->buildLocation($client, $id);
             },
             $clients,
-            $this->contentful->getClientsNames()
+            array_keys($clients)
         );
     }
 

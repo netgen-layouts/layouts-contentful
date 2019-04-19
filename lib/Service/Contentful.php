@@ -113,7 +113,7 @@ final class Contentful
      */
     public function getClients(): array
     {
-        return array_values($this->clients);
+        return $this->clients;
     }
 
     /**
@@ -133,16 +133,6 @@ final class Contentful
         }
 
         return null;
-    }
-
-    /**
-     * Returns names of all configured clients.
-     *
-     * @return string[]
-     */
-    public function getClientsNames(): array
-    {
-        return array_keys($this->clients);
     }
 
     /**
