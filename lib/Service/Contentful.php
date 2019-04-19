@@ -69,6 +69,16 @@ final class Contentful
     }
 
     /**
+     * Returns all configured clients.
+     *
+     * @return \Contentful\Delivery\Client\ClientInterface[]
+     */
+    public function getClients(): array
+    {
+        return $this->clients;
+    }
+
+    /**
      * Returns the Contentful client with provided name.
      *
      * @throws \Netgen\Layouts\Contentful\Exception\RuntimeException If client with provided name does not exist
@@ -80,14 +90,6 @@ final class Contentful
         }
 
         return $this->clients[$name];
-    }
-
-    /**
-     * Returns the Contentful space with provided client name.
-     */
-    public function getSpaceByClientName(string $name): string
-    {
-        return $this->clients[$name]->getSpace()->getId();
     }
 
     /**
@@ -104,16 +106,6 @@ final class Contentful
         }
 
         return null;
-    }
-
-    /**
-     * Returns all configured clients.
-     *
-     * @return \Contentful\Delivery\Client\ClientInterface[]
-     */
-    public function getClients(): array
-    {
-        return $this->clients;
     }
 
     /**
