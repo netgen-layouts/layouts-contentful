@@ -241,60 +241,6 @@ final class Contentful
     }
 
     /**
-     * Returns the list of clients and content types for usage in Symfony Forms.
-     */
-    public function getClientsAndContentTypesAsChoices(): array
-    {
-        $clientsAndContentTypes = [];
-
-        foreach ($this->clients as $clientName => $client) {
-            $clientsAndContentTypes[$client->getSpace()->getName()] = $clientName;
-            /** @var \Contentful\Delivery\Resource\ContentType $contentType */
-            foreach ($client->getContentTypes()->getItems() as $contentType) {
-                $clientsAndContentTypes['>  ' . $contentType->getName()] = $clientName . '|' . $contentType->getId();
-            }
-        }
-
-        return $clientsAndContentTypes;
-    }
-
-    /**
-     * Returns the list of spaces for usage in Symfony Forms.
-     *
-     * @return string[]
-     */
-    public function getSpacesAsChoices(): array
-    {
-        $spaces = [];
-
-        foreach ($this->clients as $client) {
-            $clientSpace = $client->getSpace();
-            $spaces[$clientSpace->getName()] = $clientSpace->getId();
-        }
-
-        return $spaces;
-    }
-
-    /**
-     * Returns the list of spaces and content types for usage in Symfony Forms.
-     */
-    public function getSpacesAndContentTypesAsChoices(): array
-    {
-        $spaces = [];
-
-        foreach ($this->clients as $client) {
-            $contentTypes = [];
-            /** @var \Contentful\Delivery\Resource\ContentType $contentType */
-            foreach ($client->getContentTypes()->getItems() as $contentType) {
-                $contentTypes[$contentType->getName()] = $contentType->getId();
-            }
-            $spaces[$client->getSpace()->getName()] = $contentTypes;
-        }
-
-        return $spaces;
-    }
-
-    /**
      * Refreshes the Contentful entry for provided remote entry.
      */
     public function refreshContentfulEntry(Entry $remoteEntry): ContentfulEntry
