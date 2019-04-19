@@ -29,14 +29,12 @@ final class Space extends Mapper
     public function getFormOptions(): array
     {
         return [
-            'choices' => iterator_to_array(
-                (function (): Generator {
-                    foreach ($this->contentful->getClients() as $client) {
-                        $clientSpace = $client->getSpace();
-                        yield $clientSpace->getName() => $clientSpace->getId();
-                    }
-                })()
-            ),
+            'choices' => (function (): Generator {
+                foreach ($this->contentful->getClients() as $client) {
+                    $clientSpace = $client->getSpace();
+                    yield $clientSpace->getName() => $clientSpace->getId();
+                }
+            })(),
         ];
     }
 }

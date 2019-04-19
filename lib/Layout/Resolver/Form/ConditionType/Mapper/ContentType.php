@@ -29,20 +29,18 @@ final class ContentType extends Mapper
     public function getFormOptions(): array
     {
         return [
-            'choices' => iterator_to_array(
-                (function (): Generator {
-                    foreach ($this->contentful->getClients() as $client) {
-                        $contentTypes = [];
+            'choices' => (function (): Generator {
+                foreach ($this->contentful->getClients() as $client) {
+                    $contentTypes = [];
 
-                        /** @var \Contentful\Delivery\Resource\ContentType $contentType */
-                        foreach ($client->getContentTypes()->getItems() as $contentType) {
-                            $contentTypes[$contentType->getName()] = $contentType->getId();
-                        }
-
-                        yield $client->getSpace()->getName() => $contentTypes;
+                    /** @var \Contentful\Delivery\Resource\ContentType $contentType */
+                    foreach ($client->getContentTypes()->getItems() as $contentType) {
+                        $contentTypes[$contentType->getName()] = $contentType->getId();
                     }
-                })()
-            ),
+
+                    yield $client->getSpace()->getName() => $contentTypes;
+                }
+            })(),
             'multiple' => true,
         ];
     }
