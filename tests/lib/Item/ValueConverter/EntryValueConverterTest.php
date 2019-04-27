@@ -16,7 +16,7 @@ final class EntryValueConverterTest extends TestCase
      */
     private $valueConverter;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->valueConverter = new EntryValueConverter();
     }
