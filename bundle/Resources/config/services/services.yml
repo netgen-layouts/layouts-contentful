@@ -21,7 +21,6 @@ services:
         class: Netgen\Layouts\Contentful\Routing\EntrySlugger\Configurable
         arguments:
             - "%netgen_layouts.contentful.entry_slug_type%"
-            - []
 
     netgen_layouts.contentful.entry_slugger.simple:
         class: Netgen\Layouts\Contentful\Routing\EntrySlugger\Simple

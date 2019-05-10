@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Netgen\Bundle\LayoutsContentfulBundle\DependencyInjection\CompilerPass;
 
 use Netgen\Layouts\Contentful\Exception\RuntimeException;
+use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 
 final class EntrySluggerPass implements CompilerPassInterface
 {
@@ -30,10 +33,10 @@ final class EntrySluggerPass implements CompilerPassInterface
                     throw new RuntimeException('Entry slugger service tags should have an "type" attribute.');
                 }
 
-                $sluggers[$tag['type']] = new Reference($sluggerService);
+                $sluggers[$tag['type']] = new ServiceClosureArgument(new Reference($sluggerService));
             }
         }
 
-        $service->replaceArgument(1, $sluggers);
+        $service->addArgument(new Definition(ServiceLocator::class, [$sluggers]));
     }
 }
