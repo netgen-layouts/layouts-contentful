@@ -1,7 +1,6 @@
-Netgen Layouts & Contentful integration
-=======================================
+# Netgen Layouts & Contentful integration
 
-# Installation instructions
+## Installation instructions
 
 [INSTALL.md](INSTALL.md)
 

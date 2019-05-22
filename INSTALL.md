@@ -1,8 +1,6 @@
-Netgen Layouts & Contentful integration installation instructions
-=================================================================
+# Netgen Layouts & Contentful integration installation instructions
 
-Installing Netgen Layouts
--------------------------
+## Installing Netgen Layouts
 
 Follow the instructions in Netgen Layouts documentation to [install Netgen Layouts](https://docs.netgen.io/projects/layouts/en/latest/reference/install_instructions.html).
 
@@ -17,8 +15,7 @@ As a minimum you need to:
 * add the "layout" twig block to your base pagelayout (for fresh Symfony installations, the template is `base.html.twig`)
 * configure Netgen Layouts to use your base pagelayout (for fresh Symfony installations, the template is `base.html.twig`)
 
-Enable Translator component
----------------------------
+## Enable Translator component
 
 By default, on fresh Symfony installations, the Translator component is not enabled, so you need to uncomment the line in `app/config/config.yml`:
 
@@ -27,8 +24,7 @@ framework:
     translator: { fallbacks: ['%locale%'] }
 ```
 
-Configure authentication for Netgen Layouts
--------------------------------------------
+## Configure authentication for Netgen Layouts
 
 It is highly recommended to secure the Netgen Layouts interface and allow only
 authenticated users in. For fresh Symfony installations the simplest way is to
@@ -62,8 +58,7 @@ security:
         - { path: ^/cb, role: [ROLE_NGLAYOUTS_ADMIN] }
 ```
 
-Verifying that Netgen Layouts works
------------------------------------
+## Verifying that Netgen Layouts works
 
 Start the server with:
 
@@ -73,8 +68,7 @@ php bin/console server:run
 
 Open [http://127.0.0.1:8000/nglayouts/admin/layouts](http://127.0.0.1:8000/nglayouts/admin/layouts/), give the admin credentials and you should be able to create new layouts.
 
-Use Composer to install the integration
----------------------------------------
+## Use Composer to install the integration
 
 Run the following command to install Contentful integration:
 
@@ -82,8 +76,7 @@ Run the following command to install Contentful integration:
 composer require netgen/layouts-standard netgen/layouts-contentful
 ```
 
-Activating integration bundle
------------------------------
+## Activating integration bundle
 
 After completing standard Netgen Layouts install instructions, you also need to
 activate `NetgenLayoutsContentfulBundle` together with its dependencies in `app/AppKernel.php`.
@@ -95,8 +88,7 @@ new Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle(),
 new Netgen\Bundle\LayoutsContentfulBundle\NetgenLayoutsContentfulBundle(),
 ```
 
-Configure Contentful bundle
----------------------------
+## Configure Contentful bundle
 
 To work with Contentful resources, you need to configure a client for
 every space you wish to use. For every client, you need to specify the
@@ -119,8 +111,7 @@ contentful:
 
 For more information, see Contentful bundle [official repo on Github](https://github.com/contentful/ContentfulBundle).
 
-Configure the CMF Routing component
------------------------------------
+## Configure the CMF Routing component
 
 The integration uses CMF routing component and its dynamic router to match
 routes and generate URLs to resources from Contentful. You need to enable
@@ -141,8 +132,7 @@ cmf_routing:
 
 For more information, see [CMF Routing docs on symfony.com](http://symfony.com/doc/master/cmf/bundles/routing/index.html).
 
-Configure routing
------------------
+## Configure routing
 
 Add routing configuration to `app/config/routing.yml`:
 
@@ -151,16 +141,14 @@ netgen_layouts_contentful:
     resource: "@NetgenLayoutsContentfulBundle/Resources/config/routing.yml"
 ```
 
-Import the schema
------------------
+## Import the schema
 
 Import the routing and local content schema to the database. Use the Force, Luke.
 ```
 php bin/console doctrine:schema:update --force
 ```
 
-Optional: Run the sync command
-------------------------------
+## Optional: Run the sync command
 
 To warmup the caching for spaces and content types as well as syncing Contentful entries locally run this command:
 
@@ -170,8 +158,7 @@ php bin/console contentful:sync
 
 There is a limit on 100 entries in one run, so if there are more than 100 entries you can run the command multiple times.
 
-Optional: Configure webhook
----------------------------
+## Optional: Configure webhook
 
 To make local cache refresh when an entry or a content type changes in Contentful add the webhook configuration.
 
@@ -183,8 +170,7 @@ Go to Contentful space settings and create a webhook with:
 * checked Published, Unpublished and Delete events for Content types
 * checked Published, Unpublished and Delete events for entries
 
-Optional: Implement custom sluggers
------------------------------------
+## Optional: Implement custom sluggers
 
 This bundle offer the possibility to implement custom sluggers to generate URLs for full content based pages. Out of the box there are 2 sluggers implemented:
 
@@ -229,8 +215,7 @@ netgen_layouts_contentful:
 
 And that should be it!
 
-Use it
-------
+## Use it
 
 Open again [http://127.0.0.1:8000/nglayouts/admin/layouts](http://127.0.0.1:8000/nglayouts/admin/layouts/) and start creating
 Contentful specific layouts and map them to URL targets.
