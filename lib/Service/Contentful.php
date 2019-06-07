@@ -332,6 +332,7 @@ final class Contentful
         if ($contentfulEntry instanceof ContentfulEntry) {
             $contentfulEntry->setJson((string) json_encode($remoteEntry));
             $contentfulEntry->setIsPublished(true);
+            $contentfulEntry->setIsDeleted(false);
             $this->entityManager->persist($contentfulEntry);
             $this->entityManager->flush();
         } else {
@@ -444,6 +445,7 @@ final class Contentful
     {
         $contentfulEntry = new ContentfulEntry($remoteEntry);
         $contentfulEntry->setIsPublished(true);
+        $contentfulEntry->setIsDeleted(false);
         $contentfulEntry->setJson((string) json_encode($remoteEntry));
 
         $route = new Route();
