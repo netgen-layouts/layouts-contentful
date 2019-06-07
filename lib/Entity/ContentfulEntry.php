@@ -11,6 +11,7 @@ use Contentful\Delivery\Resource\Entry;
 use Contentful\Delivery\Resource\Space;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use JsonSerializable;
 use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
 use Throwable;
@@ -46,7 +47,7 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
     private $isDeleted = false;
 
     /**
-     * @var \Symfony\Cmf\Component\Routing\RouteObjectInterface[]|\Doctrine\Common\Collections\ArrayCollection
+     * @var \Symfony\Cmf\Component\Routing\RouteObjectInterface[]|\Doctrine\Common\Collections\Collection
      */
     private $routes;
 
@@ -180,9 +181,9 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
     /**
      * Sets the entry routes.
      *
-     * @param \Symfony\Cmf\Component\Routing\RouteObjectInterface[]|\Doctrine\Common\Collections\ArrayCollection $routes
+     * @param \Symfony\Cmf\Component\Routing\RouteObjectInterface[]|\Doctrine\Common\Collections\Collection $routes
      */
-    public function setRoutes(ArrayCollection $routes): void
+    public function setRoutes(Collection $routes): void
     {
         $this->routes = $routes;
     }
