@@ -10,8 +10,8 @@ view:
                 template: "@nglayouts/item/contentful_entry.html.twig"
                 match:
                     item\value_type: contentful_entry
-        api:
+        app:
             contentful_entry:
-                template: "@NetgenLayoutsContentful/api/item/contentful_entry.html.twig"
+                template: "@NetgenLayoutsContentful/app/item/contentful_entry.html.twig"
                 match:
                     item\value_type: contentful_entry
