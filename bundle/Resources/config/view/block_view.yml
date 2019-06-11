@@ -11,4 +11,3 @@ view:
                 template: "@NetgenLayoutsContentful/api/block/contentful_entry_field.html.twig"
                 match:
                     block\definition: contentful_entry_field
-                    api_version: 1
