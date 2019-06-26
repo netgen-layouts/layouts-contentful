@@ -47,7 +47,7 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
     private $isDeleted = false;
 
     /**
-     * @var \Symfony\Cmf\Component\Routing\RouteObjectInterface[]|\Doctrine\Common\Collections\Collection
+     * @var \Doctrine\Common\Collections\Collection
      */
     private $routes;
 
@@ -181,7 +181,7 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
     /**
      * Sets the entry routes.
      *
-     * @param \Symfony\Cmf\Component\Routing\RouteObjectInterface[]|\Doctrine\Common\Collections\Collection $routes
+     * @param \Doctrine\Common\Collections\Collection $routes
      */
     public function setRoutes(Collection $routes): void
     {

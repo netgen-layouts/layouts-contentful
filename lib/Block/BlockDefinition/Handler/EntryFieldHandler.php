@@ -68,7 +68,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
                 $innerFieldType = $this->getFieldType($innerField);
                 if ($innerFieldType === 'dynamicentry') {
                     $fieldValues['entry'] = $this->contentful->loadContentfulEntry($innerField->getSpace()->getId() . '|' . $innerField->getId());
-                } else {
+                } elseif (is_string($innerFieldType)) {
                     $fieldValues[$innerFieldType] = $innerField;
                 }
             }
