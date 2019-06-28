@@ -177,11 +177,14 @@ This bundle offer the possibility to implement custom sluggers to generate URLs 
 * `simple` slugger - takes the name of the Contentful entry and makes the slug. This one is used by default
 * `with_space` slugger - adds the space name before the entry name so the URL will have the format `/[space_name_slug]/[entry_name_slug]`
 
-To implement a custom slugger you need to extend the base `Slugger` class and implement the `EntrySluggerInterface`:
+To implement a custom slugger you need to implement the `EntrySluggerInterface`. A `FilterSlugTrait` is provided
+so you can filter the slug as required by Contentful.
 
 ```
-final class MySlugger extends Slugger implements EntrySluggerInterface
+final class MySlugger implements EntrySluggerInterface
 {
+    use FilterSlugTrait;
+
     public function getSlug(ContentfulEntry $contentfulEntry): string
     {
         return '/my_prefix/' . $this->filterSlug($contentfulEntry->getName());
