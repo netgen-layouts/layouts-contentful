@@ -30,7 +30,7 @@ final class ClientsPass implements CompilerPassInterface
                 continue;
             }
 
-            $clientName = mb_substr($clientName, 0, mb_strlen($clientName) - $lastPosition);
+            $clientName = mb_substr($clientName, 0, $lastPosition);
 
             $clients[$clientName] = new Reference($clientService);
         }
