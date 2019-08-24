@@ -14,6 +14,7 @@
         "contentful/contentful-bundle": "^4.0",
         "doctrine/orm": "^2.6",
         "symfony-cmf/routing-bundle": "^2.1",
+        "michelf/php-markdown": "^1.8",
         "aptoma/twig-markdown": "^3.1"
     },
     "require-dev": {
