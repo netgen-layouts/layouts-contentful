@@ -13,3 +13,8 @@ parameters:
         -
             message: '#should be contravariant with parameter \$object#'
             path: lib/Item/ValueConverter/EntryValueConverter.php
+
+        # Variable method call
+        -
+            message: '#Variable method call on \$object#'
+            path: lib/Collection/QueryType/Handler/ContentfulReferenceHandler.php
