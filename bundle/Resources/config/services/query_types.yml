@@ -7,7 +7,7 @@ services:
             - { name: netgen_layouts.query_type_handler, type: contentful_search }
 
     netgen_layouts.contentful.collection.query_type.handler.contentful_references:
-        class: Netgen\Layouts\Contentful\Collection\QueryType\Handler\ContentfulReferenceHandler
+        class: Netgen\Layouts\Contentful\Collection\QueryType\Handler\ContentfulReferencesHandler
         arguments:
             - "@netgen_layouts.contentful.service"
             - "@request_stack"
