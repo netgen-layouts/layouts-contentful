@@ -96,18 +96,16 @@ final class ContentfulReferenceHandler implements QueryTypeHandlerInterface
     /**
      * Gets context entry from current parameters.
      */
-    private function getEntries(Query $query) : iterable
+    private function getEntries(Query $query) : array
     {
-        /** @var \Symfony\Component\HttpFoundation\Request $currentRequest */
-        $currentRequest = $this->requestStack->getCurrentRequest();
-        if ($currentRequest != null) {
-            try {
-                $contextEntry = $this->contentful->loadContentfulEntry($currentRequest->attributes->get("_route"));
-                $funcName = "get" . $query->getParameter('field_definition_identifier')->getValue();
-                return $contextEntry->$funcName();
-            } catch (NotFoundException $e) {
-                return [];
-            }
+        try {
+            /** @var \Symfony\Component\HttpFoundation\Request $currentRequest */
+            $currentRequest = $this->requestStack->getCurrentRequest();
+            $contextEntry = $this->contentful->loadContentfulEntry($currentRequest->attributes->get("_route"));
+            $funcName = "get" . $query->getParameter('field_definition_identifier')->getValue();
+            return $contextEntry->$funcName();
+        } catch (NotFoundException $e) {
+            return [];
         }
 
         return [];
