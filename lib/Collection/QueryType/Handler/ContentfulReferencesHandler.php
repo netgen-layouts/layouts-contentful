@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * Handler for a query which retrieves the references from Contentful entry.
  */
-final class ContentfulReferenceHandler implements QueryTypeHandlerInterface
+final class ContentfulReferencesHandler implements QueryTypeHandlerInterface
 {
     /**
      * @var \Netgen\Layouts\Contentful\Service\Contentful

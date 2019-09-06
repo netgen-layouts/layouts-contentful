@@ -16,5 +16,5 @@ parameters:
 
         # Variable method call
         -
-            message: '#Variable method call on \$object#'
-            path: lib/Collection/QueryType/Handler/ContentfulReferenceHandler.php
+            message: '#Variable method call on PHPStan\\Reflection\\ClassReflection\.#'
+            path: lib/Collection/QueryType/Handler/ContentfulReferencesHandler.php
