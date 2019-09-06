@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\Layouts\Contentful\Collection\QueryType\Handler;
 
-use Contentful\Delivery\Query as ContentfulQuery;
 use Netgen\Layouts\API\Values\Collection\Query;
 use Netgen\Layouts\Collection\QueryType\QueryTypeHandlerInterface;
 use Netgen\Layouts\Contentful\Service\Contentful;
 use Netgen\Layouts\Parameters\ParameterBuilderInterface;
 use Netgen\Layouts\Parameters\ParameterType;
+use Netgen\Layouts\Contentful\Exception\NotFoundException;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -45,8 +47,13 @@ final class ContentfulReferenceHandler implements QueryTypeHandlerInterface
     public function getValues(Query $query, int $offset = 0, ?int $limit = null) : iterable
     {
         $contentenfulReferenceEntries = [];
-        foreach ($this->getEntries($query) as $reference) {
-            $contentenfulReferenceEntries[] = $this->contentful->loadContentfulEntry($reference->getSpace()->getId() ."|". $reference->getId());
+        try {
+            /** @var \Contentful\Delivery\Resource\Entry $entry */
+            foreach ($this->getEntries($query) as $entry) {
+                $contentenfulReferenceEntries[] = $this->contentful->loadContentfulEntry($entry->getSpace()->getId() . "|" . $entry->getId());
+            }
+        } catch (NotFoundException $e) {
+            return [];
         }
 
         return $contentenfulReferenceEntries;
@@ -64,14 +71,10 @@ final class ContentfulReferenceHandler implements QueryTypeHandlerInterface
 
     /**
      * Return filtered offset value to use.
-     *
-     * @param int $offset
-     *
-     * @return int
      */
-    private function getOffset($offset) : int
+    private function getOffset(int $offset) : int
     {
-        if (is_int($offset) && $offset >= 0) {
+        if ($offset >= 0) {
             return $offset;
         }
 
@@ -80,33 +83,33 @@ final class ContentfulReferenceHandler implements QueryTypeHandlerInterface
 
     /**
      * Return filtered limit value to use.
-     *
-     * @param int $limit
-     *
-     * @return int
      */
-    private function getLimit($limit) : int
+    private function getLimit(int $limit) : int
     {
-        if (is_int($limit) && $limit >= 0) {
+        if ($limit >= 0) {
             return $limit;
         }
 
-        return null;
+        return 0;
     }
 
     /**
      * Gets context entry from current parameters.
-     *
-     * @param \Netgen\Layouts\API\Values\Collection\Query $query
-     *
-     * @return \Contentful\Delivery\EntryInterface[]
      */
     private function getEntries(Query $query) : iterable
     {
+        /** @var \Symfony\Component\HttpFoundation\Request $currentRequest */
         $currentRequest = $this->requestStack->getCurrentRequest();
-        $contextEntry = $this->contentful->loadContentfulEntry($currentRequest->attributes->get("_route"));
-        $funcName = "get". $query->getParameter('field_definition_identifier')->getValue();
+        if ($currentRequest != null) {
+            try {
+                $contextEntry = $this->contentful->loadContentfulEntry($currentRequest->attributes->get("_route"));
+                $funcName = "get" . $query->getParameter('field_definition_identifier')->getValue();
+                return $contextEntry->$funcName();
+            } catch (NotFoundException $e) {
+                return [];
+            }
+        }
 
-        return $contextEntry->$funcName();
+        return [];
     }
 }
