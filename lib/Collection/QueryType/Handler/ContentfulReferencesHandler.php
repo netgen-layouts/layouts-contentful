@@ -71,43 +71,22 @@ final class ContentfulReferencesHandler implements QueryTypeHandlerInterface
     }
 
     /**
-     * Return filtered offset value to use.
-     */
-    private function getOffset(int $offset): int
-    {
-        if ($offset >= 0) {
-            return $offset;
-        }
-
-        return 0;
-    }
-
-    /**
-     * Return filtered limit value to use.
-     */
-    private function getLimit(int $limit): int
-    {
-        if ($limit >= 0) {
-            return $limit;
-        }
-
-        return 0;
-    }
-
-    /**
      * Gets context entry from current parameters.
      */
     private function getEntries(Query $query): array
     {
+        $currentRequest = $this->requestStack->getCurrentRequest();
+        if ($currentRequest === null) {
+            return [];
+        }
+
         try {
-            /** @var \Symfony\Component\HttpFoundation\Request $currentRequest */
-            $currentRequest = $this->requestStack->getCurrentRequest();
             $contextEntry = $this->contentful->loadContentfulEntry($currentRequest->attributes->get('_route'));
             $funcName = 'get' . $query->getParameter('field_definition_identifier')->getValue();
 
             return $contextEntry->{$funcName}();
         } catch (NotFoundException $e) {
-            return [];
+            // Do nothing
         }
 
         return [];
