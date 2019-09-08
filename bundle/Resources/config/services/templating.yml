@@ -14,7 +14,7 @@ services:
             - { name: twig.runtime }
 
     netgen_layouts.contentful.templating.twig.extension.markdown.engine:
-        class: Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine
+        class: Aptoma\Twig\Extension\MarkdownEngine\ParsedownEngine
 
     netgen_layouts.contentful.templating.twig.extension.markdown:
         class: Aptoma\Twig\Extension\MarkdownExtension
