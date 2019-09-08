@@ -1,3 +1,5 @@
 query_types:
     contentful_search:
         name: 'Contentful search'
+    contentful_references:
+        name: 'Contentful references'
