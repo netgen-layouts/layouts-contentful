@@ -68,7 +68,7 @@ cmf_routing:
             router.default: 200
             cmf_routing.dynamic_router: 100
     dynamic:
-        default_controller: 'nglayouts_contentful:view'
+        default_controller: netgen_layouts.contentful.controller.view
         persistence:
             orm:
                 enabled: true

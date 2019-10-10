@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace Netgen\Bundle\LayoutsContentfulBundle\Controller;
 
-use Contentful\Delivery\Client\ClientInterface;
-use Contentful\Delivery\Resource\DeletedEntry;
-use Contentful\Delivery\Resource\Entry;
 use Netgen\Bundle\LayoutsBundle\Controller\AbstractController;
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Service\Contentful;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Throwable;
 
+/**
+ * @deprecated Deprecated since 1.1. Use ViewController or WebhookController instead.
+ */
 final class ContentfulController extends AbstractController
 {
     // Contentful topic constants (sent as X-Contentful-Topic header)
@@ -44,16 +41,7 @@ final class ContentfulController extends AbstractController
      */
     public function view(ContentfulEntry $contentDocument): Response
     {
-        if (!$contentDocument->getIsPublished() || $contentDocument->getIsDeleted()) {
-            throw new NotFoundHttpException();
-        }
-
-        return $this->render(
-            '@NetgenLayoutsContentful/contentful/content.html.twig',
-            [
-                'content' => $contentDocument,
-            ]
-        );
+        return (new ViewController())($contentDocument);
     }
 
     /**
@@ -63,62 +51,6 @@ final class ContentfulController extends AbstractController
      */
     public function webhook(Request $request): Response
     {
-        $content = (string) $request->getContent();
-        $spaceId = $request->headers->get('X-Space-Id');
-        $spaceId = is_array($spaceId) ? $spaceId[0] : $spaceId;
-
-        try {
-            /** @var (\Contentful\Delivery\Client\ClientInterface&\Contentful\Delivery\Client\JsonDecoderClientInterface)|null $client */
-            $client = $this->contentful->getClientBySpaceId((string) $spaceId);
-        } catch (Throwable $t) {
-            throw new BadRequestHttpException('Invalid request');
-        }
-
-        if (!$client instanceof ClientInterface) {
-            throw new BadRequestHttpException('Invalid request');
-        }
-
-        try {
-            $remoteEntry = $client->parseJson($content);
-        } catch (Throwable $t) {
-            throw new BadRequestHttpException('Invalid request');
-        }
-
-        switch ($request->headers->get('X-Contentful-Topic')) {
-            case self::ENTRY_PUBLISH:
-                if (!$remoteEntry instanceof Entry) {
-                    throw new BadRequestHttpException('Invalid request');
-                }
-
-                $this->contentful->refreshContentfulEntry($remoteEntry);
-
-                break;
-            case self::ENTRY_UNPUBLISH:
-                if (!$remoteEntry instanceof DeletedEntry) {
-                    throw new BadRequestHttpException('Invalid request');
-                }
-
-                $this->contentful->unpublishContentfulEntry($remoteEntry);
-
-                break;
-            case self::ENTRY_DELETE:
-                if (!$remoteEntry instanceof DeletedEntry) {
-                    throw new BadRequestHttpException('Invalid request');
-                }
-
-                $this->contentful->deleteContentfulEntry($remoteEntry);
-
-                break;
-            case self::CONTENT_TYPE_PUBLISH:
-            case self::CONTENT_TYPE_UNPUBLISH:
-            case self::CONTENT_TYPE_DELETE:
-                $this->contentful->refreshContentTypeCache($client);
-
-                break;
-            default:
-                throw new BadRequestHttpException('Invalid request');
-        }
-
-        return new Response();
+        return (new WebhookController($this->contentful))($request);
     }
 }

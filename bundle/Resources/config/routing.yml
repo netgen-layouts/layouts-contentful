@@ -1,5 +1,4 @@
 contentful_webhook:
     path: /webhook
+    controller: netgen_layouts.contentful.controller.webhook
     methods: [GET, POST]
-    defaults:
-        _controller: 'nglayouts_contentful:webhook'
