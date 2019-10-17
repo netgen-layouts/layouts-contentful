@@ -1,0 +1,4 @@
+contentful_webhook:
+    path: /webhook
+    controller: netgen_layouts.contentful.controller.webhook
+    methods: [GET, POST]

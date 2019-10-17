@@ -35,23 +35,23 @@ final class NetgenLayoutsContentfulExtension extends Extension implements Prepen
             )
         );
 
-        $loader->load('services/**/*.yml', 'glob');
-        $loader->load('browser/services.yml');
-        $loader->load('default_settings.yml');
+        $loader->load('services/**/*.yaml', 'glob');
+        $loader->load('browser/services.yaml');
+        $loader->load('default_settings.yaml');
     }
 
     public function prepend(ContainerBuilder $container): void
     {
         $prependConfigs = [
-            'block_definitions.yml' => 'netgen_layouts',
-            'value_types.yml' => 'netgen_layouts',
-            'query_types.yml' => 'netgen_layouts',
-            'view/item_view.yml' => 'netgen_layouts',
-            'view/rule_target_view.yml' => 'netgen_layouts',
-            'view/rule_condition_view.yml' => 'netgen_layouts',
-            'view/block_view.yml' => 'netgen_layouts',
-            'browser/item_types.yml' => 'netgen_content_browser',
-            'framework/doctrine.yml' => 'doctrine',
+            'block_definitions.yaml' => 'netgen_layouts',
+            'value_types.yaml' => 'netgen_layouts',
+            'query_types.yaml' => 'netgen_layouts',
+            'view/item_view.yaml' => 'netgen_layouts',
+            'view/rule_target_view.yaml' => 'netgen_layouts',
+            'view/rule_condition_view.yaml' => 'netgen_layouts',
+            'view/block_view.yaml' => 'netgen_layouts',
+            'browser/item_types.yaml' => 'netgen_content_browser',
+            'framework/doctrine.yaml' => 'doctrine',
         ];
 
         foreach ($prependConfigs as $configFile => $prependConfig) {

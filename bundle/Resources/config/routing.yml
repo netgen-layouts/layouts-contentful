@@ -1,4 +1,4 @@
-contentful_webhook:
-    path: /webhook
-    controller: netgen_layouts.contentful.controller.webhook
-    methods: [GET, POST]
+# Deprecated, use routing.yaml file instead
+
+netgen_layouts_contentful_yaml:
+    resource: "routing.yaml"

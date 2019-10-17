@@ -82,7 +82,7 @@ Add routing configuration to your configuration:
 
 ```
 netgen_layouts_contentful:
-    resource: "@NetgenLayoutsContentfulBundle/Resources/config/routing.yml"
+    resource: "@NetgenLayoutsContentfulBundle/Resources/config/routing.yaml"
 ```
 
 ## Import the schema
@@ -100,7 +100,7 @@ It is highly recommended to secure the Netgen Layouts interface and allow only
 authenticated users in. For fresh Symfony installations the simplest way is to
 define an admin user in memory with the `ROLE_NGLAYOUTS_ADMIN` role and enable
 the HTTP basic auth firewall. Add the following parts to relevant sections of
-your `security.yml`:
+your `security.yaml`:
 
 ```
 security:
