@@ -1,11 +1,51 @@
 view:
     block_view:
         default:
-            contentful_entry_field:
-                template: "@nglayouts/block/contentful_entry_field.html.twig"
+            contentful_entry_field\string:
+                template: "@nglayouts/block/contentful_entry_field_string.html.twig"
                 match:
                     block\definition: contentful_entry_field
-                    block\view_type: contentful_entry_field
+                    block\view_type: contentful_entry_field_string
+            contentful_entry_field\number:
+                template: "@nglayouts/block/contentful_entry_field_number.html.twig"
+                match:
+                    block\definition: contentful_entry_field
+                    block\view_type: contentful_entry_field_number
+            contentful_entry_field\json:
+                template: "@nglayouts/block/contentful_entry_field_json.html.twig"
+                match:
+                    block\definition: contentful_entry_field
+                    block\view_type: contentful_entry_field_json
+            contentful_entry_field\markdown:
+                template: "@nglayouts/block/contentful_entry_field_markdown.html.twig"
+                match:
+                    block\definition: contentful_entry_field
+                    block\view_type: contentful_entry_field_markdown
+            contentful_entry_field\richtext:
+                template: "@nglayouts/block/contentful_entry_field_richtext.html.twig"
+                match:
+                    block\definition: contentful_entry_field
+                    block\view_type: contentful_entry_field_richtext
+            contentful_entry_field\datetime:
+                template: "@nglayouts/block/contentful_entry_field_datetime.html.twig"
+                match:
+                    block\definition: contentful_entry_field
+                    block\view_type: contentful_entry_field_datetime
+            contentful_entry_field\map:
+                template: "@nglayouts/block/contentful_entry_field_map.html.twig"
+                match:
+                    block\definition: contentful_entry_field
+                    block\view_type: contentful_entry_field_map
+            contentful_entry_field\assets:
+                template: "@nglayouts/block/contentful_entry_field_assets.html.twig"
+                match:
+                    block\definition: contentful_entry_field
+                    block\view_type: contentful_entry_field_assets
+            contentful_entry_field\entries:
+                template: "@nglayouts/block/contentful_entry_field_entries.html.twig"
+                match:
+                    block\definition: contentful_entry_field
+                    block\view_type: contentful_entry_field_entries
         app:
             contentful_entry_field:
                 template: "@NetgenLayoutsContentful/app/block/contentful_entry_field.html.twig"

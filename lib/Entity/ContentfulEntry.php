@@ -88,6 +88,16 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
         return $ret;
     }
 
+    public function has(string $name): bool
+    {
+        return $this->remoteEntry->has($name);
+    }
+
+    public function get(string $name)
+    {
+        return $this->remoteEntry->get($name);
+    }
+
     /**
      * Returns the entry ID.
      */

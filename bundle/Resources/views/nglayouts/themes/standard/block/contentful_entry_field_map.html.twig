@@ -1,0 +1,31 @@
+{% extends '@nglayouts/block/block.html.twig' %}
+
+{% block content %}
+
+    {% set field_identifier = block.parameter('field_identifier').value %}
+
+    {% if field_identifier is not empty %}
+        {% set css_class = 'field-' ~ field_identifier ~ ' ' ~ block.parameter('css_class').value %}
+        {% set css_id =  block.parameter('css_id').value %}
+        {% set html_element =  block.parameter('html_element').value %}
+    {% endif %}
+
+    {% set field = block.dynamicParameter('field') %}
+
+    {% block contentful_entry_field %}
+        {% if field is not empty %}
+            {% if field.type == 'geolocation' %}
+                <div class="{{ css_class }} field field-{{ field.type }}"{% if css_id is not null %} id="{{ css_id }}"{% endif %}
+                        class="nglayouts-map-embed"
+                        data-latitude="{{ field.value.lat }}"
+                        data-longitude="{{ field.value.lon }}"
+                        data-zoom="{{ block.parameter('zoom').value }}"
+                        data-map-type="{{ block.parameter('map_type').value }}"
+                        {% if block.parameter('show_marker').value %}data-show-marker{% endif %}
+                ></div>
+            {% else %}
+                {{ field_identifier }} {{ " field is not compatible with this block view"| trans }}
+            {% endif %}
+        {% endif %}
+    {% endblock %}
+{% endblock %}

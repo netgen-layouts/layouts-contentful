@@ -4,5 +4,7 @@ services:
         arguments:
             - "@netgen_layouts.contentful.service"
             - "@request_stack"
+            - "@netgen_layouts.contentful.rich_text_parser"
+            - "@netgen_layouts.item.item_builder"
         tags:
             - { name: netgen_layouts.block_definition_handler, identifier: contentful_entry_field }
