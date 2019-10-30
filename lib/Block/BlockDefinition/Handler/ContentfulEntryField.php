@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\Layouts\Contentful\Block\BlockDefinition\Handler;
 
+use Contentful\Core\Api\DateTimeImmutable;
+
 class ContentfulEntryField
 {
     /**
@@ -36,7 +38,7 @@ class ContentfulEntryField
 
         if ($this->type === 'string') {
             $datetime = date_create_immutable_from_format('Y-m-d\\TH:iP', $innerField);
-            if ($datetime == false) {
+            if (!$datetime instanceof DateTimeImmutable) {
                 $this->value = $datetime;
                 $this->type = 'datetime';
             }
