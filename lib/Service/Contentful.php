@@ -7,11 +7,11 @@ namespace Netgen\Layouts\Contentful\Service;
 use Contentful\Core\Resource\ResourceArray;
 use Contentful\Delivery\Client\ClientInterface;
 use Contentful\Delivery\Query;
+use Contentful\Delivery\Resource\Asset;
 use Contentful\Delivery\Resource\ContentType;
 use Contentful\Delivery\Resource\DeletedEntry;
 use Contentful\Delivery\Resource\Entry;
 use Contentful\Delivery\Resource\Space;
-use Contentful\Delivery\Resource\Asset;
 use Doctrine\ORM\EntityManagerInterface;
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Exception\NotFoundException;
@@ -335,6 +335,39 @@ final class Contentful
     }
 
     /**
+     * Loads the Contentful asset from provided id.
+     *
+     * @throws \Netgen\Layouts\Contentful\Exception\NotFoundException If entry could not be loaded
+     *
+     * @return \Contentful\Delivery\Resource\Asset
+     */
+    public function loadContentfulAsset(string $id): Asset
+    {
+        $idList = explode('|', $id);
+        if (count($idList) !== 2) {
+            throw new NotFoundException(
+                sprintf(
+                    'Asset ID %s not valid.',
+                    $id
+                )
+            );
+        }
+
+        $client = $this->getClientBySpaceId($idList[0]);
+
+        if ($client === null) {
+            throw new NotFoundException(
+                sprintf(
+                    'Asset ID %s not valid.',
+                    $idList[0]
+                )
+            );
+        }
+
+        return $client->getAsset($idList[1]);
+    }
+
+    /**
      * Returns the Contentful entry with provided ID from the repository.
      *
      * Returns null if entry could not be found.
@@ -389,37 +422,5 @@ final class Contentful
         }
 
         return $contentfulEntries;
-    }
-
-    /**
-     * Loads the Contentful asset from provided id.
-     *
-     * @return \Contentful\Delivery\Resource\Asset
-     * @throws \Netgen\Layouts\Contentful\Exception\NotFoundException If entry could not be loaded
-     */
-    public function loadContentfulAsset(string $id): Asset
-    {
-        $idList = explode('|', $id);
-        if (count($idList) !== 2) {
-            throw new NotFoundException(
-                sprintf(
-                    'Asset ID %s not valid.',
-                    $id
-                )
-            );
-        }
-
-        $client = $this->getClientBySpaceId($idList[0]);
-
-        if ($client === null) {
-            throw new NotFoundException(
-                sprintf(
-                    'Asset ID %s not valid.',
-                    $idList[0]
-                )
-            );
-        }
-
-        return $client->getAsset($idList[1]);
     }
 }

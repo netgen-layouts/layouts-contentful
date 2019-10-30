@@ -6,17 +6,16 @@ namespace Netgen\Layouts\Contentful\Block\BlockDefinition\Handler;
 
 use Contentful\Delivery\Resource\Asset;
 use Contentful\RichText\Node\NodeInterface;
+use Contentful\RichText\Parser;
 use Netgen\Layouts\API\Values\Block\Block;
 use Netgen\Layouts\Block\BlockDefinition\BlockDefinitionHandler;
 use Netgen\Layouts\Block\DynamicParameters;
-use Netgen\Layouts\Contentful\Exception\NotFoundException;
+use Netgen\Layouts\Collection\Result\Result;
 use Netgen\Layouts\Contentful\Service\Contentful;
+use Netgen\Layouts\Item\CmsItemBuilderInterface;
 use Netgen\Layouts\Parameters\ParameterBuilderInterface;
 use Netgen\Layouts\Parameters\ParameterType;
-use Netgen\Layouts\Item\CmsItemBuilderInterface;
-use Netgen\Layouts\Collection\Result\Result;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Contentful\RichText\Parser;
 use Throwable;
 
 final class EntryFieldHandler extends BlockDefinitionHandler
@@ -47,7 +46,6 @@ final class EntryFieldHandler extends BlockDefinitionHandler
         $this->requestStack = $requestStack;
         $this->richTextParser = $parser;
         $this->cmsItemBuilder = $cmsItemBuilder;
-
     }
 
     public function buildParameters(ParameterBuilderInterface $builder): void
@@ -64,7 +62,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
                 'required' => true,
                 'default_value' => 0,
                 'min' => 0,
-                'max' => 4096
+                'max' => 4096,
             ]
         );
 
@@ -75,7 +73,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
                 'required' => true,
                 'default_value' => 0,
                 'min' => 0,
-                'max' => 4096
+                'max' => 4096,
             ]
         );
 
@@ -121,11 +119,11 @@ final class EntryFieldHandler extends BlockDefinitionHandler
             ParameterType\ChoiceType::class,
             [
                 'required' => true,
-                'options' => array(
-                    "ROADMAP" => "block.map.map_type.roadmap",
-                    "SATELLITE" => "block.map.map_type.satellite",
-                    "HYBRID" => "block.map.map_type.hybrid",
-                    "TERRAIN" => "block.map.map_type.terrain")
+                'options' => [
+                    'ROADMAP' => 'block.map.map_type.roadmap',
+                    'SATELLITE' => 'block.map.map_type.satellite',
+                    'HYBRID' => 'block.map.map_type.hybrid',
+                    'TERRAIN' => 'block.map.map_type.terrain', ],
             ]
         );
 
@@ -148,42 +146,41 @@ final class EntryFieldHandler extends BlockDefinitionHandler
         $contentfulEntry = $currentRequest->attributes->get('contentDocument');
         $params['content'] = $contentfulEntry;
 
-        if (!$contentfulEntry->has( $block->getParameter('field_identifier')->getValue()))
+        if (!$contentfulEntry->has($block->getParameter('field_identifier')->getValue())) {
             return;
-
-        $innerField = $contentfulEntry->get( $block->getParameter('field_identifier')->getValue());
+        }
+        $innerField = $contentfulEntry->get($block->getParameter('field_identifier')->getValue());
 
         $field = new ContentfulEntryField($innerField);
 
         if (!$field->isValueSet() && is_array($innerField)) {
             try {
-                if (array_key_exists("content", $innerField) && array_key_exists("nodeType", $innerField)) {
-                    $field->setValue($this->loadRichText($innerField), "richtext");
-
-                } elseif (array_key_exists("lon", $innerField) && array_key_exists("lat", $innerField)) {
-                    $field->setValue($innerField,"geolocation");
-
-                } elseif (array_key_exists("sys", $innerField)) {
-                    if ($innerField["sys"]["linkType"] == "Entry")
-                        $field->setValue( $this->loadEntry($innerField, $contentfulEntry->getSpace()),"entry");
-                    if ($innerField["sys"]["linkType"] == "Asset")
-                        $field->setValue( $this->loadAsset($innerField, $contentfulEntry->getSpace()), "asset");
-
-                } elseif (array_keys($innerField) === range(0, count($innerField) - 1))  {
-                    $fieldValues = array();
-                    $fieldType = "entries";
+                if (array_key_exists('content', $innerField) && array_key_exists('nodeType', $innerField)) {
+                    $field->setValue($this->loadRichText($innerField), 'richtext');
+                } elseif (array_key_exists('lon', $innerField) && array_key_exists('lat', $innerField)) {
+                    $field->setValue($innerField, 'geolocation');
+                } elseif (array_key_exists('sys', $innerField)) {
+                    if ($innerField['sys']['linkType'] === 'Entry') {
+                        $field->setValue($this->loadEntry($innerField, $contentfulEntry->getSpace()), 'entry');
+                    }
+                    if ($innerField['sys']['linkType'] === 'Asset') {
+                        $field->setValue($this->loadAsset($innerField, $contentfulEntry->getSpace()), 'asset');
+                    }
+                } elseif (array_keys($innerField) === range(0, count($innerField) - 1)) {
+                    $fieldValues = [];
+                    $fieldType = 'entries';
                     foreach ($innerField as $inner) {
-                        if ($inner["sys"]["linkType"] == "Entry") {
+                        if ($inner['sys']['linkType'] === 'Entry') {
                             $fieldValues[] = $this->loadEntry($inner, $contentfulEntry->getSpace());
                         }
-                        if ($inner["sys"]["linkType"] == "Asset") {
+                        if ($inner['sys']['linkType'] === 'Asset') {
                             $fieldValues[] = $this->loadAsset($inner, $contentfulEntry->getSpace());
-                            $fieldType = "assets";
+                            $fieldType = 'assets';
                         }
                     }
                     $field->setValue($fieldValues, $fieldType);
                 } else {
-                    $field->setValue($innerField, "json");
+                    $field->setValue($innerField, 'json');
                 }
             } catch (Throwable $t) {
                 // Do nothing
@@ -198,12 +195,11 @@ final class EntryFieldHandler extends BlockDefinitionHandler
         return true;
     }
 
-
-
     /**
      * @param array $innerField
      */
-    private function loadRichText($innerField): NodeInterface {
+    private function loadRichText($innerField): NodeInterface
+    {
         return $this->richTextParser->parse($innerField);
     }
 
@@ -211,8 +207,10 @@ final class EntryFieldHandler extends BlockDefinitionHandler
      * @param array $innerField
      * @param \Contentful\Delivery\Resource\Space $space
      */
-    private function loadEntry($innerField, $space): Result {
-        $entry = $this->contentful->loadContentfulEntry($space->getId() . '|' . $innerField["sys"]["id"]);
+    private function loadEntry($innerField, $space): Result
+    {
+        $entry = $this->contentful->loadContentfulEntry($space->getId() . '|' . $innerField['sys']['id']);
+
         return new Result(0, $this->cmsItemBuilder->build($entry));
     }
 
@@ -220,8 +218,8 @@ final class EntryFieldHandler extends BlockDefinitionHandler
      * @param array $innerField
      * @param \Contentful\Delivery\Resource\Space $space
      */
-    private function loadAsset($innerField, $space): Asset {
-        return $this->contentful->loadContentfulAsset($space->getId() .'|'. $innerField["sys"]["id"]);
+    private function loadAsset($innerField, $space): Asset
+    {
+        return $this->contentful->loadContentfulAsset($space->getId() . '|' . $innerField['sys']['id']);
     }
-
 }
