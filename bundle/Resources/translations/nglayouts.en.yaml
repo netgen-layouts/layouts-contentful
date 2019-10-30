@@ -1,4 +1,15 @@
 block.contentful_entry_field.field_identifier: 'Field identifier'
+block.contentful_entry_field.date_format: 'Date and time format'
+block.contentful_entry_field.zoom: 'Zoom'
+block.contentful_entry_field.map_type: 'Map Type'
+block.contentful_entry_field.show_marker: 'Show marker'
+block.contentful_entry_field.width: 'Width'
+block.contentful_entry_field.height: 'Height'
+
+block.contentful_entry_field.map_type.roadmap: 'Roadmap'
+block.contentful_entry_field.map_type.satellite: 'Satellite'
+block.contentful_entry_field.map_type.hybrid: 'Hybrid'
+block.contentful_entry_field.map_type.terrain: 'Terrain'
 
 query.contentful_search.space: 'Space'
 query.contentful_search.search_text: 'Search term'
