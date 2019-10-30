@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\Layouts\Contentful\Block\BlockDefinition\Handler;
 
+use Contentful\Delivery\Resource\Asset;
+use Contentful\RichText\Node\NodeInterface;
 use Netgen\Layouts\API\Values\Block\Block;
 use Netgen\Layouts\Block\BlockDefinition\BlockDefinitionHandler;
 use Netgen\Layouts\Block\DynamicParameters;
@@ -201,7 +203,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
     /**
      * @param array $innerField
      */
-    private function loadRichText($innerField) {
+    private function loadRichText($innerField): NodeInterface {
         return $this->richTextParser->parse($innerField);
     }
 
@@ -209,7 +211,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
      * @param array $innerField
      * @param \Contentful\Delivery\Resource\Space $space
      */
-    private function loadEntry($innerField, $space) {
+    private function loadEntry($innerField, $space): Result {
         $entry = $this->contentful->loadContentfulEntry($space->getId() . '|' . $innerField["sys"]["id"]);
         return new Result(0, $this->cmsItemBuilder->build($entry));
     }
@@ -218,7 +220,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
      * @param array $innerField
      * @param \Contentful\Delivery\Resource\Space $space
      */
-    private function loadAsset($innerField, $space) {
+    private function loadAsset($innerField, $space): Asset {
         return $this->contentful->loadContentfulAsset($space->getId() .'|'. $innerField["sys"]["id"]);
     }
 

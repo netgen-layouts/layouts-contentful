@@ -7,12 +7,12 @@ namespace Netgen\Layouts\Contentful\Block\BlockDefinition\Handler;
 
 class ContentfulEntryField
 {
-    /*
+    /**
      * @var mixed
      */
     private $innerField;
 
-    /*
+    /**
      * @var mixed
      */
     public $value;
@@ -23,6 +23,9 @@ class ContentfulEntryField
     public $type;
 
 
+    /**
+     * @param mixed $innerField
+     */
     public function __construct($innerField)
     {
         $this->innerField = $innerField;
@@ -36,18 +39,22 @@ class ContentfulEntryField
 
         if ( $this->type == "string") {
             $datetime = date_create_from_format("Y-m-d\TH:iP", $innerField);
-            if ($datetime) {
+            if ($datetime === false) {
                 $this->value = $datetime;
                 $this->type = "datetime";
             }
         }
     }
 
-    public function isValueSet() {
+    public function isValueSet(): bool {
         return !is_null($this->value);
     }
 
-    public function setValue($value, $type) {
+    /**
+     * @param mixed $value
+     * @param string $type
+     */
+    public function setValue($value, $type): void {
         if (!is_null($value)) {
             $this->value = $value;
             $this->type = $type;
