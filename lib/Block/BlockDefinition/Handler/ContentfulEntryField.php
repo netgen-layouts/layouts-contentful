@@ -36,7 +36,7 @@ class ContentfulEntryField
 
         if ($this->type === 'string') {
             $datetime = date_create_immutable_from_format('Y-m-d\\TH:iP', $innerField);
-            if ($datetime === false) {
+            if ($datetime == false) {
                 $this->value = $datetime;
                 $this->type = 'datetime';
             }
