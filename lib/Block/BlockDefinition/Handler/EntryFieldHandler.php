@@ -6,7 +6,7 @@ namespace Netgen\Layouts\Contentful\Block\BlockDefinition\Handler;
 
 use Contentful\Delivery\Resource\Asset;
 use Contentful\RichText\Node\NodeInterface;
-use Contentful\RichText\Parser;
+use Contentful\RichText\ParserInterface;
 use Netgen\Layouts\API\Values\Block\Block;
 use Netgen\Layouts\Block\BlockDefinition\BlockDefinitionHandler;
 use Netgen\Layouts\Block\DynamicParameters;
@@ -31,7 +31,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
     private $requestStack;
 
     /**
-     * @var \Contentful\RichText\Parser
+     * @var \Contentful\RichText\ParserInterface
      */
     private $richTextParser;
 
@@ -40,8 +40,12 @@ final class EntryFieldHandler extends BlockDefinitionHandler
      */
     private $cmsItemBuilder;
 
-    public function __construct(Contentful $contentful, RequestStack $requestStack, Parser $parser, CmsItemBuilderInterface $cmsItemBuilder)
-    {
+    public function __construct(
+        Contentful $contentful,
+        RequestStack $requestStack,
+        ParserInterface $parser,
+        CmsItemBuilderInterface $cmsItemBuilder
+    ) {
         $this->contentful = $contentful;
         $this->requestStack = $requestStack;
         $this->richTextParser = $parser;
