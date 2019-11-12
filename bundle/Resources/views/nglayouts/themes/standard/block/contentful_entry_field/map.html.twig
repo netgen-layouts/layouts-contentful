@@ -1,7 +1,6 @@
 {% extends '@nglayouts/block/block.html.twig' %}
 
 {% block content %}
-
     {% set field_identifier = block.parameter('field_identifier').value %}
 
     {% if field_identifier is not empty %}
@@ -24,7 +23,7 @@
                         {% if block.parameter('show_marker').value %}data-show-marker{% endif %}
                 ></div>
             {% else %}
-                {{ field_identifier }} {{ " field is not compatible with this block view"| trans }}
+                {{ 'contentful.field_not_compatible'|trans({'%field_identifier%': field_identifier}, 'contentful') }}
             {% endif %}
         {% endif %}
     {% endblock %}

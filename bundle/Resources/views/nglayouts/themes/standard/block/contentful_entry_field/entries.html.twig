@@ -1,7 +1,6 @@
 {% extends '@nglayouts/block/block.html.twig' %}
 
 {% block content %}
-
     {% set field_identifier = block.parameter('field_identifier').value %}
 
     {% if field_identifier is not empty %}
@@ -13,12 +12,18 @@
 
     {% block contentful_entry_field %}
         {% if field is not empty %}
-            {% if field.type == 'richtext' %}
+            {% if field.type == 'entry' %}
                 <div class="{{ css_class }} field field-{{ field.type }}"{% if css_id is not null %} id="{{ css_id }}"{% endif %}>
-                    {{ rich_text_render_collection(field.value.content) }}
+                    {{ nglayouts_render_result(field.value, "standard") }}
+                </div>
+            {% elseif field.type == 'entries' %}
+                <div class="{{ css_class }} field field-{{ field.type }}"{% if css_id is not null %} id="{{ css_id }}"{% endif %}>
+                {% for entry in field.value %}
+                    {{ nglayouts_render_result(entry, "standard") }}
+                {% endfor %}
                 </div>
             {% else %}
-                {{ field_identifier }} {{ " field is not compatible with this block view"| trans }}
+                {{ 'contentful.field_not_compatible'|trans({'%field_identifier%': field_identifier}, 'contentful') }}
             {% endif %}
         {% endif %}
     {% endblock %}
