@@ -46,7 +46,7 @@ final class ContentfulEntryField
 
         if ($this->type === self::TYPE_STRING) {
             $dateTime = DateTimeImmutable::createFromFormat('Y-m-d\\TH:iP', $innerField);
-            if (!$dateTime instanceof DateTimeInterface) {
+            if ($dateTime instanceof DateTimeInterface) {
                 $this->value = $dateTime;
                 $this->type = self::TYPE_DATETIME;
             }
