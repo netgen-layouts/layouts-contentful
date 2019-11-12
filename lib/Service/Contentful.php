@@ -335,9 +335,9 @@ final class Contentful
     }
 
     /**
-     * Loads the Contentful asset from provided id.
+     * Loads the Contentful asset from provided ID.
      *
-     * @throws \Netgen\Layouts\Contentful\Exception\NotFoundException If entry could not be loaded
+     * @throws \Netgen\Layouts\Contentful\Exception\NotFoundException If asset could not be loaded
      *
      * @return \Contentful\Delivery\Resource\Asset
      */
@@ -347,7 +347,7 @@ final class Contentful
         if (count($idList) !== 2) {
             throw new NotFoundException(
                 sprintf(
-                    'Asset ID %s not valid.',
+                    'Asset ID "%s" not valid.',
                     $id
                 )
             );
@@ -358,7 +358,7 @@ final class Contentful
         if ($client === null) {
             throw new NotFoundException(
                 sprintf(
-                    'Asset ID %s not valid.',
+                    'Space ID "%s" not valid.',
                     $idList[0]
                 )
             );
