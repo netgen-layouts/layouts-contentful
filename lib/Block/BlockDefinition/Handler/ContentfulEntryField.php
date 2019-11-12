@@ -9,6 +9,20 @@ use DateTimeInterface;
 
 final class ContentfulEntryField
 {
+    public const TYPE_ARRAY = 'array';
+    public const TYPE_ASSET = 'asset';
+    public const TYPE_ASSETS = 'assets';
+    public const TYPE_BOOLEAN = 'boolean';
+    public const TYPE_DATETIME = 'datetime';
+    public const TYPE_DOUBLE = 'double';
+    public const TYPE_ENTRIES = 'entries';
+    public const TYPE_ENTRY = 'entry';
+    public const TYPE_GEOLOCATION = 'geolocation';
+    public const TYPE_INTEGER = 'integer';
+    public const TYPE_JSON = 'json';
+    public const TYPE_RICHTEXT = 'richtext';
+    public const TYPE_STRING = 'string';
+
     /**
      * @var mixed
      */
@@ -26,15 +40,15 @@ final class ContentfulEntryField
     {
         $this->type = gettype($innerField);
 
-        if ($this->type !== 'array') {
+        if ($this->type !== self::TYPE_ARRAY) {
             $this->value = $innerField;
         }
 
-        if ($this->type === 'string') {
+        if ($this->type === self::TYPE_STRING) {
             $dateTime = DateTimeImmutable::createFromFormat('Y-m-d\\TH:iP', $innerField);
             if (!$dateTime instanceof DateTimeInterface) {
                 $this->value = $dateTime;
-                $this->type = 'datetime';
+                $this->type = self::TYPE_DATETIME;
             }
         }
     }
