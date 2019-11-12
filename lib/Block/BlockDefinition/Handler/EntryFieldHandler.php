@@ -98,7 +98,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
         );
 
         $builder->add(
-            'date_format',
+            'datetime_format',
             ParameterType\TextLineType::class,
             [
                 'required' => true,

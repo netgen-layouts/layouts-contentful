@@ -40,7 +40,7 @@ block_definitions:
                 valid_parameters:
                     - 'field_identifier'
                     - 'html_element'
-                    - 'date_format'
+                    - 'datetime_format'
                     - 'css_id'
                     - 'css_class'
             map:

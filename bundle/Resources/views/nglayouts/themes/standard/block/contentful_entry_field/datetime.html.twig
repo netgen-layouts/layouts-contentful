@@ -15,7 +15,7 @@
         {% if field is not empty %}
             {% if field.type == constant('TYPE_DATEIME', field) %}
                 <{{ html_element }} class="{{ css_class }} field field-{{ field.type }}"{% if css_id is not null %} id="{{ css_id }}"{% endif %}>
-                {{ field.value|date(block.parameter('date_format').value)  }}
+                {{ field.value|date(block.parameter('datetime_format').value)  }}
                 </{{ html_element }}>
             {% else %}
                 {{ 'contentful.field_not_compatible'|trans({'%field_identifier%': field_identifier}, 'contentful') }}
