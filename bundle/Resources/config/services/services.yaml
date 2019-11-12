@@ -41,5 +41,3 @@ services:
         class: Contentful\RichText\Parser
         arguments:
             - "@netgen_layouts.contentful.link_resolver"
-
-
