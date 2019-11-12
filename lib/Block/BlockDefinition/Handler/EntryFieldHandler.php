@@ -153,7 +153,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
 
         $field = new ContentfulEntryField($innerField);
 
-        if (!$field->isValueSet() && is_array($innerField)) {
+        if (is_array($innerField) && !$field->hasValue()) {
             try {
                 if (array_key_exists('content', $innerField) && array_key_exists('nodeType', $innerField)) {
                     $field->setValue($this->loadRichText($innerField), 'richtext');

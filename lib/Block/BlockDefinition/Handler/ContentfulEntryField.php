@@ -5,58 +5,77 @@ declare(strict_types=1);
 namespace Netgen\Layouts\Contentful\Block\BlockDefinition\Handler;
 
 use Contentful\Core\Api\DateTimeImmutable;
+use DateTimeInterface;
 
-class ContentfulEntryField
+final class ContentfulEntryField
 {
     /**
      * @var mixed
      */
-    public $value;
+    private $value;
 
     /**
      * @var string
      */
-    public $type;
-    /**
-     * @var mixed
-     */
-    private $innerField;
+    private $type;
 
     /**
      * @param mixed $innerField
      */
     public function __construct($innerField)
     {
-        $this->innerField = $innerField;
-
         $this->type = gettype($innerField);
 
-        $this->value = null;
         if ($this->type !== 'array') {
             $this->value = $innerField;
         }
 
         if ($this->type === 'string') {
-            $datetime = date_create_immutable_from_format('Y-m-d\\TH:iP', $innerField);
-            if (!$datetime instanceof DateTimeImmutable) {
-                $this->value = $datetime;
+            $dateTime = DateTimeImmutable::createFromFormat('Y-m-d\\TH:iP', $innerField);
+            if (!$dateTime instanceof DateTimeInterface) {
+                $this->value = $dateTime;
                 $this->type = 'datetime';
             }
         }
     }
 
-    public function isValueSet(): bool
+    /**
+     * Returns the value of the field.
+     *
+     * @retun mixed
+     */
+    public function getValue()
     {
-        return null !== $this->value;
+        return $this->value;
     }
 
     /**
+     * Returns the type of the field.
+     *
+     * @retun mixed
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * Returns if the field has a value.
+     */
+    public function hasValue(): bool
+    {
+        return $this->value !== null;
+    }
+
+    /**
+     * Sets the value to the field.
+     *
      * @param mixed $value
      * @param string $type
      */
-    public function setValue($value, $type): void
+    public function setValue($value, string $type): void
     {
-        if (null !== $value) {
+        if ($value !== null) {
             $this->value = $value;
             $this->type = $type;
         }
