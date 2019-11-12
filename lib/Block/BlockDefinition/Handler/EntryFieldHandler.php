@@ -90,7 +90,6 @@ final class EntryFieldHandler extends BlockDefinitionHandler
                     'Heading 3' => 'h3',
                 ],
                 'multiple' => false,
-                'label' => 'Use HTML element',
             ]
         );
 
@@ -99,7 +98,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
             ParameterType\TextLineType::class,
             [
                 'required' => true,
-                'default_value' => 'd/m/Y',
+                'default_value' => 'Y-m-d',
             ]
         );
 
@@ -120,10 +119,11 @@ final class EntryFieldHandler extends BlockDefinitionHandler
             [
                 'required' => true,
                 'options' => [
-                    'ROADMAP' => 'block.map.map_type.roadmap',
-                    'SATELLITE' => 'block.map.map_type.satellite',
-                    'HYBRID' => 'block.map.map_type.hybrid',
-                    'TERRAIN' => 'block.map.map_type.terrain', ],
+                    'ROADMAP' => 'block.contentful_entry_field.map_type.roadmap',
+                    'SATELLITE' => 'block.contentful_entry_field.map_type.satellite',
+                    'HYBRID' => 'block.contentful_entry_field.map_type.hybrid',
+                    'TERRAIN' => 'block.contentful_entry_field.map_type.terrain',
+                ],
             ]
         );
 
