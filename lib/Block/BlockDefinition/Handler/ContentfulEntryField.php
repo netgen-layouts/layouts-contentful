@@ -56,7 +56,7 @@ final class ContentfulEntryField
     /**
      * Returns the value of the field.
      *
-     * @retun mixed
+     * @return mixed
      */
     public function getValue()
     {
