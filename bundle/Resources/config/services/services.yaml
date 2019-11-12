@@ -31,3 +31,13 @@ services:
         class: Netgen\Layouts\Contentful\Routing\EntrySlugger\WithSpace
         tags:
             - { name: netgen_layouts.contentful.entry_slugger, type: with_space }
+
+    netgen_layouts.contentful.link_resolver:
+        class: Contentful\Delivery\LinkResolver
+        arguments:
+            - "@contentful.delivery.main_client"
+
+    netgen_layouts.contentful.rich_text_parser:
+        class: Contentful\RichText\Parser
+        arguments:
+            - "@netgen_layouts.contentful.link_resolver"

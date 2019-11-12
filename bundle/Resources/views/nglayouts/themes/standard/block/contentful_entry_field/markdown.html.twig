@@ -1,0 +1,24 @@
+{% extends '@nglayouts/block/block.html.twig' %}
+
+{% block content %}
+    {% set field_identifier = block.parameter('field_identifier').value %}
+
+    {% if field_identifier is not empty %}
+        {% set css_class = 'field-' ~ field_identifier ~ ' ' ~ block.parameter('css_class').value %}
+        {% set css_id =  block.parameter('css_id').value %}
+    {% endif %}
+
+    {% set field = block.dynamicParameter('field') %}
+
+    {% block contentful_entry_field %}
+        {% if field is not empty %}
+            {% if field.type == constant('TYPE_STRING', field) %}
+                <div class="{{ css_class }} field field-{{ field.type }}"{% if css_id is not null %} id="{{ css_id }}"{% endif %}>
+                    {{ field.value|markdown }}
+                </div>
+            {% else %}
+                {{ 'contentful.field_not_compatible'|trans({'%field_identifier%': field_identifier}, 'contentful') }}
+            {% endif %}
+        {% endif %}
+    {% endblock %}
+{% endblock %}

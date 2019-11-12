@@ -22,3 +22,8 @@ services:
             - "@netgen_layouts.contentful.templating.twig.extension.markdown.engine"
         tags:
             - { name: twig.extension }
+
+    netgen_layouts.contentful.templating.twig.extension.richtext:
+        class: Contentful\RichText\Bridge\TwigExtension
+        tags:
+            - { name: twig.extension }

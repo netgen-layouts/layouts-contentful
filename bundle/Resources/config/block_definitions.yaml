@@ -3,5 +3,66 @@ block_definitions:
         name: 'Contentful entry field'
         icon: '/bundles/netgenlayoutscontentful/icons/block/contentful_entry_field.svg'
         view_types:
-            contentful_entry_field:
-                name: 'Contentful entry field'
+            string:
+                name: 'String'
+                valid_parameters:
+                    - 'field_identifier'
+                    - 'html_element'
+                    - 'css_id'
+                    - 'css_class'
+            number:
+                name: 'Number'
+                valid_parameters:
+                    - 'field_identifier'
+                    - 'html_element'
+                    - 'css_id'
+                    - 'css_class'
+            json:
+                name: 'JSON'
+                valid_parameters:
+                    - 'field_identifier'
+                    - 'css_id'
+                    - 'css_class'
+            markdown:
+                name: 'Markdown'
+                valid_parameters:
+                    - 'field_identifier'
+                    - 'css_id'
+                    - 'css_class'
+            richtext:
+                name: 'Richtext'
+                valid_parameters:
+                    - 'field_identifier'
+                    - 'css_id'
+                    - 'css_class'
+            datetime:
+                name: 'Date & time'
+                valid_parameters:
+                    - 'field_identifier'
+                    - 'html_element'
+                    - 'datetime_format'
+                    - 'css_id'
+                    - 'css_class'
+            map:
+                name: 'Map'
+                valid_parameters:
+                    - 'field_identifier'
+                    - 'zoom'
+                    - 'map_type'
+                    - 'show_marker'
+                    - 'css_id'
+                    - 'css_class'
+            assets:
+                name: 'Referenced assets'
+                valid_parameters:
+                    - 'field_identifier'
+                    - 'width'
+                    - 'height'
+                    - 'css_id'
+                    - 'css_class'
+            entries:
+                name: 'Referenced entries'
+                valid_parameters:
+                    - 'field_identifier'
+                    - 'css_id'
+                    - 'css_class'
