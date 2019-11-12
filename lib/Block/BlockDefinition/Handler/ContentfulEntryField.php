@@ -65,8 +65,6 @@ final class ContentfulEntryField
 
     /**
      * Returns the type of the field.
-     *
-     * @retun mixed
      */
     public function getType(): string
     {
