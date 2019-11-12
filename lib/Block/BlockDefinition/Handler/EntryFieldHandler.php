@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Netgen\Layouts\Contentful\Block\BlockDefinition\Handler;
 
 use Contentful\Delivery\Resource\Asset;
-use Contentful\RichText\Node\NodeInterface;
+use Contentful\Delivery\Resource\Space;
 use Contentful\RichText\ParserInterface;
 use Netgen\Layouts\API\Values\Block\Block;
 use Netgen\Layouts\Block\BlockDefinition\BlockDefinitionHandler;
 use Netgen\Layouts\Block\DynamicParameters;
 use Netgen\Layouts\Collection\Result\Result;
+use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Service\Contentful;
 use Netgen\Layouts\Item\CmsItemBuilderInterface;
 use Netgen\Layouts\Parameters\ParameterBuilderInterface;
@@ -159,37 +160,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
         $field = new ContentfulEntryField($innerField);
 
         if (is_array($innerField) && !$field->hasValue()) {
-            try {
-                if (array_key_exists('content', $innerField) && array_key_exists('nodeType', $innerField)) {
-                    $field->setValue($this->loadRichText($innerField), 'richtext');
-                } elseif (array_key_exists('lon', $innerField) && array_key_exists('lat', $innerField)) {
-                    $field->setValue($innerField, 'geolocation');
-                } elseif (array_key_exists('sys', $innerField)) {
-                    if ($innerField['sys']['linkType'] === 'Entry') {
-                        $field->setValue($this->loadEntry($innerField, $contentfulEntry->getSpace()), 'entry');
-                    }
-                    if ($innerField['sys']['linkType'] === 'Asset') {
-                        $field->setValue($this->loadAsset($innerField, $contentfulEntry->getSpace()), 'asset');
-                    }
-                } elseif (array_keys($innerField) === range(0, count($innerField) - 1)) {
-                    $fieldValues = [];
-                    $fieldType = 'entries';
-                    foreach ($innerField as $inner) {
-                        if ($inner['sys']['linkType'] === 'Entry') {
-                            $fieldValues[] = $this->loadEntry($inner, $contentfulEntry->getSpace());
-                        }
-                        if ($inner['sys']['linkType'] === 'Asset') {
-                            $fieldValues[] = $this->loadAsset($inner, $contentfulEntry->getSpace());
-                            $fieldType = 'assets';
-                        }
-                    }
-                    $field->setValue($fieldValues, $fieldType);
-                } else {
-                    $field->setValue($innerField, 'json');
-                }
-            } catch (Throwable $t) {
-                // Do nothing
-            }
+            $this->setFieldValue($field, $contentfulEntry, $innerField);
         }
 
         $params['field'] = $field;
@@ -201,30 +172,59 @@ final class EntryFieldHandler extends BlockDefinitionHandler
     }
 
     /**
-     * @param array $innerField
+     * Tries to set the correct field value based on the inner field value retrieved from Contentful.
      */
-    private function loadRichText($innerField): NodeInterface
+    private function setFieldValue(ContentfulEntryField $field, ContentfulEntry $entry, array $innerField): void
     {
-        return $this->richTextParser->parse($innerField);
+        try {
+            if (array_key_exists('content', $innerField) && array_key_exists('nodeType', $innerField)) {
+                $field->setValue($this->richTextParser->parse($innerField), ContentfulEntryField::TYPE_RICHTEXT);
+            } elseif (array_key_exists('lon', $innerField) && array_key_exists('lat', $innerField)) {
+                $field->setValue($innerField, ContentfulEntryField::TYPE_GEOLOCATION);
+            } elseif (array_key_exists('sys', $innerField)) {
+                if ($innerField['sys']['linkType'] === 'Entry') {
+                    $field->setValue($this->loadEntry($entry->getSpace(), $innerField['sys']['id']), ContentfulEntryField::TYPE_ENTRY);
+                } elseif ($innerField['sys']['linkType'] === 'Asset') {
+                    $field->setValue($this->loadAsset($entry->getSpace(), $innerField['sys']['id']), ContentfulEntryField::TYPE_ASSET);
+                }
+            } elseif (array_keys($innerField) === range(0, count($innerField) - 1)) {
+                $fieldValues = [];
+                $fieldType = ContentfulEntryField::TYPE_ENTRIES;
+
+                foreach ($innerField as $subField) {
+                    if ($subField['sys']['linkType'] === 'Entry') {
+                        $fieldValues[] = $this->loadEntry($entry->getSpace(), $subField['sys']['id']);
+                    } elseif ($subField['sys']['linkType'] === 'Asset') {
+                        $fieldValues[] = $this->loadAsset($entry->getSpace(), $subField['sys']['id']);
+                        $fieldType = ContentfulEntryField::TYPE_ASSETS;
+                    }
+                }
+
+                $field->setValue($fieldValues, $fieldType);
+            } else {
+                $field->setValue($innerField, ContentfulEntryField::TYPE_JSON);
+            }
+        } catch (Throwable $t) {
+            // Do nothing
+        }
     }
 
     /**
-     * @param array $innerField
-     * @param \Contentful\Delivery\Resource\Space $space
+     * Returns the Contentful entry in the form of Netgen Layouts CMS item ready
+     * to be rendered by the block template.
      */
-    private function loadEntry($innerField, $space): Result
+    private function loadEntry(Space $space, string $id): Result
     {
-        $entry = $this->contentful->loadContentfulEntry($space->getId() . '|' . $innerField['sys']['id']);
+        $entry = $this->contentful->loadContentfulEntry($space->getId() . '|' . $id);
 
         return new Result(0, $this->cmsItemBuilder->build($entry));
     }
 
     /**
-     * @param array $innerField
-     * @param \Contentful\Delivery\Resource\Space $space
+     * Returns the Contentful asset.
      */
-    private function loadAsset($innerField, $space): Asset
+    private function loadAsset(Space $space, string $id): Asset
     {
-        return $this->contentful->loadContentfulAsset($space->getId() . '|' . $innerField['sys']['id']);
+        return $this->contentful->loadContentfulAsset($space->getId() . '|' . $id);
     }
 }
