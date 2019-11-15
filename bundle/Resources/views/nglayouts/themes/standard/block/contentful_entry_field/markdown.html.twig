@@ -12,7 +12,7 @@
 
     {% block contentful_entry_field %}
         {% if field is not empty %}
-            {% if field.type == constant('TYPE_STRING', field) %}
+            {% if field.type is constant('TYPE_STRING', field) %}
                 <div class="{{ css_class }} field field-{{ field.type }}"{% if css_id is not null %} id="{{ css_id }}"{% endif %}>
                     {{ field.value|markdown }}
                 </div>

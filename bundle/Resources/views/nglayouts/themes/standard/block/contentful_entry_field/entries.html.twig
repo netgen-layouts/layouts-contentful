@@ -12,11 +12,11 @@
 
     {% block contentful_entry_field %}
         {% if field is not empty %}
-            {% if field.type == constant('TYPE_ENTRY', field) %}
+            {% if field.type is constant('TYPE_ENTRY', field) %}
                 <div class="{{ css_class }} field field-{{ field.type }}"{% if css_id is not null %} id="{{ css_id }}"{% endif %}>
                     {{ nglayouts_render_result(field.value, null, block.itemViewType) }}
                 </div>
-            {% elseif field.type == constant('TYPE_ENTRIES', field) %}
+            {% elseif field.type is constant('TYPE_ENTRIES', field) %}
                 <div class="{{ css_class }} field field-{{ field.type }}"{% if css_id is not null %} id="{{ css_id }}"{% endif %}>
                 {% for entry in field.value %}
                     {{ nglayouts_render_result(entry, null, block.itemViewType) }}
