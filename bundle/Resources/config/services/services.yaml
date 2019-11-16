@@ -32,10 +32,21 @@ services:
         tags:
             - { name: netgen_layouts.contentful.entry_slugger, type: with_space }
 
+    netgen_layouts.contentful.client_options:
+        class: Contentful\Delivery\ClientOptions
+
+    netgen_layouts.contentful.resource_pool:
+        class: Contentful\Delivery\ResourcePool\Factory
+        factory: ['Contentful\Delivery\ResourcePool\Factory', 'create']
+        arguments:
+            - "@contentful.delivery.main_client"
+            - "@netgen_layouts.contentful.client_options"
+
     netgen_layouts.contentful.link_resolver:
         class: Contentful\Delivery\LinkResolver
         arguments:
             - "@contentful.delivery.main_client"
+            - "@netgen_layouts.contentful.resource_pool"
 
     netgen_layouts.contentful.rich_text_parser:
         class: Contentful\RichText\Parser
