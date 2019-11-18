@@ -20,6 +20,7 @@ final class ContentfulEntryField
     public const TYPE_GEOLOCATION = 'geolocation';
     public const TYPE_INTEGER = 'integer';
     public const TYPE_JSON = 'json';
+    public const TYPE_OBJECT = 'object';
     public const TYPE_RICHTEXT = 'richtext';
     public const TYPE_STRING = 'string';
 
