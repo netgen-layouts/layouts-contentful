@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\Layouts\Contentful\View\Matcher\Item;
 
+use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\View\Matcher\MatcherInterface;
 use Netgen\Layouts\View\View\ItemViewInterface;
 use Netgen\Layouts\View\ViewInterface;
@@ -16,10 +17,8 @@ final class Space implements MatcherInterface
             return false;
         }
 
-        /** @var \Netgen\Layouts\Contentful\Entity\ContentfulEntry|null $entry */
         $entry = $view->getItem()->getObject();
-
-        if ($entry === null) {
+        if (!$entry instanceof ContentfulEntry) {
             return false;
         }
 
