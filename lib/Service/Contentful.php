@@ -11,7 +11,6 @@ use Contentful\Delivery\Resource\Asset;
 use Contentful\Delivery\Resource\ContentType;
 use Contentful\Delivery\Resource\DeletedEntry;
 use Contentful\Delivery\Resource\Entry;
-use Contentful\Delivery\Resource\Space;
 use Doctrine\ORM\EntityManagerInterface;
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Exception\NotFoundException;

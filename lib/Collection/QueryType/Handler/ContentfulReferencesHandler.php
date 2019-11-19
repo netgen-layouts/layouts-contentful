@@ -46,18 +46,18 @@ final class ContentfulReferencesHandler implements QueryTypeHandlerInterface
 
     public function getValues(Query $query, int $offset = 0, ?int $limit = null): iterable
     {
-        $contentenfulReferenceEntries = [];
+        $referenceEntries = [];
 
         try {
             /** @var \Contentful\Delivery\Resource\Entry $entry */
             foreach ($this->getEntries($query) as $entry) {
-                $contentenfulReferenceEntries[] = $this->contentful->loadContentfulEntry($entry->getSpace()->getId() . '|' . $entry->getId());
+                $referenceEntries[] = $this->contentful->loadContentfulEntry($entry->getSpace()->getId() . '|' . $entry->getId());
             }
         } catch (NotFoundException $e) {
             return [];
         }
 
-        return $contentenfulReferenceEntries;
+        return $referenceEntries;
     }
 
     public function getCount(Query $query): int

@@ -81,7 +81,7 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
         try {
             /** @var callable $callable */
             $callable = [$this->remoteEntry, $name];
-            $ret = call_user_func($callable);
+            $ret = $callable();
         } catch (Throwable $t) {
         }
 
@@ -291,7 +291,7 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
 
         /** @var callable $callable */
         $callable = [$remoteEntry, 'get' . $nameField->getId()];
-        $this->name = call_user_func($callable);
+        $this->name = $callable();
     }
 
     /**
@@ -314,7 +314,7 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
 
         /** @var callable $callable */
         $callable = [$remoteEntry, 'get' . $nameField->getId()];
-        $this->name = call_user_func($callable);
+        $this->name = $callable();
 
         $this->remoteEntry = $remoteEntry;
     }

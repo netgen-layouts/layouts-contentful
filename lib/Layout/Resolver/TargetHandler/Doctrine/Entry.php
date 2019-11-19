@@ -14,7 +14,6 @@ final class Entry implements TargetHandlerInterface
     {
         $query->andWhere(
             $query->expr()->eq('rt.value', ':target_value')
-        )
-            ->setParameter('target_value', $value, Types::STRING);
+        )->setParameter('target_value', $value, Types::STRING);
     }
 }
