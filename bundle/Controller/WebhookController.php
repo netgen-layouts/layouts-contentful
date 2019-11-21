@@ -44,7 +44,6 @@ final class WebhookController extends AbstractController
     {
         $content = (string) $request->getContent();
         $spaceId = $request->headers->get('X-Space-Id');
-        $spaceId = is_array($spaceId) ? $spaceId[0] : $spaceId;
 
         try {
             /** @var (\Contentful\Delivery\Client\ClientInterface&\Contentful\Delivery\Client\JsonDecoderClientInterface)|null $client */

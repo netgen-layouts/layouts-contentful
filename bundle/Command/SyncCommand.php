@@ -44,7 +44,7 @@ final class SyncCommand extends Command
         $this->setDescription('Syncs space and content type cache');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io = new SymfonyStyle($input, $output);
 
