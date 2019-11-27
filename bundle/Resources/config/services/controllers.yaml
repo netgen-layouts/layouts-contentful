@@ -5,7 +5,8 @@ services:
         parent: netgen_layouts.controller.base
         deprecated: 'The "%service_id%" service is deprecated. Use "netgen_layouts.contentful.controller.view" or "netgen_layouts.contentful.controller.webhook" instead'
         arguments:
-            - "@netgen_layouts.contentful.service"
+            - "@netgen_layouts.contentful.controller.view"
+            - "@netgen_layouts.contentful.controller.webhook"
 
     netgen_layouts.contentful.controller.view:
         class: Netgen\Bundle\LayoutsContentfulBundle\Controller\ViewController

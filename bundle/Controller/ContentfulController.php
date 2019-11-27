@@ -6,7 +6,6 @@ namespace Netgen\Bundle\LayoutsContentfulBundle\Controller;
 
 use Netgen\Bundle\LayoutsBundle\Controller\AbstractController;
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
-use Netgen\Layouts\Contentful\Service\Contentful;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -25,13 +24,19 @@ final class ContentfulController extends AbstractController
     public const CONTENT_TYPE_DELETE = 'ContentManagement.ContentType.delete';
 
     /**
-     * @var \Netgen\Layouts\Contentful\Service\Contentful
+     * @var \Netgen\Bundle\LayoutsContentfulBundle\Controller\ViewController
      */
-    private $contentful;
+    private $viewController;
 
-    public function __construct(Contentful $contentful)
+    /**
+     * @var \Netgen\Bundle\LayoutsContentfulBundle\Controller\WebhookController
+     */
+    private $webHookController;
+
+    public function __construct(ViewController $viewController, WebhookController $webHookController)
     {
-        $this->contentful = $contentful;
+        $this->viewController = $viewController;
+        $this->webHookController = $webHookController;
     }
 
     /**
@@ -41,10 +46,7 @@ final class ContentfulController extends AbstractController
      */
     public function view(ContentfulEntry $contentDocument): Response
     {
-        $viewController = new ViewController();
-        $viewController->setContainer($this->container);
-
-        return $viewController($contentDocument);
+        return call_user_func($this->viewController, $contentDocument);
     }
 
     /**
@@ -54,9 +56,6 @@ final class ContentfulController extends AbstractController
      */
     public function webhook(Request $request): Response
     {
-        $webHookController = new WebhookController($this->contentful);
-        $webHookController->setContainer($this->container);
-
-        return $webHookController($request);
+        return call_user_func($this->webHookController, $request);
     }
 }
