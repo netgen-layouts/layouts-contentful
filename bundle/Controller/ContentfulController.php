@@ -41,7 +41,10 @@ final class ContentfulController extends AbstractController
      */
     public function view(ContentfulEntry $contentDocument): Response
     {
-        return (new ViewController())($contentDocument);
+        $viewController = new ViewController();
+        $viewController->setContainer($this->container);
+
+        return $viewController($contentDocument);
     }
 
     /**
@@ -51,6 +54,9 @@ final class ContentfulController extends AbstractController
      */
     public function webhook(Request $request): Response
     {
-        return (new WebhookController($this->contentful))($request);
+        $webHookController = new WebhookController($this->contentful);
+        $webHookController->setContainer($this->container);
+
+        return $webHookController($request);
     }
 }
