@@ -49,7 +49,6 @@ final class ContentfulReferencesHandler implements QueryTypeHandlerInterface
         $referenceEntries = [];
 
         try {
-            /** @var \Contentful\Delivery\Resource\Entry $entry */
             foreach ($this->getEntries($query) as $entry) {
                 $referenceEntries[] = $this->contentful->loadContentfulEntry($entry->getSpace()->getId() . '|' . $entry->getId());
             }
@@ -72,6 +71,8 @@ final class ContentfulReferencesHandler implements QueryTypeHandlerInterface
 
     /**
      * Gets context entry from current parameters.
+     *
+     * @return \Contentful\Delivery\Resource\Entry[]
      */
     private function getEntries(Query $query): array
     {

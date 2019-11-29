@@ -47,7 +47,7 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
     private $isDeleted = false;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \Doctrine\Common\Collections\Collection<int, \Symfony\Component\Routing\Route>
      */
     private $routes;
 
@@ -68,6 +68,8 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
     }
 
     /**
+     * @param mixed[] $arguments
+     *
      * @return mixed
      */
     public function __call(string $name, array $arguments)
@@ -194,7 +196,7 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
     /**
      * Sets the entry routes.
      *
-     * @param \Doctrine\Common\Collections\Collection $routes
+     * @param \Doctrine\Common\Collections\Collection<int, \Symfony\Component\Routing\Route> $routes
      */
     public function setRoutes(Collection $routes): void
     {
@@ -271,6 +273,9 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
         return $this->remoteEntry->getContentType();
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function jsonSerialize(): array
     {
         return $this->remoteEntry->jsonSerialize();

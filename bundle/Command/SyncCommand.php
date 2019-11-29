@@ -76,6 +76,8 @@ final class SyncCommand extends Command
 
     /**
      * Builds the local content entries from provided remote entries.
+     *
+     * @param \Contentful\Core\Resource\ResourceInterface[] $entries
      */
     private function buildContentEntries(array $entries): void
     {

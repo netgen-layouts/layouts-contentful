@@ -52,6 +52,9 @@ final class Contentful
      */
     private $cacheDir;
 
+    /**
+     * @param \Contentful\Delivery\Client\ClientInterface[] $clients
+     */
     public function __construct(
         array $clients,
         EntrySluggerInterface $entrySlugger,
@@ -180,6 +183,8 @@ final class Contentful
 
     /**
      * Returns the list of Contentful entries.
+     *
+     * @return \Netgen\Layouts\Contentful\Entity\ContentfulEntry[]
      */
     public function getContentfulEntries(int $offset = 0, ?int $limit = null, ?ClientInterface $client = null, ?Query $query = null): array
     {
@@ -206,6 +211,8 @@ final class Contentful
 
     /**
      * Searches for Contentful entries.
+     *
+     * @return \Netgen\Layouts\Contentful\Entity\ContentfulEntry[]
      */
     public function searchContentfulEntries(string $searchText, int $offset = 0, int $limit = 25, ?ClientInterface $client = null): array
     {

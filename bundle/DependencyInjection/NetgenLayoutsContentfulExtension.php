@@ -17,6 +17,9 @@ use Symfony\Component\Yaml\Yaml;
 
 final class NetgenLayoutsContentfulExtension extends Extension implements PrependExtensionInterface
 {
+    /**
+     * @param mixed[] $configs
+     */
     public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = $this->getConfiguration($configs, $container);
@@ -63,6 +66,8 @@ final class NetgenLayoutsContentfulExtension extends Extension implements Prepen
     }
 
     /**
+     * @param mixed[] $config
+     *
      * @return \Symfony\Component\Config\Definition\ConfigurationInterface
      */
     public function getConfiguration(array $config, ContainerBuilder $container)

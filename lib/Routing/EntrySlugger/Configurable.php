@@ -12,7 +12,7 @@ use Psr\Container\ContainerInterface;
 final class Configurable implements EntrySluggerInterface
 {
     /**
-     * @var array
+     * @var mixed[]
      */
     private $configuration;
 
@@ -21,6 +21,9 @@ final class Configurable implements EntrySluggerInterface
      */
     private $sluggers;
 
+    /**
+     * @param mixed[] $configuration
+     */
     public function __construct(array $configuration, ContainerInterface $sluggers)
     {
         $this->configuration = $configuration;

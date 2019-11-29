@@ -173,6 +173,8 @@ final class EntryFieldHandler extends BlockDefinitionHandler
 
     /**
      * Tries to set the correct field value based on the inner field value retrieved from Contentful.
+     *
+     * @param mixed[] $innerField
      */
     private function setFieldValue(ContentfulEntryField $field, ContentfulEntry $entry, array $innerField): void
     {
