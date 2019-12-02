@@ -10,10 +10,10 @@ use Contentful\RichText\ParserInterface;
 use Netgen\Layouts\API\Values\Block\Block;
 use Netgen\Layouts\Block\BlockDefinition\BlockDefinitionHandler;
 use Netgen\Layouts\Block\DynamicParameters;
-use Netgen\Layouts\Collection\Result\Result;
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Service\Contentful;
 use Netgen\Layouts\Item\CmsItemBuilderInterface;
+use Netgen\Layouts\Item\CmsItemInterface;
 use Netgen\Layouts\Parameters\ParameterBuilderInterface;
 use Netgen\Layouts\Parameters\ParameterType;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -215,11 +215,11 @@ final class EntryFieldHandler extends BlockDefinitionHandler
      * Returns the Contentful entry in the form of Netgen Layouts CMS item ready
      * to be rendered by the block template.
      */
-    private function loadEntry(Space $space, string $id): Result
+    private function loadEntry(Space $space, string $id): CmsItemInterface
     {
         $entry = $this->contentful->loadContentfulEntry($space->getId() . '|' . $id);
 
-        return new Result(0, $this->cmsItemBuilder->build($entry));
+        return new $this->cmsItemBuilder->build($entry);
     }
 
     /**
