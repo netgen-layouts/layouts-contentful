@@ -219,7 +219,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
     {
         $entry = $this->contentful->loadContentfulEntry($space->getId() . '|' . $id);
 
-        return new $this->cmsItemBuilder->build($entry);
+        return $this->cmsItemBuilder->build($entry);
     }
 
     /**
