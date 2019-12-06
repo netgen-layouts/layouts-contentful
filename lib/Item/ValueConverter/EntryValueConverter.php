@@ -7,6 +7,9 @@ namespace Netgen\Layouts\Contentful\Item\ValueConverter;
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Item\ValueConverterInterface;
 
+/**
+ * @implements \Netgen\Layouts\Item\ValueConverterInterface<\Netgen\Layouts\Contentful\Entity\ContentfulEntry>
+ */
 final class EntryValueConverter implements ValueConverterInterface
 {
     public function supports(object $object): bool
@@ -19,37 +22,21 @@ final class EntryValueConverter implements ValueConverterInterface
         return 'contentful_entry';
     }
 
-    /**
-     * @param \Netgen\Layouts\Contentful\Entity\ContentfulEntry $object
-     *
-     * @return int|string
-     */
     public function getId(object $object)
     {
         return $object->getId();
     }
 
-    /**
-     * @param \Netgen\Layouts\Contentful\Entity\ContentfulEntry $object
-     *
-     * @return int|string
-     */
     public function getRemoteId(object $object)
     {
         return $object->getId();
     }
 
-    /**
-     * @param \Netgen\Layouts\Contentful\Entity\ContentfulEntry $object
-     */
     public function getName(object $object): string
     {
         return $object->getName();
     }
 
-    /**
-     * @param \Netgen\Layouts\Contentful\Entity\ContentfulEntry $object
-     */
     public function getIsVisible(object $object): bool
     {
         return $object->getIsPublished();

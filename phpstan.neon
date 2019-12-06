@@ -11,9 +11,5 @@ parameters:
 
         # Integration specifics
         -
-            message: '#should be contravariant with parameter \$object#'
-            path: lib/Item/ValueConverter/EntryValueConverter.php
-
-        -
             message: '#Variable method call on Netgen\\Layouts\\Contentful\\Entity\\ContentfulEntry#'
             path: lib/Collection/QueryType/Handler/ContentfulReferencesHandler.php
