@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Netgen\Layouts\Contentful\Block\BlockDefinition\Handler;
 
-use Contentful\Core\Api\DateTimeImmutable;
 use DateTimeInterface;
 
 final class ContentfulEntryField
