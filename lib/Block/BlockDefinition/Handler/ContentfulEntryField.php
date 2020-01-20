@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Netgen\Layouts\Contentful\Block\BlockDefinition\Handler;
 
-use Contentful\Core\Api\DateTimeImmutable;
 use DateTimeInterface;
 
 final class ContentfulEntryField
@@ -45,10 +44,9 @@ final class ContentfulEntryField
             $this->value = $innerField;
         }
 
-        if ($this->type === self::TYPE_STRING) {
-            $dateTime = DateTimeImmutable::createFromFormat('Y-m-d\\TH:iP', $innerField);
-            if ($dateTime instanceof DateTimeInterface) {
-                $this->value = $dateTime;
+        if ($this->type === self::TYPE_OBJECT) {
+            if ($innerField instanceof DateTimeInterface) {
+                $this->value = $innerField;
                 $this->type = self::TYPE_DATETIME;
             }
         }
