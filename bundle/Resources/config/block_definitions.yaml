@@ -10,6 +10,7 @@ block_definitions:
                     - 'html_element'
                     - 'css_id'
                     - 'css_class'
+                    - 'set_container'
             number:
                 name: 'Number'
                 valid_parameters:
@@ -17,24 +18,28 @@ block_definitions:
                     - 'html_element'
                     - 'css_id'
                     - 'css_class'
+                    - 'set_container'
             json:
                 name: 'JSON'
                 valid_parameters:
                     - 'field_identifier'
                     - 'css_id'
                     - 'css_class'
+                    - 'set_container'
             markdown:
                 name: 'Markdown'
                 valid_parameters:
                     - 'field_identifier'
                     - 'css_id'
                     - 'css_class'
+                    - 'set_container'
             richtext:
                 name: 'Richtext'
                 valid_parameters:
                     - 'field_identifier'
                     - 'css_id'
                     - 'css_class'
+                    - 'set_container'
             datetime:
                 name: 'Date & time'
                 valid_parameters:
@@ -43,6 +48,7 @@ block_definitions:
                     - 'datetime_format'
                     - 'css_id'
                     - 'css_class'
+                    - 'set_container'
             map:
                 name: 'Map'
                 valid_parameters:
@@ -52,6 +58,7 @@ block_definitions:
                     - 'show_marker'
                     - 'css_id'
                     - 'css_class'
+                    - 'set_container'
             assets:
                 name: 'Referenced assets'
                 valid_parameters:
@@ -60,9 +67,11 @@ block_definitions:
                     - 'height'
                     - 'css_id'
                     - 'css_class'
+                    - 'set_container'
             entries:
                 name: 'Referenced entries'
                 valid_parameters:
                     - 'field_identifier'
                     - 'css_id'
                     - 'css_class'
+                    - 'set_container'
