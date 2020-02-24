@@ -48,6 +48,9 @@ final class ContentfulEntryField
             if ($innerField instanceof DateTimeInterface) {
                 $this->value = $innerField;
                 $this->type = self::TYPE_DATETIME;
+            } elseif ($innerField instanceof \Contentful\RichText\Node\Document) {
+                $this->value = $innerField;
+                $this->type = self::TYPE_RICHTEXT;
             }
         }
     }
