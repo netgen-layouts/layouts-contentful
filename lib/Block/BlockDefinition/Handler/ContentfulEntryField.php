@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\Layouts\Contentful\Block\BlockDefinition\Handler;
 
+use Contentful\RichText\Node\Document;
 use DateTimeInterface;
 
 final class ContentfulEntryField
@@ -48,7 +49,7 @@ final class ContentfulEntryField
             if ($innerField instanceof DateTimeInterface) {
                 $this->value = $innerField;
                 $this->type = self::TYPE_DATETIME;
-            } elseif ($innerField instanceof \Contentful\RichText\Node\Document) {
+            } elseif ($innerField instanceof Document) {
                 $this->value = $innerField;
                 $this->type = self::TYPE_RICHTEXT;
             }
