@@ -13,7 +13,7 @@
         "netgen/layouts-core": "~1.2.0",
         "contentful/contentful-bundle": "^5.0",
         "doctrine/orm": "^2.7",
-        "symfony-cmf/routing-bundle": "^2.2",
+        "symfony-cmf/routing-bundle": "^2.3",
         "erusev/parsedown": "^1.7",
         "aptoma/twig-markdown": "^3.3"
     },
