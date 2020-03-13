@@ -1,2 +1,4 @@
 parameters:
     netgen_layouts.contentful.cache_dir: '%kernel.cache_dir%/contentful/'
+    netgen_layouts.contentful.routing.content_types: []
+

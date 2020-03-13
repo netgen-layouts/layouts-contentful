@@ -17,6 +17,7 @@ use Netgen\Layouts\Contentful\Exception\NotFoundException;
 use Netgen\Layouts\Contentful\Exception\RuntimeException;
 use Netgen\Layouts\Contentful\Routing\EntrySluggerInterface;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
+use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\RedirectRoute;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -53,6 +54,11 @@ final class Contentful
     private $cacheDir;
 
     /**
+     * @var array
+     */
+    private $routeContentTypes;
+
+    /**
      * @param \Contentful\Delivery\Client\ClientInterface[] $clients
      */
     public function __construct(
@@ -61,7 +67,8 @@ final class Contentful
         ClientInterface $defaultClient,
         EntityManagerInterface $entityManager,
         Filesystem $fileSystem,
-        string $cacheDir
+        string $cacheDir,
+        array $routeContentTypes
     ) {
         $this->clients = $clients;
         $this->entrySlugger = $entrySlugger;
@@ -69,6 +76,7 @@ final class Contentful
         $this->entityManager = $entityManager;
         $this->fileSystem = $fileSystem;
         $this->cacheDir = $cacheDir;
+        $this->routeContentTypes = $routeContentTypes;
     }
 
     /**
@@ -242,18 +250,33 @@ final class Contentful
     /**
      * Refreshes the Contentful entry for provided remote entry.
      */
-    public function refreshContentfulEntry(Entry $remoteEntry): ContentfulEntry
+    public function refreshContentfulEntry(Entry $remoteEntry, ?ClientInterface $client = null ): ContentfulEntry
     {
+        $client = $client ?? $this->defaultClient;
         $id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
         $contentfulEntry = $this->findContentfulEntry($id);
 
         if ($contentfulEntry instanceof ContentfulEntry) {
+            $savedCurrentSlug = $this->entrySlugger->getSlug($contentfulEntry);
+
             $contentfulEntry->setJson((string) json_encode($remoteEntry));
             $contentfulEntry->setIsPublished(true);
             $contentfulEntry->setIsDeleted(false);
             $this->entityManager->persist($contentfulEntry);
             $this->entityManager->flush();
+            $contentfulEntry->reviveRemoteEntry($client);
 
+            if (empty($this->routeContentTypes) || in_array($contentfulEntry->getContentType()->getId(), $this->routeContentTypes )) {
+                // if slug has changed create a 301 redirect
+                $currentSlug = $this->entrySlugger->getSlug($contentfulEntry);
+                if ($currentSlug != $savedCurrentSlug) {
+                    $route = $contentfulEntry->getRoutes()[0];
+                    $route->setStaticPrefix($currentSlug);
+                    $this->entityManager->persist($route);
+
+                    $this->buildRedirect($savedCurrentSlug, $contentfulEntry);
+                }
+            }
             return $contentfulEntry;
         }
 
@@ -392,16 +415,12 @@ final class Contentful
         $contentfulEntry->setIsPublished(true);
         $contentfulEntry->setIsDeleted(false);
         $contentfulEntry->setJson((string) json_encode($remoteEntry));
-
-        $route = new Route();
-        $route->setName($id);
-        $route->setStaticPrefix($this->entrySlugger->getSlug($contentfulEntry));
-        $route->setDefault(RouteObjectInterface::CONTENT_ID, ContentfulEntry::class . ':' . $id);
-        $route->setContent($contentfulEntry);
-        $contentfulEntry->addRoute($route); // Create the back-link from content to route
-
         $this->entityManager->persist($contentfulEntry);
-        $this->entityManager->persist($route);
+
+        if (empty($this->routeContentTypes) || in_array($contentfulEntry->getContentType()->getId(), $this->routeContentTypes )) {
+            $this->buildRoute($id, $contentfulEntry);
+        }
+
         $this->entityManager->flush();
 
         return $contentfulEntry;
@@ -429,4 +448,48 @@ final class Contentful
 
         return $contentfulEntries;
     }
+
+    /**
+     * Builds a route for an Entry, n
+     */
+    private function buildRoute( string $id, ContentfulEntry $contentfulEntry) {
+        $route = new Route();
+        $route->setName($id);
+        $route->setStaticPrefix($this->entrySlugger->getSlug($contentfulEntry));
+        $route->setDefault(RouteObjectInterface::CONTENT_ID, ContentfulEntry::class . ':' . $id);
+        $route->setContent($contentfulEntry);
+        $contentfulEntry->addRoute($route); // Create the back-link from content to route
+        $this->entityManager->persist($route);
+
+        return $route;
+    }
+
+    /**
+     * Builds a Redirect
+     */
+    private function buildRedirect( string $redirectSlug, ContentfulEntry $contentfulEntry) {
+        $contentfulEntryRoute = $contentfulEntry->getRoutes()[0];
+        $existingRedirects = $this->entityManager->getRepository(RedirectRoute::class)->findBy(array("routeTarget" => $contentfulEntryRoute));
+        $redirectRouteName = $contentfulEntry->getId() . "_redirect_" . count($existingRedirects);
+
+        $redirectRouteDoc = new RedirectRoute();
+        $redirectRouteDoc->setRouteName($redirectRouteName);
+        $redirectRouteDoc->setRouteTarget($contentfulEntryRoute);
+        $redirectRouteDoc->setPermanent(true);
+
+        $this->entityManager->persist($redirectRouteDoc);
+        $this->entityManager->flush();
+
+        $redirectRoute = new Route();
+        $redirectRoute->setName($redirectRouteName);
+        $redirectRoute->setDefault(RouteObjectInterface::CONTENT_ID, RedirectRoute::class . ":" . $redirectRouteDoc->getId());
+        $redirectRoute->setStaticPrefix($redirectSlug);
+        $redirectRoute->setContent($redirectRouteDoc);
+
+        $this->entityManager->persist($redirectRoute);
+        $this->entityManager->flush();
+
+        return $redirectRoute;
+    }
+
 }
