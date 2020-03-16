@@ -16,8 +16,8 @@ use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Exception\NotFoundException;
 use Netgen\Layouts\Contentful\Exception\RuntimeException;
 use Netgen\Layouts\Contentful\Routing\EntrySluggerInterface;
-use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\RedirectRoute;
+use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -250,7 +250,7 @@ final class Contentful
     /**
      * Refreshes the Contentful entry for provided remote entry.
      */
-    public function refreshContentfulEntry(Entry $remoteEntry, ?ClientInterface $client = null ): ContentfulEntry
+    public function refreshContentfulEntry(Entry $remoteEntry, ?ClientInterface $client = null): ContentfulEntry
     {
         $client = $client ?? $this->defaultClient;
         $id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
@@ -266,10 +266,10 @@ final class Contentful
             $this->entityManager->flush();
             $contentfulEntry->reviveRemoteEntry($client);
 
-            if (empty($this->routeContentTypes) || in_array($contentfulEntry->getContentType()->getId(), $this->routeContentTypes )) {
+            if (empty($this->routeContentTypes) || in_array($contentfulEntry->getContentType()->getId(), $this->routeContentTypes, true)) {
                 // if slug has changed create a 301 redirect
                 $currentSlug = $this->entrySlugger->getSlug($contentfulEntry);
-                if ($currentSlug != $savedCurrentSlug) {
+                if ($currentSlug !== $savedCurrentSlug) {
                     $route = $contentfulEntry->getRoutes()[0];
                     $route->setStaticPrefix($currentSlug);
                     $this->entityManager->persist($route);
@@ -277,6 +277,7 @@ final class Contentful
                     $this->buildRedirect($savedCurrentSlug, $contentfulEntry);
                 }
             }
+
             return $contentfulEntry;
         }
 
@@ -331,28 +332,29 @@ final class Contentful
     }
 
     /**
-     * Deletes all redirects for provided entry
+     * Deletes all redirects for provided entry.
      */
-    public function deleteRedirects(ContentfulEntry $contentfulEntry) {
+    public function deleteRedirects(ContentfulEntry $contentfulEntry)
+    {
         $contentfulEntryRoute = $contentfulEntry->getRoutes()[0];
 
-        $existingRedirectRouteDocs = $this->entityManager->getRepository(RedirectRoute::class)->findBy(array("routeTarget" => $contentfulEntryRoute));
+        $existingRedirectRouteDocs = $this->entityManager->getRepository(RedirectRoute::class)->findBy(['routeTarget' => $contentfulEntryRoute]);
 
         if (count($existingRedirectRouteDocs) < 1) {
             throw new NotFoundException(
                 sprintf(
-                    'Entry with ID has no redirects',
+                    'Entry with ID %s has no redirects',
                     $contentfulEntry->getId()
                 )
             );
-
         }
+
         /** @var RedirectRoute $redirectRouteDoc */
-        foreach($existingRedirectRouteDocs as $redirectRouteDoc) {
-            $redirectRoutes = $this->entityManager->getRepository(Route::class)->findBy(array("name" => $redirectRouteDoc->getRouteName()));
+        foreach ($existingRedirectRouteDocs as $redirectRouteDoc) {
+            $redirectRoutes = $this->entityManager->getRepository(Route::class)->findBy(['name' => $redirectRouteDoc->getRouteName()]);
 
             /** @var Route $redirectRoute */
-            foreach($redirectRoutes as $redirectRoute) {
+            foreach ($redirectRoutes as $redirectRoute) {
                 $this->entityManager->remove($redirectRoute);
             }
 
@@ -361,7 +363,6 @@ final class Contentful
 
         $this->entityManager->flush();
     }
-
 
     /**
      * Refreshes space caches for provided client.
@@ -452,7 +453,7 @@ final class Contentful
         $contentfulEntry->setJson((string) json_encode($remoteEntry));
         $this->entityManager->persist($contentfulEntry);
 
-        if (empty($this->routeContentTypes) || in_array($contentfulEntry->getContentType()->getId(), $this->routeContentTypes )) {
+        if (empty($this->routeContentTypes) || in_array($contentfulEntry->getContentType()->getId(), $this->routeContentTypes, true)) {
             $this->buildRoute($id, $contentfulEntry);
         }
 
@@ -485,9 +486,10 @@ final class Contentful
     }
 
     /**
-     * Builds a route for an Entry, n
+     * Builds a route for an Entry, n.
      */
-    private function buildRoute( string $id, ContentfulEntry $contentfulEntry) {
+    private function buildRoute(string $id, ContentfulEntry $contentfulEntry)
+    {
         $route = new Route();
         $route->setName($id);
         $route->setStaticPrefix($this->entrySlugger->getSlug($contentfulEntry));
@@ -500,12 +502,13 @@ final class Contentful
     }
 
     /**
-     * Builds a Redirect
+     * Builds a Redirect.
      */
-    private function buildRedirect( string $redirectSlug, ContentfulEntry $contentfulEntry) {
+    private function buildRedirect(string $redirectSlug, ContentfulEntry $contentfulEntry)
+    {
         $contentfulEntryRoute = $contentfulEntry->getRoutes()[0];
-        $existingRedirectRouteDocs = $this->entityManager->getRepository(RedirectRoute::class)->findBy(array("routeTarget" => $contentfulEntryRoute));
-        $redirectRouteName = $contentfulEntry->getId() . "_redirect_" . count($existingRedirectRouteDocs);
+        $existingRedirectRouteDocs = $this->entityManager->getRepository(RedirectRoute::class)->findBy(['routeTarget' => $contentfulEntryRoute]);
+        $redirectRouteName = $contentfulEntry->getId() . '_redirect_' . count($existingRedirectRouteDocs);
 
         $redirectRouteDoc = new RedirectRoute();
         $redirectRouteDoc->setRouteName($redirectRouteName);
@@ -517,7 +520,7 @@ final class Contentful
 
         $redirectRoute = new Route();
         $redirectRoute->setName($redirectRouteName);
-        $redirectRoute->setDefault(RouteObjectInterface::CONTENT_ID, RedirectRoute::class . ":" . $redirectRouteDoc->getId());
+        $redirectRoute->setDefault(RouteObjectInterface::CONTENT_ID, RedirectRoute::class . ':' . $redirectRouteDoc->getId());
         $redirectRoute->setStaticPrefix($redirectSlug);
         $redirectRoute->setContent($redirectRouteDoc);
 

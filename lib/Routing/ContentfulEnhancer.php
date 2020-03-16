@@ -30,7 +30,7 @@ final class ContentfulEnhancer implements RouteEnhancerInterface
     {
         $contentClass = explode(':', $defaults['_content_id'])[0];
 
-        if ($contentClass == ContentfulEntry::class) {
+        if ($contentClass === ContentfulEntry::class) {
             $defaults['_content'] = $this->contentful->loadContentfulEntry($defaults['_route']);
         }
 

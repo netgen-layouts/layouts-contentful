@@ -8,8 +8,8 @@ use Doctrine\ORM\EntityManager;
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Exception\NotFoundException;
 use Netgen\Layouts\Contentful\Service\Contentful;
-use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\RedirectRoute;
+use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -67,7 +67,7 @@ final class RoutesCommand extends Command
             try {
                 $contentfulEntry = $this->contentful->loadContentfulEntry($contentfulEntryId);
                 $this->contentful->deleteRedirects($contentfulEntry);
-                $io->writeln("All redirect routes deleted");
+                $io->writeln('All redirect routes deleted');
             } catch (NotFoundException $e) {
                 $io->writeln($e->getMessage());
             } catch (\Exception $e) {
@@ -84,22 +84,19 @@ final class RoutesCommand extends Command
 
         /** @var Route $route */
         foreach ($routes as $route) {
-
             $contentClass = explode(':', $route->getDefault('_content_id'))[0];
 
-            if ($contentClass == ContentfulEntry::class) {
+            if ($contentClass === ContentfulEntry::class) {
                 /** @var ContentfulEntry $content */
                 $content = $this->contentful->loadContentfulEntry($route->getName());
-                $status = "200";
-
-            } elseif ($contentClass == RedirectRoute::class) {
+                $status = '200';
+            } elseif ($contentClass === RedirectRoute::class) {
                 /** @var ContentfulEntry $content */
                 $content = $this->contentful->loadContentfulEntry(explode('_', $route->getName())[0]);
-                $status = "301";
+                $status = '301';
             }
 
-            $table->addRow([$content->getId(), $route->getId(), $route->getStaticPrefix(), $status, $content->getContentType()->getName(),$content->getName() ]);
-
+            $table->addRow([$content->getId(), $route->getId(), $route->getStaticPrefix(), $status, $content->getContentType()->getName(), $content->getName()]);
         }
         $table->render();
 
