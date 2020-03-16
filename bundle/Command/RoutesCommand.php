@@ -62,7 +62,7 @@ final class RoutesCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         if ($input->getOption('delete') !== null) {
-            $contentfulEntryId = $input->getOption('delete');
+            $contentfulEntryId = (string) $input->getOption('delete');
 
             try {
                 $contentfulEntry = $this->contentful->loadContentfulEntry($contentfulEntryId);
@@ -85,15 +85,14 @@ final class RoutesCommand extends Command
         /** @var Route $route */
         foreach ($routes as $route) {
             $contentClass = explode(':', $route->getDefault('_content_id'))[0];
+            $contentfulEntryId = $route->getName();
+            $status = '200';
 
-            if ($contentClass === ContentfulEntry::class) {
-                $contentfulEntryId = $route->getName();
-                $status = '200';
-            } elseif ($contentClass === RedirectRoute::class) {
+            if ($contentClass === RedirectRoute::class) {
                 $contentfulEntryId = explode('_', $route->getName())[0];
                 $status = '301';
             }
-            
+
             /** @var ContentfulEntry $content */
             $content = $this->contentful->loadContentfulEntry($contentfulEntryId);
 

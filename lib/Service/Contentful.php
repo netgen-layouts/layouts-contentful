@@ -60,6 +60,7 @@ final class Contentful
 
     /**
      * @param \Contentful\Delivery\Client\ClientInterface[] $clients
+     * @param array<string> $routeContentTypes
      */
     public function __construct(
         array $clients,
