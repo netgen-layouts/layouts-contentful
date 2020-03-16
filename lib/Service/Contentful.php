@@ -320,6 +320,8 @@ final class Contentful
             $contentfulEntry->setIsDeleted(true);
             $this->entityManager->persist($contentfulEntry);
 
+            $this->deleteRedirects($contentfulEntry);
+
             foreach ($contentfulEntry->getRoutes() as $route) {
                 $this->entityManager->remove($route);
             }
@@ -327,6 +329,39 @@ final class Contentful
             $this->entityManager->flush();
         }
     }
+
+    /**
+     * Deletes all redirects for provided entry
+     */
+    public function deleteRedirects(ContentfulEntry $contentfulEntry) {
+        $contentfulEntryRoute = $contentfulEntry->getRoutes()[0];
+
+        $existingRedirectRouteDocs = $this->entityManager->getRepository(RedirectRoute::class)->findBy(array("routeTarget" => $contentfulEntryRoute));
+
+        if (count($existingRedirectRouteDocs) < 1) {
+            throw new NotFoundException(
+                sprintf(
+                    'Entry with ID has no redirects',
+                    $contentfulEntry->getId()
+                )
+            );
+
+        }
+        /** @var RedirectRoute $redirectRouteDoc */
+        foreach($existingRedirectRouteDocs as $redirectRouteDoc) {
+            $redirectRoutes = $this->entityManager->getRepository(Route::class)->findBy(array("name" => $redirectRouteDoc->getRouteName()));
+
+            /** @var Route $redirectRoute */
+            foreach($redirectRoutes as $redirectRoute) {
+                $this->entityManager->remove($redirectRoute);
+            }
+
+            $this->entityManager->remove($redirectRouteDoc);
+        }
+
+        $this->entityManager->flush();
+    }
+
 
     /**
      * Refreshes space caches for provided client.
@@ -469,8 +504,8 @@ final class Contentful
      */
     private function buildRedirect( string $redirectSlug, ContentfulEntry $contentfulEntry) {
         $contentfulEntryRoute = $contentfulEntry->getRoutes()[0];
-        $existingRedirects = $this->entityManager->getRepository(RedirectRoute::class)->findBy(array("routeTarget" => $contentfulEntryRoute));
-        $redirectRouteName = $contentfulEntry->getId() . "_redirect_" . count($existingRedirects);
+        $existingRedirectRouteDocs = $this->entityManager->getRepository(RedirectRoute::class)->findBy(array("routeTarget" => $contentfulEntryRoute));
+        $redirectRouteName = $contentfulEntry->getId() . "_redirect_" . count($existingRedirectRouteDocs);
 
         $redirectRouteDoc = new RedirectRoute();
         $redirectRouteDoc->setRouteName($redirectRouteName);
@@ -491,5 +526,4 @@ final class Contentful
 
         return $redirectRoute;
     }
-
 }
