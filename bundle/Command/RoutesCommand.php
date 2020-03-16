@@ -62,10 +62,8 @@ final class RoutesCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         if ($input->getOption('delete') !== null) {
-            $contentfulEntryId = (string) (is_array($input->getOption('delete')) ? $input->getOption('delete')[0] : $input->getOption('delete'));
-
             try {
-                $contentfulEntry = $this->contentful->loadContentfulEntry($contentfulEntryId);
+                $contentfulEntry = $this->contentful->loadContentfulEntry($input->getOption('delete'));
                 $this->contentful->deleteRedirects($contentfulEntry);
                 $io->writeln('All redirect routes deleted');
             } catch (NotFoundException $e) {
