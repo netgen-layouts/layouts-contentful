@@ -87,14 +87,15 @@ final class RoutesCommand extends Command
             $contentClass = explode(':', $route->getDefault('_content_id'))[0];
 
             if ($contentClass === ContentfulEntry::class) {
-                /** @var ContentfulEntry $content */
-                $content = $this->contentful->loadContentfulEntry($route->getName());
+                $contentfulEntryId = $route->getName();
                 $status = '200';
             } elseif ($contentClass === RedirectRoute::class) {
-                /** @var ContentfulEntry $content */
-                $content = $this->contentful->loadContentfulEntry(explode('_', $route->getName())[0]);
+                $contentfulEntryId = explode('_', $route->getName())[0];
                 $status = '301';
             }
+            
+            /** @var ContentfulEntry $content */
+            $content = $this->contentful->loadContentfulEntry($contentfulEntryId);
 
             $table->addRow([$content->getId(), $route->getId(), $route->getStaticPrefix(), $status, $content->getContentType()->getName(), $content->getName()]);
         }

@@ -54,7 +54,7 @@ final class Contentful
     private $cacheDir;
 
     /**
-     * @var array
+     * @var array<string>
      */
     private $routeContentTypes;
 
@@ -266,10 +266,11 @@ final class Contentful
             $this->entityManager->flush();
             $contentfulEntry->reviveRemoteEntry($client);
 
-            if (empty($this->routeContentTypes) || in_array($contentfulEntry->getContentType()->getId(), $this->routeContentTypes, true)) {
+            if (count($this->routeContentTypes) < 1 || in_array($contentfulEntry->getContentType()->getId(), $this->routeContentTypes, true)) {
                 // if slug has changed create a 301 redirect
                 $currentSlug = $this->entrySlugger->getSlug($contentfulEntry);
                 if ($currentSlug !== $savedCurrentSlug) {
+                    /** @var Route $route */
                     $route = $contentfulEntry->getRoutes()[0];
                     $route->setStaticPrefix($currentSlug);
                     $this->entityManager->persist($route);
@@ -334,7 +335,7 @@ final class Contentful
     /**
      * Deletes all redirects for provided entry.
      */
-    public function deleteRedirects(ContentfulEntry $contentfulEntry)
+    public function deleteRedirects(ContentfulEntry $contentfulEntry): void
     {
         $contentfulEntryRoute = $contentfulEntry->getRoutes()[0];
 
@@ -453,7 +454,7 @@ final class Contentful
         $contentfulEntry->setJson((string) json_encode($remoteEntry));
         $this->entityManager->persist($contentfulEntry);
 
-        if (empty($this->routeContentTypes) || in_array($contentfulEntry->getContentType()->getId(), $this->routeContentTypes, true)) {
+        if (count($this->routeContentTypes) < 1 || in_array($contentfulEntry->getContentType()->getId(), $this->routeContentTypes, true)) {
             $this->buildRoute($id, $contentfulEntry);
         }
 
@@ -488,7 +489,7 @@ final class Contentful
     /**
      * Builds a route for an Entry, n.
      */
-    private function buildRoute(string $id, ContentfulEntry $contentfulEntry)
+    private function buildRoute(string $id, ContentfulEntry $contentfulEntry): Route
     {
         $route = new Route();
         $route->setName($id);
@@ -504,7 +505,7 @@ final class Contentful
     /**
      * Builds a Redirect.
      */
-    private function buildRedirect(string $redirectSlug, ContentfulEntry $contentfulEntry)
+    private function buildRedirect(string $redirectSlug, ContentfulEntry $contentfulEntry): Route
     {
         $contentfulEntryRoute = $contentfulEntry->getRoutes()[0];
         $existingRedirectRouteDocs = $this->entityManager->getRepository(RedirectRoute::class)->findBy(['routeTarget' => $contentfulEntryRoute]);
