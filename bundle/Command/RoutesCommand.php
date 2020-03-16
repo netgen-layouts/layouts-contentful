@@ -62,7 +62,7 @@ final class RoutesCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         if ($input->getOption('delete') !== null) {
-            $contentfulEntryId = (string) $input->getOption('delete');
+            $contentfulEntryId = (string) (is_array($input->getOption('delete')) ? $input->getOption('delete')[0] : $input->getOption('delete'));
 
             try {
                 $contentfulEntry = $this->contentful->loadContentfulEntry($contentfulEntryId);
