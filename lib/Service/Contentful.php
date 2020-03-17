@@ -54,13 +54,13 @@ final class Contentful
     private $cacheDir;
 
     /**
-     * @var array<string>
+     * @var string[]
      */
     private $routeContentTypes;
 
     /**
      * @param \Contentful\Delivery\Client\ClientInterface[] $clients
-     * @param array<string> $routeContentTypes
+     * @param string[] $routeContentTypes
      */
     public function __construct(
         array $clients,
@@ -271,7 +271,7 @@ final class Contentful
                 // if slug has changed create a 301 redirect
                 $currentSlug = $this->entrySlugger->getSlug($contentfulEntry);
                 if ($currentSlug !== $savedCurrentSlug) {
-                    /** @var Route $route */
+                    /** @var \Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route $route */
                     $route = $contentfulEntry->getRoutes()[0];
                     $route->setStaticPrefix($currentSlug);
                     $this->entityManager->persist($route);
@@ -338,11 +338,13 @@ final class Contentful
      */
     public function deleteRedirects(ContentfulEntry $contentfulEntry): void
     {
-        $contentfulEntryRoute = $contentfulEntry->getRoutes()[0];
+        $route = $contentfulEntry->getRoutes()[0];
 
-        $existingRedirectRouteDocs = $this->entityManager->getRepository(RedirectRoute::class)->findBy(['routeTarget' => $contentfulEntryRoute]);
+        /** @var \Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\RedirectRoute[] $redirectRoutes */
+        $redirectRoutes = $this->entityManager->getRepository(RedirectRoute::class)
+            ->findBy(['routeTarget' => $route]);
 
-        if (count($existingRedirectRouteDocs) < 1) {
+        if (count($redirectRoutes) < 1) {
             throw new NotFoundException(
                 sprintf(
                     'Entry with ID %s has no redirects',
@@ -351,16 +353,16 @@ final class Contentful
             );
         }
 
-        /** @var RedirectRoute $redirectRouteDoc */
-        foreach ($existingRedirectRouteDocs as $redirectRouteDoc) {
-            $redirectRoutes = $this->entityManager->getRepository(Route::class)->findBy(['name' => $redirectRouteDoc->getRouteName()]);
+        foreach ($redirectRoutes as $redirectRoute) {
+            /** @var \Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route[] $routes */
+            $routes = $this->entityManager->getRepository(Route::class)
+                ->findBy(['name' => $redirectRoute->getRouteName()]);
 
-            /** @var Route $redirectRoute */
-            foreach ($redirectRoutes as $redirectRoute) {
-                $this->entityManager->remove($redirectRoute);
+            foreach ($routes as $route) {
+                $this->entityManager->remove($route);
             }
 
-            $this->entityManager->remove($redirectRouteDoc);
+            $this->entityManager->remove($redirectRoute);
         }
 
         $this->entityManager->flush();
@@ -488,7 +490,7 @@ final class Contentful
     }
 
     /**
-     * Builds a route for an Entry, n.
+     * Builds a route for an entry.
      */
     private function buildRoute(string $id, ContentfulEntry $contentfulEntry): Route
     {
@@ -504,27 +506,27 @@ final class Contentful
     }
 
     /**
-     * Builds a Redirect.
+     * Builds a redirect.
      */
     private function buildRedirect(string $redirectSlug, ContentfulEntry $contentfulEntry): Route
     {
         $contentfulEntryRoute = $contentfulEntry->getRoutes()[0];
-        $existingRedirectRouteDocs = $this->entityManager->getRepository(RedirectRoute::class)->findBy(['routeTarget' => $contentfulEntryRoute]);
-        $redirectRouteName = $contentfulEntry->getId() . '_redirect_' . count($existingRedirectRouteDocs);
+        $redirectRoutes = $this->entityManager->getRepository(RedirectRoute::class)->findBy(['routeTarget' => $contentfulEntryRoute]);
+        $redirectRouteName = $contentfulEntry->getId() . '_redirect_' . count($redirectRoutes);
 
-        $redirectRouteDoc = new RedirectRoute();
-        $redirectRouteDoc->setRouteName($redirectRouteName);
-        $redirectRouteDoc->setRouteTarget($contentfulEntryRoute);
-        $redirectRouteDoc->setPermanent(true);
+        $redirectRoute = new RedirectRoute();
+        $redirectRoute->setRouteName($redirectRouteName);
+        $redirectRoute->setRouteTarget($contentfulEntryRoute);
+        $redirectRoute->setPermanent(true);
 
-        $this->entityManager->persist($redirectRouteDoc);
+        $this->entityManager->persist($redirectRoute);
         $this->entityManager->flush();
 
         $redirectRoute = new Route();
         $redirectRoute->setName($redirectRouteName);
-        $redirectRoute->setDefault(RouteObjectInterface::CONTENT_ID, RedirectRoute::class . ':' . $redirectRouteDoc->getId());
+        $redirectRoute->setDefault(RouteObjectInterface::CONTENT_ID, RedirectRoute::class . ':' . $redirectRoute->getId());
         $redirectRoute->setStaticPrefix($redirectSlug);
-        $redirectRoute->setContent($redirectRouteDoc);
+        $redirectRoute->setContent($redirectRoute);
 
         $this->entityManager->persist($redirectRoute);
         $this->entityManager->flush();

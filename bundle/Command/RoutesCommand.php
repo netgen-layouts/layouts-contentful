@@ -107,7 +107,7 @@ final class RoutesCommand extends Command
                 $route->getStaticPrefix(),
                 $status,
                 $entry->getContentType()->getName(),
-                $entry->getName()
+                $entry->getName(),
             ];
         }
 
