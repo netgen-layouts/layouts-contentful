@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\Layouts\Contentful\Routing;
 
+use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Service\Contentful;
 use Symfony\Cmf\Component\Routing\Enhancer\RouteEnhancerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,11 @@ final class ContentfulEnhancer implements RouteEnhancerInterface
      */
     public function enhance(array $defaults, Request $request): array
     {
-        $defaults['_content'] = $this->contentful->loadContentfulEntry($defaults['_route']);
+        $contentClass = explode(':', $defaults['_content_id'])[0];
+
+        if (is_a($contentClass, ContentfulEntry::class, true)) {
+            $defaults['_content'] = $this->contentful->loadContentfulEntry($defaults['_route']);
+        }
 
         return $defaults;
     }
