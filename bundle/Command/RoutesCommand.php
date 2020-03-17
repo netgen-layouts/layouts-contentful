@@ -86,7 +86,7 @@ final class RoutesCommand extends Command
             return 1;
         }
 
-        $tableHeaders = ['Entry ID', 'URL', 'Status', 'Content type', 'Content name'];
+        $tableHeaders = ['Entry ID', 'Route ID', 'URL', 'Status', 'Content type', 'Content name'];
         $tableRows = [];
 
         foreach ($routes as $route) {
