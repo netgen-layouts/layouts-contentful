@@ -55,19 +55,13 @@ final class SyncCommand extends Command
 
             $syncManager = $client->getSynchronizationManager();
 
-            $tokenPath = $this->contentful->getSpaceCachePath($client) . '/token';
-            if (!$this->fileSystem->exists($tokenPath)) {
-                $result = $syncManager->startSync();
-            } else {
-                $token = (string) file_get_contents($tokenPath);
-                $result = $syncManager->continueSync($token);
-            }
-
+            $result = $syncManager->startSync();
             $this->buildContentEntries($result->getItems());
 
-            if (!$result->isDone()) {
+            while (!$result->isDone()) {
                 $token = $result->getToken();
-                $this->fileSystem->dumpFile($tokenPath, $token);
+                $result = $syncManager->continueSync($token);
+                $this->buildContentEntries($result->getItems());
             }
         }
 

@@ -68,7 +68,7 @@ final class WebhookController extends AbstractController
                     throw new BadRequestHttpException('Invalid request');
                 }
 
-                $this->contentful->refreshContentfulEntry($remoteEntry);
+                $this->contentful->refreshContentfulEntry($remoteEntry, $client);
 
                 break;
             case self::ENTRY_UNPUBLISH:
