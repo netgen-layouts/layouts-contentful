@@ -7,6 +7,7 @@ namespace Netgen\Bundle\LayoutsContentfulBundle\Command;
 use Doctrine\ORM\EntityManager;
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Exception\NotFoundException;
+use Netgen\Layouts\Contentful\Exception\RuntimeException;
 use Netgen\Layouts\Contentful\Service\Contentful;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\RedirectRoute;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
@@ -62,8 +63,13 @@ final class RoutesCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         if ($input->getOption('delete') !== null) {
+            $entryId = $input->getOption('delete');
+            if (!is_string($entryId)) {
+                throw new RuntimeException('Redirects can only be deleted for a single entry per command run.');
+            }
+
             try {
-                $contentfulEntry = $this->contentful->loadContentfulEntry($input->getOption('delete'));
+                $contentfulEntry = $this->contentful->loadContentfulEntry($entryId);
                 $this->contentful->deleteRedirects($contentfulEntry);
                 $io->writeln('All redirect routes deleted');
             } catch (NotFoundException $e) {
