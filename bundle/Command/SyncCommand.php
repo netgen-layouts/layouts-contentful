@@ -55,8 +55,7 @@ final class SyncCommand extends Command
             $this->buildContentEntries($result->getItems());
 
             while (!$result->isDone()) {
-                $token = $result->getToken();
-                $result = $syncManager->continueSync($token);
+                $result = $syncManager->continueSync($result->getToken());
                 $this->buildContentEntries($result->getItems());
             }
         }
