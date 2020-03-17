@@ -338,11 +338,11 @@ final class Contentful
      */
     public function deleteRedirects(ContentfulEntry $contentfulEntry): void
     {
-        $route = $contentfulEntry->getRoutes()[0];
+        $entryRoute = $contentfulEntry->getRoutes()[0];
 
         /** @var \Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\RedirectRoute[] $redirectRoutes */
         $redirectRoutes = $this->entityManager->getRepository(RedirectRoute::class)
-            ->findBy(['routeTarget' => $route]);
+            ->findBy(['routeTarget' => $entryRoute]);
 
         if (count($redirectRoutes) < 1) {
             throw new NotFoundException(
