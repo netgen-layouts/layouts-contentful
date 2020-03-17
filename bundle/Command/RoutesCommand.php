@@ -46,8 +46,8 @@ final class RoutesCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Show routes and possibility to delete redirects')
-            ->addOption('delete', 'd', InputOption::VALUE_REQUIRED, 'Delete all redirects for given Entry ID');
+            ->setDescription('Shows content routes and allows deleting redirects')
+            ->addOption('delete-redirects', 'dr', InputOption::VALUE_REQUIRED, 'Delete all redirects for given Entry ID');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
