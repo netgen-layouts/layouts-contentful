@@ -5,18 +5,17 @@ declare(strict_types=1);
 namespace Netgen\Bundle\LayoutsContentfulBundle\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Exception\NotFoundException;
 use Netgen\Layouts\Contentful\Exception\RuntimeException;
 use Netgen\Layouts\Contentful\Service\Contentful;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
 use Symfony\Cmf\Component\Routing\RedirectRouteInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\HttpFoundation\Response;
 
 final class RoutesCommand extends Command
 {
@@ -67,38 +66,52 @@ final class RoutesCommand extends Command
             try {
                 $contentfulEntry = $this->contentful->loadContentfulEntry($entryId);
                 $this->contentful->deleteRedirects($contentfulEntry);
-                $this->io->writeln('All redirect routes deleted');
+
+                $this->io->success('All redirect routes deleted');
+
+                return 0;
             } catch (NotFoundException $e) {
-                $this->io->writeln($e->getMessage());
-            } catch (\Exception $e) {
-                $this->io->writeln($e->getMessage());
+                $this->io->error($e->getMessage());
             }
 
-            return 0;
+            return 1;
         }
 
-        $table = new Table($output);
-        $table->setHeaders(['Entry ID', 'URL', 'Status', 'Content type', 'Content name']);
-
+        /** @var \Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route[] $routes */
         $routes = $this->entityManager->getRepository(Route::class)->findAll();
 
-        /** @var Route $route */
-        foreach ($routes as $route) {
-            $contentClass = explode(':', $route->getDefault('_content_id'))[0];
-            $contentfulEntryId = $route->getName();
-            $status = '200';
+        if (count($routes) === 0) {
+            $this->io->warning('No routes available!');
 
+            return 1;
+        }
+
+        $tableHeaders = ['Entry ID', 'URL', 'Status', 'Content type', 'Content name'];
+        $tableRows = [];
+
+        foreach ($routes as $route) {
+            $entryId = $route->getName();
+            $status = Response::HTTP_OK;
+
+            $contentClass = explode(':', $route->getDefault('_content_id') ?? '')[0];
             if (is_a($contentClass, RedirectRouteInterface::class, true)) {
-                $contentfulEntryId = explode('_', $route->getName())[0];
-                $status = '301';
+                $entryId = explode('_', $route->getName())[0];
+                $status = Response::HTTP_MOVED_PERMANENTLY;
             }
 
-            /** @var ContentfulEntry $content */
-            $content = $this->contentful->loadContentfulEntry($contentfulEntryId);
+            $entry = $this->contentful->loadContentfulEntry($entryId);
 
-            $table->addRow([$content->getId(), $route->getId(), $route->getStaticPrefix(), $status, $content->getContentType()->getName(), $content->getName()]);
+            $tableRows[] = [
+                $entry->getId(),
+                $route->getId(),
+                $route->getStaticPrefix(),
+                $status,
+                $entry->getContentType()->getName(),
+                $entry->getName()
+            ];
         }
-        $table->render();
+
+        $this->io->table($tableHeaders, $tableRows);
 
         return 0;
     }
