@@ -14,7 +14,6 @@ services:
         class: Netgen\Bundle\LayoutsContentfulBundle\Command\SyncCommand
         arguments:
               - "@netgen_layouts.contentful.service"
-              - "@filesystem"
         tags:
               - { name: console.command, command: contentful:sync }
 
@@ -22,7 +21,6 @@ services:
         class: Netgen\Bundle\LayoutsContentfulBundle\Command\RoutesCommand
         arguments:
               - "@netgen_layouts.contentful.service"
-              - "@filesystem"
               - "@doctrine.orm.entity_manager"
         tags:
               - { name: console.command, command: contentful:routes }

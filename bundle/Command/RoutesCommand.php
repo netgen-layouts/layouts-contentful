@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace Netgen\Bundle\LayoutsContentfulBundle\Command;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Exception\NotFoundException;
 use Netgen\Layouts\Contentful\Exception\RuntimeException;
 use Netgen\Layouts\Contentful\Service\Contentful;
-use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\RedirectRoute;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
+use Symfony\Cmf\Component\Routing\RedirectRouteInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Filesystem\Filesystem;
 
 final class RoutesCommand extends Command
 {
@@ -27,12 +26,7 @@ final class RoutesCommand extends Command
     private $contentful;
 
     /**
-     * @var \Symfony\Component\Filesystem\Filesystem
-     */
-    private $fileSystem;
-
-    /**
-     * @var \Doctrine\ORM\EntityManager
+     * @var \Doctrine\ORM\EntityManagerInterface
      */
     private $entityManager;
 
@@ -41,10 +35,9 @@ final class RoutesCommand extends Command
      */
     private $io;
 
-    public function __construct(Contentful $contentful, Filesystem $fileSystem, EntityManager $entityManager)
+    public function __construct(Contentful $contentful, EntityManagerInterface $entityManager)
     {
         $this->contentful = $contentful;
-        $this->fileSystem = $fileSystem;
         $this->entityManager = $entityManager;
 
         // Parent constructor call is mandatory in commands registered as services
@@ -58,10 +51,13 @@ final class RoutesCommand extends Command
             ->addOption('delete', 'd', InputOption::VALUE_REQUIRED, 'Delete all redirects for given Entry ID');
     }
 
+    protected function initialize(InputInterface $input, OutputInterface $output): void
+    {
+        $this->io = new SymfonyStyle($input, $output);
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-
         if ($input->getOption('delete') !== null) {
             $entryId = $input->getOption('delete');
             if (!is_string($entryId)) {
@@ -71,11 +67,11 @@ final class RoutesCommand extends Command
             try {
                 $contentfulEntry = $this->contentful->loadContentfulEntry($entryId);
                 $this->contentful->deleteRedirects($contentfulEntry);
-                $io->writeln('All redirect routes deleted');
+                $this->io->writeln('All redirect routes deleted');
             } catch (NotFoundException $e) {
-                $io->writeln($e->getMessage());
+                $this->io->writeln($e->getMessage());
             } catch (\Exception $e) {
-                $io->writeln($e->getMessage());
+                $this->io->writeln($e->getMessage());
             }
 
             return 0;
@@ -92,7 +88,7 @@ final class RoutesCommand extends Command
             $contentfulEntryId = $route->getName();
             $status = '200';
 
-            if ($contentClass === RedirectRoute::class) {
+            if (is_a($contentClass, RedirectRouteInterface::class, true)) {
                 $contentfulEntryId = explode('_', $route->getName())[0];
                 $status = '301';
             }

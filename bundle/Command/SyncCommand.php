@@ -11,7 +11,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Filesystem\Filesystem;
 
 final class SyncCommand extends Command
 {
@@ -21,19 +20,13 @@ final class SyncCommand extends Command
     private $contentful;
 
     /**
-     * @var \Symfony\Component\Filesystem\Filesystem
-     */
-    private $fileSystem;
-
-    /**
      * @var \Symfony\Component\Console\Style\SymfonyStyle
      */
     private $io;
 
-    public function __construct(Contentful $contentful, Filesystem $fileSystem)
+    public function __construct(Contentful $contentful)
     {
         $this->contentful = $contentful;
-        $this->fileSystem = $fileSystem;
 
         // Parent constructor call is mandatory in commands registered as services
         parent::__construct();
@@ -44,10 +37,13 @@ final class SyncCommand extends Command
         $this->setDescription('Syncs space and content type cache');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->io = new SymfonyStyle($input, $output);
+    }
 
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
         /** @var \Contentful\Delivery\Client\ClientInterface&\Contentful\Delivery\Client\SynchronizationClientInterface $client */
         foreach ($this->contentful->getClients() as $client) {
             $this->contentful->refreshSpaceCache($client);
