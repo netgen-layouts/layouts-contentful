@@ -105,7 +105,7 @@ your `security.yaml`:
 ```
 security:
     providers:
-        in_memory:
+        users_in_memory:
             memory:
                 users:
                     admin:
@@ -117,6 +117,7 @@ security:
 
     firewalls:
         main:
+            provider: users_in_memory
             http_basic: ~
 
     access_control:

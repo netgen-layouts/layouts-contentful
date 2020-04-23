@@ -1,6 +1,6 @@
 security:
     providers:
-        in_memory:
+        users_in_memory:
             memory:
                 users:
                     admin:
@@ -14,11 +14,11 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
         main:
-            anonymous: ~
+            anonymous: lazy
+            provider: users_in_memory
             http_basic: ~
 
     access_control:
-        - { path: ^/nglayouts/(api|app|admin), role: [ROLE_NGLAYOUTS_ADMIN] }
+        - { path: ^/nglayouts/(api|(dev/)?app|admin), role: [ROLE_NGLAYOUTS_ADMIN] }
         - { path: ^/cb, role: [ROLE_NGLAYOUTS_ADMIN] }
