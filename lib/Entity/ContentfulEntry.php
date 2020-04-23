@@ -15,6 +15,9 @@ use Doctrine\Common\Collections\Collection;
 use JsonSerializable;
 use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
 use Throwable;
+use function mb_strpos;
+use function trigger_error;
+use const E_USER_ERROR;
 
 /**
  * @final

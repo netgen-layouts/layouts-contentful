@@ -10,6 +10,10 @@ use Netgen\Layouts\Layout\Resolver\ConditionTypeInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints;
 use Throwable;
+use function count;
+use function explode;
+use function in_array;
+use function is_array;
 
 final class ContentType implements ConditionTypeInterface
 {

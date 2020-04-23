@@ -11,6 +11,7 @@ use Netgen\Layouts\Contentful\Service\Contentful;
 use Netgen\Layouts\Parameters\ParameterBuilderInterface;
 use Netgen\Layouts\Parameters\ParameterType;
 use Symfony\Component\HttpFoundation\RequestStack;
+use function count;
 
 /**
  * Handler for a query which retrieves the references from Contentful entry.

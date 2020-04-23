@@ -9,6 +9,9 @@ use Netgen\Layouts\Contentful\Exception\NotFoundException;
 use Netgen\Layouts\Layout\Resolver\TargetTypeInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints;
+use function count;
+use function explode;
+use function sprintf;
 
 final class Entry implements TargetTypeInterface
 {

@@ -8,6 +8,8 @@ use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Service\Contentful;
 use Symfony\Cmf\Component\Routing\Enhancer\RouteEnhancerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use function explode;
+use function is_a;
 
 final class ContentfulEnhancer implements RouteEnhancerInterface
 {

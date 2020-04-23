@@ -20,6 +20,11 @@ use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\RedirectRoute;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use function count;
+use function explode;
+use function in_array;
+use function json_encode;
+use function sprintf;
 
 final class Contentful
 {

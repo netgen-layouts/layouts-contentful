@@ -11,6 +11,11 @@ use Netgen\Layouts\Collection\QueryType\QueryTypeHandlerInterface;
 use Netgen\Layouts\Contentful\Service\Contentful;
 use Netgen\Layouts\Parameters\ParameterBuilderInterface;
 use Netgen\Layouts\Parameters\ParameterType;
+use function array_key_exists;
+use function explode;
+use function is_int;
+use function iterator_to_array;
+use function trim;
 
 /**
  * Handler for a query which retrieves the entries from Contentful.

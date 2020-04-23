@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace Netgen\Layouts\Contentful\Routing\EntrySlugger;
 
+use function html_entity_decode;
+use function htmlentities;
+use function mb_strtolower;
+use function preg_replace;
+use function trim;
+use const ENT_QUOTES;
+
 trait FilterSlugTrait
 {
     /**

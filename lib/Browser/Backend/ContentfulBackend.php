@@ -14,6 +14,9 @@ use Netgen\Layouts\Contentful\Browser\Item\Client\RootLocation;
 use Netgen\Layouts\Contentful\Browser\Item\Entry\Item;
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Service\Contentful;
+use function array_keys;
+use function array_map;
+use function count;
 
 final class ContentfulBackend implements BackendInterface
 {
