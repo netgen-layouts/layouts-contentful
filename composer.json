@@ -43,9 +43,6 @@
         }
     },
     "autoload-dev": {
-        "files": [
-            "vendor/symfony/var-dumper/Resources/functions/dump.php"
-        ],
         "psr-4": {
             "Netgen\\Layouts\\Contentful\\Tests\\": "tests/lib/",
             "Netgen\\Bundle\\LayoutsContentfulBundle\\Tests\\": "tests/bundle/"
