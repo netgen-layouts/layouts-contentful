@@ -412,8 +412,6 @@ final class Contentful
      * Loads the Contentful asset from provided ID.
      *
      * @throws \Netgen\Layouts\Contentful\Exception\NotFoundException If asset could not be loaded
-     *
-     * @return \Contentful\Delivery\Resource\Asset
      */
     public function loadContentfulAsset(string $id): Asset
     {

@@ -87,7 +87,6 @@ final class ContentfulEntryField
      * Sets the value to the field.
      *
      * @param mixed $value
-     * @param string $type
      */
     public function setValue($value, string $type): void
     {
