@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\Collection;
 use JsonSerializable;
 use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
 use Throwable;
-use function mb_strpos;
+use function str_starts_with;
 use function trigger_error;
 use const E_USER_ERROR;
 
@@ -77,7 +77,7 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
      */
     public function __call(string $name, array $arguments)
     {
-        if (mb_strpos($name, 'get') !== 0) {
+        if (!str_starts_with($name, 'get')) {
             trigger_error('Call to undefined method ' . __CLASS__ . '::' . $name . '()', E_USER_ERROR);
         }
 
