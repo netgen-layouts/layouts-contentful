@@ -6,14 +6,14 @@ namespace Netgen\Layouts\Contentful\Layout\Resolver\TargetType;
 
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Exception\NotFoundException;
-use Netgen\Layouts\Layout\Resolver\TargetTypeInterface;
+use Netgen\Layouts\Layout\Resolver\TargetType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints;
 use function count;
 use function explode;
 use function sprintf;
 
-final class Entry implements TargetTypeInterface
+final class Entry extends TargetType
 {
     public static function getType(): string
     {

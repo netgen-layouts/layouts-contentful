@@ -6,7 +6,7 @@ namespace Netgen\Layouts\Contentful\Layout\Resolver\ConditionType;
 
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Service\Contentful;
-use Netgen\Layouts\Layout\Resolver\ConditionTypeInterface;
+use Netgen\Layouts\Layout\Resolver\ConditionType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints;
 use Throwable;
@@ -15,7 +15,7 @@ use function explode;
 use function in_array;
 use function is_array;
 
-final class ContentType implements ConditionTypeInterface
+final class ContentType extends ConditionType
 {
     /**
      * @var \Netgen\Layouts\Contentful\Service\Contentful

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Netgen\Layouts\Contentful\Layout\Resolver\TargetType;
 
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
-use Netgen\Layouts\Layout\Resolver\TargetTypeInterface;
+use Netgen\Layouts\Layout\Resolver\TargetType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints;
 use function count;
 use function explode;
 
-final class Space implements TargetTypeInterface
+final class Space extends TargetType
 {
     public static function getType(): string
     {
