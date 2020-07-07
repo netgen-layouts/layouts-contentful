@@ -1,5 +1,5 @@
 <div class="name">
-    <a href="{{ path(item.object) }}">{{ item.object.name }}</a>
+    <a href="{{ path('cmf_routing_object', {'_route_object': item.object}) }}">{{ item.object.name }}</a>
 </div>
 
 <div class="value-type">
