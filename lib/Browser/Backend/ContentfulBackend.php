@@ -6,6 +6,9 @@ namespace Netgen\Layouts\Contentful\Browser\Backend;
 
 use Contentful\Delivery\Client\ClientInterface as ContentfulClientInterface;
 use Netgen\ContentBrowser\Backend\BackendInterface;
+use Netgen\ContentBrowser\Backend\SearchQuery;
+use Netgen\ContentBrowser\Backend\SearchResult;
+use Netgen\ContentBrowser\Backend\SearchResultInterface;
 use Netgen\ContentBrowser\Item\ItemInterface;
 use Netgen\ContentBrowser\Item\LocationInterface;
 use Netgen\Layouts\Contentful\Browser\Item\Client\ClientInterface;
@@ -95,6 +98,24 @@ final class ContentfulBackend implements BackendInterface
         }
 
         return $this->contentful->getContentfulEntriesCount($location->getClient());
+    }
+
+    public function searchItems(SearchQuery $searchQuery): SearchResultInterface
+    {
+        return new SearchResult(
+            $this->buildItems(
+                $this->contentful->searchContentfulEntries(
+                    $searchQuery->getSearchText(),
+                    $searchQuery->getOffset(),
+                    $searchQuery->getLimit()
+                )
+            )
+        );
+    }
+
+    public function searchItemsCount(SearchQuery $searchQuery): int
+    {
+        return $this->contentful->searchContentfulEntriesCount($searchQuery->getSearchText());
     }
 
     public function search(string $searchText, int $offset = 0, int $limit = 25): iterable
