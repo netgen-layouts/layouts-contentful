@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\Bundle\LayoutsContentfulBundle\DependencyInjection;
 
+use Netgen\Layouts\Contentful\Routing\EntrySluggerInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
@@ -42,6 +43,8 @@ final class NetgenLayoutsContentfulExtension extends Extension implements Prepen
         $loader->load('services/**/*.yaml', 'glob');
         $loader->load('browser/services.yaml');
         $loader->load('default_settings.yaml');
+
+        $this->registerAutoConfiguration($container);
     }
 
     public function prepend(ContainerBuilder $container): void
@@ -74,5 +77,12 @@ final class NetgenLayoutsContentfulExtension extends Extension implements Prepen
     public function getConfiguration(array $config, ContainerBuilder $container)
     {
         return new Configuration($this);
+    }
+
+    private function registerAutoConfiguration(ContainerBuilder $container): void
+    {
+        $container
+            ->registerForAutoconfiguration(EntrySluggerInterface::class)
+            ->addTag('netgen_layouts.contentful.entry_slugger');
     }
 }
