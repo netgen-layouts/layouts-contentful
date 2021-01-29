@@ -71,6 +71,7 @@ final class WebhookController extends AbstractController
                 $this->contentful->refreshContentfulEntry($remoteEntry, $client);
 
                 break;
+
             case self::ENTRY_UNPUBLISH:
                 if (!$remoteEntry instanceof DeletedEntry) {
                     throw new BadRequestHttpException('Invalid request');
@@ -79,6 +80,7 @@ final class WebhookController extends AbstractController
                 $this->contentful->unpublishContentfulEntry($remoteEntry);
 
                 break;
+
             case self::ENTRY_DELETE:
                 if (!$remoteEntry instanceof DeletedEntry) {
                     throw new BadRequestHttpException('Invalid request');
@@ -87,12 +89,14 @@ final class WebhookController extends AbstractController
                 $this->contentful->deleteContentfulEntry($remoteEntry);
 
                 break;
+
             case self::CONTENT_TYPE_PUBLISH:
             case self::CONTENT_TYPE_UNPUBLISH:
             case self::CONTENT_TYPE_DELETE:
                 $this->contentful->refreshContentTypeCache($client);
 
                 break;
+
             default:
                 throw new BadRequestHttpException('Invalid request');
         }
