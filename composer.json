@@ -20,8 +20,8 @@
     "require-dev": {
         "netgen/layouts-coding-standard": "^1.0",
         "phpunit/phpunit": "^9.3",
-        "symfony/phpunit-bridge": "^5.0",
-        "symfony/var-dumper": "^5.0",
+        "symfony/phpunit-bridge": "^5.2",
+        "symfony/var-dumper": "^5.2",
         "phpstan/phpstan": "^0.12",
         "phpstan/phpstan-strict-rules": "^0.12",
         "phpstan/phpstan-doctrine": "^0.12",
