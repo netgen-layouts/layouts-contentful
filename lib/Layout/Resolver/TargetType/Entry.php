@@ -27,7 +27,7 @@ final class Entry extends TargetType
         ];
     }
 
-    public function provideValue(Request $request)
+    public function provideValue(Request $request): ?string
     {
         $id = $request->attributes->get('_content_id');
         if ($id === null) {

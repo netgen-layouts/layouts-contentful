@@ -16,7 +16,7 @@ final class Item implements ItemInterface, EntryInterface
         $this->entry = $entry;
     }
 
-    public function getValue()
+    public function getValue(): string
     {
         return $this->entry->getId();
     }

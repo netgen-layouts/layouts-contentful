@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Netgen\Bundle\LayoutsContentfulBundle\DependencyInjection;
 
 use Netgen\Layouts\Contentful\Routing\EntrySluggerInterface;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
@@ -71,10 +72,8 @@ final class NetgenLayoutsContentfulExtension extends Extension implements Prepen
 
     /**
      * @param mixed[] $config
-     *
-     * @return \Symfony\Component\Config\Definition\ConfigurationInterface
      */
-    public function getConfiguration(array $config, ContainerBuilder $container)
+    public function getConfiguration(array $config, ContainerBuilder $container): ConfigurationInterface
     {
         return new Configuration($this);
     }

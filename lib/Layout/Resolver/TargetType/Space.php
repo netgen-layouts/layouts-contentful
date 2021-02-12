@@ -25,7 +25,7 @@ final class Space extends TargetType
         ];
     }
 
-    public function provideValue(Request $request)
+    public function provideValue(Request $request): ?string
     {
         $contentId = $request->attributes->get('_content_id');
         if ($contentId === null) {

@@ -22,12 +22,12 @@ final class EntryValueConverter implements ValueConverterInterface
         return 'contentful_entry';
     }
 
-    public function getId(object $object)
+    public function getId(object $object): string
     {
         return $object->getId();
     }
 
-    public function getRemoteId(object $object)
+    public function getRemoteId(object $object): string
     {
         return $object->getId();
     }
@@ -42,7 +42,7 @@ final class EntryValueConverter implements ValueConverterInterface
         return $object->getIsPublished();
     }
 
-    public function getObject(object $object): object
+    public function getObject(object $object): ContentfulEntry
     {
         return $object;
     }

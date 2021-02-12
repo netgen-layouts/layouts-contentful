@@ -19,7 +19,7 @@ final class Location implements LocationInterface, ClientInterface
         $this->id = $id;
     }
 
-    public function getLocationId()
+    public function getLocationId(): string
     {
         return $this->id;
     }
@@ -29,7 +29,7 @@ final class Location implements LocationInterface, ClientInterface
         return $this->client->getSpace()->getName();
     }
 
-    public function getParentId()
+    public function getParentId(): ?string
     {
         return null;
     }

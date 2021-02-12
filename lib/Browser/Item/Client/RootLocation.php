@@ -9,7 +9,7 @@ use Netgen\ContentBrowser\Item\LocationInterface;
 
 final class RootLocation implements LocationInterface, ClientInterface
 {
-    public function getLocationId()
+    public function getLocationId(): string
     {
         return '0';
     }
@@ -19,7 +19,7 @@ final class RootLocation implements LocationInterface, ClientInterface
         return 'Content';
     }
 
-    public function getParentId()
+    public function getParentId(): ?string
     {
         return null;
     }
