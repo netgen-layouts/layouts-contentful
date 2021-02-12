@@ -11,10 +11,7 @@ use stdClass;
 
 final class EntryValueConverterTest extends TestCase
 {
-    /**
-     * @var \Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter
-     */
-    private $valueConverter;
+    private EntryValueConverter $valueConverter;
 
     protected function setUp(): void
     {

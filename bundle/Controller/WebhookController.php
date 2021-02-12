@@ -25,10 +25,7 @@ final class WebhookController extends AbstractController
     public const CONTENT_TYPE_UNPUBLISH = 'ContentManagement.ContentType.unpublish';
     public const CONTENT_TYPE_DELETE = 'ContentManagement.ContentType.delete';
 
-    /**
-     * @var \Netgen\Layouts\Contentful\Service\Contentful
-     */
-    private $contentful;
+    private Contentful $contentful;
 
     public function __construct(Contentful $contentful)
     {

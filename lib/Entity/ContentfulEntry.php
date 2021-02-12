@@ -24,42 +24,25 @@ use const E_USER_ERROR;
  */
 class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
 {
-    /**
-     * @var string
-     */
-    private $id;
+    private string $id;
 
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var string
-     */
-    private $json;
+    private string $json;
 
-    /**
-     * @var bool
-     */
-    private $isPublished = false;
+    private bool $isPublished = false;
 
-    /**
-     * @var bool
-     */
-    private $isDeleted = false;
+    private bool $isDeleted = false;
 
     /**
      * @var \Doctrine\Common\Collections\Collection<int, \Symfony\Component\Routing\Route>
      */
-    private $routes;
+    private Collection $routes;
 
     /**
      * Original Contentful entry.
-     *
-     * @var \Contentful\Delivery\Resource\Entry
      */
-    private $remoteEntry;
+    private Entry $remoteEntry;
 
     public function __construct(?Entry $remoteEntry = null)
     {

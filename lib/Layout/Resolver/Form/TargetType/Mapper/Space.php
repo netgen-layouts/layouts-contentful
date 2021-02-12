@@ -11,10 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 final class Space extends Mapper
 {
-    /**
-     * @var \Netgen\Layouts\Contentful\Service\Contentful
-     */
-    private $contentful;
+    private Contentful $contentful;
 
     public function __construct(Contentful $contentful)
     {

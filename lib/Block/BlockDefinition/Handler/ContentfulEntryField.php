@@ -30,10 +30,7 @@ final class ContentfulEntryField
      */
     private $value;
 
-    /**
-     * @var string
-     */
-    private $type;
+    private string $type;
 
     /**
      * @param mixed $innerField

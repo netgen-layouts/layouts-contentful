@@ -13,10 +13,7 @@ use function is_a;
 
 final class ContentfulEnhancer implements RouteEnhancerInterface
 {
-    /**
-     * @var \Netgen\Layouts\Contentful\Service\Contentful
-     */
-    private $contentful;
+    private Contentful $contentful;
 
     public function __construct(Contentful $contentful)
     {

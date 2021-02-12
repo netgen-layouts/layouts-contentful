@@ -10,10 +10,7 @@ use Throwable;
 
 final class EntryValueLoader implements ValueLoaderInterface
 {
-    /**
-     * @var \Netgen\Layouts\Contentful\Service\Contentful
-     */
-    private $contentful;
+    private Contentful $contentful;
 
     public function __construct(Contentful $contentful)
     {

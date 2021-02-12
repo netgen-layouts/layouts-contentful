@@ -9,10 +9,7 @@ use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 
 final class Item implements ItemInterface, EntryInterface
 {
-    /**
-     * @var \Netgen\Layouts\Contentful\Entity\ContentfulEntry
-     */
-    private $entry;
+    private ContentfulEntry $entry;
 
     public function __construct(ContentfulEntry $entry)
     {

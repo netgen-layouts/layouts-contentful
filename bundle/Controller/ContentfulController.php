@@ -24,15 +24,9 @@ final class ContentfulController extends AbstractController
     public const CONTENT_TYPE_UNPUBLISH = 'ContentManagement.ContentType.unpublish';
     public const CONTENT_TYPE_DELETE = 'ContentManagement.ContentType.delete';
 
-    /**
-     * @var \Netgen\Bundle\LayoutsContentfulBundle\Controller\ViewController
-     */
-    private $viewController;
+    private ViewController $viewController;
 
-    /**
-     * @var \Netgen\Bundle\LayoutsContentfulBundle\Controller\WebhookController
-     */
-    private $webHookController;
+    private WebhookController $webHookController;
 
     public function __construct(ViewController $viewController, WebhookController $webHookController)
     {

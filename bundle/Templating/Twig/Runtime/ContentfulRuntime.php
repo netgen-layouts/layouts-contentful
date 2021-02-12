@@ -11,10 +11,7 @@ use Throwable;
 
 final class ContentfulRuntime
 {
-    /**
-     * @var \Netgen\Layouts\Contentful\Service\Contentful
-     */
-    private $contentful;
+    private Contentful $contentful;
 
     public function __construct(Contentful $contentful)
     {

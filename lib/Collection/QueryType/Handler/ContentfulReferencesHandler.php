@@ -18,15 +18,9 @@ use function count;
  */
 final class ContentfulReferencesHandler implements QueryTypeHandlerInterface
 {
-    /**
-     * @var \Netgen\Layouts\Contentful\Service\Contentful
-     */
-    private $contentful;
+    private Contentful $contentful;
 
-    /**
-     * @var \Symfony\Component\HttpFoundation\RequestStack
-     */
-    private $requestStack;
+    private RequestStack $requestStack;
 
     public function __construct(Contentful $contentful, RequestStack $requestStack)
     {

@@ -27,25 +27,13 @@ use function range;
 
 final class EntryFieldHandler extends BlockDefinitionHandler
 {
-    /**
-     * @var \Netgen\Layouts\Contentful\Service\Contentful
-     */
-    private $contentful;
+    private Contentful $contentful;
 
-    /**
-     * @var \Symfony\Component\HttpFoundation\RequestStack
-     */
-    private $requestStack;
+    private RequestStack $requestStack;
 
-    /**
-     * @var \Contentful\RichText\ParserInterface
-     */
-    private $richTextParser;
+    private ParserInterface $richTextParser;
 
-    /**
-     * @var \Netgen\Layouts\Item\CmsItemBuilderInterface
-     */
-    private $cmsItemBuilder;
+    private CmsItemBuilderInterface $cmsItemBuilder;
 
     public function __construct(
         Contentful $contentful,

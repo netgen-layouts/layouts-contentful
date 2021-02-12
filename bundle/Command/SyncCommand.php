@@ -15,15 +15,9 @@ use function sprintf;
 
 final class SyncCommand extends Command
 {
-    /**
-     * @var \Netgen\Layouts\Contentful\Service\Contentful
-     */
-    private $contentful;
+    private Contentful $contentful;
 
-    /**
-     * @var \Symfony\Component\Console\Style\SymfonyStyle
-     */
-    private $io;
+    private SymfonyStyle $io;
 
     public function __construct(Contentful $contentful)
     {

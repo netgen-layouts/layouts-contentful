@@ -23,10 +23,7 @@ use function count;
 
 final class ContentfulBackend implements BackendInterface
 {
-    /**
-     * @var \Netgen\Layouts\Contentful\Service\Contentful
-     */
-    private $contentful;
+    private Contentful $contentful;
 
     public function __construct(Contentful $contentful)
     {

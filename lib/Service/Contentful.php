@@ -31,37 +31,22 @@ final class Contentful
     /**
      * @var \Contentful\Delivery\Client\ClientInterface[]
      */
-    private $clients;
+    private array $clients;
 
-    /**
-     * @var \Netgen\Layouts\Contentful\Routing\EntrySluggerInterface
-     */
-    private $entrySlugger;
+    private EntrySluggerInterface $entrySlugger;
 
-    /**
-     * @var \Contentful\Delivery\Client\ClientInterface
-     */
-    private $defaultClient;
+    private ClientInterface $defaultClient;
 
-    /**
-     * @var \Doctrine\ORM\EntityManagerInterface
-     */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /**
-     * @var \Symfony\Component\Filesystem\Filesystem
-     */
-    private $fileSystem;
+    private Filesystem $fileSystem;
 
-    /**
-     * @var string
-     */
-    private $cacheDir;
+    private string $cacheDir;
 
     /**
      * @var string[]
      */
-    private $routeContentTypes;
+    private array $routeContentTypes;
 
     /**
      * @param \Contentful\Delivery\Client\ClientInterface[] $clients

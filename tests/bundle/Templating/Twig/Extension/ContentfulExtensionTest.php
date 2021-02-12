@@ -10,10 +10,7 @@ use Twig\TwigFunction;
 
 final class ContentfulExtensionTest extends TestCase
 {
-    /**
-     * @var \Netgen\Bundle\LayoutsContentfulBundle\Templating\Twig\Extension\ContentfulExtension
-     */
-    private $extension;
+    private ContentfulExtension $extension;
 
     protected function setUp(): void
     {

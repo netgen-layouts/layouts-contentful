@@ -23,20 +23,11 @@ use function is_string;
 
 final class RoutesCommand extends Command
 {
-    /**
-     * @var \Netgen\Layouts\Contentful\Service\Contentful
-     */
-    private $contentful;
+    private Contentful $contentful;
 
-    /**
-     * @var \Doctrine\ORM\EntityManagerInterface
-     */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /**
-     * @var \Symfony\Component\Console\Style\SymfonyStyle
-     */
-    private $io;
+    private SymfonyStyle $io;
 
     public function __construct(Contentful $contentful, EntityManagerInterface $entityManager)
     {

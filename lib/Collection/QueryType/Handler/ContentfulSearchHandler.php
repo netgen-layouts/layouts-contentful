@@ -22,10 +22,7 @@ use function trim;
  */
 final class ContentfulSearchHandler implements QueryTypeHandlerInterface
 {
-    /**
-     * @var \Netgen\Layouts\Contentful\Service\Contentful
-     */
-    private $contentful;
+    private Contentful $contentful;
 
     public function __construct(Contentful $contentful)
     {

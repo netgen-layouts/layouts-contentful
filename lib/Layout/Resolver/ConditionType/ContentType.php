@@ -17,10 +17,7 @@ use function is_array;
 
 final class ContentType extends ConditionType
 {
-    /**
-     * @var \Netgen\Layouts\Contentful\Service\Contentful
-     */
-    private $contentful;
+    private Contentful $contentful;
 
     public function __construct(Contentful $contentful)
     {

@@ -15,12 +15,9 @@ final class Configurable implements EntrySluggerInterface
     /**
      * @var mixed[]
      */
-    private $configuration;
+    private array $configuration;
 
-    /**
-     * @var \Psr\Container\ContainerInterface
-     */
-    private $sluggers;
+    private ContainerInterface $sluggers;
 
     /**
      * @param mixed[] $configuration
