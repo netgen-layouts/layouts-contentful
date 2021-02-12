@@ -187,8 +187,8 @@ final class Contentful
      */
     public function getContentfulEntries(int $offset = 0, ?int $limit = null, ?ClientInterface $client = null, ?Query $query = null): array
     {
-        $client = $client ?? $this->defaultClient;
-        $query = $query ?? new Query();
+        $client ??= $this->defaultClient;
+        $query ??= new Query();
 
         $query->setSkip($offset);
         if ($limit !== null) {
@@ -203,7 +203,7 @@ final class Contentful
      */
     public function getContentfulEntriesCount(?ClientInterface $client = null, ?Query $query = null): int
     {
-        $client = $client ?? $this->defaultClient;
+        $client ??= $this->defaultClient;
 
         return count($client->getEntries($query));
     }
@@ -215,7 +215,7 @@ final class Contentful
      */
     public function searchContentfulEntries(string $searchText, int $offset = 0, int $limit = 25, ?ClientInterface $client = null): array
     {
-        $client = $client ?? $this->defaultClient;
+        $client ??= $this->defaultClient;
 
         $query = new Query();
         $query->setLimit($limit);
@@ -230,7 +230,7 @@ final class Contentful
      */
     public function searchContentfulEntriesCount(string $searchText, ?ClientInterface $client = null): int
     {
-        $client = $client ?? $this->defaultClient;
+        $client ??= $this->defaultClient;
 
         $query = new Query();
         $query->where('query', $searchText);
@@ -243,7 +243,7 @@ final class Contentful
      */
     public function refreshContentfulEntry(Entry $remoteEntry, ?ClientInterface $client = null): ContentfulEntry
     {
-        $client = $client ?? $this->defaultClient;
+        $client ??= $this->defaultClient;
         $id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
         $contentfulEntry = $this->findContentfulEntry($id);
 
