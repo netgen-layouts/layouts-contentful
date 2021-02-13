@@ -49,7 +49,7 @@ final class WebhookController extends AbstractController
             throw new BadRequestHttpException('Invalid request');
         }
 
-        if (!$client instanceof ClientInterface) {
+        if (!$client instanceof ClientInterface || !method_exists($client, 'parseJson')) {
             throw new BadRequestHttpException('Invalid request');
         }
 
