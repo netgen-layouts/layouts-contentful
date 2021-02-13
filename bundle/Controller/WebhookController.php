@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Netgen\Bundle\LayoutsContentfulBundle\Controller;
 
 use Contentful\Delivery\Client\ClientInterface;
+use Contentful\Delivery\Client\JsonDecoderClientInterface;
 use Contentful\Delivery\Resource\DeletedEntry;
 use Contentful\Delivery\Resource\Entry;
 use Netgen\Bundle\LayoutsBundle\Controller\AbstractController;
@@ -13,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Throwable;
-use function method_exists;
 
 final class WebhookController extends AbstractController
 {
@@ -44,13 +44,12 @@ final class WebhookController extends AbstractController
         $spaceId = $request->headers->get('X-Space-Id');
 
         try {
-            /** @var (\Contentful\Delivery\Client\ClientInterface&\Contentful\Delivery\Client\JsonDecoderClientInterface)|null $client */
             $client = $this->contentful->getClientBySpaceId((string) $spaceId);
         } catch (Throwable $t) {
             throw new BadRequestHttpException('Invalid request');
         }
 
-        if (!$client instanceof ClientInterface || !method_exists($client, 'parseJson')) {
+        if (!$client instanceof ClientInterface || !$client instanceof JsonDecoderClientInterface) {
             throw new BadRequestHttpException('Invalid request');
         }
 
