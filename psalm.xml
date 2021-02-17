@@ -35,7 +35,8 @@
 
         <PossiblyInvalidArgument>
             <errorLevel type="suppress">
-                <file name="lib/Service/Contentful.php" />
+                <referencedFunction name="Contentful\Delivery\Client\JsonDecoderClientInterface::parseJson" />
+                <referencedFunction name="Netgen\Layouts\Contentful\Service\Contentful::buildContentfulEntries" />
             </errorLevel>
         </PossiblyInvalidArgument>
 
