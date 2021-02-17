@@ -40,7 +40,7 @@ final class WebhookController extends AbstractController
      */
     public function __invoke(Request $request): Response
     {
-        $content = (string) $request->getContent();
+        $content = $request->getContent();
         $spaceId = $request->headers->get('X-Space-Id');
 
         try {
