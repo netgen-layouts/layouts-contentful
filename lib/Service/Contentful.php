@@ -464,6 +464,7 @@ final class Contentful
         $contentfulEntries = [];
 
         foreach ($entries as $remoteEntry) {
+            /** @var \Contentful\Delivery\Resource\Entry $remoteEntry */
             $id = $remoteEntry->getSpace()->getId() . '|' . $remoteEntry->getId();
             $contentfulEntry = $this->findContentfulEntry($id);
             if (!$contentfulEntry instanceof ContentfulEntry) {
