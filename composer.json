@@ -18,7 +18,7 @@
         "aptoma/twig-markdown": "^3.4"
     },
     "require-dev": {
-        "netgen/layouts-coding-standard": "^1.0",
+        "netgen/layouts-coding-standard": "^2.0",
         "phpunit/phpunit": "^9.5",
         "symfony/phpunit-bridge": "^5.2",
         "symfony/var-dumper": "^5.2",
