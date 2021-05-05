@@ -37,8 +37,8 @@ final class NetgenLayoutsContentfulExtension extends Extension implements Prepen
                 [
                     new GlobFileLoader($container, $locator),
                     new YamlFileLoader($container, $locator),
-                ]
-            )
+                ],
+            ),
         );
 
         $loader->load('services/**/*.yaml', 'glob');

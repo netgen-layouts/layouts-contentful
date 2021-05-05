@@ -13,7 +13,7 @@ final class Entry implements TargetHandlerInterface
     public function handleQuery(QueryBuilder $query, $value): void
     {
         $query->andWhere(
-            $query->expr()->eq('rt.value', ':target_value')
+            $query->expr()->eq('rt.value', ':target_value'),
         )->setParameter('target_value', $value, Types::STRING);
     }
 }

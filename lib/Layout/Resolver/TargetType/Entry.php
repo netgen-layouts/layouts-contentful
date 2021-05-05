@@ -39,8 +39,8 @@ final class Entry extends TargetType
             throw new NotFoundException(
                 sprintf(
                     'Item ID %s not valid.',
-                    $id
-                )
+                    $id,
+                ),
             );
         }
 

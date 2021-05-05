@@ -35,7 +35,7 @@ final class ContentfulReferencesHandler implements QueryTypeHandlerInterface
             ParameterType\TextLineType::class,
             [
                 'required' => true,
-            ]
+            ],
         );
     }
 

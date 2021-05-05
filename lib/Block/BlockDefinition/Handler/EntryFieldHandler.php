@@ -51,7 +51,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
     {
         $builder->add(
             'field_identifier',
-            ParameterType\IdentifierType::class
+            ParameterType\IdentifierType::class,
         );
 
         $builder->add(
@@ -62,7 +62,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
                 'default_value' => 0,
                 'min' => 0,
                 'max' => 4096,
-            ]
+            ],
         );
 
         $builder->add(
@@ -73,7 +73,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
                 'default_value' => 0,
                 'min' => 0,
                 'max' => 4096,
-            ]
+            ],
         );
 
         $builder->add(
@@ -89,7 +89,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
                     'Heading 3' => 'h3',
                 ],
                 'multiple' => false,
-            ]
+            ],
         );
 
         $builder->add(
@@ -98,7 +98,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
             [
                 'required' => true,
                 'default_value' => 'Y-m-d',
-            ]
+            ],
         );
 
         $builder->add(
@@ -109,7 +109,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
                 'default_value' => 5,
                 'min' => 0,
                 'max' => 20,
-            ]
+            ],
         );
 
         $builder->add(
@@ -123,7 +123,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
                     'HYBRID' => 'block.contentful_entry_field.map_type.hybrid',
                     'TERRAIN' => 'block.contentful_entry_field.map_type.terrain',
                 ],
-            ]
+            ],
         );
 
         $builder->add(
@@ -131,7 +131,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
             ParameterType\BooleanType::class,
             [
                 'default_value' => true,
-            ]
+            ],
         );
     }
 

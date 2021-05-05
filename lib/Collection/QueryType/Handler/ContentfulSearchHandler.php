@@ -45,9 +45,9 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
                                 yield '>  ' . $contentType->getName() => $clientName . '|' . $contentType->getId();
                             }
                         }
-                    })()
+                    })(),
                 ),
-            ]
+            ],
         );
 
         $builder->add(
@@ -59,7 +59,7 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
                     'Created' => 'sys.createdAt',
                     'Updated' => 'sys.updatedAt',
                 ],
-            ]
+            ],
         );
 
         $builder->add(
@@ -71,7 +71,7 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
                     'Descending' => true,
                     'Ascending' => false,
                 ],
-            ]
+            ],
         );
 
         $builder->add(
@@ -79,7 +79,7 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
             ParameterType\TextLineType::class,
             [
                 'groups' => [self::GROUP_ADVANCED],
-            ]
+            ],
         );
     }
 
@@ -97,7 +97,7 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
             $this->getOffset($offset),
             $this->getLimit($limit),
             $client,
-            $this->buildQuery($query)
+            $this->buildQuery($query),
         );
     }
 

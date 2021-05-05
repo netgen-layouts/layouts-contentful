@@ -60,7 +60,7 @@ final class ContentfulBackend implements BackendInterface
         }
 
         return $this->buildLocations(
-            $this->contentful->getClients()
+            $this->contentful->getClients(),
         );
     }
 
@@ -83,8 +83,8 @@ final class ContentfulBackend implements BackendInterface
             $this->contentful->getContentfulEntries(
                 $offset,
                 $limit,
-                $location->getClient()
-            )
+                $location->getClient(),
+            ),
         );
     }
 
@@ -104,9 +104,9 @@ final class ContentfulBackend implements BackendInterface
                 $this->contentful->searchContentfulEntries(
                     $searchQuery->getSearchText(),
                     $searchQuery->getOffset(),
-                    $searchQuery->getLimit()
-                )
-            )
+                    $searchQuery->getLimit(),
+                ),
+            ),
         );
     }
 
@@ -118,7 +118,7 @@ final class ContentfulBackend implements BackendInterface
     public function search(string $searchText, int $offset = 0, int $limit = 25): iterable
     {
         return $this->buildItems(
-            $this->contentful->searchContentfulEntries($searchText, $offset, $limit)
+            $this->contentful->searchContentfulEntries($searchText, $offset, $limit),
         );
     }
 
@@ -147,7 +147,7 @@ final class ContentfulBackend implements BackendInterface
         return array_map(
             fn (ContentfulClientInterface $client, string $id): Location => $this->buildLocation($client, $id),
             $clients,
-            array_keys($clients)
+            array_keys($clients),
         );
     }
 
@@ -170,7 +170,7 @@ final class ContentfulBackend implements BackendInterface
     {
         return array_map(
             fn (ContentfulEntry $entry): Item => $this->buildItem($entry),
-            $entries
+            $entries,
         );
     }
 }

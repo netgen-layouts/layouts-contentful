@@ -141,8 +141,8 @@ final class Contentful
             throw new NotFoundException(
                 sprintf(
                     'Item ID %s not valid.',
-                    $id
-                )
+                    $id,
+                ),
             );
         }
 
@@ -152,8 +152,8 @@ final class Contentful
             throw new NotFoundException(
                 sprintf(
                     'Item ID %s not valid.',
-                    $idList[0]
-                )
+                    $idList[0],
+                ),
             );
         }
 
@@ -164,7 +164,7 @@ final class Contentful
         } else {
             $contentfulEntry = $this->buildContentfulEntry(
                 $client->getEntry($idList[1]),
-                $id
+                $id,
             );
         }
 
@@ -172,8 +172,8 @@ final class Contentful
             throw new NotFoundException(
                 sprintf(
                     'Entry with ID %s deleted.',
-                    $id
-                )
+                    $id,
+                ),
             );
         }
 
@@ -285,8 +285,8 @@ final class Contentful
             sprintf(
                 '%s|%s',
                 $remoteEntry->getSystemProperties()->getSpace()->getId(),
-                $remoteEntry->getId()
-            )
+                $remoteEntry->getId(),
+            ),
         );
 
         if ($contentfulEntry instanceof ContentfulEntry) {
@@ -305,8 +305,8 @@ final class Contentful
             sprintf(
                 '%s|%s',
                 $remoteEntry->getSystemProperties()->getSpace()->getId(),
-                $remoteEntry->getId()
-            )
+                $remoteEntry->getId(),
+            ),
         );
 
         if ($contentfulEntry instanceof ContentfulEntry) {
@@ -338,8 +338,8 @@ final class Contentful
             throw new NotFoundException(
                 sprintf(
                     'Entry with ID %s has no redirects',
-                    $contentfulEntry->getId()
-                )
+                    $contentfulEntry->getId(),
+                ),
             );
         }
 
@@ -405,8 +405,8 @@ final class Contentful
             throw new NotFoundException(
                 sprintf(
                     'Asset ID "%s" not valid.',
-                    $id
-                )
+                    $id,
+                ),
             );
         }
 
@@ -416,8 +416,8 @@ final class Contentful
             throw new NotFoundException(
                 sprintf(
                     'Space ID "%s" not valid.',
-                    $idList[0]
-                )
+                    $idList[0],
+                ),
             );
         }
 

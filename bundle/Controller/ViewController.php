@@ -26,7 +26,7 @@ final class ViewController extends AbstractController
             '@NetgenLayoutsContentful/contentful/content.html.twig',
             [
                 'content' => $contentDocument,
-            ]
+            ],
         );
     }
 }

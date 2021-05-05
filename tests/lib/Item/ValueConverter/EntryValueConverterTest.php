@@ -35,8 +35,8 @@ final class EntryValueConverterTest extends TestCase
         self::assertSame(
             'contentful_entry',
             $this->valueConverter->getValueType(
-                new ContentfulEntry()
-            )
+                new ContentfulEntry(),
+            ),
         );
     }
 
