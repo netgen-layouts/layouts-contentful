@@ -100,29 +100,32 @@ It is highly recommended to secure the Netgen Layouts interface and allow only
 authenticated users in. For fresh Symfony installations the simplest way is to
 define an admin user in memory with the `ROLE_NGLAYOUTS_ADMIN` role and enable
 the HTTP basic auth firewall. Add the following parts to relevant sections of
-your `security.yaml`:
+your `security.yaml` (example below is valid for Symfony 5.3):
 
 ```
 security:
+    enable_authenticator_manager: true
+
     providers:
         users_in_memory:
             memory:
                 users:
                     admin:
                         password: admin
-                        roles: ROLE_NGLAYOUTS_ADMIN
+                        roles: [ROLE_NGLAYOUTS_ADMIN]
 
-    encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
+    password_hashers:
+        Symfony\Component\Security\Core\User\InMemoryUser: plaintext
 
     firewalls:
         main:
+            lazy: true
             provider: users_in_memory
             http_basic: ~
 
     access_control:
-        - { path: ^/nglayouts/(api|app|admin), role: [ROLE_NGLAYOUTS_ADMIN] }
-        - { path: ^/cb, role: [ROLE_NGLAYOUTS_ADMIN] }
+        - { path: ^/nglayouts/(api|(dev/)?app|admin), roles: ROLE_NGLAYOUTS_ADMIN }
+        - { path: ^/cb, roles: ROLE_NGLAYOUTS_ADMIN }
 ```
 
 ## Verifying that Netgen Layouts works

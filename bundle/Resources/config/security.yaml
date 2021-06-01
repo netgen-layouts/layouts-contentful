@@ -1,24 +1,23 @@
 security:
+    enable_authenticator_manager: true
+
     providers:
         users_in_memory:
             memory:
                 users:
                     admin:
                         password: admin
-                        roles: ROLE_NGLAYOUTS_ADMIN
+                        roles: [ROLE_NGLAYOUTS_ADMIN]
 
-    encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
+    password_hashers:
+        Symfony\Component\Security\Core\User\InMemoryUser: plaintext
 
     firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
         main:
-            anonymous: lazy
+            lazy: true
             provider: users_in_memory
             http_basic: ~
 
     access_control:
-        - { path: ^/nglayouts/(api|(dev/)?app|admin), role: [ROLE_NGLAYOUTS_ADMIN] }
-        - { path: ^/cb, role: [ROLE_NGLAYOUTS_ADMIN] }
+        - { path: ^/nglayouts/(api|(dev/)?app|admin), roles: ROLE_NGLAYOUTS_ADMIN }
+        - { path: ^/cb, roles: ROLE_NGLAYOUTS_ADMIN }
