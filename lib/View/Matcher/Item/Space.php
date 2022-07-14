@@ -8,6 +8,7 @@ use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\View\Matcher\MatcherInterface;
 use Netgen\Layouts\View\View\ItemViewInterface;
 use Netgen\Layouts\View\ViewInterface;
+
 use function in_array;
 
 final class Space implements MatcherInterface
