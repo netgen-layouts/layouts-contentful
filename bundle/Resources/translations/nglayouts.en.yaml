@@ -20,6 +20,8 @@ query.contentful_search.limit: 'Limit'
 query.contentful_search.offset: 'Offset'
 query.contentful_search.client: 'Space and content type'
 
+query.contentful_references.field_definition_identifier: 'Field definition identifier'
+
 layout_resolver.target.contentful_entry: 'Contentful entry'
 layout_resolver.target.contentful_space: 'Contentful space'
 layout_resolver.condition.contentful_content_type: 'Contentful content type'
