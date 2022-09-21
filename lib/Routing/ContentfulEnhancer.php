@@ -21,11 +21,6 @@ final class ContentfulEnhancer implements RouteEnhancerInterface
         $this->contentful = $contentful;
     }
 
-    /**
-     * @param mixed[] $defaults
-     *
-     * @return mixed[]
-     */
     public function enhance(array $defaults, Request $request): array
     {
         $contentClass = explode(':', $defaults['_content_id'])[0];
