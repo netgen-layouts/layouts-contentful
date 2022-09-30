@@ -52,8 +52,8 @@ final class RoutesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($input->getOption('delete') !== null) {
-            $entryId = $input->getOption('delete');
+        if ($input->getOption('delete-redirects') !== null) {
+            $entryId = $input->getOption('delete-redirects');
             if (!is_string($entryId)) {
                 throw new RuntimeException('Redirects can only be deleted for a single entry per command run.');
             }
