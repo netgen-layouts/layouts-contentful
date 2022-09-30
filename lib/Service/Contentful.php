@@ -248,6 +248,7 @@ final class Contentful
         $contentfulEntry = $this->findContentfulEntry($id);
 
         if ($contentfulEntry instanceof ContentfulEntry) {
+            $contentfulEntry->setRemoteEntry($remoteEntry);
             $savedCurrentSlug = $this->entrySlugger->getSlug($contentfulEntry);
 
             $contentfulEntry->setJson((string) json_encode($remoteEntry));
