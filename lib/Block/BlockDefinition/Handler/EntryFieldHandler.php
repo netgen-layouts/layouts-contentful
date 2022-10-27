@@ -188,10 +188,18 @@ final class EntryFieldHandler extends BlockDefinitionHandler
                 $fieldType = ContentfulEntryField::TYPE_ENTRIES;
 
                 foreach ($innerField as $subField) {
+                    if ($subField instanceof Entry) {
+                        $type = $subField->getType();
+                        $id = $subField->getId();
+                    } else {
+                        $type = $subField['sys']['linkType'];
+                        $id = $subField['sys']['id'];
+                    }
+                    
                     if ($subField['sys']['linkType'] === 'Entry') {
-                        $fieldValues[] = $this->loadEntry($entry->getSpace(), $subField['sys']['id']);
+                        $fieldValues[] = $this->loadEntry($entry->getSpace(), $id);
                     } elseif ($subField['sys']['linkType'] === 'Asset') {
-                        $fieldValues[] = $this->loadAsset($entry->getSpace(), $subField['sys']['id']);
+                        $fieldValues[] = $this->loadAsset($entry->getSpace(), $id);
                         $fieldType = ContentfulEntryField::TYPE_ASSETS;
                     }
                 }
