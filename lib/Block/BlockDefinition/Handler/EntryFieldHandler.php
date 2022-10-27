@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Netgen\Layouts\Contentful\Block\BlockDefinition\Handler;
 
 use Contentful\Delivery\Resource\Asset;
+use Contentful\Delivery\Resource\Entry;
 use Contentful\Delivery\Resource\Space;
 use Contentful\RichText\ParserInterface;
 use Netgen\Layouts\API\Values\Block\Block;
@@ -195,10 +196,10 @@ final class EntryFieldHandler extends BlockDefinitionHandler
                         $type = $subField['sys']['linkType'];
                         $id = $subField['sys']['id'];
                     }
-                    
-                    if ($subField['sys']['linkType'] === 'Entry') {
+
+                    if ($type === 'Entry') {
                         $fieldValues[] = $this->loadEntry($entry->getSpace(), $id);
-                    } elseif ($subField['sys']['linkType'] === 'Asset') {
+                    } elseif ($type === 'Asset') {
                         $fieldValues[] = $this->loadAsset($entry->getSpace(), $id);
                         $fieldType = ContentfulEntryField::TYPE_ASSETS;
                     }
