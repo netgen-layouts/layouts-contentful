@@ -9,6 +9,7 @@ use function htmlentities;
 use function mb_strtolower;
 use function preg_replace;
 use function trim;
+
 use const ENT_QUOTES;
 
 trait FilterSlugTrait

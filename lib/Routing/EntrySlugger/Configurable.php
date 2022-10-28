@@ -8,6 +8,7 @@ use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Exception\RuntimeException;
 use Netgen\Layouts\Contentful\Routing\EntrySluggerInterface;
 use Psr\Container\ContainerInterface;
+
 use function sprintf;
 
 final class Configurable implements EntrySluggerInterface

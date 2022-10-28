@@ -6,6 +6,7 @@ namespace Netgen\Layouts\Contentful\Block\BlockDefinition\Handler;
 
 use Contentful\RichText\Node\Document;
 use DateTimeInterface;
+
 use function gettype;
 
 final class ContentfulEntryField

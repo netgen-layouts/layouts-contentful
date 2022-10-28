@@ -29,6 +29,7 @@ final class Space extends Mapper
             'choices' => (function (): Generator {
                 foreach ($this->contentful->getClients() as $client) {
                     $clientSpace = $client->getSpace();
+
                     yield $clientSpace->getName() => $clientSpace->getId();
                 }
             })(),
