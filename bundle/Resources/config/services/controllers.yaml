@@ -3,6 +3,8 @@ services:
         class: Netgen\Bundle\LayoutsContentfulBundle\Controller\ViewController
         public: true
         parent: netgen_layouts.controller.base
+        tags:
+            - { name: container.service_subscriber }
 
     netgen_layouts.contentful.controller.webhook:
         class: Netgen\Bundle\LayoutsContentfulBundle\Controller\WebhookController
@@ -10,3 +12,5 @@ services:
         parent: netgen_layouts.controller.base
         arguments:
             - "@netgen_layouts.contentful.service"
+        tags:
+            - { name: container.service_subscriber }
