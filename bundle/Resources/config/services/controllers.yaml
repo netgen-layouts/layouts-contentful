@@ -1,13 +1,4 @@
 services:
-    netgen_layouts.contentful.controller.contenful:
-        class: Netgen\Bundle\LayoutsContentfulBundle\Controller\ContentfulController
-        public: true
-        parent: netgen_layouts.controller.base
-        deprecated: 'The "%service_id%" service is deprecated. Use "netgen_layouts.contentful.controller.view" or "netgen_layouts.contentful.controller.webhook" instead'
-        arguments:
-            - "@netgen_layouts.contentful.controller.view"
-            - "@netgen_layouts.contentful.controller.webhook"
-
     netgen_layouts.contentful.controller.view:
         class: Netgen\Bundle\LayoutsContentfulBundle\Controller\ViewController
         public: true
@@ -19,7 +10,3 @@ services:
         parent: netgen_layouts.controller.base
         arguments:
             - "@netgen_layouts.contentful.service"
-
-    nglayouts_contentful:
-        alias: netgen_layouts.contentful.controller.contenful
-        public: true
