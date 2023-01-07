@@ -48,6 +48,6 @@ view:
                     block\view_type: entries
         app:
             contentful_entry_field:
-                template: "@NetgenLayoutsContentful/app/block/contentful_entry_field.html.twig"
+                template: "@nglayouts_admin/app/block/contentful_entry_field.html.twig"
                 match:
                     block\definition: contentful_entry_field

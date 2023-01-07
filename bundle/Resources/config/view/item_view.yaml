@@ -12,6 +12,6 @@ view:
                     item\value_type: contentful_entry
         app:
             contentful_entry:
-                template: "@NetgenLayoutsContentful/app/item/contentful_entry.html.twig"
+                template: "@nglayouts_admin/app/item/contentful_entry.html.twig"
                 match:
                     item\value_type: contentful_entry
