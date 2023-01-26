@@ -11,7 +11,7 @@
     ],
     "require": {
         "netgen/layouts-core": "~1.4.0",
-        "contentful/contentful-bundle": "^7.1",
+        "contentful/contentful-bundle": "^7.2",
         "doctrine/orm": "^2.13",
         "symfony-cmf/routing-bundle": "^3.0",
         "erusev/parsedown": "^1.7",
