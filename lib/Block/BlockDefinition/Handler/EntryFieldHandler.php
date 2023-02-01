@@ -176,7 +176,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
     {
         try {
             if (array_key_exists('content', $innerField) && array_key_exists('nodeType', $innerField)) {
-                $field->setValue($this->richTextParser->parse($innerField), ContentfulEntryField::TYPE_RICHTEXT);
+                $field->setValue($this->richTextParser->parseLocalized($innerField, null), ContentfulEntryField::TYPE_RICHTEXT);
             } elseif (array_key_exists('lon', $innerField) && array_key_exists('lat', $innerField)) {
                 $field->setValue($innerField, ContentfulEntryField::TYPE_GEOLOCATION);
             } elseif (array_key_exists('sys', $innerField)) {

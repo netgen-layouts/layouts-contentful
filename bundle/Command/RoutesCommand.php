@@ -89,6 +89,7 @@ final class RoutesCommand extends Command
             $entryId = $route->getName();
             $status = Response::HTTP_OK;
 
+            /** @var class-string $contentClass */
             $contentClass = explode(':', $route->getDefault('_content_id') ?? '')[0];
             if (is_a($contentClass, RedirectRouteInterface::class, true)) {
                 $entryId = explode('_', $route->getName())[0];
