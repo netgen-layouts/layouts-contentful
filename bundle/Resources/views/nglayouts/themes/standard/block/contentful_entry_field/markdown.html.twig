@@ -8,7 +8,7 @@
         {% if field is not empty %}
             {% if field.type is constant('STRING', field.type) %}
                 <div class="field field-{{ field.type.value }} field-{{ field_identifier }}">
-                    {{ field.value|markdown }}
+                    {{ field.value|markdown_to_html }}
                 </div>
             {% else %}
                 {{ 'contentful.field_not_compatible'|trans({'%field_identifier%': field_identifier}, 'contentful') }}

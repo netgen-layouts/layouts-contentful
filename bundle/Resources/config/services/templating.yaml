@@ -13,16 +13,6 @@ services:
         tags:
             - { name: twig.runtime }
 
-    netgen_layouts.contentful.templating.twig.extension.markdown.engine:
-        class: Aptoma\Twig\Extension\MarkdownEngine\ParsedownEngine
-
-    netgen_layouts.contentful.templating.twig.extension.markdown:
-        class: Aptoma\Twig\Extension\MarkdownExtension
-        arguments:
-            - "@netgen_layouts.contentful.templating.twig.extension.markdown.engine"
-        tags:
-            - { name: twig.extension }
-
     netgen_layouts.contentful.templating.twig.extension.richtext:
         class: Contentful\RichText\Bridge\TwigExtension
         tags:
