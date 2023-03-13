@@ -6,8 +6,8 @@
 
     {% block contentful_entry_field %}
         {% if field is not empty %}
-            {% if field.type is constant('TYPE_JSON', field) %}
-                <div class="field field-{{ field.type }} field-{{ field_identifier }}">
+            {% if field.type is constant('JSON', field.type) %}
+                <div class="field field-{{ field.type.value }} field-{{ field_identifier }}">
                     {{ field.value|json_encode }}
                 </div>
             {% else %}

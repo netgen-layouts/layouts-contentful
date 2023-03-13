@@ -6,12 +6,12 @@
 
     {% block contentful_entry_field %}
         {% if field is not empty %}
-            {% if field.type is constant('TYPE_ENTRY', field) %}
-                <div class="field field-{{ field.type }} field-{{ field_identifier }}">
+            {% if field.type is constant('ENTRY', field.type) %}
+                <div class="field field-{{ field.type.value }} field-{{ field_identifier }}">
                     {{ nglayouts_render_item(field.value, block.itemViewType) }}
                 </div>
-            {% elseif field.type is constant('TYPE_ENTRIES', field) %}
-                <div class="field field-{{ field.type }} field-{{ field_identifier }}">
+            {% elseif field.type is constant('ENTRIES', field.type) %}
+                <div class="field field-{{ field.type.value }} field-{{ field_identifier }}">
                 {% for entry in field.value %}
                     {{ nglayouts_render_item(entry, block.itemViewType) }}
                 {% endfor %}

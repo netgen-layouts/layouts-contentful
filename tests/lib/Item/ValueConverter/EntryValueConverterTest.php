@@ -6,9 +6,11 @@ namespace Netgen\Layouts\Contentful\Tests\Item\ValueConverter;
 
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
+#[CoversClass(EntryValueConverter::class)]
 final class EntryValueConverterTest extends TestCase
 {
     private EntryValueConverter $valueConverter;
@@ -18,18 +20,12 @@ final class EntryValueConverterTest extends TestCase
         $this->valueConverter = new EntryValueConverter();
     }
 
-    /**
-     * @covers \Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter::supports
-     */
     public function testSupports(): void
     {
         self::assertTrue($this->valueConverter->supports(new ContentfulEntry()));
         self::assertFalse($this->valueConverter->supports(new stdClass()));
     }
 
-    /**
-     * @covers \Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter::getValueType
-     */
     public function testGetValueType(): void
     {
         self::assertSame(
@@ -40,9 +36,6 @@ final class EntryValueConverterTest extends TestCase
         );
     }
 
-    /**
-     * @covers \Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter::getId
-     */
     public function testGetId(): void
     {
         $entry = new ContentfulEntry();
@@ -51,9 +44,6 @@ final class EntryValueConverterTest extends TestCase
         self::assertSame('abc', $this->valueConverter->getId($entry));
     }
 
-    /**
-     * @covers \Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter::getRemoteId
-     */
     public function testGetRemoteId(): void
     {
         $entry = new ContentfulEntry();
@@ -62,9 +52,6 @@ final class EntryValueConverterTest extends TestCase
         self::assertSame('abc', $this->valueConverter->getRemoteId($entry));
     }
 
-    /**
-     * @covers \Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter::getName
-     */
     public function testGetName(): void
     {
         $entry = new ContentfulEntry();
@@ -73,9 +60,6 @@ final class EntryValueConverterTest extends TestCase
         self::assertSame('Entry name', $this->valueConverter->getName($entry));
     }
 
-    /**
-     * @covers \Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter::getIsVisible
-     */
     public function testGetIsVisible(): void
     {
         $entry = new ContentfulEntry();
@@ -84,9 +68,6 @@ final class EntryValueConverterTest extends TestCase
         self::assertTrue($this->valueConverter->getIsVisible($entry));
     }
 
-    /**
-     * @covers \Netgen\Layouts\Contentful\Item\ValueConverter\EntryValueConverter::getObject
-     */
     public function testGetObject(): void
     {
         $entry = new ContentfulEntry();

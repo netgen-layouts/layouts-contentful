@@ -7,8 +7,8 @@
 
     {% block contentful_entry_field %}
         {% if field is not empty %}
-            {% if field.type is constant('TYPE_STRING', field) %}
-                <{{ html_element }} class="field field-{{ field.type }} field-{{ field_identifier }}">
+            {% if field.type is constant('STRING', field.type) %}
+                <{{ html_element }} class="field field-{{ field.type.value }} field-{{ field_identifier }}">
                     {{ field.value|markdown }}
                 </{{ html_element }}>
             {% else %}

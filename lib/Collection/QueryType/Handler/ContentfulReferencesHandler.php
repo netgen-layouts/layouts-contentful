@@ -19,14 +19,8 @@ use function count;
  */
 final class ContentfulReferencesHandler implements QueryTypeHandlerInterface
 {
-    private Contentful $contentful;
-
-    private RequestStack $requestStack;
-
-    public function __construct(Contentful $contentful, RequestStack $requestStack)
+    public function __construct(private Contentful $contentful, private RequestStack $requestStack)
     {
-        $this->contentful = $contentful;
-        $this->requestStack = $requestStack;
     }
 
     public function buildParameters(ParameterBuilderInterface $builder): void
@@ -48,7 +42,7 @@ final class ContentfulReferencesHandler implements QueryTypeHandlerInterface
             foreach ($this->getEntries($query) as $entry) {
                 $referenceEntries[] = $this->contentful->loadContentfulEntry($entry->getSpace()->getId() . '|' . $entry->getId());
             }
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             return [];
         }
 
@@ -82,7 +76,7 @@ final class ContentfulReferencesHandler implements QueryTypeHandlerInterface
             $funcName = 'get' . $query->getParameter('field_definition_identifier')->getValue();
 
             return $contextEntry->{$funcName}();
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             // Do nothing
         }
 

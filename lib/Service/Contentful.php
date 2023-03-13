@@ -30,45 +30,18 @@ use function sprintf;
 final class Contentful
 {
     /**
-     * @var \Contentful\Delivery\Client\ClientInterface[]
-     */
-    private array $clients;
-
-    private EntrySluggerInterface $entrySlugger;
-
-    private ClientInterface $defaultClient;
-
-    private EntityManagerInterface $entityManager;
-
-    private Filesystem $fileSystem;
-
-    private string $cacheDir;
-
-    /**
-     * @var string[]
-     */
-    private array $routeContentTypes;
-
-    /**
      * @param \Contentful\Delivery\Client\ClientInterface[] $clients
      * @param string[] $routeContentTypes
      */
     public function __construct(
-        array $clients,
-        EntrySluggerInterface $entrySlugger,
-        ClientInterface $defaultClient,
-        EntityManagerInterface $entityManager,
-        Filesystem $fileSystem,
-        string $cacheDir,
-        array $routeContentTypes
+        private array $clients,
+        private EntrySluggerInterface $entrySlugger,
+        private ClientInterface $defaultClient,
+        private EntityManagerInterface $entityManager,
+        private Filesystem $fileSystem,
+        private string $cacheDir,
+        private array $routeContentTypes,
     ) {
-        $this->clients = $clients;
-        $this->entrySlugger = $entrySlugger;
-        $this->defaultClient = $defaultClient;
-        $this->entityManager = $entityManager;
-        $this->fileSystem = $fileSystem;
-        $this->cacheDir = $cacheDir;
-        $this->routeContentTypes = $routeContentTypes;
     }
 
     /**
@@ -88,11 +61,12 @@ final class Contentful
      */
     public function getClientByName(string $name): ClientInterface
     {
-        if (!isset($this->clients[$name])) {
-            throw new RuntimeException(sprintf('Contentful client with "%s" name does not exist.', $name));
-        }
-
-        return $this->clients[$name];
+        return $this->clients[$name] ?? throw new RuntimeException(
+            sprintf(
+                'Contentful client with "%s" name does not exist.',
+                $name,
+            ),
+        );
     }
 
     /**
@@ -147,16 +121,12 @@ final class Contentful
             );
         }
 
-        $client = $this->getClientBySpaceId($idList[0]);
-
-        if ($client === null) {
-            throw new NotFoundException(
-                sprintf(
-                    'Item ID %s not valid.',
-                    $idList[0],
-                ),
-            );
-        }
+        $client = $this->getClientBySpaceId($idList[0]) ?? throw new NotFoundException(
+            sprintf(
+                'Item ID %s not valid.',
+                $idList[0],
+            ),
+        );
 
         $contentfulEntry = $this->findContentfulEntry($id);
 
@@ -412,16 +382,12 @@ final class Contentful
             );
         }
 
-        $client = $this->getClientBySpaceId($idList[0]);
-
-        if ($client === null) {
-            throw new NotFoundException(
-                sprintf(
-                    'Space ID "%s" not valid.',
-                    $idList[0],
-                ),
-            );
-        }
+        $client = $this->getClientBySpaceId($idList[0]) ?? throw new NotFoundException(
+            sprintf(
+                'Space ID "%s" not valid.',
+                $idList[0],
+            ),
+        );
 
         return $client->getAsset($idList[1]);
     }

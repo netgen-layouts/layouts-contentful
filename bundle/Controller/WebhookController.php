@@ -26,11 +26,8 @@ final class WebhookController extends AbstractController
     public const CONTENT_TYPE_UNPUBLISH = 'ContentManagement.ContentType.unpublish';
     public const CONTENT_TYPE_DELETE = 'ContentManagement.ContentType.delete';
 
-    private Contentful $contentful;
-
-    public function __construct(Contentful $contentful)
+    public function __construct(private Contentful $contentful)
     {
-        $this->contentful = $contentful;
     }
 
     /**
@@ -45,7 +42,7 @@ final class WebhookController extends AbstractController
 
         try {
             $client = $this->contentful->getClientBySpaceId((string) $spaceId);
-        } catch (Throwable $t) {
+        } catch (Throwable) {
             throw new BadRequestHttpException('Invalid request');
         }
 
@@ -55,7 +52,7 @@ final class WebhookController extends AbstractController
 
         try {
             $remoteEntry = $client->parseJson($content);
-        } catch (Throwable $t) {
+        } catch (Throwable) {
             throw new BadRequestHttpException('Invalid request');
         }
 

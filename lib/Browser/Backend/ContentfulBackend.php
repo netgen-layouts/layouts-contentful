@@ -24,11 +24,8 @@ use function count;
 
 final class ContentfulBackend implements BackendInterface
 {
-    private Contentful $contentful;
-
-    public function __construct(Contentful $contentful)
+    public function __construct(private Contentful $contentful)
     {
-        $this->contentful = $contentful;
     }
 
     public function getSections(): iterable

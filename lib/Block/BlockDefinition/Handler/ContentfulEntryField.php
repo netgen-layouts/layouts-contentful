@@ -11,56 +11,33 @@ use function gettype;
 
 final class ContentfulEntryField
 {
-    public const TYPE_ARRAY = 'array';
-    public const TYPE_ASSET = 'asset';
-    public const TYPE_ASSETS = 'assets';
-    public const TYPE_BOOLEAN = 'boolean';
-    public const TYPE_DATETIME = 'datetime';
-    public const TYPE_DOUBLE = 'double';
-    public const TYPE_ENTRIES = 'entries';
-    public const TYPE_ENTRY = 'entry';
-    public const TYPE_GEOLOCATION = 'geolocation';
-    public const TYPE_INTEGER = 'integer';
-    public const TYPE_JSON = 'json';
-    public const TYPE_OBJECT = 'object';
-    public const TYPE_RICHTEXT = 'richtext';
-    public const TYPE_STRING = 'string';
+    private mixed $value;
 
-    /**
-     * @var mixed
-     */
-    private $value;
+    private ContentfulEntryFieldType $type;
 
-    private string $type;
-
-    /**
-     * @param mixed $innerField
-     */
-    public function __construct($innerField)
+    public function __construct(mixed $innerField)
     {
-        $this->type = gettype($innerField);
+        $this->type = ContentfulEntryFieldType::from(gettype($innerField));
 
-        if ($this->type !== self::TYPE_ARRAY) {
+        if ($this->type !== ContentfulEntryFieldType::ARRAY) {
             $this->value = $innerField;
         }
 
-        if ($this->type === self::TYPE_OBJECT) {
+        if ($this->type === ContentfulEntryFieldType::OBJECT) {
             if ($innerField instanceof DateTimeInterface) {
                 $this->value = $innerField;
-                $this->type = self::TYPE_DATETIME;
+                $this->type = ContentfulEntryFieldType::DATETIME;
             } elseif ($innerField instanceof Document) {
                 $this->value = $innerField;
-                $this->type = self::TYPE_RICHTEXT;
+                $this->type = ContentfulEntryFieldType::RICHTEXT;
             }
         }
     }
 
     /**
      * Returns the value of the field.
-     *
-     * @return mixed
      */
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->value;
     }
@@ -68,7 +45,7 @@ final class ContentfulEntryField
     /**
      * Returns the type of the field.
      */
-    public function getType(): string
+    public function getType(): ContentfulEntryFieldType
     {
         return $this->type;
     }
@@ -83,10 +60,8 @@ final class ContentfulEntryField
 
     /**
      * Sets the value to the field.
-     *
-     * @param mixed $value
      */
-    public function setValue($value, string $type): void
+    public function setValue(mixed $value, ContentfulEntryFieldType $type): void
     {
         if ($value !== null) {
             $this->value = $value;

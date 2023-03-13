@@ -16,14 +16,10 @@ use function sprintf;
 
 final class SyncCommand extends Command
 {
-    private Contentful $contentful;
-
     private SymfonyStyle $io;
 
-    public function __construct(Contentful $contentful)
+    public function __construct(private Contentful $contentful)
     {
-        $this->contentful = $contentful;
-
         // Parent constructor call is mandatory in commands registered as services
         parent::__construct();
     }

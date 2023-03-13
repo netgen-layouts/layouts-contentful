@@ -14,19 +14,10 @@ use function sprintf;
 final class Configurable implements EntrySluggerInterface
 {
     /**
-     * @var mixed[]
-     */
-    private array $configuration;
-
-    private ContainerInterface $sluggers;
-
-    /**
      * @param mixed[] $configuration
      */
-    public function __construct(array $configuration, ContainerInterface $sluggers)
+    public function __construct(private array $configuration, private ContainerInterface $sluggers)
     {
-        $this->configuration = $configuration;
-        $this->sluggers = $sluggers;
     }
 
     public function getSlug(ContentfulEntry $contentfulEntry): string

@@ -11,18 +11,15 @@ use Throwable;
 
 final class EntryValueLoader implements ValueLoaderInterface
 {
-    private Contentful $contentful;
-
-    public function __construct(Contentful $contentful)
+    public function __construct(private Contentful $contentful)
     {
-        $this->contentful = $contentful;
     }
 
     public function load($id): ?ContentfulEntry
     {
         try {
             return $this->contentful->loadContentfulEntry((string) $id);
-        } catch (Throwable $t) {
+        } catch (Throwable) {
             return null;
         }
     }

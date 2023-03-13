@@ -18,11 +18,8 @@ use function is_array;
 
 final class ContentType extends ConditionType
 {
-    private Contentful $contentful;
-
-    public function __construct(Contentful $contentful)
+    public function __construct(private Contentful $contentful)
     {
-        $this->contentful = $contentful;
     }
 
     public static function getType(): string
@@ -38,7 +35,7 @@ final class ContentType extends ConditionType
         ];
     }
 
-    public function matches(Request $request, $value): bool
+    public function matches(Request $request, mixed $value): bool
     {
         if (!is_array($value) || count($value) === 0) {
             return false;
@@ -60,7 +57,7 @@ final class ContentType extends ConditionType
 
         try {
             $contentfulEntry = $this->contentful->loadContentfulEntry($contentIds[1]);
-        } catch (Throwable $t) {
+        } catch (Throwable) {
             return false;
         }
 

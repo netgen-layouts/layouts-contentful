@@ -6,8 +6,8 @@
 
     {% block contentful_entry_field %}
         {% if field is not empty %}
-            {% if field.type is constant('TYPE_RICHTEXT', field) %}
-                <div class="field field-{{ field.type }} field-{{ field_identifier }}">
+            {% if field.type is constant('RICHTEXT', field.type) %}
+                <div class="field field-{{ field.type.value }} field-{{ field_identifier }}">
                     {{ rich_text_render_collection(field.value.content) }}
                 </div>
             {% else %}

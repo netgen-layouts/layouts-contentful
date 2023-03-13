@@ -10,11 +10,8 @@ use Netgen\Layouts\Contentful\Browser\Item\Entry\EntryInterface;
 
 final class CreatedAt implements ColumnValueProviderInterface
 {
-    private string $dateFormat;
-
-    public function __construct(string $dateFormat)
+    public function __construct(private string $dateFormat)
     {
-        $this->dateFormat = $dateFormat;
     }
 
     public function getValue(ItemInterface $item): ?string

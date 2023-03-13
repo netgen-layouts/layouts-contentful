@@ -9,11 +9,8 @@ use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 
 final class Item implements ItemInterface, EntryInterface
 {
-    private ContentfulEntry $entry;
-
-    public function __construct(ContentfulEntry $entry)
+    public function __construct(private ContentfulEntry $entry)
     {
-        $this->entry = $entry;
     }
 
     public function getValue(): string

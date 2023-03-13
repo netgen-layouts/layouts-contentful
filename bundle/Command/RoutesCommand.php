@@ -24,17 +24,10 @@ use function is_string;
 
 final class RoutesCommand extends Command
 {
-    private Contentful $contentful;
-
-    private EntityManagerInterface $entityManager;
-
     private SymfonyStyle $io;
 
-    public function __construct(Contentful $contentful, EntityManagerInterface $entityManager)
+    public function __construct(private Contentful $contentful, private EntityManagerInterface $entityManager)
     {
-        $this->contentful = $contentful;
-        $this->entityManager = $entityManager;
-
         // Parent constructor call is mandatory in commands registered as services
         parent::__construct();
     }

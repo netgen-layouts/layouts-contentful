@@ -11,11 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 final class Space extends Mapper
 {
-    private Contentful $contentful;
-
-    public function __construct(Contentful $contentful)
+    public function __construct(private Contentful $contentful)
     {
-        $this->contentful = $contentful;
     }
 
     public function getFormType(): string

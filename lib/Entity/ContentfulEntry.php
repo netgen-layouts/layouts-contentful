@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use JsonSerializable;
 use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
+use Symfony\Component\Routing\Route;
 use Throwable;
 
 use function str_starts_with;
@@ -57,25 +58,18 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
 
     /**
      * @param mixed[] $arguments
-     *
-     * @return mixed
      */
-    public function __call(string $name, array $arguments)
+    public function __call(string $name, array $arguments): mixed
     {
         if (!str_starts_with($name, 'get')) {
             trigger_error('Call to undefined method ' . __CLASS__ . '::' . $name . '()', E_USER_ERROR);
         }
 
-        $ret = null;
-
         try {
-            /** @var callable $callable */
-            $callable = [$this->remoteEntry, $name];
-            $ret = $callable();
-        } catch (Throwable $t) {
+            return ($this->remoteEntry->{$name}(...))();
+        } catch (Throwable) {
+            return null;
         }
-
-        return $ret;
     }
 
     public function has(string $name, ?string $locale = null, bool $checkLinksAreResolved = true): bool
@@ -83,10 +77,7 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
         return $this->remoteEntry->has($name, $locale, $checkLinksAreResolved);
     }
 
-    /**
-     * @return mixed
-     */
-    public function get(string $name, ?string $locale = null, bool $resolveLinks = true)
+    public function get(string $name, ?string $locale = null, bool $resolveLinks = true): mixed
     {
         return $this->remoteEntry->get($name, $locale, $resolveLinks);
     }
@@ -199,18 +190,12 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
         return $this->routes->getValues();
     }
 
-    /**
-     * @param \Symfony\Component\Routing\Route $route
-     */
-    public function addRoute($route): void
+    public function addRoute(Route $route): void
     {
         $this->routes[] = $route;
     }
 
-    /**
-     * @param \Symfony\Component\Routing\Route $route
-     */
-    public function removeRoute($route): void
+    public function removeRoute(Route $route): void
     {
         $this->routes->removeElement($route);
     }
@@ -284,9 +269,8 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
             return;
         }
 
-        /** @var callable $callable */
-        $callable = [$remoteEntry, 'get' . $nameField->getId()];
-        $this->name = $callable();
+        $methodName = 'get' . $nameField->getId();
+        $this->name = ($remoteEntry->{$methodName}(...))();
     }
 
     /**
@@ -307,9 +291,8 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
             return;
         }
 
-        /** @var callable $callable */
-        $callable = [$remoteEntry, 'get' . $nameField->getId()];
-        $this->name = $callable();
+        $methodName = 'get' . $nameField->getId();
+        $this->name = ($remoteEntry->{$methodName}(...))();
 
         $this->remoteEntry = $remoteEntry;
     }

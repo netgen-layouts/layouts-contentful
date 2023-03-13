@@ -11,11 +11,8 @@ use Throwable;
 
 final class ContentfulRuntime
 {
-    private Contentful $contentful;
-
-    public function __construct(Contentful $contentful)
+    public function __construct(private Contentful $contentful)
     {
-        $this->contentful = $contentful;
     }
 
     /**
@@ -25,7 +22,7 @@ final class ContentfulRuntime
     {
         try {
             $contentfulEntry = $this->contentful->loadContentfulEntry($entryId);
-        } catch (Throwable $t) {
+        } catch (Throwable) {
             return '';
         }
 

@@ -7,8 +7,8 @@
 
     {% block contentful_entry_field %}
         {% if field is not empty %}
-            {% if field.type is constant('TYPE_GEOLOCATION', field) %}
-                <div class="field field-{{ field.type }} field-{{ field_identifier }}"
+            {% if field.type is constant('GEOLOCATION', field.type) %}
+                <div class="field field-{{ field.type.value }} field-{{ field_identifier }}"
                         class="nglayouts-map-embed"
                         data-latitude="{{ field.value.lat }}"
                         data-longitude="{{ field.value.lon }}"
