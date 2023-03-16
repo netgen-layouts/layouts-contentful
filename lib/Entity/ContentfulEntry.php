@@ -13,14 +13,13 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use JsonSerializable;
+use RuntimeException;
 use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
 use Symfony\Component\Routing\Route;
 use Throwable;
 
-use function str_starts_with;
-use function trigger_error;
-
-use const E_USER_ERROR;
+use function method_exists;
+use function sprintf;
 
 /**
  * @final
@@ -61,8 +60,10 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
      */
     public function __call(string $name, array $arguments): mixed
     {
-        if (!str_starts_with($name, 'get')) {
-            trigger_error('Call to undefined method ' . __CLASS__ . '::' . $name . '()', E_USER_ERROR);
+        if (!method_exists($this->remoteEntry, $name)) {
+            throw new RuntimeException(
+                sprintf('Call to undefined method %s::%s', $this->remoteEntry::class, $name),
+            );
         }
 
         try {

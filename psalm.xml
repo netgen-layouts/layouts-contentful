@@ -27,7 +27,6 @@
                 <file name="lib/Entity/ContentfulEntry.php" />
                 <referencedProperty name="Netgen\Bundle\LayoutsContentfulBundle\Command\RoutesCommand::$io" />
                 <referencedProperty name="Netgen\Bundle\LayoutsContentfulBundle\Command\SyncCommand::$io" />
-                <referencedProperty name="Symfony\Bundle\FrameworkBundle\Controller\AbstractController::$container" />
             </errorLevel>
         </PropertyNotSetInConstructor>
 
@@ -35,7 +34,6 @@
 
         <PossiblyInvalidArgument>
             <errorLevel type="suppress">
-                <referencedFunction name="Contentful\Delivery\Client\JsonDecoderClientInterface::parseJson" />
                 <referencedFunction name="Netgen\Layouts\Contentful\Service\Contentful::buildContentfulEntries" />
             </errorLevel>
         </PossiblyInvalidArgument>
@@ -56,4 +54,8 @@
             </errorLevel>
         </InvalidPropertyFetch>
     </issueHandlers>
+
+    <plugins>
+        <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin" />
+    </plugins>
 </psalm>

@@ -41,8 +41,6 @@ final class EntrySluggerPass implements CompilerPassInterface
             $sluggerClass = $this->getDefinitionClass($container, $sluggerService);
             if (isset($sluggerClass::$defaultType)) {
                 $sluggers[$sluggerClass::$defaultType] = new ServiceClosureArgument(new Reference($sluggerService));
-
-                continue;
             }
         }
 
