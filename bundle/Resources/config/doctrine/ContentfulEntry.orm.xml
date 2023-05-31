@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping
+    xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+    xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+        https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
+>
+    <entity name="Netgen\Layouts\Contentful\Entity\ContentfulEntry" table="contentful_entry">
+        <id name="id" type="string" />
+
+        <field name="name" type="string" />
+        <field name="json" type="text" />
+        <field name="isPublished" type="boolean" />
+        <field name="isDeleted" type="boolean" />
+
+        <many-to-one field="initiator">
+            <join-columns>
+                <join-column nullable="false" />
+            </join-columns>
+        </many-to-one>
+
+        <many-to-many field="routes" target-entity="Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route">
+            <cascade>
+                <cascade-persist />
+                <cascade-remove />
+            </cascade>
+        </many-to-many>
+    </entity>
+</doctrine-mapping>
