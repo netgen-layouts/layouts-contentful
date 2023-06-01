@@ -13,12 +13,6 @@
         <field name="isPublished" type="boolean" />
         <field name="isDeleted" type="boolean" />
 
-        <many-to-one field="initiator">
-            <join-columns>
-                <join-column nullable="false" />
-            </join-columns>
-        </many-to-one>
-
         <many-to-many field="routes" target-entity="Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route">
             <cascade>
                 <cascade-persist />
