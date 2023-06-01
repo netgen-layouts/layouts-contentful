@@ -2,6 +2,6 @@ orm:
     mappings:
         NetgenLayoutsContentfulBundle:
             is_bundle: false
-            type: yml
+            type: xml
             dir: '%kernel.project_dir%/vendor/netgen/layouts-contentful/bundle/Resources/config/doctrine'
             prefix: Netgen\Layouts\Contentful\Entity
