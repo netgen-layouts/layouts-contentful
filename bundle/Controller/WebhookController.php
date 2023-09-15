@@ -26,9 +26,7 @@ final class WebhookController extends AbstractController
     public const CONTENT_TYPE_UNPUBLISH = 'ContentManagement.ContentType.unpublish';
     public const CONTENT_TYPE_DELETE = 'ContentManagement.ContentType.delete';
 
-    public function __construct(private Contentful $contentful)
-    {
-    }
+    public function __construct(private Contentful $contentful) {}
 
     /**
      * Contentful webhook for clearing local caches.

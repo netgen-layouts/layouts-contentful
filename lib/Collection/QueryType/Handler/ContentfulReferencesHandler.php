@@ -19,9 +19,7 @@ use function count;
  */
 final class ContentfulReferencesHandler implements QueryTypeHandlerInterface
 {
-    public function __construct(private Contentful $contentful, private RequestStack $requestStack)
-    {
-    }
+    public function __construct(private Contentful $contentful, private RequestStack $requestStack) {}
 
     public function buildParameters(ParameterBuilderInterface $builder): void
     {

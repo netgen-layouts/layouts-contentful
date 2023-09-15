@@ -9,9 +9,7 @@ use Netgen\ContentBrowser\Item\LocationInterface;
 
 final class Location implements LocationInterface, ClientInterface
 {
-    public function __construct(private ContentfulClientInterface $client, private string $id)
-    {
-    }
+    public function __construct(private ContentfulClientInterface $client, private string $id) {}
 
     public function getLocationId(): string
     {

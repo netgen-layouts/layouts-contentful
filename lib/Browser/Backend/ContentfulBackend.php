@@ -24,9 +24,7 @@ use function count;
 
 final class ContentfulBackend implements BackendInterface
 {
-    public function __construct(private Contentful $contentful)
-    {
-    }
+    public function __construct(private Contentful $contentful) {}
 
     public function getSections(): iterable
     {

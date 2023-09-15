@@ -14,9 +14,7 @@ use function is_a;
 
 final class ContentfulEnhancer implements RouteEnhancerInterface
 {
-    public function __construct(private Contentful $contentful)
-    {
-    }
+    public function __construct(private Contentful $contentful) {}
 
     public function enhance(array $defaults, Request $request): array
     {

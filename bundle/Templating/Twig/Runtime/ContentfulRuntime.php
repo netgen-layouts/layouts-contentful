@@ -11,9 +11,7 @@ use Throwable;
 
 final class ContentfulRuntime
 {
-    public function __construct(private Contentful $contentful)
-    {
-    }
+    public function __construct(private Contentful $contentful) {}
 
     /**
      * Returns the Contentful entry name.

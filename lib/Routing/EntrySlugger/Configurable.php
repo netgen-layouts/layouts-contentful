@@ -16,9 +16,7 @@ final class Configurable implements EntrySluggerInterface
     /**
      * @param mixed[] $configuration
      */
-    public function __construct(private array $configuration, private ContainerInterface $sluggers)
-    {
-    }
+    public function __construct(private array $configuration, private ContainerInterface $sluggers) {}
 
     public function getSlug(ContentfulEntry $contentfulEntry): string
     {

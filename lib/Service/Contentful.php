@@ -41,8 +41,7 @@ final class Contentful
         private Filesystem $fileSystem,
         private string $cacheDir,
         private array $routeContentTypes,
-    ) {
-    }
+    ) {}
 
     /**
      * Returns all configured clients.

@@ -23,9 +23,7 @@ use function trim;
  */
 final class ContentfulSearchHandler implements QueryTypeHandlerInterface
 {
-    public function __construct(private Contentful $contentful)
-    {
-    }
+    public function __construct(private Contentful $contentful) {}
 
     public function buildParameters(ParameterBuilderInterface $builder): void
     {

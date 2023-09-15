@@ -11,9 +11,7 @@ use Throwable;
 
 final class EntryValueLoader implements ValueLoaderInterface
 {
-    public function __construct(private Contentful $contentful)
-    {
-    }
+    public function __construct(private Contentful $contentful) {}
 
     public function load($id): ?ContentfulEntry
     {

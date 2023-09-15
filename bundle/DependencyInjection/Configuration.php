@@ -11,9 +11,7 @@ use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 
 final class Configuration implements ConfigurationInterface
 {
-    public function __construct(private ExtensionInterface $extension)
-    {
-    }
+    public function __construct(private ExtensionInterface $extension) {}
 
     public function getConfigTreeBuilder(): BaseTreeBuilder
     {

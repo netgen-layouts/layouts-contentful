@@ -18,9 +18,7 @@ use function is_array;
 
 final class ContentType extends ConditionType
 {
-    public function __construct(private Contentful $contentful)
-    {
-    }
+    public function __construct(private Contentful $contentful) {}
 
     public static function getType(): string
     {

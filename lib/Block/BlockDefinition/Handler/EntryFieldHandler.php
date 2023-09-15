@@ -32,8 +32,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
         private RequestStack $requestStack,
         private ParserInterface $richTextParser,
         private CmsItemBuilderInterface $cmsItemBuilder,
-    ) {
-    }
+    ) {}
 
     public function buildParameters(ParameterBuilderInterface $builder): void
     {
