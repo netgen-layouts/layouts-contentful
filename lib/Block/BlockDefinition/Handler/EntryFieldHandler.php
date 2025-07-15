@@ -10,7 +10,6 @@ use Contentful\Delivery\Resource\Space;
 use Contentful\RichText\ParserInterface;
 use Netgen\Layouts\API\Values\Block\Block;
 use Netgen\Layouts\Block\BlockDefinition\BlockDefinitionHandler;
-use Netgen\Layouts\Block\BlockDefinition\Handler\DynamicParameter;
 use Netgen\Layouts\Block\DynamicParameters;
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Service\Contentful;
@@ -26,8 +25,6 @@ use function array_key_exists;
 use function is_array;
 use function is_string;
 
-#[DynamicParameter('content')]
-#[DynamicParameter('field')]
 final class EntryFieldHandler extends BlockDefinitionHandler
 {
     public function __construct(
