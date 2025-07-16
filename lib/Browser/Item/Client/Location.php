@@ -26,7 +26,7 @@ final class Location implements LocationInterface, ClientInterface
         return null;
     }
 
-    public function getClient(): ?ContentfulClientInterface
+    public function getClient(): ContentfulClientInterface
     {
         return $this->client;
     }
