@@ -1,16 +1,16 @@
 services:
     netgen_layouts.contentful.controller.view:
         class: Netgen\Bundle\LayoutsContentfulBundle\Controller\ViewController
-        public: true
         parent: netgen_layouts.controller.base
         tags:
             - { name: container.service_subscriber }
+            - { name: controller.service_arguments }
 
     netgen_layouts.contentful.controller.webhook:
         class: Netgen\Bundle\LayoutsContentfulBundle\Controller\WebhookController
-        public: true
         parent: netgen_layouts.controller.base
         arguments:
             - "@netgen_layouts.contentful.service"
         tags:
             - { name: container.service_subscriber }
+            - { name: controller.service_arguments }
