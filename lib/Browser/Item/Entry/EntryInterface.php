@@ -11,5 +11,5 @@ interface EntryInterface
     /**
      * Returns the Contentful entry.
      */
-    public function getEntry(): ContentfulEntry;
+    public ContentfulEntry $entry {get; }
 }

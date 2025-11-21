@@ -19,7 +19,10 @@ use function count;
  */
 final class ContentfulReferencesHandler implements QueryTypeHandlerInterface
 {
-    public function __construct(private Contentful $contentful, private RequestStack $requestStack) {}
+    public function __construct(
+        private Contentful $contentful,
+        private RequestStack $requestStack,
+    ) {}
 
     public function buildParameters(ParameterBuilderInterface $builder): void
     {
@@ -34,17 +37,13 @@ final class ContentfulReferencesHandler implements QueryTypeHandlerInterface
 
     public function getValues(Query $query, int $offset = 0, ?int $limit = null): iterable
     {
-        $referenceEntries = [];
-
-        try {
-            foreach ($this->getEntries($query) as $entry) {
-                $referenceEntries[] = $this->contentful->loadContentfulEntry($entry->getSpace()->getId() . '|' . $entry->getId());
+        foreach ($this->getEntries($query) as $entry) {
+            try {
+                yield $this->contentful->loadContentfulEntry($entry->getSpace()->getId() . '|' . $entry->getId());
+            } catch (NotFoundException) {
+                // Do nothing
             }
-        } catch (NotFoundException) {
-            return [];
         }
-
-        return $referenceEntries;
     }
 
     public function getCount(Query $query): int
@@ -52,7 +51,7 @@ final class ContentfulReferencesHandler implements QueryTypeHandlerInterface
         return count($this->getEntries($query));
     }
 
-    public function isContextual(Query $query): bool
+    public function isContextual(Query $query): true
     {
         return true;
     }

@@ -21,6 +21,7 @@ use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
+use function array_find;
 use function count;
 use function explode;
 use function in_array;
@@ -75,13 +76,10 @@ final class Contentful
      */
     public function getClientBySpaceId(string $spaceId): ?ClientInterface
     {
-        foreach ($this->clients as $client) {
-            if ($client->getSpace()->getId() === $spaceId) {
-                return $client;
-            }
-        }
-
-        return null;
+        return array_find(
+            $this->clients,
+            static fn (ClientInterface $client): bool => $client->getSpace()->getId() === $spaceId,
+        );
     }
 
     /**
@@ -448,7 +446,7 @@ final class Contentful
     /**
      * Builds a route for an entry.
      */
-    private function buildRoute(string $id, ContentfulEntry $contentfulEntry): Route
+    private function buildRoute(string $id, ContentfulEntry $contentfulEntry): void
     {
         $route = new Route();
         $route->setName($id);
@@ -457,14 +455,12 @@ final class Contentful
         $route->setContent($contentfulEntry);
         $contentfulEntry->addRoute($route); // Create the back-link from content to route
         $this->entityManager->persist($route);
-
-        return $route;
     }
 
     /**
      * Builds a redirect.
      */
-    private function buildRedirect(string $redirectSlug, ContentfulEntry $contentfulEntry): Route
+    private function buildRedirect(string $redirectSlug, ContentfulEntry $contentfulEntry): void
     {
         $contentfulEntryRoute = $contentfulEntry->getRoutes()[0];
         $redirectRoutes = $this->entityManager->getRepository(RedirectRoute::class)->findBy(['routeTarget' => $contentfulEntryRoute]);
@@ -486,7 +482,5 @@ final class Contentful
 
         $this->entityManager->persist($redirectRoute);
         $this->entityManager->flush();
-
-        return $redirectRoute;
     }
 }

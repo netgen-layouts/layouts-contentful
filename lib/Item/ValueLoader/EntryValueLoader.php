@@ -11,9 +11,11 @@ use Throwable;
 
 final class EntryValueLoader implements ValueLoaderInterface
 {
-    public function __construct(private Contentful $contentful) {}
+    public function __construct(
+        private Contentful $contentful,
+    ) {}
 
-    public function load($id): ?ContentfulEntry
+    public function load(int|string $id): ?ContentfulEntry
     {
         try {
             return $this->contentful->loadContentfulEntry((string) $id);
@@ -22,7 +24,7 @@ final class EntryValueLoader implements ValueLoaderInterface
         }
     }
 
-    public function loadByRemoteId($remoteId): ?ContentfulEntry
+    public function loadByRemoteId(int|string $remoteId): ?ContentfulEntry
     {
         return $this->load($remoteId);
     }

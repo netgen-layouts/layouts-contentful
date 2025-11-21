@@ -4,28 +4,23 @@ declare(strict_types=1);
 
 namespace Netgen\Layouts\Contentful\Browser\Item\Client;
 
-use Contentful\Delivery\Client\ClientInterface as ContentfulClientInterface;
 use Netgen\ContentBrowser\Item\LocationInterface;
 
 final class RootLocation implements LocationInterface, ClientInterface
 {
-    public function getLocationId(): string
-    {
-        return '0';
+    public string $locationId {
+        get => '0';
     }
 
-    public function getName(): string
-    {
-        return 'Content';
+    public string $name {
+        get => 'Content';
     }
 
-    public function getParentId(): ?string
-    {
-        return null;
+    public null $parentId {
+        get => null;
     }
 
-    public function getClient(): ?ContentfulClientInterface
-    {
-        return null;
+    public null $client {
+        get => null;
     }
 }

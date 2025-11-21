@@ -147,7 +147,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
         $params['field'] = $field;
     }
 
-    public function isContextual(Block $block): bool
+    public function isContextual(Block $block): true
     {
         return true;
     }
@@ -161,18 +161,18 @@ final class EntryFieldHandler extends BlockDefinitionHandler
     {
         try {
             if (array_key_exists('content', $innerField) && array_key_exists('nodeType', $innerField)) {
-                $field->setValue($this->richTextParser->parseLocalized($innerField, null), ContentfulEntryFieldType::RICHTEXT);
+                $field->setValue($this->richTextParser->parseLocalized($innerField, null), ContentfulEntryFieldType::RichText);
             } elseif (array_key_exists('lon', $innerField) && array_key_exists('lat', $innerField)) {
-                $field->setValue($innerField, ContentfulEntryFieldType::GEOLOCATION);
+                $field->setValue($innerField, ContentfulEntryFieldType::GeoLocation);
             } elseif (array_key_exists('sys', $innerField)) {
                 if ($innerField['sys']['linkType'] === 'Entry') {
-                    $field->setValue($this->loadEntry($entry->getSpace(), $innerField['sys']['id']), ContentfulEntryFieldType::ENTRY);
+                    $field->setValue($this->loadEntry($entry->getSpace(), $innerField['sys']['id']), ContentfulEntryFieldType::Entry);
                 } elseif ($innerField['sys']['linkType'] === 'Asset') {
-                    $field->setValue($this->loadAsset($entry->getSpace(), $innerField['sys']['id']), ContentfulEntryFieldType::ASSET);
+                    $field->setValue($this->loadAsset($entry->getSpace(), $innerField['sys']['id']), ContentfulEntryFieldType::Asset);
                 }
             } elseif (array_is_list($innerField)) {
                 $fieldValues = [];
-                $fieldType = ContentfulEntryFieldType::ENTRIES;
+                $fieldType = ContentfulEntryFieldType::Entries;
 
                 foreach ($innerField as $subField) {
                     if ($subField instanceof Entry) {
@@ -187,13 +187,13 @@ final class EntryFieldHandler extends BlockDefinitionHandler
                         $fieldValues[] = $this->loadEntry($entry->getSpace(), $id);
                     } elseif ($type === 'Asset') {
                         $fieldValues[] = $this->loadAsset($entry->getSpace(), $id);
-                        $fieldType = ContentfulEntryFieldType::ASSETS;
+                        $fieldType = ContentfulEntryFieldType::Assets;
                     }
                 }
 
                 $field->setValue($fieldValues, $fieldType);
             } else {
-                $field->setValue($innerField, ContentfulEntryFieldType::JSON);
+                $field->setValue($innerField, ContentfulEntryFieldType::Json);
             }
         } catch (Throwable) {
             // Do nothing

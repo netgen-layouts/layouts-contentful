@@ -10,7 +10,9 @@ use Netgen\Layouts\Contentful\Browser\Item\Entry\EntryInterface;
 
 final class UpdatedAt implements ColumnValueProviderInterface
 {
-    public function __construct(private string $dateFormat) {}
+    public function __construct(
+        private string $dateFormat,
+    ) {}
 
     public function getValue(ItemInterface $item): ?string
     {
@@ -18,6 +20,6 @@ final class UpdatedAt implements ColumnValueProviderInterface
             return null;
         }
 
-        return $item->getEntry()->getUpdatedAt()->format($this->dateFormat);
+        return $item->entry->getUpdatedAt()->format($this->dateFormat);
     }
 }

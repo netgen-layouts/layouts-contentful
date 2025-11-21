@@ -9,7 +9,7 @@ use Contentful\Delivery\Client\JsonDecoderClientInterface;
 use Contentful\Delivery\Resource\ContentType;
 use Contentful\Delivery\Resource\Entry;
 use Contentful\Delivery\Resource\Space;
-use DateTimeInterface;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use JsonSerializable;
@@ -220,17 +220,17 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
     /**
      * Returns the date when the remote entry was last updated.
      */
-    public function getUpdatedAt(): DateTimeInterface
+    public function getUpdatedAt(): DateTimeImmutable
     {
-        return $this->remoteEntry->getSystemProperties()->getUpdatedAt();
+        return DateTimeImmutable::createFromInterface($this->remoteEntry->getSystemProperties()->getUpdatedAt());
     }
 
     /**
      * Returns the date when the remote entry was created.
      */
-    public function getCreatedAt(): DateTimeInterface
+    public function getCreatedAt(): DateTimeImmutable
     {
-        return $this->remoteEntry->getSystemProperties()->getCreatedAt();
+        return DateTimeImmutable::createFromInterface($this->remoteEntry->getSystemProperties()->getCreatedAt());
     }
 
     /**

@@ -7,7 +7,7 @@
 
     {% block contentful_entry_field %}
         {% if field is not empty %}
-            {% if field.type is constant('DATETIME', field.type) %}
+            {% if field.type == enum('Netgen\\Layouts\\Contentful\\Block\\BlockDefinition\\Handler\\ContentfulEntryFieldType').DateTime %}
                 <{{ html_element }} field field-{{ field.type.value }} field-{{ field_identifier }}">
                 {{ field.value|date(block.parameter('datetime_format').value)  }}
                 </{{ html_element }}>

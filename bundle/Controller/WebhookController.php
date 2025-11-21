@@ -17,16 +17,9 @@ use Throwable;
 
 final class WebhookController extends AbstractController
 {
-    // Contentful topic constants (sent as X-Contentful-Topic header)
-    public const ENTRY_PUBLISH = 'ContentManagement.Entry.publish';
-    public const ENTRY_UNPUBLISH = 'ContentManagement.Entry.unpublish';
-    public const ENTRY_DELETE = 'ContentManagement.Entry.delete';
-
-    public const CONTENT_TYPE_PUBLISH = 'ContentManagement.ContentType.publish';
-    public const CONTENT_TYPE_UNPUBLISH = 'ContentManagement.ContentType.unpublish';
-    public const CONTENT_TYPE_DELETE = 'ContentManagement.ContentType.delete';
-
-    public function __construct(private Contentful $contentful) {}
+    public function __construct(
+        private Contentful $contentful,
+    ) {}
 
     /**
      * Contentful webhook for clearing local caches.
@@ -55,7 +48,7 @@ final class WebhookController extends AbstractController
         }
 
         switch ($request->headers->get('X-Contentful-Topic')) {
-            case self::ENTRY_PUBLISH:
+            case Topic::EntryPublish->value:
                 if (!$remoteEntry instanceof Entry) {
                     throw new BadRequestHttpException('Invalid request');
                 }
@@ -64,7 +57,7 @@ final class WebhookController extends AbstractController
 
                 break;
 
-            case self::ENTRY_UNPUBLISH:
+            case Topic::EntryUnpublish->value:
                 if (!$remoteEntry instanceof DeletedEntry) {
                     throw new BadRequestHttpException('Invalid request');
                 }
@@ -73,7 +66,7 @@ final class WebhookController extends AbstractController
 
                 break;
 
-            case self::ENTRY_DELETE:
+            case Topic::EntryDelete->value:
                 if (!$remoteEntry instanceof DeletedEntry) {
                     throw new BadRequestHttpException('Invalid request');
                 }
@@ -82,9 +75,9 @@ final class WebhookController extends AbstractController
 
                 break;
 
-            case self::CONTENT_TYPE_PUBLISH:
-            case self::CONTENT_TYPE_UNPUBLISH:
-            case self::CONTENT_TYPE_DELETE:
+            case Topic::ContentTypePublish->value:
+            case Topic::ContentTypeUnpublish->value:
+            case Topic::ContentTypeDelete->value:
                 $this->contentful->refreshContentTypeCache($client);
 
                 break;

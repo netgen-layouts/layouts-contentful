@@ -18,7 +18,9 @@ use function is_array;
 
 final class ContentType extends ConditionType
 {
-    public function __construct(private Contentful $contentful) {}
+    public function __construct(
+        private Contentful $contentful,
+    ) {}
 
     public static function getType(): string
     {
@@ -29,7 +31,7 @@ final class ContentType extends ConditionType
     {
         return [
             new Constraints\NotBlank(),
-            new Constraints\Type(['type' => 'array']),
+            new Constraints\Type(type: 'array'),
         ];
     }
 

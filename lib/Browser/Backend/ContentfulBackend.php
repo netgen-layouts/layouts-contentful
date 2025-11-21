@@ -18,20 +18,20 @@ use Netgen\Layouts\Contentful\Browser\Item\Entry\Item;
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Netgen\Layouts\Contentful\Service\Contentful;
 
-use function array_keys;
-use function array_map;
 use function count;
 
 final class ContentfulBackend implements BackendInterface
 {
-    public function __construct(private Contentful $contentful) {}
+    public function __construct(
+        private Contentful $contentful,
+    ) {}
 
     public function getSections(): iterable
     {
         return [new RootLocation()];
     }
 
-    public function loadLocation($id): LocationInterface
+    public function loadLocation(int|string $id): LocationInterface
     {
         if ($id === '0') {
             return new RootLocation();
@@ -42,7 +42,7 @@ final class ContentfulBackend implements BackendInterface
         return new Location($clientService, $clientService->getSpace()->getId());
     }
 
-    public function loadItem($value): ItemInterface
+    public function loadItem(int|string $value): ItemInterface
     {
         $contentfulEntry = $this->contentful->loadContentfulEntry((string) $value);
 
@@ -79,18 +79,18 @@ final class ContentfulBackend implements BackendInterface
             $this->contentful->getContentfulEntries(
                 $offset,
                 $limit,
-                $location->getClient(),
+                $location->client,
             ),
         );
     }
 
     public function getSubItemsCount(LocationInterface $location): int
     {
-        if (!$location instanceof ClientInterface || !$location->getClient() instanceof ContentfulClientInterface) {
+        if (!$location instanceof ClientInterface || !$location->client instanceof ContentfulClientInterface) {
             return 0;
         }
 
-        return $this->contentful->getContentfulEntriesCount($location->getClient());
+        return $this->contentful->getContentfulEntriesCount($location->client);
     }
 
     public function searchItems(SearchQuery $searchQuery): SearchResultInterface
@@ -98,9 +98,9 @@ final class ContentfulBackend implements BackendInterface
         return new SearchResult(
             $this->buildItems(
                 $this->contentful->searchContentfulEntries(
-                    $searchQuery->getSearchText(),
-                    $searchQuery->getOffset(),
-                    $searchQuery->getLimit(),
+                    $searchQuery->searchText,
+                    $searchQuery->offset,
+                    $searchQuery->limit,
                 ),
             ),
         );
@@ -108,19 +108,7 @@ final class ContentfulBackend implements BackendInterface
 
     public function searchItemsCount(SearchQuery $searchQuery): int
     {
-        return $this->contentful->searchContentfulEntriesCount($searchQuery->getSearchText());
-    }
-
-    public function search(string $searchText, int $offset = 0, int $limit = 25): iterable
-    {
-        return $this->buildItems(
-            $this->contentful->searchContentfulEntries($searchText, $offset, $limit),
-        );
-    }
-
-    public function searchCount(string $searchText): int
-    {
-        return $this->contentful->searchContentfulEntriesCount($searchText);
+        return $this->contentful->searchContentfulEntriesCount($searchQuery->searchText);
     }
 
     /**
@@ -134,17 +122,15 @@ final class ContentfulBackend implements BackendInterface
     /**
      * Builds the locations from provided clients.
      *
-     * @param \Contentful\Delivery\Client\ClientInterface[] $clients
+     * @param iterable<\Contentful\Delivery\Client\ClientInterface> $clients
      *
-     * @return \Netgen\Layouts\Contentful\Browser\Item\Client\Location[]
+     * @return iterable<\Netgen\Layouts\Contentful\Browser\Item\Client\Location>
      */
-    private function buildLocations(array $clients): array
+    private function buildLocations(iterable $clients): iterable
     {
-        return array_map(
-            fn (ContentfulClientInterface $client, string $id): Location => $this->buildLocation($client, $id),
-            $clients,
-            array_keys($clients),
-        );
+        foreach ($clients as $id => $client) {
+            yield $this->buildLocation($client, $id);
+        }
     }
 
     /**
@@ -158,15 +144,14 @@ final class ContentfulBackend implements BackendInterface
     /**
      * Builds the locations from provided clients.
      *
-     * @param \Netgen\Layouts\Contentful\Entity\ContentfulEntry[] $entries
+     * @param iterable<\Netgen\Layouts\Contentful\Entity\ContentfulEntry> $entries
      *
-     * @return \Netgen\Layouts\Contentful\Browser\Item\Entry\Item[]
+     * @return iterable<\Netgen\Layouts\Contentful\Browser\Item\Entry\Item>
      */
-    private function buildItems(array $entries): array
+    private function buildItems(iterable $entries): iterable
     {
-        return array_map(
-            fn (ContentfulEntry $entry): Item => $this->buildItem($entry),
-            $entries,
-        );
+        foreach ($entries as $entry) {
+            yield $this->buildItem($entry);
+        }
     }
 }

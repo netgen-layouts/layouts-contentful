@@ -17,7 +17,7 @@ use function str_replace;
 
 final class ClientsPass implements CompilerPassInterface
 {
-    private const SERVICE_NAME = 'netgen_layouts.contentful.service';
+    private const string SERVICE_NAME = 'netgen_layouts.contentful.service';
 
     public function process(ContainerBuilder $container): void
     {

@@ -6,31 +6,31 @@ namespace Netgen\Layouts\Contentful\Block\BlockDefinition\Handler;
 
 enum ContentfulEntryFieldType: string
 {
-    case ARRAY = 'array';
+    case Array = 'array';
 
-    case ASSET = 'asset';
+    case Asset = 'asset';
 
-    case ASSETS = 'assets';
+    case Assets = 'assets';
 
-    case BOOLEAN = 'boolean';
+    case Boolean = 'boolean';
 
-    case DATETIME = 'datetime';
+    case DateTime = 'datetime';
 
-    case DOUBLE = 'double';
+    case Double = 'double';
 
-    case ENTRIES = 'entries';
+    case Entries = 'entries';
 
-    case ENTRY = 'entry';
+    case Entry = 'entry';
 
-    case GEOLOCATION = 'geolocation';
+    case GeoLocation = 'geolocation';
 
-    case INTEGER = 'integer';
+    case Integer = 'integer';
 
-    case JSON = 'json';
+    case Json = 'json';
 
-    case OBJECT = 'object';
+    case Object = 'object';
 
-    case RICHTEXT = 'richtext';
+    case RichText = 'richtext';
 
-    case STRING = 'string';
+    case String = 'string';
 }

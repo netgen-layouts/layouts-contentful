@@ -26,8 +26,10 @@ final class RoutesCommand extends Command
 {
     private SymfonyStyle $io;
 
-    public function __construct(private Contentful $contentful, private EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        private Contentful $contentful,
+        private EntityManagerInterface $entityManager,
+    ) {
         // Parent constructor call is mandatory in commands registered as services
         parent::__construct();
     }
@@ -58,12 +60,12 @@ final class RoutesCommand extends Command
 
                 $this->io->success('All redirect routes deleted');
 
-                return 0;
+                return Command::SUCCESS;
             } catch (NotFoundException $e) {
                 $this->io->error($e->getMessage());
             }
 
-            return 1;
+            return Command::FAILURE;
         }
 
         /** @var \Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route[] $routes */
@@ -72,7 +74,7 @@ final class RoutesCommand extends Command
         if (count($routes) === 0) {
             $this->io->warning('No routes available!');
 
-            return 1;
+            return Command::FAILURE;
         }
 
         $tableHeaders = ['Entry ID', 'Route ID', 'URL', 'Status', 'Content type', 'Content name'];
@@ -103,6 +105,6 @@ final class RoutesCommand extends Command
 
         $this->io->table($tableHeaders, $tableRows);
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

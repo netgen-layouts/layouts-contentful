@@ -16,8 +16,8 @@ final class EntrySluggerPass implements CompilerPassInterface
 {
     use DefinitionClassTrait;
 
-    private const SERVICE_NAME = 'netgen_layouts.contentful.entry_slugger.configurable';
-    private const TAG_NAME = 'netgen_layouts.contentful.entry_slugger';
+    private const string SERVICE_NAME = 'netgen_layouts.contentful.entry_slugger.configurable';
+    private const string TAG_NAME = 'netgen_layouts.contentful.entry_slugger';
 
     public function process(ContainerBuilder $container): void
     {
@@ -44,6 +44,6 @@ final class EntrySluggerPass implements CompilerPassInterface
             }
         }
 
-        $service->addArgument(new Definition(ServiceLocator::class, [$sluggers]));
+        $service->replaceArgument(1, new Definition(ServiceLocator::class, [$sluggers]));
     }
 }

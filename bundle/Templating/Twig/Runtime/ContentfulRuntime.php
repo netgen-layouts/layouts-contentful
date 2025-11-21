@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Netgen\Bundle\LayoutsContentfulBundle\Templating\Twig\Runtime;
 
-use Contentful\Delivery\Client\ClientInterface;
-use Contentful\Delivery\Resource\ContentType;
 use Netgen\Layouts\Contentful\Service\Contentful;
 use Throwable;
 
 final class ContentfulRuntime
 {
-    public function __construct(private Contentful $contentful) {}
+    public function __construct(
+        private Contentful $contentful,
+    ) {}
 
     /**
      * Returns the Contentful entry name.
@@ -32,12 +32,7 @@ final class ContentfulRuntime
      */
     public function contentfulSpaceName(string $spaceId): string
     {
-        $client = $this->contentful->getClientBySpaceId($spaceId);
-        if (!$client instanceof ClientInterface) {
-            return '';
-        }
-
-        return $client->getSpace()->getName();
+        return $this->contentful->getClientBySpaceId($spaceId)?->getSpace()->getName() ?? '';
     }
 
     /**
@@ -45,11 +40,6 @@ final class ContentfulRuntime
      */
     public function contentfulContentTypeName(string $contentTypeId): string
     {
-        $contentType = $this->contentful->getContentType($contentTypeId);
-        if (!$contentType instanceof ContentType) {
-            return '';
-        }
-
-        return $contentType->getName();
+        return $this->contentful->getContentType($contentTypeId)?->getName() ?? '';
     }
 }

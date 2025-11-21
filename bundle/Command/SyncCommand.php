@@ -18,8 +18,9 @@ final class SyncCommand extends Command
 {
     private SymfonyStyle $io;
 
-    public function __construct(private Contentful $contentful)
-    {
+    public function __construct(
+        private Contentful $contentful,
+    ) {
         // Parent constructor call is mandatory in commands registered as services
         parent::__construct();
     }
@@ -52,7 +53,7 @@ final class SyncCommand extends Command
             }
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**

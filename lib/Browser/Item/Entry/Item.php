@@ -9,30 +9,23 @@ use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 
 final class Item implements ItemInterface, EntryInterface
 {
-    public function __construct(private ContentfulEntry $entry) {}
-
-    public function getValue(): string
-    {
-        return $this->entry->getId();
+    public string $value {
+        get => $this->entry->getId();
     }
 
-    public function getName(): string
-    {
-        return $this->getEntry()->getName();
+    public string $name {
+        get => $this->entry->getName();
     }
 
-    public function isVisible(): bool
-    {
-        return true;
+    public true $isVisible {
+        get => true;
     }
 
-    public function isSelectable(): bool
-    {
-        return true;
+    public true $isSelectable {
+        get => true;
     }
 
-    public function getEntry(): ContentfulEntry
-    {
-        return $this->entry;
-    }
+    public function __construct(
+        private(set) ContentfulEntry $entry,
+    ) {}
 }

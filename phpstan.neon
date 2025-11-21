@@ -7,6 +7,10 @@ includes:
 
 parameters:
     ignoreErrors:
+        #PHPStan
+
+        - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface::arrayNode\(\)#'
+
         # Integration specifics
         -
             message: '#Variable method call on Netgen\\Layouts\\Contentful\\Entity\\ContentfulEntry#'

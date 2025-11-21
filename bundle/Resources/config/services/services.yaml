@@ -2,7 +2,7 @@ services:
     netgen_layouts.contentful.service:
         class: Netgen\Layouts\Contentful\Service\Contentful
         arguments:
-            - []
+            - !abstract "Set in ClientsPass"
             - "@netgen_layouts.contentful.entry_slugger.configurable"
             - "@contentful.delivery.main_client"
             - "@doctrine.orm.entity_manager"
@@ -29,6 +29,7 @@ services:
         class: Netgen\Layouts\Contentful\Routing\EntrySlugger\Configurable
         arguments:
             - "%netgen_layouts.contentful.entry_slug_type%"
+            - !abstract "Set in EntrySluggerPass"
 
     netgen_layouts.contentful.entry_slugger.simple:
         class: Netgen\Layouts\Contentful\Routing\EntrySlugger\Simple

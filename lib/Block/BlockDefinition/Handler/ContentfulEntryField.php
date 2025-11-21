@@ -19,17 +19,17 @@ final class ContentfulEntryField
     {
         $this->type = ContentfulEntryFieldType::from(gettype($innerField));
 
-        if ($this->type !== ContentfulEntryFieldType::ARRAY) {
+        if ($this->type !== ContentfulEntryFieldType::Array) {
             $this->value = $innerField;
         }
 
-        if ($this->type === ContentfulEntryFieldType::OBJECT) {
+        if ($this->type === ContentfulEntryFieldType::Object) {
             if ($innerField instanceof DateTimeInterface) {
                 $this->value = $innerField;
-                $this->type = ContentfulEntryFieldType::DATETIME;
+                $this->type = ContentfulEntryFieldType::DateTime;
             } elseif ($innerField instanceof Document) {
                 $this->value = $innerField;
-                $this->type = ContentfulEntryFieldType::RICHTEXT;
+                $this->type = ContentfulEntryFieldType::RichText;
             }
         }
     }

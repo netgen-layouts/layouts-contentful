@@ -1,16 +1,18 @@
 {% extends '@nglayouts/block/block.html.twig' %}
 
+{{ set field_type_enum = enum('Netgen\\Layouts\\Contentful\\Block\\BlockDefinition\\Handler\\ContentfulEntryFieldType') }}
+
 {% block content %}
     {% set field_identifier = block.parameter('field_identifier').value %}
     {% set field = block.dynamicParameter('field') %}
 
     {% block contentful_entry_field %}
         {% if field is not empty %}
-            {% if field.type is constant('ENTRY', field.type) %}
+            {% if field.type == field_type_enum.Entry %}
                 <div class="field field-{{ field.type.value }} field-{{ field_identifier }}">
                     {{ nglayouts_render_item(field.value, block.itemViewType) }}
                 </div>
-            {% elseif field.type is constant('ENTRIES', field.type) %}
+            {% elseif field.type == field_type_enum.Entries %}
                 <div class="field field-{{ field.type.value }} field-{{ field_identifier }}">
                 {% for entry in field.value %}
                     {{ nglayouts_render_item(entry, block.itemViewType) }}

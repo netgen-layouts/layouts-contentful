@@ -1,16 +1,18 @@
 {% extends '@nglayouts/block/block.html.twig' %}
 
+{{ set field_type_enum = enum('Netgen\\Layouts\\Contentful\\Block\\BlockDefinition\\Handler\\ContentfulEntryFieldType') }}
+
 {% block content %}
     {% set field_identifier = block.parameter('field_identifier').value %}
     {% set field = block.dynamicParameter('field') %}
 
     {% block contentful_entry_field %}
         {% if field is not empty %}
-            {% if field.type is constant('OBJECT', field.type) or field.type is constant('ASSET', field.type) %}
+            {% if field.type == field_type_enum.Object or field.type == field_type_enum.Asset %}
                 <div class="field field-{{ field.type.value }} field-{{ field_identifier }}">
                     <img src="{{ field.value.file.url }}?h={{ block.parameter('height').value }}&w={{ block.parameter('width').value }}" width="{{ block.parameter('width').value }}" height="{{ block.parameter('height').value }}" />
                 </div>
-            {% elseif field.type is constant('ASSETS', field.type) %}
+            {% elseif field.type == field_type_enum.Assets %}
                 <div class="field field-{{ field.type.value }} field-{{ field_identifier }}">
                 {% for asset in field.value %}
                     <img src="{{ asset.file.url }}?h={{ block.parameter('height').value }}&w={{ block.parameter('width').value }}" width="{{ block.parameter('width').value }}" height="{{ block.parameter('height').value }}" />

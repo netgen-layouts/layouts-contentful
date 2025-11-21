@@ -1,4 +1,0 @@
-# Deprecated, use routing.yaml file instead
-
-netgen_layouts_contentful_yaml:
-    resource: "routing.yaml"

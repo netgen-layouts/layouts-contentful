@@ -16,14 +16,17 @@ use function array_key_exists;
 use function explode;
 use function is_int;
 use function iterator_to_array;
-use function trim;
+use function max;
+use function mb_trim;
 
 /**
  * Handler for a query which retrieves the entries from Contentful.
  */
 final class ContentfulSearchHandler implements QueryTypeHandlerInterface
 {
-    public function __construct(private Contentful $contentful) {}
+    public function __construct(
+        private Contentful $contentful,
+    ) {}
 
     public function buildParameters(ParameterBuilderInterface $builder): void
     {
@@ -110,7 +113,7 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
         return $this->contentful->getContentfulEntriesCount($client, $this->buildQuery($query));
     }
 
-    public function isContextual(Query $query): bool
+    public function isContextual(Query $query): false
     {
         return false;
     }
@@ -120,7 +123,7 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
      */
     private function getOffset(int $offset): int
     {
-        return $offset >= 0 ? $offset : 0;
+        return max(0, $offset);
     }
 
     /**
@@ -142,7 +145,7 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
     {
         $contentfulQuery = new ContentfulQuery();
 
-        if (trim($query->getParameter('search_text')->getValue() ?? '') !== '') {
+        if (mb_trim($query->getParameter('search_text')->getValue() ?? '') !== '') {
             $contentfulQuery->where('query', $query->getParameter('search_text')->getValue());
         }
 
