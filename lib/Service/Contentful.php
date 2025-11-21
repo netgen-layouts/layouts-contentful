@@ -299,7 +299,6 @@ final class Contentful
     {
         $entryRoute = $contentfulEntry->getRoutes()[0];
 
-        /** @var \Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\RedirectRoute[] $redirectRoutes */
         $redirectRoutes = $this->entityManager->getRepository(RedirectRoute::class)
             ->findBy(['routeTarget' => $entryRoute]);
 
@@ -313,7 +312,6 @@ final class Contentful
         }
 
         foreach ($redirectRoutes as $redirectRoute) {
-            /** @var \Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route[] $routes */
             $routes = $this->entityManager->getRepository(Route::class)
                 ->findBy(['name' => $redirectRoute->getRouteName()]);
 

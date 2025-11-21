@@ -68,7 +68,6 @@ final class RoutesCommand extends Command
             return Command::FAILURE;
         }
 
-        /** @var \Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route[] $routes */
         $routes = $this->entityManager->getRepository(Route::class)->findAll();
 
         if (count($routes) === 0) {
