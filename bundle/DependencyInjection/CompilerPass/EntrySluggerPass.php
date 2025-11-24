@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Netgen\Bundle\LayoutsContentfulBundle\DependencyInjection\CompilerPass;
 
-use Netgen\Bundle\LayoutsBundle\DependencyInjection\CompilerPass\DefinitionClassTrait;
 use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -14,8 +13,6 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
 
 final class EntrySluggerPass implements CompilerPassInterface
 {
-    use DefinitionClassTrait;
-
     private const string SERVICE_NAME = 'netgen_layouts.contentful.entry_slugger.configurable';
     private const string TAG_NAME = 'netgen_layouts.contentful.entry_slugger';
 
@@ -36,11 +33,6 @@ final class EntrySluggerPass implements CompilerPassInterface
 
                     continue 2;
                 }
-            }
-
-            $sluggerClass = $this->getDefinitionClass($container, $sluggerService);
-            if (isset($sluggerClass::$defaultType)) {
-                $sluggers[$sluggerClass::$defaultType] = new ServiceClosureArgument(new Reference($sluggerService));
             }
         }
 

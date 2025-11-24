@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Netgen\Bundle\LayoutsContentfulBundle\DependencyInjection;
 
+use Netgen\Layouts\Contentful\Attribute;
 use Netgen\Layouts\Contentful\Routing\EntrySluggerInterface;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Config\Resource\FileResource;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
@@ -47,6 +49,7 @@ final class NetgenLayoutsContentfulExtension extends Extension implements Prepen
         $loader->load('default_settings.yaml');
 
         $this->registerAutoConfiguration($container);
+        $this->registerAttributeAutoConfiguration($container);
     }
 
     public function prepend(ContainerBuilder $container): void
@@ -84,5 +87,15 @@ final class NetgenLayoutsContentfulExtension extends Extension implements Prepen
         $container
             ->registerForAutoconfiguration(EntrySluggerInterface::class)
             ->addTag('netgen_layouts.contentful.entry_slugger');
+    }
+
+    private function registerAttributeAutoConfiguration(ContainerBuilder $container): void
+    {
+        $container->registerAttributeForAutoconfiguration(
+            Attribute\AsEntrySlugger::class,
+            static function (ChildDefinition $definition, Attribute\AsEntrySlugger $attribute): void {
+                $definition->addTag('netgen_layouts.contentful.entry_slugger', ['type' => $attribute->type]);
+            },
+        );
     }
 }
