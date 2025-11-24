@@ -15,7 +15,6 @@ use Netgen\Layouts\Parameters\ParameterType;
 use function array_key_exists;
 use function explode;
 use function is_int;
-use function iterator_to_array;
 use function max;
 use function mb_trim;
 
@@ -34,8 +33,8 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
             'client',
             ParameterType\ChoiceType::class,
             [
-                'options' => iterator_to_array(
-                    (function (): Generator {
+                'options' => [
+                    ...(function (): Generator {
                         foreach ($this->contentful->getClients() as $clientName => $client) {
                             yield $client->getSpace()->getName() => $clientName;
 
@@ -45,7 +44,7 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
                             }
                         }
                     })(),
-                ),
+                ],
             ],
         );
 
