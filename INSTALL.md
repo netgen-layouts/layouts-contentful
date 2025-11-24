@@ -104,8 +104,6 @@ your `security.yaml` (example below is valid for Symfony 5.3):
 
 ```
 security:
-    enable_authenticator_manager: true
-
     providers:
         users_in_memory:
             memory:
@@ -119,7 +117,6 @@ security:
 
     firewalls:
         main:
-            lazy: true
             provider: users_in_memory
             http_basic: ~
 
