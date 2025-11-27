@@ -83,11 +83,11 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
 
     public function getValues(Query $query, int $offset = 0, ?int $limit = null): iterable
     {
-        if ($limit === 0 || $query->getParameter('client')->getValue() === null) {
+        if ($limit === 0 || $query->getParameter('client')->value === null) {
             return [];
         }
 
-        $optionsArray = explode('|', $query->getParameter('client')->getValue());
+        $optionsArray = explode('|', $query->getParameter('client')->value);
 
         $client = $this->contentful->getClientByName($optionsArray[0]);
 
@@ -101,11 +101,11 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
 
     public function getCount(Query $query): int
     {
-        if ($query->getParameter('client')->getValue() === null) {
+        if ($query->getParameter('client')->value === null) {
             return 0;
         }
 
-        $optionsArray = explode('|', $query->getParameter('client')->getValue());
+        $optionsArray = explode('|', $query->getParameter('client')->value);
 
         $client = $this->contentful->getClientByName($optionsArray[0]);
 
@@ -144,18 +144,18 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
     {
         $contentfulQuery = new ContentfulQuery();
 
-        if (mb_trim($query->getParameter('search_text')->getValue() ?? '') !== '') {
-            $contentfulQuery->where('query', $query->getParameter('search_text')->getValue());
+        if (mb_trim($query->getParameter('search_text')->value ?? '') !== '') {
+            $contentfulQuery->where('query', $query->getParameter('search_text')->value);
         }
 
-        $optionsArray = explode('|', $query->getParameter('client')->getValue());
+        $optionsArray = explode('|', $query->getParameter('client')->value);
         if (array_key_exists(1, $optionsArray)) {
             $contentfulQuery->setContentType($optionsArray[1]);
         }
 
-        $sortType = $query->getParameter('sort_type')->getValue();
+        $sortType = $query->getParameter('sort_type')->value;
         if ($sortType !== null) {
-            $contentfulQuery->orderBy($sortType, $query->getParameter('sort_direction')->getValue());
+            $contentfulQuery->orderBy($sortType, $query->getParameter('sort_direction')->value);
         }
 
         return $contentfulQuery;

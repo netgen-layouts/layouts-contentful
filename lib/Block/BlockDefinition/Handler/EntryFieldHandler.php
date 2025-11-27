@@ -132,7 +132,7 @@ final class EntryFieldHandler extends BlockDefinitionHandler
         $contentfulEntry = $currentRequest->attributes->get('contentDocument');
         $params['content'] = $contentfulEntry;
 
-        $fieldIdentifier = $block->getParameter('field_identifier')->getValue();
+        $fieldIdentifier = $block->getParameter('field_identifier')->value;
         if (!is_string($fieldIdentifier) || !$contentfulEntry->has($fieldIdentifier)) {
             return;
         }
