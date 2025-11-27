@@ -19,7 +19,7 @@
                 {% endfor %}
                 </div>
             {% else %}
-                {{ 'contentful.field_not_compatible'|trans({'%field_identifier%': field_identifier}, 'contentful') }}
+                {{ 'contentful.field_not_compatible'|trans({ '%field_identifier%': field_identifier }, 'contentful') }}
             {% endif %}
         {% endif %}
     {% endblock %}
