@@ -19,7 +19,7 @@ final class Space implements MatcherInterface
             return false;
         }
 
-        $entry = $view->getItem()->object;
+        $entry = $view->item->object;
         if (!$entry instanceof ContentfulEntry) {
             return false;
         }
