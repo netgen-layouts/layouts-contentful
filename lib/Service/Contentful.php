@@ -170,6 +170,8 @@ final class Contentful
 
     /**
      * Returns the count of Contentful entries.
+     *
+     * @return int<0, max>
      */
     public function getContentfulEntriesCount(?ClientInterface $client = null, ?Query $query = null): int
     {
@@ -197,6 +199,8 @@ final class Contentful
 
     /**
      * Returns the count of searched Contentful entries.
+     *
+     * @return int<0, max>
      */
     public function searchContentfulEntriesCount(string $searchText, ?ClientInterface $client = null): int
     {
@@ -221,7 +225,7 @@ final class Contentful
             $contentfulEntry->setRemoteEntry($remoteEntry);
             $savedCurrentSlug = $this->entrySlugger->getSlug($contentfulEntry);
 
-            $contentfulEntry->setJson((string) json_encode($remoteEntry, JSON_THROW_ON_ERROR));
+            $contentfulEntry->setJson(json_encode($remoteEntry, JSON_THROW_ON_ERROR));
             $contentfulEntry->setIsPublished(true);
             $contentfulEntry->setIsDeleted(false);
             $this->entityManager->persist($contentfulEntry);
@@ -333,7 +337,7 @@ final class Contentful
     public function refreshSpaceCache(ClientInterface $client): void
     {
         $spacePath = $this->getSpaceCachePath($client);
-        $this->fileSystem->dumpFile($spacePath . '/space.json', (string) json_encode($client->getSpace(), JSON_THROW_ON_ERROR));
+        $this->fileSystem->dumpFile($spacePath . '/space.json', json_encode($client->getSpace(), JSON_THROW_ON_ERROR));
     }
 
     /**
@@ -344,7 +348,7 @@ final class Contentful
         $spacePath = $this->getSpaceCachePath($client);
         $contentTypes = $client->getContentTypes();
         foreach ($contentTypes as $contentType) {
-            $this->fileSystem->dumpFile($spacePath . '/ct-' . $contentType->getId() . '.json', (string) json_encode($contentType, JSON_THROW_ON_ERROR));
+            $this->fileSystem->dumpFile($spacePath . '/ct-' . $contentType->getId() . '.json', json_encode($contentType, JSON_THROW_ON_ERROR));
         }
     }
 
@@ -407,7 +411,7 @@ final class Contentful
         $contentfulEntry = new ContentfulEntry($remoteEntry);
         $contentfulEntry->setIsPublished(true);
         $contentfulEntry->setIsDeleted(false);
-        $contentfulEntry->setJson((string) json_encode($remoteEntry, JSON_THROW_ON_ERROR));
+        $contentfulEntry->setJson(json_encode($remoteEntry, JSON_THROW_ON_ERROR));
         $this->entityManager->persist($contentfulEntry);
 
         if (count($this->routeContentTypes) < 1 || in_array($contentfulEntry->getContentType()->getId(), $this->routeContentTypes, true)) {
