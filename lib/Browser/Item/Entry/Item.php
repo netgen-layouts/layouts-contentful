@@ -26,6 +26,6 @@ final class Item implements ItemInterface, EntryInterface
     }
 
     public function __construct(
-        private(set) ContentfulEntry $entry,
+        public private(set) ContentfulEntry $entry,
     ) {}
 }

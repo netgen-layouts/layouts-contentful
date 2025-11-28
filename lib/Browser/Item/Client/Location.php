@@ -18,7 +18,7 @@ final class Location implements LocationInterface, ClientInterface
     }
 
     public function __construct(
-        private(set) ContentfulClientInterface $client,
-        private(set) string $locationId,
+        public private(set) ContentfulClientInterface $client,
+        public private(set) string $locationId,
     ) {}
 }
