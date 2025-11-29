@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Netgen\Layouts\Contentful\Collection\QueryType\Handler;
 
 use Contentful\Delivery\Query as ContentfulQuery;
-use Generator;
 use Netgen\Layouts\API\Values\Collection\Query;
 use Netgen\Layouts\Collection\QueryType\QueryTypeHandlerInterface;
 use Netgen\Layouts\Contentful\Service\Contentful;
@@ -34,7 +33,7 @@ final class ContentfulSearchHandler implements QueryTypeHandlerInterface
             ParameterType\ChoiceType::class,
             [
                 'options' => [
-                    ...(function (): Generator {
+                    ...(function (): iterable {
                         foreach ($this->contentful->getClients() as $clientName => $client) {
                             yield $client->getSpace()->getName() => $clientName;
 
