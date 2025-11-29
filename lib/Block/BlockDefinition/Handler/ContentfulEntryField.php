@@ -11,9 +11,15 @@ use function gettype;
 
 final class ContentfulEntryField
 {
-    private mixed $value;
+    /**
+     * Returns the value of the field.
+     */
+    public private(set) mixed $value;
 
-    private ContentfulEntryFieldType $type;
+    /**
+     * Returns the type of the field.
+     */
+    public private(set) ContentfulEntryFieldType $type;
 
     public function __construct(mixed $innerField)
     {
@@ -32,22 +38,6 @@ final class ContentfulEntryField
                 $this->type = ContentfulEntryFieldType::RichText;
             }
         }
-    }
-
-    /**
-     * Returns the value of the field.
-     */
-    public function getValue(): mixed
-    {
-        return $this->value;
-    }
-
-    /**
-     * Returns the type of the field.
-     */
-    public function getType(): ContentfulEntryFieldType
-    {
-        return $this->type;
     }
 
     /**
