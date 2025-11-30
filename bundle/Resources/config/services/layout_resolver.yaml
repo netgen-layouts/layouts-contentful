@@ -1,6 +1,8 @@
 services:
     netgen_layouts.contentful.layout_resolver.target_type.entry:
         class: Netgen\Layouts\Contentful\Layout\Resolver\TargetType\Entry
+        arguments:
+            - "@netgen_layouts.contentful.service"
         tags:
             - { name: netgen_layouts.target_type }
 
@@ -16,6 +18,8 @@ services:
 
     netgen_layouts.contentful.layout_resolver.target_type.space:
         class: Netgen\Layouts\Contentful\Layout\Resolver\TargetType\Space
+        arguments:
+            - "@netgen_layouts.contentful.service"
         tags:
             - { name: netgen_layouts.target_type }
 
