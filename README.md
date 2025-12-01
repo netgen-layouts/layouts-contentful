@@ -7,7 +7,7 @@
 Follow the instructions in Netgen Layouts documentation to
 [install Netgen Layouts](https://docs.netgen.io/projects/layouts/en/latest/getting_started/install_existing_project.html).
 
-### Use Composer to install the integration
+### Use Composer
 
 After completing standard Netgen Layouts installation, run the following command
 to install Contentful integration:
