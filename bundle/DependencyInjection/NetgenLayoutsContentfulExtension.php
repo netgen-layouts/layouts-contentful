@@ -58,12 +58,12 @@ final class NetgenLayoutsContentfulExtension extends Extension implements Prepen
             'block_definitions.yaml' => 'netgen_layouts',
             'value_types.yaml' => 'netgen_layouts',
             'query_types.yaml' => 'netgen_layouts',
+            'doctrine.yaml' => 'doctrine',
             'view/item_view.yaml' => 'netgen_layouts',
             'view/rule_target_view.yaml' => 'netgen_layouts',
             'view/rule_condition_view.yaml' => 'netgen_layouts',
             'view/block_view.yaml' => 'netgen_layouts',
             'browser/item_types.yaml' => 'netgen_content_browser',
-            'framework/doctrine.yaml' => 'doctrine',
         ];
 
         foreach ($prependConfigs as $configFile => $prependConfig) {
