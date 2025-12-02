@@ -61,6 +61,6 @@ final class ContentType extends ConditionType
             return false;
         }
 
-        return in_array($contentfulEntry->getContentType()->getId(), $value, true);
+        return in_array($contentfulEntry->contentType->getId(), $value, true);
     }
 }

@@ -21,37 +21,97 @@ use Throwable;
 use function method_exists;
 use function sprintf;
 
-/**
- * @final
- */
-class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
+final class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
 {
-    private string $id;
+    /**
+     * Returns the entry ID.
+     */
+    public string $id;
 
-    private string $name;
+    /**
+     * Returns the entry name.
+     */
+    public string $name;
 
-    private string $json;
+    /**
+     * Returns the entry JSON representation.
+     */
+    public string $json;
 
-    private bool $isPublished = false;
+    /**
+     * Returns if the entry is published.
+     */
+    public bool $isPublished = false;
 
-    private bool $isDeleted = false;
+    /**
+     * Returns if the entry is deleted.
+     */
+    public bool $isDeleted = false;
 
     /**
      * @var \Doctrine\Common\Collections\Collection<int, \Symfony\Component\Routing\Route>
      */
-    private Collection $routes;
+    public Collection $routes;
 
     /**
-     * Original Contentful entry.
+     * Returns the remote entry.
      */
-    private Entry $remoteEntry;
+    public Entry $remoteEntry {
+        set {
+            $this->remoteEntry = $value;
+            $this->id = $this->remoteEntry->getSpace()->getId() . '|' . $this->remoteEntry->getId();
+
+            $nameField = $this->remoteEntry->getContentType()->getDisplayField();
+            if ($nameField === null) {
+                return;
+            }
+
+            $methodName = 'get' . $nameField->getId();
+            $this->name = ($value->{$methodName}(...))();
+        }
+    }
+
+    /**
+     * Returns the remote entry revision.
+     */
+    public int $revision {
+        get => $this->remoteEntry->getSystemProperties()->getRevision();
+    }
+
+    /**
+     * Returns the date when the remote entry was last updated.
+     */
+    public DateTimeImmutable $updatedAt {
+        get => DateTimeImmutable::createFromInterface($this->remoteEntry->getSystemProperties()->getUpdatedAt());
+    }
+
+    /**
+     * Returns the date when the remote entry was created.
+     */
+    public DateTimeImmutable $createdAt {
+        get => DateTimeImmutable::createFromInterface($this->remoteEntry->getSystemProperties()->getCreatedAt());
+    }
+
+    /**
+     * Returns the remote entry space.
+     */
+    public Space $space {
+        get => $this->remoteEntry->getSpace();
+    }
+
+    /**
+     * Returns the remote entry content type.
+     */
+    public ContentType $contentType {
+        get => $this->remoteEntry->getContentType();
+    }
 
     public function __construct(?Entry $remoteEntry = null)
     {
         $this->routes = new ArrayCollection();
 
         if ($remoteEntry instanceof Entry) {
-            $this->setRemoteEntry($remoteEntry);
+            $this->remoteEntry = $remoteEntry;
         }
     }
 
@@ -73,122 +133,9 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
         }
     }
 
-    public function has(string $name, ?string $locale = null, bool $checkLinksAreResolved = true): bool
+    public function getRoutes(): iterable
     {
-        return $this->remoteEntry->has($name, $locale, $checkLinksAreResolved);
-    }
-
-    public function get(string $name, ?string $locale = null, bool $resolveLinks = true): mixed
-    {
-        return $this->remoteEntry->get($name, $locale, $resolveLinks);
-    }
-
-    /**
-     * Returns the entry ID.
-     */
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
-    /**
-     * Sets the entry ID.
-     */
-    public function setId(string $id): self
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * Returns the entry name.
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * Sets the entry name.
-     */
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Returns the entry JSON representation.
-     */
-    public function getJson(): string
-    {
-        return $this->json;
-    }
-
-    /**
-     * Sets the JSON representation of the entry.
-     */
-    public function setJson(string $json): self
-    {
-        $this->json = $json;
-
-        return $this;
-    }
-
-    /**
-     * Returns if the entry is published.
-     */
-    public function getIsPublished(): bool
-    {
-        return $this->isPublished;
-    }
-
-    /**
-     * Sets if the entry is published.
-     */
-    public function setIsPublished(bool $isPublished): self
-    {
-        $this->isPublished = $isPublished;
-
-        return $this;
-    }
-
-    /**
-     * Returns if the entry is deleted.
-     */
-    public function getIsDeleted(): bool
-    {
-        return $this->isDeleted;
-    }
-
-    /**
-     * Sets if the entry is deleted.
-     */
-    public function setIsDeleted(bool $isDeleted): self
-    {
-        $this->isDeleted = $isDeleted;
-
-        return $this;
-    }
-
-    /**
-     * Sets the entry routes.
-     *
-     * @param \Doctrine\Common\Collections\Collection<int, \Symfony\Component\Routing\Route> $routes
-     */
-    public function setRoutes(Collection $routes): void
-    {
-        $this->routes = $routes;
-    }
-
-    /**
-     * @return \Symfony\Component\Routing\Route[]
-     */
-    public function getRoutes(): array
-    {
-        return $this->routes->getValues();
+        return $this->routes;
     }
 
     public function addRoute(Route $route): void
@@ -202,76 +149,11 @@ class ContentfulEntry implements RouteReferrersInterface, JsonSerializable
     }
 
     /**
-     * Returns the remote entry.
-     */
-    public function getRemoteEntry(): Entry
-    {
-        return $this->remoteEntry;
-    }
-
-    /**
-     * Returns the remote entry revision.
-     */
-    public function getRevision(): int
-    {
-        return $this->remoteEntry->getSystemProperties()->getRevision();
-    }
-
-    /**
-     * Returns the date when the remote entry was last updated.
-     */
-    public function getUpdatedAt(): DateTimeImmutable
-    {
-        return DateTimeImmutable::createFromInterface($this->remoteEntry->getSystemProperties()->getUpdatedAt());
-    }
-
-    /**
-     * Returns the date when the remote entry was created.
-     */
-    public function getCreatedAt(): DateTimeImmutable
-    {
-        return DateTimeImmutable::createFromInterface($this->remoteEntry->getSystemProperties()->getCreatedAt());
-    }
-
-    /**
-     * Returns the remote entry space.
-     */
-    public function getSpace(): Space
-    {
-        return $this->remoteEntry->getSpace();
-    }
-
-    /**
-     * Returns the remote entry content type.
-     */
-    public function getContentType(): ContentType
-    {
-        return $this->remoteEntry->getContentType();
-    }
-
-    /**
      * @return array<string, mixed>
      */
     public function jsonSerialize(): array
     {
         return $this->remoteEntry->jsonSerialize();
-    }
-
-    /**
-     * Sets the remote entry.
-     */
-    public function setRemoteEntry(Entry $remoteEntry): void
-    {
-        $this->remoteEntry = $remoteEntry;
-        $this->id = $this->remoteEntry->getSpace()->getId() . '|' . $this->remoteEntry->getId();
-
-        $nameField = $this->remoteEntry->getContentType()->getDisplayField();
-        if ($nameField === null) {
-            return;
-        }
-
-        $methodName = 'get' . $nameField->getId();
-        $this->name = ($remoteEntry->{$methodName}(...))();
     }
 
     /**

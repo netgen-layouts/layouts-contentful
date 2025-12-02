@@ -18,7 +18,7 @@ final class ViewController extends AbstractController
      */
     public function __invoke(ContentfulEntry $contentDocument): Response
     {
-        if (!$contentDocument->getIsPublished() || $contentDocument->getIsDeleted()) {
+        if (!$contentDocument->isPublished || $contentDocument->isDeleted) {
             throw new NotFoundHttpException();
         }
 

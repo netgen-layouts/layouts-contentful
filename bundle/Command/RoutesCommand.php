@@ -93,12 +93,12 @@ final class RoutesCommand extends Command
             $entry = $this->contentful->loadContentfulEntry($entryId);
 
             $tableRows[] = [
-                $entry->getId(),
+                $entry->id,
                 $route->getId(),
                 $route->getStaticPrefix(),
                 $status,
-                $entry->getContentType()->getName(),
-                $entry->getName(),
+                $entry->contentType->getName(),
+                $entry->name,
             ];
         }
 

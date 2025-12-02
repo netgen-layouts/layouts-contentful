@@ -24,6 +24,6 @@ final class Space implements MatcherInterface
             return false;
         }
 
-        return in_array($entry->getSpace()->getId(), $config, true);
+        return in_array($entry->space->getId(), $config, true);
     }
 }

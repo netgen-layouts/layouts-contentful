@@ -39,7 +39,7 @@ final class EntryValueConverterTest extends TestCase
     public function testGetId(): void
     {
         $entry = new ContentfulEntry();
-        $entry->setId('abc');
+        $entry->id = 'abc';
 
         self::assertSame('abc', $this->valueConverter->getId($entry));
     }
@@ -47,7 +47,7 @@ final class EntryValueConverterTest extends TestCase
     public function testGetRemoteId(): void
     {
         $entry = new ContentfulEntry();
-        $entry->setId('abc');
+        $entry->id = 'abc';
 
         self::assertSame('abc', $this->valueConverter->getRemoteId($entry));
     }
@@ -55,7 +55,7 @@ final class EntryValueConverterTest extends TestCase
     public function testGetName(): void
     {
         $entry = new ContentfulEntry();
-        $entry->setName('Entry name');
+        $entry->name = 'Entry name';
 
         self::assertSame('Entry name', $this->valueConverter->getName($entry));
     }
@@ -63,7 +63,7 @@ final class EntryValueConverterTest extends TestCase
     public function testGetIsVisible(): void
     {
         $entry = new ContentfulEntry();
-        $entry->setIsPublished(true);
+        $entry->isPublished = true;
 
         self::assertTrue($this->valueConverter->getIsVisible($entry));
     }

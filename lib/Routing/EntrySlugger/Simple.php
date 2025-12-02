@@ -13,6 +13,6 @@ final class Simple implements EntrySluggerInterface
 
     public function getSlug(ContentfulEntry $contentfulEntry): string
     {
-        return '/' . $this->filterSlug($contentfulEntry->getName());
+        return '/' . $this->filterSlug($contentfulEntry->name);
     }
 }

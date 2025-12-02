@@ -13,7 +13,7 @@ final class WithSpace implements EntrySluggerInterface
 
     public function getSlug(ContentfulEntry $contentfulEntry): string
     {
-        return '/' . $this->filterSlug($contentfulEntry->getSpace()->getName()) .
-            '/' . $this->filterSlug($contentfulEntry->getName());
+        return '/' . $this->filterSlug($contentfulEntry->space->getName()) .
+            '/' . $this->filterSlug($contentfulEntry->name);
     }
 }

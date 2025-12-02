@@ -20,6 +20,6 @@ final class CreatedAt implements ColumnValueProviderInterface
             return null;
         }
 
-        return $item->entry->getCreatedAt()->format($this->dateFormat);
+        return $item->entry->createdAt->format($this->dateFormat);
     }
 }

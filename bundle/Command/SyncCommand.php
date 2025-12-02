@@ -66,7 +66,7 @@ final class SyncCommand extends Command
         foreach ($entries as $remoteEntry) {
             if ($remoteEntry instanceof Entry) {
                 $contentfulEntry = $this->contentful->refreshContentfulEntry($remoteEntry);
-                $this->io->writeln(sprintf('Remote entry %s synced.', $contentfulEntry->getId()));
+                $this->io->writeln(sprintf('Remote entry %s synced.', $contentfulEntry->id));
             } elseif ($remoteEntry instanceof DeletedEntry) {
                 $this->contentful->deleteContentfulEntry($remoteEntry);
                 $this->io->writeln(sprintf('Remote entry %s deleted.', $remoteEntry->getId()));

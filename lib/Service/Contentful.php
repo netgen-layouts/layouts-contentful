@@ -138,7 +138,7 @@ final class Contentful
             );
         }
 
-        if ($contentfulEntry->getIsDeleted()) {
+        if ($contentfulEntry->isDeleted) {
             throw new NotFoundException(
                 sprintf(
                     'Entry with ID %s deleted.',
@@ -222,22 +222,22 @@ final class Contentful
         $contentfulEntry = $this->findContentfulEntry($id);
 
         if ($contentfulEntry instanceof ContentfulEntry) {
-            $contentfulEntry->setRemoteEntry($remoteEntry);
+            $contentfulEntry->remoteEntry = $remoteEntry;
             $savedCurrentSlug = $this->entrySlugger->getSlug($contentfulEntry);
 
-            $contentfulEntry->setJson(json_encode($remoteEntry, JSON_THROW_ON_ERROR));
-            $contentfulEntry->setIsPublished(true);
-            $contentfulEntry->setIsDeleted(false);
+            $contentfulEntry->json = json_encode($remoteEntry, JSON_THROW_ON_ERROR);
+            $contentfulEntry->isPublished = true;
+            $contentfulEntry->isDeleted = false;
             $this->entityManager->persist($contentfulEntry);
             $this->entityManager->flush();
             $contentfulEntry->reviveRemoteEntry($client);
 
-            if (count($this->routeContentTypes) < 1 || in_array($contentfulEntry->getContentType()->getId(), $this->routeContentTypes, true)) {
+            if (count($this->routeContentTypes) < 1 || in_array($contentfulEntry->contentType->getId(), $this->routeContentTypes, true)) {
                 // if slug has changed create a 301 redirect
                 $currentSlug = $this->entrySlugger->getSlug($contentfulEntry);
                 if ($currentSlug !== $savedCurrentSlug) {
                     /** @var \Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route $route */
-                    $route = $contentfulEntry->getRoutes()[0];
+                    $route = $contentfulEntry->routes[0];
                     $route->setStaticPrefix($currentSlug);
                     $this->entityManager->persist($route);
 
@@ -265,7 +265,7 @@ final class Contentful
         );
 
         if ($contentfulEntry instanceof ContentfulEntry) {
-            $contentfulEntry->setIsPublished(false);
+            $contentfulEntry->isPublished = false;
             $this->entityManager->persist($contentfulEntry);
             $this->entityManager->flush();
         }
@@ -285,12 +285,12 @@ final class Contentful
         );
 
         if ($contentfulEntry instanceof ContentfulEntry) {
-            $contentfulEntry->setIsDeleted(true);
+            $contentfulEntry->isDeleted = true;
             $this->entityManager->persist($contentfulEntry);
 
             $this->deleteRedirects($contentfulEntry);
 
-            foreach ($contentfulEntry->getRoutes() as $route) {
+            foreach ($contentfulEntry->routes as $route) {
                 $this->entityManager->remove($route);
             }
 
@@ -303,7 +303,7 @@ final class Contentful
      */
     public function deleteRedirects(ContentfulEntry $contentfulEntry): void
     {
-        $entryRoute = $contentfulEntry->getRoutes()[0];
+        $entryRoute = $contentfulEntry->routes[0];
 
         $redirectRoutes = $this->entityManager->getRepository(RedirectRoute::class)
             ->findBy(['routeTarget' => $entryRoute]);
@@ -312,7 +312,7 @@ final class Contentful
             throw new NotFoundException(
                 sprintf(
                     'Entry with ID %s has no redirects',
-                    $contentfulEntry->getId(),
+                    $contentfulEntry->id,
                 ),
             );
         }
@@ -409,12 +409,12 @@ final class Contentful
     private function buildContentfulEntry(Entry $remoteEntry, string $id): ContentfulEntry
     {
         $contentfulEntry = new ContentfulEntry($remoteEntry);
-        $contentfulEntry->setIsPublished(true);
-        $contentfulEntry->setIsDeleted(false);
-        $contentfulEntry->setJson(json_encode($remoteEntry, JSON_THROW_ON_ERROR));
+        $contentfulEntry->isPublished = true;
+        $contentfulEntry->isDeleted = false;
+        $contentfulEntry->json = json_encode($remoteEntry, JSON_THROW_ON_ERROR);
         $this->entityManager->persist($contentfulEntry);
 
-        if (count($this->routeContentTypes) < 1 || in_array($contentfulEntry->getContentType()->getId(), $this->routeContentTypes, true)) {
+        if (count($this->routeContentTypes) < 1 || in_array($contentfulEntry->contentType->getId(), $this->routeContentTypes, true)) {
             $this->buildRoute($id, $contentfulEntry);
         }
 
@@ -466,9 +466,9 @@ final class Contentful
      */
     private function buildRedirect(string $redirectSlug, ContentfulEntry $contentfulEntry): void
     {
-        $contentfulEntryRoute = $contentfulEntry->getRoutes()[0];
+        $contentfulEntryRoute = $contentfulEntry->routes[0];
         $redirectRoutes = $this->entityManager->getRepository(RedirectRoute::class)->findBy(['routeTarget' => $contentfulEntryRoute]);
-        $redirectRouteName = $contentfulEntry->getId() . '_redirect_' . count($redirectRoutes);
+        $redirectRouteName = $contentfulEntry->id . '_redirect_' . count($redirectRoutes);
 
         $redirectRoute = new RedirectRoute();
         $redirectRoute->setRouteName($redirectRouteName);

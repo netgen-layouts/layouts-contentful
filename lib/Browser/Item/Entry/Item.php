@@ -10,11 +10,11 @@ use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 final class Item implements ItemInterface, EntryInterface
 {
     public string $value {
-        get => $this->entry->getId();
+        get => $this->entry->id;
     }
 
     public string $name {
-        get => $this->entry->getName();
+        get => $this->entry->name;
     }
 
     public true $isVisible {

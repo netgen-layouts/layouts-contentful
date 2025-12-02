@@ -24,6 +24,6 @@ final class ContentType implements MatcherInterface
             return false;
         }
 
-        return in_array($entry->getContentType()->getId(), $config, true);
+        return in_array($entry->contentType->getId(), $config, true);
     }
 }

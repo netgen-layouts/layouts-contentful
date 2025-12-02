@@ -170,7 +170,7 @@ final class WithMyPrefix implements EntrySluggerInterface
 
     public function getSlug(ContentfulEntry $contentfulEntry): string
     {
-        return '/my_prefix/' . $this->filterSlug($contentfulEntry->getName());
+        return '/my_prefix/' . $this->filterSlug($contentfulEntry->name);
     }
 }
 ```

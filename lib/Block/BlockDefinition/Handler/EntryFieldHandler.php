@@ -129,15 +129,16 @@ final class EntryFieldHandler extends BlockDefinitionHandler
             return;
         }
 
+        /** @var \Netgen\Layouts\Contentful\Entity\ContentfulEntry $contentfulEntry */
         $contentfulEntry = $currentRequest->attributes->get('contentDocument');
         $params['content'] = $contentfulEntry;
 
         $fieldIdentifier = $block->getParameter('field_identifier')->value;
-        if (!is_string($fieldIdentifier) || !$contentfulEntry->has($fieldIdentifier)) {
+        if (!is_string($fieldIdentifier) || !$contentfulEntry->remoteEntry->has($fieldIdentifier)) {
             return;
         }
 
-        $innerField = $contentfulEntry->get($fieldIdentifier);
+        $innerField = $contentfulEntry->remoteEntry->get($fieldIdentifier);
         $field = new ContentfulEntryField($innerField);
 
         if (is_array($innerField) && !$field->hasValue()) {
@@ -166,9 +167,9 @@ final class EntryFieldHandler extends BlockDefinitionHandler
                 $field->setValue($innerField, ContentfulEntryFieldType::GeoLocation);
             } elseif (array_key_exists('sys', $innerField)) {
                 if ($innerField['sys']['linkType'] === 'Entry') {
-                    $field->setValue($this->loadEntry($entry->getSpace(), $innerField['sys']['id']), ContentfulEntryFieldType::Entry);
+                    $field->setValue($this->loadEntry($entry->space, $innerField['sys']['id']), ContentfulEntryFieldType::Entry);
                 } elseif ($innerField['sys']['linkType'] === 'Asset') {
-                    $field->setValue($this->loadAsset($entry->getSpace(), $innerField['sys']['id']), ContentfulEntryFieldType::Asset);
+                    $field->setValue($this->loadAsset($entry->space, $innerField['sys']['id']), ContentfulEntryFieldType::Asset);
                 }
             } elseif (array_is_list($innerField)) {
                 $fieldValues = [];
@@ -184,9 +185,9 @@ final class EntryFieldHandler extends BlockDefinitionHandler
                     }
 
                     if ($type === 'Entry') {
-                        $fieldValues[] = $this->loadEntry($entry->getSpace(), $id);
+                        $fieldValues[] = $this->loadEntry($entry->space, $id);
                     } elseif ($type === 'Asset') {
-                        $fieldValues[] = $this->loadAsset($entry->getSpace(), $id);
+                        $fieldValues[] = $this->loadAsset($entry->space, $id);
                         $fieldType = ContentfulEntryFieldType::Assets;
                     }
                 }
