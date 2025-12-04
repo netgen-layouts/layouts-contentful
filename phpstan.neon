@@ -7,7 +7,8 @@ includes:
 
 parameters:
     ignoreErrors:
-        # Integration specifics
+        # Netgen Layouts
+
         -
             message: '#Variable method call on Netgen\\Layouts\\Contentful\\Entity\\ContentfulEntry#'
             path: lib/Collection/QueryType/Handler/ContentfulReferencesHandler.php
