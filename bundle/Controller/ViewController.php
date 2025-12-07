@@ -7,7 +7,6 @@ namespace Netgen\Bundle\LayoutsContentfulBundle\Controller;
 use Netgen\Bundle\LayoutsBundle\Controller\AbstractController;
 use Netgen\Layouts\Contentful\Entity\ContentfulEntry;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class ViewController extends AbstractController
 {
@@ -19,7 +18,7 @@ final class ViewController extends AbstractController
     public function __invoke(ContentfulEntry $contentDocument): Response
     {
         if (!$contentDocument->isPublished || $contentDocument->isDeleted) {
-            throw new NotFoundHttpException();
+            throw $this->createNotFoundException();
         }
 
         return $this->render(
