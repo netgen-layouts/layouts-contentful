@@ -29,7 +29,7 @@ services:
         class: Netgen\Layouts\Contentful\Routing\EntrySlugger\Configurable
         arguments:
             - "%netgen_layouts.contentful.entry_slug_type%"
-            - !abstract "Set in EntrySluggerPass"
+            - !tagged_locator { tag: netgen_layouts.contentful.entry_slugger, index_by: type }
 
     netgen_layouts.contentful.entry_slugger.simple:
         class: Netgen\Layouts\Contentful\Routing\EntrySlugger\Simple

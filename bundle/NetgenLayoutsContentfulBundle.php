@@ -18,6 +18,5 @@ final class NetgenLayoutsContentfulBundle extends Bundle
         $layoutsExtension->addPlugin(new ExtensionPlugin());
 
         $container->addCompilerPass(new CompilerPass\ClientsPass());
-        $container->addCompilerPass(new CompilerPass\EntrySluggerPass());
     }
 }
