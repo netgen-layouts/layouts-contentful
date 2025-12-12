@@ -23,9 +23,6 @@ use function file_get_contents;
 
 final class NetgenLayoutsContentfulExtension extends Extension implements PrependExtensionInterface
 {
-    /**
-     * @param mixed[] $configs
-     */
     public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = $this->getConfiguration($configs, $container);
