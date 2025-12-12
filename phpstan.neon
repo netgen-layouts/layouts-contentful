@@ -9,10 +9,5 @@ parameters:
     ignoreErrors:
         # Netgen Layouts
 
-        -
-            message: '#Variable method call on Netgen\\Layouts\\Contentful\\Entity\\ContentfulEntry#'
-            path: lib/Collection/QueryType/Handler/ContentfulReferencesHandler.php
-
-        -
-            message: '#Variable method call on Contentful\\Delivery\\Resource\\Entry#'
-            path: lib/Entity/ContentfulEntry.php
+        - '#Variable method call on Netgen\\Layouts\\Contentful\\Entity\\ContentfulEntry#'
+        - '#Variable method call on Contentful\\Delivery\\Resource\\Entry#'
