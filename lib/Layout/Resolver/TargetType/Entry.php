@@ -36,10 +36,7 @@ final class Entry extends TargetType implements ValueObjectProviderInterface
 
     public function provideValue(Request $request): ?string
     {
-        $id = $request->attributes->get('_content_id');
-        if ($id === null) {
-            return null;
-        }
+        $id = $request->attributes->getString('_content_id');
 
         $idList = explode(':', $id);
         if (count($idList) !== 2) {

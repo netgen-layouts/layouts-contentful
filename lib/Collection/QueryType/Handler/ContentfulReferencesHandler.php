@@ -69,7 +69,7 @@ final class ContentfulReferencesHandler implements QueryTypeHandlerInterface
         }
 
         try {
-            $contextEntry = $this->contentful->loadContentfulEntry($currentRequest->attributes->get('_route'));
+            $contextEntry = $this->contentful->loadContentfulEntry($currentRequest->attributes->getString('_route'));
             $methodName = 'get' . $query->getParameter('field_definition_identifier')->value;
 
             return ($contextEntry->{$methodName}(...))();

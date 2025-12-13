@@ -41,12 +41,7 @@ final class ContentType extends ConditionType
             return false;
         }
 
-        $contentId = $request->attributes->get('_content_id');
-        if ($contentId === null) {
-            return false;
-        }
-
-        $contentIds = explode(':', $contentId);
+        $contentIds = explode(':', $request->attributes->getString('_content_id'));
         if (count($contentIds) !== 2) {
             return false;
         }
