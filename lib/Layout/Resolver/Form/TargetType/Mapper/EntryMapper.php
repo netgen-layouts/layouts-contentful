@@ -7,7 +7,7 @@ namespace Netgen\Layouts\Contentful\Layout\Resolver\Form\TargetType\Mapper;
 use Netgen\ContentBrowser\Form\Type\ContentBrowserType;
 use Netgen\Layouts\Layout\Resolver\Form\TargetType\Mapper;
 
-final class Entry extends Mapper
+final class EntryMapper extends Mapper
 {
     public function getFormType(): string
     {

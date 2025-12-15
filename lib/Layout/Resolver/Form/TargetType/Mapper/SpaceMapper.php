@@ -8,7 +8,7 @@ use Netgen\Layouts\Contentful\Service\Contentful;
 use Netgen\Layouts\Layout\Resolver\Form\TargetType\Mapper;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-final class Space extends Mapper
+final class SpaceMapper extends Mapper
 {
     public function __construct(
         private Contentful $contentful,
