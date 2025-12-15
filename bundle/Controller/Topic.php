@@ -10,14 +10,9 @@ namespace Netgen\Bundle\LayoutsContentfulBundle\Controller;
 enum Topic: string
 {
     case EntryPublish = 'ContentManagement.Entry.publish';
-
     case EntryUnpublish = 'ContentManagement.Entry.unpublish';
-
     case EntryDelete = 'ContentManagement.Entry.delete';
-
     case ContentTypePublish = 'ContentManagement.ContentType.publish';
-
     case ContentTypeUnpublish = 'ContentManagement.ContentType.unpublish';
-
     case ContentTypeDelete = 'ContentManagement.ContentType.delete';
 }
