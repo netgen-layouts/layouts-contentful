@@ -41,6 +41,10 @@ final class ContentType extends ConditionType
             return false;
         }
 
+        if (!$request->attributes->has('_content_id')) {
+            return false;
+        }
+
         $contentIds = explode(':', $request->attributes->getString('_content_id'));
         if (count($contentIds) !== 2) {
             return false;

@@ -35,6 +35,10 @@ final class Space extends TargetType implements ValueObjectProviderInterface
 
     public function provideValue(Request $request): ?string
     {
+        if (!$request->attributes->has('_content_id')) {
+            return null;
+        }
+
         $contentIds = explode(':', $request->attributes->getString('_content_id'));
         if (count($contentIds) !== 2) {
             return null;
