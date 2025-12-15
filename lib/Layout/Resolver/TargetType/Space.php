@@ -54,6 +54,6 @@ final class Space extends TargetType implements ValueObjectProviderInterface
 
     public function getValueObject(mixed $value): ?ContentfulSpace
     {
-        return $this->contentful->getClientBySpaceId($value)?->getSpace();
+        return $this->contentful->getClientBySpaceId((string) $value)?->getSpace();
     }
 }
