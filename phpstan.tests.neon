@@ -6,3 +6,9 @@ includes:
     - vendor/phpstan/phpstan-symfony/rules.neon
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-phpunit/rules.neon
+
+parameters:
+    level: 8
+
+    paths:
+        - tests
