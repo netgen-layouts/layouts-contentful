@@ -29,7 +29,7 @@ final class WebhookController extends AbstractController
     public function __invoke(Request $request): Response
     {
         $content = $request->getContent();
-        $spaceId = $request->headers->get('X-Space-Id', '');
+        $spaceId = (string) $request->headers->get('X-Space-Id');
 
         try {
             $client = $this->contentful->getClientBySpaceId($spaceId);
