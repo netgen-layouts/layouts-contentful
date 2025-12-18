@@ -35,7 +35,7 @@ final class ContentType extends ConditionType
         ];
     }
 
-    public function matches(Request $request, mixed $value): bool
+    public function matches(Request $request, int|string|array $value): bool
     {
         if (!is_array($value) || count($value) === 0) {
             return false;

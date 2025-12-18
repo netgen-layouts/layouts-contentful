@@ -58,7 +58,7 @@ final class Entry extends TargetType implements ValueObjectProviderInterface
         return null;
     }
 
-    public function getValueObject(mixed $value): ?ContentfulEntry
+    public function getValueObject(int|string $value): ?ContentfulEntry
     {
         try {
             return $this->contentful->loadContentfulEntry((string) $value);
