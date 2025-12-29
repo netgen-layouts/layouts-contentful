@@ -8,5 +8,5 @@ parameters:
     ignoreErrors:
         # Netgen Layouts
 
-        - '#Variable method call on Netgen\\Layouts\\Contentful\\Entity\\ContentfulEntry#'
-        - '#Variable method call on Contentful\\Delivery\\Resource\\Entry#'
+        -
+            identifier: method.dynamicName
