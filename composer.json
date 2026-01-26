@@ -15,8 +15,8 @@
         "contentful/contentful-bundle": "^7.2",
         "doctrine/orm": "^3.6",
         "symfony-cmf/routing-bundle": "^3.1",
-        "twig/extra-bundle": "^3.22",
-        "twig/markdown-extra": "^3.22",
+        "twig/extra-bundle": "^3.23",
+        "twig/markdown-extra": "^3.23",
         "league/commonmark": "^2.7"
     },
     "require-dev": {
